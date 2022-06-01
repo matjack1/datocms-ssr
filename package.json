@@ -1,0 +1,31 @@
+{
+  "name": "socaf-b2b",
+  "version": "1.0.0",
+  "private": true,
+  "description": "socaf-b2b",
+  "author": "Nicola Lazzaroni",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.9.0",
+    "@emotion/styled": "^11.8.1",
+    "@mdx-js/react": "v1",
+    "gatsby": "^4.15.2",
+    "gatsby-plugin-image": "^2.15.1",
+    "gatsby-plugin-sharp": "^4.15.1",
+    "gatsby-plugin-theme-ui": "^0.14.5",
+    "gatsby-source-filesystem": "^4.15.0",
+    "gatsby-transformer-sharp": "^4.15.1",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "theme-ui": "^0.14.5"
+  }
+}
