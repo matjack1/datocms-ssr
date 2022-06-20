@@ -15,9 +15,12 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
+    "@commercelayer/js-auth": "^2.3.0",
+    "@commercelayer/sdk": "^3.8.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mdx-js/react": "v1",
+    "@theme-ui/presets": "^0.14.5",
     "gatsby": "^4.15.2",
     "gatsby-plugin-image": "^2.15.1",
     "gatsby-plugin-sharp": "^4.15.1",
