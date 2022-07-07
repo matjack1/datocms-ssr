@@ -1,10 +1,12 @@
-import { Link } from "gatsby";
 import React, { useContext } from "react";
 import CustomerTokenContext from "../hooks/customerTokenContext";
+import { InboundLink } from "./link";
 
 const LoginButton = () => {
   const { customerToken } = useContext(CustomerTokenContext);
-  return <>{!customerToken && <Link to="/login/">Accedi</Link>}</>;
+  return (
+    <>{!customerToken && <InboundLink to="/login/">Accedi</InboundLink>}</>
+  );
 };
 
 export default LoginButton;

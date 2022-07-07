@@ -17,6 +17,7 @@
   "dependencies": {
     "@commercelayer/js-auth": "^2.3.0",
     "@commercelayer/sdk": "^3.8.0",
+    "@datocms/cma-client-browser": "^1.0.0",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mdx-js/react": "v1",
@@ -25,6 +26,7 @@
     "gatsby-plugin-image": "^2.15.1",
     "gatsby-plugin-sharp": "^4.15.1",
     "gatsby-plugin-theme-ui": "^0.14.5",
+    "gatsby-source-datocms": "^4.0.4",
     "gatsby-source-filesystem": "^4.15.0",
     "gatsby-transformer-sharp": "^4.15.1",
     "react": "^18.1.0",

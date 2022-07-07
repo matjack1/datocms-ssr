@@ -3,6 +3,7 @@ import { getCustomerToken } from "@commercelayer/js-auth";
 import { Box, Container, Heading, Label, Input, Text } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Nav from "../components/nav";
+import { navigate } from "gatsby";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -37,6 +38,7 @@ const LoginPage = () => {
     if (clToken) {
       setCustomerToken(clToken.data);
       setLoginError("");
+      navigate("/");
     }
   };
 

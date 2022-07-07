@@ -1,31 +1,31 @@
 import React, { useContext, useEffect } from "react";
-// import CommerceLayer from "@commercelayer/sdk/lib/cjs/commercelayer";
-import CommerceLayer from "@commercelayer/sdk/lib/cjs/commercelayer";
 import { Box } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
+import CustomerContext from "../hooks/customerContext";
+import { useClSdk } from "../hooks/useClSdk";
 
 const UserIcon = () => {
-  const { customerToken } = useContext(CustomerTokenContext);
-  console.log(customerToken);
+  const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
+  const { customer, setCustomer } = useContext(CustomerContext);
+  const cl = useClSdk();
+  console.log(customer);
 
   const getCostumer = async () => {
-    const cl = CommerceLayer({
-      organization: "socaf-s-p-a.commercelayer.io",
-      accessToken: customerToken.access_token,
-    });
-
-    console.log(cl);
-
     const handleError = (e) => {
-      console.log(e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        setCustomerToken(null);
+        // console.log("invalid token", e);
+      }
     };
 
-    const customer = await cl.skus.retrieve("ZdplSqQRkk").catch(handleError);
-    console.log(customer);
+    const customer = await cl.customers
+      .retrieve(customerToken.owner_id, { include: ["orders"] })
+      .catch(handleError);
 
-    // if (customer) {
-    //   console.log("Success", customer);
-    // }
+    if (customer) {
+      console.log(customer);
+      setCustomer(customer);
+    }
   };
 
   useEffect(() => {
@@ -33,11 +33,12 @@ const UserIcon = () => {
       getCostumer(customerToken.owner_id);
     }
   }, [customerToken]);
+
   return (
     <>
-      {customerToken && (
+      {customer && (
         <Box>
-          <Box>{JSON.stringify(customerToken, null, 4)}</Box>
+          <Box>{customer.email}</Box>
         </Box>
       )}
     </>

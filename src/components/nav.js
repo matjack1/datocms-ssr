@@ -1,6 +1,7 @@
-import { Link } from "gatsby";
 import React from "react";
-import { Box } from "theme-ui";
+import { Box, Flex } from "theme-ui";
+import CartIcon from "./cartIcon";
+import { InboundLink } from "./link";
 import LoginButton from "./loginLink";
 import LogoutButton from "./logoutButton";
 import UserIcon from "./userIcon";
@@ -8,10 +9,13 @@ import UserIcon from "./userIcon";
 const Nav = () => {
   return (
     <Box>
-      <Link to="/">Home</Link>
-      <UserIcon />
-      <LoginButton />
-      <LogoutButton />
+      <Flex sx={{ justifyContent: "space-between" }}>
+        <InboundLink to="/">Home</InboundLink>
+        <UserIcon />
+        <CartIcon />
+        <LoginButton />
+        <LogoutButton />
+      </Flex>
     </Box>
   );
 };
