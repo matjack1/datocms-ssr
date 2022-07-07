@@ -67,6 +67,7 @@ const CartIcon = () => {
   useEffect(() => {
     if (customer) {
       console.log(customer);
+      // da modificare più avanti, qui bisogna considerare solo i draft o pending
       if (customer.orders.length === 0) {
         createOrder();
       } else {
