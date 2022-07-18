@@ -3,12 +3,12 @@ import { Box } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import CustomerContext from "../hooks/customerContext";
 import { useClSdk } from "../hooks/useClSdk";
+import { InboundLink } from "./link";
 
 const UserIcon = () => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
   const { customer, setCustomer } = useContext(CustomerContext);
   const cl = useClSdk();
-  console.log(customer);
 
   const getCostumer = async () => {
     const handleError = (e) => {
@@ -38,7 +38,9 @@ const UserIcon = () => {
     <>
       {customer && (
         <Box>
-          <Box>{customer.email}</Box>
+          <InboundLink to={"/account"}>
+            <Box>{customer.email}</Box>
+          </InboundLink>
         </Box>
       )}
     </>

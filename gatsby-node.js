@@ -1,4 +1,4 @@
-exports.createPages = async function ({ actions, graphql }) {
+exports.createPages = async function ({ page, actions, graphql }) {
   const { createPage } = actions;
   const { data } = await graphql(`
     query CreatePageQuery {
@@ -78,4 +78,14 @@ exports.createPages = async function ({ actions, graphql }) {
       },
     });
   });
+};
+
+exports.onCreatePage = async ({ page, actions }) => {
+  const { createPage } = actions;
+
+  if (page.path.match(/^\/account/)) {
+    page.matchPath = `/account/*`;
+    // Update the page.
+    createPage(page);
+  }
 };

@@ -13,8 +13,6 @@ const CategoryPage = ({
       ? childCategories.nodes
       : siblingCategories.nodes;
 
-  console.log(skus.nodes);
-
   return (
     <Box>
       <Nav />
@@ -58,6 +56,16 @@ export const query = graphql`
         name
         slug
         locale
+        size
+        gloveType
+        pallet
+        packaging
+        ecolabel
+        biodegradable
+        haccp
+        sanitizer
+        detergentType
+        detergentUsage
       }
     }
   }
