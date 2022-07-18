@@ -18,7 +18,7 @@ import CustomerContext from "../../../hooks/customerContext";
 import { useClSdk } from "../../../hooks/useClSdk";
 import { getProvinces } from "../../../utils/provinces";
 
-const Add = () => {
+const AddAddress = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken } = useContext(CustomerTokenContext);
   const [addresses, setAddresses] = useState();
@@ -81,7 +81,6 @@ const Add = () => {
 
   return (
     <Box>
-      <Nav />
       <Heading as="h1">Aggiungi indirizzo</Heading>
       <Container sx={{ maxWidth: "1000px" }}>
         {submitStatus === null && !loading ? (
@@ -129,4 +128,4 @@ const Add = () => {
   );
 };
 
-export default Add;
+export default AddAddress;

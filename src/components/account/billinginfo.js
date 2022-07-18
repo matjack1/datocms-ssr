@@ -35,8 +35,8 @@ const BillingInfo = () => {
               `(${customerMetadata.country_code})`}{" "}
           </Box>
           <Box>{customerMetadata.phone && customerMetadata.phone}</Box>
-          <Box>{customerMetadata.vat && customerMetadata.vat}</Box>
-          <Box>{customerMetadata.sdi && customerMetadata.sdi}</Box>
+          <Box>P.IVA: {customerMetadata.vat && customerMetadata.vat}</Box>
+          <Box>SDI: {customerMetadata.sdi && customerMetadata.sdi}</Box>
         </Box>
       ) : (
         <Box>Non ci sono dati di fatturazione</Box>
