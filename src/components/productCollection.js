@@ -40,7 +40,7 @@ const ProductCollection = ({ skus }) => {
   };
 
   const handleGetFilters = async (skus) => {
-    const filters = skus.reduce((acc, cur, idx) => {
+    const filters = skus.length > 0 && skus.reduce((acc, cur, idx) => {
       const newAcc = { ...acc };
       for (let [key, val] of Object.entries(cur)) {
         if (!newAcc[key]) {

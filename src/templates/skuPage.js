@@ -6,6 +6,7 @@ import Nav from "../components/nav";
 import AddToCart from "../components/addToCart";
 import LineItemQuantity from "../components/lineItemQuantity";
 import SkuQuantity from "../components/skuQuantity";
+import Breadcumbs from "../components/breadcrumbs"
 
 const SkuPage = ({ data: { sku } }) => {
   console.log(sku);
@@ -24,7 +25,7 @@ const SkuPage = ({ data: { sku } }) => {
         include: ["prices", "stock_items"],
       })
       .catch(handleError);
-    console.log(clSku[0]);
+    if(clSku && clSku[0])
     setClSkuDetails(clSku[0]);
   };
 
@@ -37,11 +38,12 @@ const SkuPage = ({ data: { sku } }) => {
     if (cl) {
       getClSku();
     }
-  }, []);
+  }, [cl]);
 
   return (
     <Box>
       <Nav />
+      <Breadcumbs page={sku} />
       <Heading as="h1">{sku.name}</Heading>
       <Text as="p">{sku.code}</Text>
       <SkuQuantity
@@ -74,5 +76,29 @@ export const query = graphql`
     slug
     minimum
     multiple
+    model {
+      apiKey
+    }
+    locale
+    category {
+      id 
+      name
+      locale
+      slug
+      treeParent {
+        id
+        name
+        slug
+        root
+        locale
+        treeParent {
+          id
+          name
+          slug
+          root
+          locale
+        }
+      }
+    }
   }
 `;

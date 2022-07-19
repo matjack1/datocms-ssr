@@ -27,13 +27,11 @@ const CartIcon = () => {
       .catch(handleError);
 
     if (customer) {
-      console.log(customer);
       setCustomer(customer);
     }
   };
 
   const getOrder = async (id) => {
-    console.log("getOrder");
     const handleError = (e) => {
       console.log("invalid token", e);
     };
@@ -43,7 +41,6 @@ const CartIcon = () => {
       .catch(handleError);
 
     if (order) {
-      console.log(order);
       setOrder(order);
     }
   };
@@ -67,17 +64,15 @@ const CartIcon = () => {
   useEffect(() => {
     if (customer) {
       // da modificare più avanti, qui bisogna considerare solo i draft o pending
-      let tmpCustomer = {...customer}
+      let tmpCustomer = { ...customer };
 
       let ordersPendingDraft = tmpCustomer.orders.filter(
         (x) => x.status === "draft" || x.status === "pending"
       );
 
       if (ordersPendingDraft.length > 0) {
-        console.log("ordersPendingDraft",ordersPendingDraft)
-        getOrder(ordersPendingDraft[ordersPendingDraft.length - 1].id)
+        getOrder(ordersPendingDraft[ordersPendingDraft.length - 1].id);
       } else {
-        console.log("createOrder");
         createOrder();
       }
     }
@@ -85,7 +80,6 @@ const CartIcon = () => {
 
   useEffect(() => {
     if (order) {
-      console.log(order);
       setCart(order);
     }
   }, [order]);

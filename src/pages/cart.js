@@ -39,7 +39,7 @@ const CartPage = () => {
 
   useEffect(() => {
     if (customer) {
-      getOrder(cl, customer.orders[0].id)
+      getOrder(cl, cart.id)
         .then((value) => {
           setCart(value);
           console.log(value);

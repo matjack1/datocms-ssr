@@ -21,6 +21,12 @@ exports.createPages = async function ({ page, actions, graphql }) {
           slug
           locale
           root
+          treeChildren {
+            id
+            treeChildren {
+              id
+            }
+          }
           treeParent {
             id
             slug
@@ -55,17 +61,33 @@ exports.createPages = async function ({ page, actions, graphql }) {
   }
 
   data.categories.nodes.map((page) => {
-    !isRoot(page)
-      ? actions.createPage({
-          path: getCategoryPath(page),
-          component: require.resolve(`./src/templates/categoryPage.js`),
-          context: {
-            id: page.id,
-            locale: page.locale,
-            parentId: page.treeParent.id,
-          },
+
+    let ids = [];
+    ids.push(page.id);
+
+    if(page.treeChildren.length >0){
+      page.treeChildren.map((children)=>{
+        ids.push(children.id);
+        if(children.treeChildren.length >0)
+        children.treeChildren.map((childofChild)=>{
+          ids.push(childofChild.id);
         })
-      : null;
+      })
+    }
+
+    if (page.treeParent)
+      !isRoot(page)
+        ? actions.createPage({
+            path: getCategoryPath(page),
+            component: require.resolve(`./src/templates/categoryPage.js`),
+            context: {
+              id: page.id,
+              locale: page.locale,
+              parentId: page.treeParent.id,
+              ids: ids,
+            },
+          })
+        : null;
   });
 
   data.skus.nodes.map((page) => {

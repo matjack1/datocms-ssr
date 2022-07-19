@@ -18,8 +18,11 @@ const ProductThumb = memo(({ sku, handleSkuLoaded }) => {
         include: ["prices", "stock_items"],
       })
       .catch(handleError);
-    setClSkuDetails(clSku[0]);
-    handleSkuLoaded(clSku[0]);
+
+    if (clSku && clSku[0]) {
+      setClSkuDetails(clSku[0]);
+      handleSkuLoaded(clSku[0]);
+    }
   };
 
   useEffect(() => {
