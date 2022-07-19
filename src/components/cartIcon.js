@@ -14,7 +14,7 @@ const CartIcon = () => {
   const [order, setOrder] = useState(null);
   const cl = useClSdk();
 
-  const getCostumer = async () => {
+  const getCustomer = async () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
@@ -59,7 +59,7 @@ const CartIcon = () => {
     const newOrder = await cl.orders.create(attributes).catch(handleError);
 
     if (newOrder) {
-      getCostumer();
+      getCustomer();
       getOrder(newOrder.id);
     }
   };
@@ -67,11 +67,18 @@ const CartIcon = () => {
   useEffect(() => {
     if (customer) {
       // da modificare più avanti, qui bisogna considerare solo i draft o pending
-      console.log("customer.orders",customer.orders.filter(x => x.status === "status" || x.status === "pending" ).length > 0)
-      if (customer.orders.length === 0) {
-        createOrder();
+      let tmpCustomer = {...customer}
+
+      let ordersPendingDraft = tmpCustomer.orders.filter(
+        (x) => x.status === "draft" || x.status === "pending"
+      );
+
+      if (ordersPendingDraft.length > 0) {
+        console.log("ordersPendingDraft",ordersPendingDraft)
+        getOrder(ordersPendingDraft[ordersPendingDraft.length - 1].id)
       } else {
-        getOrder(customer.orders[0].id);
+        console.log("createOrder");
+        createOrder();
       }
     }
   }, [customer]);

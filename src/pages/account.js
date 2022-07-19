@@ -18,27 +18,25 @@ import AddAddress from "../components/account/addresses/add";
 
 const AccountPage = () => {
   return (
-    <Box>
-      <Layout>
-        <Router>
-          <PrivateRoute path="/account/" component={CustomerAccount} />
-          <PrivateRoute path="/account/orders" component={CustomerOrders} />
-          <PrivateRoute
-            path="/account/orders/:orderId"
-            component={CustomerOrder}
-          />
-          <PrivateRoute
-            path="/account/orders/:orderId/return"
-            component={CustomerOrderReturn}
-          />
-          <PrivateRoute path="/account/addresses" component={Addresses} />
-          <PrivateRoute path="/account/addresses/add" component={AddAddress} />
-          <PrivateRoute path="/account/payment" component={Payments} />
-          <PrivateRoute path="/account/billinginfo" component={BillingInfo} />
-          <PrivateRoute path="/account/support" component={Support} />
-        </Router>
-      </Layout>
-    </Box>
+    <Layout>
+      <Router>
+        <PrivateRoute path="/account/" component={CustomerAccount} />
+        <PrivateRoute path="/account/orders" component={CustomerOrders} />
+        <PrivateRoute
+          path="/account/orders/:orderId"
+          component={CustomerOrder}
+        />
+        <PrivateRoute
+          path="/account/orders/:orderId/return"
+          component={CustomerOrderReturn}
+        />
+        <PrivateRoute path="/account/addresses" component={Addresses} />
+        <PrivateRoute path="/account/addresses/add" component={AddAddress} />
+        <PrivateRoute path="/account/payment" component={Payments} />
+        <PrivateRoute path="/account/billinginfo" component={BillingInfo} />
+        <PrivateRoute path="/account/support" component={Support} />
+      </Router>
+    </Layout>
   );
 };
 

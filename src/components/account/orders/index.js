@@ -18,31 +18,40 @@ const CustomerOrders = () => {
   return (
     <Box>
       <Heading as="h1">I tuoi ordini</Heading>
-      <Box sx={{ margin:"0 auto" ,width: "80%" }}>
+      <Box sx={{ margin: "0 auto", width: "80%" }}>
         {orders.length > 0 ? (
-          orders.map((order) => (
-            <InboundLink
-              sx={{
-                borderTop: "1px solid",
-                display:"inline-block",
-                textDecoration: "none",
-                borderColor: "dark",
-                width:"100%"
-              }}
-              to={`/account/orders/${order.id}`}
-            >
-              <Flex sx={{justifyContent:"space-between"}}>
-                <Box>
-                  <Box>Ordine # {order.number}</Box>
-                  <Box>{new Date(order.placed_at).toLocaleDateString("it-IT",{  year: 'numeric', month: 'long', day: 'numeric' })}</Box>
-                  <Box>{order.status}</Box>
-                </Box>
-                <Box>
-                  <Box>{order.formatted_total_amount_with_taxes}</Box>
-                </Box>
-              </Flex>
-            </InboundLink>
-          ))
+          orders.map(
+            (order) =>
+              (order.status !== "draft" && order.status !== "pending") && (
+                <InboundLink
+                  sx={{
+                    borderTop: "1px solid",
+                    display: "inline-block",
+                    textDecoration: "none",
+                    borderColor: "dark",
+                    width: "100%",
+                  }}
+                  to={`/account/orders/${order.id}`}
+                >
+                  <Flex sx={{ justifyContent: "space-between" }}>
+                    <Box>
+                      <Box>Ordine # {order.number}</Box>
+                      <Box>
+                        {new Date(order.placed_at).toLocaleDateString("it-IT", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </Box>
+                      <Box>{order.status}</Box>
+                    </Box>
+                    <Box>
+                      <Box>{order.formatted_total_amount_with_taxes}</Box>
+                    </Box>
+                  </Flex>
+                </InboundLink>
+              )
+          )
         ) : (
           <Box>Nessun ordine effettuato</Box>
         )}
