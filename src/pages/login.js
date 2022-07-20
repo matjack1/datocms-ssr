@@ -4,6 +4,7 @@ import { Box, Container, Heading, Label, Input, Text } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Nav from "../components/nav";
 import { navigate } from "gatsby";
+import { InboundLink } from "../components/link";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -69,6 +70,9 @@ const LoginPage = () => {
             required
             onChange={handleChange}
           />
+          <Box>
+              <InboundLink to={"/forgot-password"}>Password dimenticata?</InboundLink>
+          </Box>
           <Input type="submit" value="Accedi" />
           {loginError && (
             <Box>

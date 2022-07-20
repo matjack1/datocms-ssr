@@ -110,4 +110,5 @@ exports.onCreatePage = async ({ page, actions }) => {
     // Update the page.
     createPage(page);
   }
+
 };
