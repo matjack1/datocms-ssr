@@ -9,8 +9,6 @@ import SkuQuantity from "../components/skuQuantity";
 import Breadcumbs from "../components/breadcrumbs"
 
 const SkuPage = ({ data: { sku } }) => {
-  console.log(sku);
-
   const [clSkuDetails, setClSkuDetails] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
   const cl = useClSdk();
@@ -38,7 +36,7 @@ const SkuPage = ({ data: { sku } }) => {
     if (cl) {
       getClSku();
     }
-  }, [cl]);
+  }, []);
 
   return (
     <Box>

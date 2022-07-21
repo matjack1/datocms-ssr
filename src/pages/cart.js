@@ -38,7 +38,7 @@ const CartPage = () => {
   };
 
   useEffect(() => {
-    if (customer) {
+    if (customer && cart) {
       getOrder(cl, cart.id)
         .then((value) => {
           setCart(value);
@@ -61,7 +61,7 @@ const CartPage = () => {
         <Heading as="h1">Carrello</Heading>
       </Box>
       <Box>
-        {cart && (
+        {cart && cart.line_items.length > 0 ? (
           <Box>
             Recap
             <Box>
@@ -93,7 +93,12 @@ const CartPage = () => {
               </Link>
             </Box>
           </Box>
-        )}
+        ) 
+        :
+        (<Box>
+          Il tuo carrello è attualmente vuoto!
+        </Box>)
+      }
       </Box>
     </Box>
   );

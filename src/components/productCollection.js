@@ -4,12 +4,19 @@ import ProductCounter from "./productCounter";
 import ProductOrder from "./productOrder";
 import ProductFilters from "./productFilters";
 import ProductThumb from "./productThumb";
+import { useClSdk } from "../hooks/useClSdk";
 
 const ProductCollection = ({ skus }) => {
-  const [filteredSkus, setFilteredSkus] = useState(skus);
+  const cl = useClSdk();
+  const [skusData, setSkusData] = useState();
+  const [filteredSkus, setFilteredSkus] = useState(skusData);
   const [orderBy, setOrderBy] = useState("code-asc");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageCount, setPageCount] = useState();
+  const [recordCount, setRecordCount] = useState();
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -18,9 +25,6 @@ const ProductCollection = ({ skus }) => {
   const handleFiltersChange = (checked, filter) => {
     let tmp = { ...checkedFilters };
     if (checked) {
-      // Object.keys(filters) &&
-      //   Object.keys(filters).length > 0 &&
-      //   Object.keys(filters).map((key, index) => );
       Object.keys(filter).forEach(function (k) {
         if (!checkedFilters.hasOwnProperty(k)) tmp[k] = [filter[k]];
         else {
@@ -35,36 +39,46 @@ const ProductCollection = ({ skus }) => {
       });
     }
 
-    console.log("setCheckedFilters", tmp);
     setCheckedFilters(tmp);
   };
 
-  const handleGetFilters = async (skus) => {
-    const filters = skus.length > 0 && skus.reduce((acc, cur, idx) => {
-      const newAcc = { ...acc };
-      for (let [key, val] of Object.entries(cur)) {
-        if (!newAcc[key]) {
-          delete newAcc[key];
-        } else {
-          newAcc[key] = `${newAcc[key]},${val}`;
-          newAcc[key] = [
-            ...new Set(
-              newAcc[key].split(",").filter((element) => {
-                return element && element.length > 0;
-              })
-            ),
-          ];
+  const handleGetFilters = async () => {
+    const filters =
+      skusData &&
+      skusData.length > 0 &&
+      skusData.reduce((acc, cur, idx) => {
+        const newAcc = { ...acc };
+        for (let [key, val] of Object.entries(cur)) {
+          if (!newAcc[key]) {
+            delete newAcc[key];
+          } else {
+            newAcc[key] = `${newAcc[key]},${val}`;
+            newAcc[key] = [
+              ...new Set(
+                newAcc[key].split(",").filter((element) => {
+                  return element && element.length > 0;
+                })
+              ),
+            ];
+          }
         }
-      }
-      
-      delete newAcc.id;
-      delete newAcc.code;
-      delete newAcc.name;
-      delete newAcc.slug;
-      delete newAcc.locale;
 
-      return newAcc;
-    });
+        delete newAcc.id;
+        delete newAcc.code;
+        delete newAcc.name;
+        delete newAcc.slug;
+        delete newAcc.locale;
+        delete newAcc.updated_at;
+        delete newAcc.created_at;
+        delete newAcc.do_not_track;
+        delete newAcc.pieces_per_pack;
+        delete newAcc.type;
+        delete newAcc.metadata;
+        delete newAcc.prices;
+        delete newAcc.stock_items;
+
+        return newAcc;
+      });
 
     setFilters(filters);
   };
@@ -85,21 +99,14 @@ const ProductCollection = ({ skus }) => {
   };
 
   function orderProducts() {
-    let tmpFilteredSkus = [...skus];
+    let tmpFilteredSkus = [...skusData];
 
     if (Object.keys(checkedFilters).length > 0)
       Object.keys(checkedFilters).forEach(function (k) {
         tmpFilteredSkus = tmpFilteredSkus.filter((item) => {
-          console.log(
-            "checkedFilters[k].includes(item[k])",
-            checkedFilters[k],
-            item[k]
-          );
           return checkedFilters[k].includes(item[k]);
         });
       });
-
-    console.log(tmpFilteredSkus.length);
 
     switch (orderBy) {
       case "price-asc":
@@ -109,7 +116,6 @@ const ProductCollection = ({ skus }) => {
               typeof a.prices !== "undefined" ? a.prices.amount_cents : 0;
             const second =
               typeof b.prices !== "undefined" ? b.prices.amount_cents : 0;
-            console.log(first, second);
             return first - second;
           })
         );
@@ -155,22 +161,65 @@ const ProductCollection = ({ skus }) => {
     }
   }
 
+  const getClSku = async () => {
+    const handleError = (e) => {
+      console.log(e);
+    };
+
+    const skus_codes = skus.map((sku) => sku.code);
+    const clSku = await cl.skus
+      .list({
+        filters: { code_in: skus_codes },
+        include: ["prices", "stock_items"],
+        pageSize: 20,
+        pageNumber: currentPage,
+      })
+      .catch(handleError);
+
+    if (clSku) {
+      if (currentPage < clSku.meta.pageCount)
+        setCurrentPage(clSku.meta.currentPage + 1);
+
+      setPageCount(clSku.meta.pageCount);
+      setRecordCount(clSku.meta.recordCount);
+
+      var tmpclSku = [...clSku];
+      if (skusData) tmpclSku = [...clSku, ...skusData];
+
+      const mergedSku = mergeArrays(tmpclSku, skus);
+
+      setSkusData(mergedSku);
+    }
+  };
+
   useEffect(() => {
-    orderProducts();
+    if (currentPage != 1 && currentPage <= pageCount) getClSku();
+  }, [currentPage]);
+
+  useEffect(() => {
+    if (skus.length > 0) {
+      getClSku();
+    }
+  }, [skus]);
+
+  useEffect(() => {
+    if (skusData && skusData.length > 0) {
+      handleGetFilters();
+      orderProducts();
+    }
+  }, [skusData]);
+
+  useEffect(() => {
+    if (skusData && skusData.length > 0) orderProducts();
   }, [orderBy]);
 
   useEffect(() => {
-    orderProducts();
+    if (skusData && skusData.length > 0) orderProducts();
   }, [checkedFilters]);
-
-  useEffect(() => {
-    console.log(222);
-    handleGetFilters(skus);
-  }, []);
 
   return (
     <Box>
-      {filteredSkus && (
+      {filteredSkus ? (
         <Grid columns={[1, "1fr 4fr"]}>
           <Box>
             <ProductOrder handleOrderChange={handleOrderChange} />
@@ -199,9 +248,23 @@ const ProductCollection = ({ skus }) => {
             )}
           </Box>
         </Grid>
+      ) : (
+        <Box sx={{py:[5]}}> Non ci sono prodotti sotto questa categoria.</Box>
       )}
     </Box>
   );
+};
+
+const mergeArrays = (arr1 = [], arr2 = []) => {
+  let res = [];
+  res = arr1.map((obj) => {
+    const index = arr2.findIndex((el) => el["code"] == obj["code"]);
+    return {
+      ...obj,
+      ...arr2[index],
+    };
+  });
+  return res;
 };
 
 export default ProductCollection;

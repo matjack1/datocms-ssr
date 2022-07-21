@@ -20,7 +20,6 @@ export function getCategoryPath(page, locale) {
     pageLocale === defaultLocale ? "/" : `/${pageLocale.toLowerCase()}/`;
   let path = `${page.slug}/`;
 
-  console.log(page)
   if (page.treeParent.root) {
     return lang + path;
   }
