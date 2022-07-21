@@ -45,10 +45,8 @@ exports.handler = async function (event, context) {
 
           const link = `http://localhost:8888/reset-password?id=${id}&token=${token}`;
 
-          console.log(link);
-
           let msg = {
-            to: data.email,
+            to: "a.asofii@multi-consult.it",
             from: "no-reply@multi-consult.it",
             //bcc: 'n.lazzaroni@multi-consult.it',
             subject: `Socaf - Password dimenticata`,

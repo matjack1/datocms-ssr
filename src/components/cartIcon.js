@@ -23,7 +23,7 @@ const CartIcon = () => {
     };
 
     const customer = await cl.customers
-      .retrieve(customerToken.owner_id, { include: ["orders"] })
+      .retrieve(customerToken.owner_id, { include: ["orders","orders.shipping_address","shipping"] })
       .catch(handleError);
 
     if (customer) {

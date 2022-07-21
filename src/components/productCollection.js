@@ -56,7 +56,7 @@ const ProductCollection = ({ skus }) => {
           ];
         }
       }
-
+      
       delete newAcc.id;
       delete newAcc.code;
       delete newAcc.name;

@@ -32,7 +32,10 @@ const CustomerOrder = () => {
     };
 
     const order = await cl.orders
-      .retrieve(id, { include: ["line_items"], filters: { status: "draft" } })
+      .retrieve(id, {
+        include: ["line_items", "shipping_address"],
+        filters: { status: "draft" },
+      })
       .catch(handleError);
 
     if (order) {
@@ -144,6 +147,43 @@ const CustomerOrder = () => {
                 <Box>Totale</Box>
                 <Box>{order.formatted_total_taxable_amount}</Box>
               </Flex>
+            </Box>
+            <Box sx={{ py: 3 }}>
+              <Heading as="h4">Indirizzo di spedizione</Heading>
+              {order && (
+                <Box>
+                  {order.shipping_address.company && (
+                    <Box>
+                      <strong>{order.shipping_address.company}</strong>
+                    </Box>
+                  )}
+                  {order.shipping_address.line_1 && (
+                    <Box>{order.shipping_address.line_1}</Box>
+                  )}
+                  {order.shipping_address.line_2 && (
+                    <Box>{order.shipping_address.line_2}</Box>
+                  )}
+                  <Box>
+                    {order.shipping_address.zip_code &&
+                      order.shipping_address.zip_code}{" "}
+                    {order.shipping_address.city && order.shipping_address.city}{" "}
+                    {order.shipping_address.state_code &&
+                      order.shipping_address.state_code}{" "}
+                    {order.shipping_address.country_code &&
+                      `(${order.shipping_address.country_code})`}{" "}
+                  </Box>
+                  <Box>
+                    {order.shipping_address.phone &&
+                      order.shipping_address.phone}
+                  </Box>
+                  <Box>
+                    {order.shipping_address.vat && order.shipping_address.vat}
+                  </Box>
+                  <Box>
+                    {order.shipping_address.sdi && order.shipping_address.sdi}
+                  </Box>
+                </Box>
+              )}
             </Box>
             <Box sx={{ my: [3] }}>
               <Box>
