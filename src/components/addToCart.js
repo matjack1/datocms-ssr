@@ -49,12 +49,11 @@ const AddToCart = ({ sku, quantity }) => {
   }, [order]);
 
   const addToCart = () => {
-    console.log("AddToCart");
     createLineItem();
   };
 
   function isAvailable() {
-    return sku && sku.stock_items[0].quantity > 0 ? true : false;
+    return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0 ? true : false;
   }
 
   return (

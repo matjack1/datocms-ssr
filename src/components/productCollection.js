@@ -112,10 +112,12 @@ const ProductCollection = ({ skus }) => {
       case "price-asc":
         return setFilteredSkus(
           tmpFilteredSkus.concat().sort((a, b) => {
+            console.log(a.prices[0].amount_cents);
             const first =
-              typeof a.prices !== "undefined" ? a.prices.amount_cents : 0;
+              a.prices && a.prices.length > 0 ? a.prices[0].amount_cents : 0;
             const second =
-              typeof b.prices !== "undefined" ? b.prices.amount_cents : 0;
+              b.prices && b.prices.length > 0 ? b.prices[0].amount_cents : 0;
+              
             return first - second;
           })
         );
@@ -125,10 +127,10 @@ const ProductCollection = ({ skus }) => {
             .concat()
             .sort((a, b) => {
               const first =
-                typeof a.prices !== "undefined" ? a.prices.amount_cents : 0;
+                a.prices && a.prices.length > 0 ? a.prices[0].amount_cents : 0;
               const second =
-                typeof b.prices !== "undefined" ? b.prices.amount_cents : 0;
-              console.log(a, first, b, second);
+                b.prices && b.prices.length > 0 ? b.prices[0].amount_cents : 0;
+
               return first - second;
             })
             .reverse()
@@ -167,6 +169,7 @@ const ProductCollection = ({ skus }) => {
     };
 
     const skus_codes = skus.map((sku) => sku.code);
+
     const clSku = await cl.skus
       .list({
         filters: { code_in: skus_codes },
@@ -186,18 +189,18 @@ const ProductCollection = ({ skus }) => {
       var tmpclSku = [...clSku];
       if (skusData) tmpclSku = [...clSku, ...skusData];
 
-      const mergedSku = mergeArrays(tmpclSku, skus);
+      const mergedSku = mergeArrays(skus, tmpclSku);
 
       setSkusData(mergedSku);
     }
   };
 
   useEffect(() => {
-    if (currentPage != 1 && currentPage <= pageCount) getClSku();
+    if (currentPage != 1 && currentPage <= pageCount && cl) getClSku();
   }, [currentPage]);
 
   useEffect(() => {
-    if (skus.length > 0) {
+    if (skus.length > 0 && cl) {
       getClSku();
     }
   }, [skus]);
@@ -249,7 +252,10 @@ const ProductCollection = ({ skus }) => {
           </Box>
         </Grid>
       ) : (
-        <Box sx={{py:[5]}}> Non ci sono prodotti sotto questa categoria.</Box>
+        <Box sx={{ py: [5] }}>
+          {" "}
+          Non ci sono prodotti sotto questa categoria.
+        </Box>
       )}
     </Box>
   );
@@ -259,10 +265,13 @@ const mergeArrays = (arr1 = [], arr2 = []) => {
   let res = [];
   res = arr1.map((obj) => {
     const index = arr2.findIndex((el) => el["code"] == obj["code"]);
-    return {
-      ...obj,
-      ...arr2[index],
-    };
+    if (arr2[index] && arr2[index].prices)
+      return {
+        ...obj,
+        prices: arr2[index].prices,
+      };
+
+    return obj;
   });
   return res;
 };
