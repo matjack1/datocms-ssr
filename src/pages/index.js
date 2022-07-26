@@ -6,6 +6,7 @@ import CategoriesTabLink from "../components/categoriesTabLink";
 import Nav from "../components/nav";
 import ForgotPassword from "./forgot-password.js"
 import ResetPassword from "./reset-password.js"
+import RecentlyViewedSkus from "../components/RecentlyViewedSkus";
 
 const IndexPage = ({ data: { categories } }) => {
   console.log(categories);
@@ -13,6 +14,7 @@ const IndexPage = ({ data: { categories } }) => {
     <Box>
         <Nav />
         <Heading as="h1">Home</Heading>
+        <RecentlyViewedSkus />
         <CategoriesTabLink categories={categories.nodes[0].treeChildren} />
     </Box>
   );

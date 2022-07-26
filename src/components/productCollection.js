@@ -5,6 +5,7 @@ import ProductOrder from "./productOrder";
 import ProductFilters from "./productFilters";
 import ProductThumb from "./productThumb";
 import { useClSdk } from "../hooks/useClSdk";
+import { MergeArrays } from  "../utils/mergeArrays"
 
 const ProductCollection = ({ skus }) => {
   const cl = useClSdk();
@@ -189,7 +190,7 @@ const ProductCollection = ({ skus }) => {
       var tmpclSku = [...clSku];
       if (skusData) tmpclSku = [...clSku, ...skusData];
 
-      const mergedSku = mergeArrays(skus, tmpclSku);
+      const mergedSku = await MergeArrays(skus, tmpclSku);
 
       setSkusData(mergedSku);
     }
@@ -259,21 +260,6 @@ const ProductCollection = ({ skus }) => {
       )}
     </Box>
   );
-};
-
-const mergeArrays = (arr1 = [], arr2 = []) => {
-  let res = [];
-  res = arr1.map((obj) => {
-    const index = arr2.findIndex((el) => el["code"] == obj["code"]);
-    if (arr2[index] && arr2[index].prices)
-      return {
-        ...obj,
-        prices: arr2[index].prices,
-      };
-
-    return obj;
-  });
-  return res;
 };
 
 export default ProductCollection;

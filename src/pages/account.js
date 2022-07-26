@@ -13,6 +13,8 @@ import BillingInfo from "../components/account/billinginfo";
 import Support from "../components/account/support";
 import CustomerOrder from "../components/account/orders/order";
 import CustomerOrderReturn from "../components/account/orders/order/return";
+import CustomerOrderAgain from "../components/account/orders/order/orderAgain";
+import CustomerFavourites from "../components/account/favourites"
 import CustomerAccount from "../components/account";
 import AddAddress from "../components/account/addresses/add";
 
@@ -29,6 +31,18 @@ const AccountPage = () => {
         <PrivateRoute
           path="/account/orders/:orderId/return"
           component={CustomerOrderReturn}
+        />
+        <PrivateRoute
+          path="/account/orders/:orderId/order-again"
+          component={CustomerOrderAgain}
+        />
+        <PrivateRoute
+          path="/account/orders/:orderId/order-again"
+          component={CustomerOrderAgain}
+        />
+        <PrivateRoute
+          path="/account/favourites"
+          component={CustomerFavourites}
         />
         <PrivateRoute path="/account/addresses" component={Addresses} />
         <PrivateRoute path="/account/addresses/add" component={AddAddress} />

@@ -4,7 +4,6 @@ import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 
 const AddToCart = ({ sku, quantity }) => {
-  console.log(sku);
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
   const cl = useClSdk();

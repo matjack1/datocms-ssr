@@ -1056,18 +1056,29 @@
   resolved "https://registry.yarnpkg.com/@contentful/rich-text-types/-/rich-text-types-14.1.2.tgz#33162fdbf427891122a96030f806ca9a9cf0e844"
   integrity sha512-XbgZ7op5uyYYszipgQg/bYobF4b+llXyTwS8hISRniQY9xKESz544eP2OGmRc4J3MHx29M7Vmx7TVA/IK65giQ==
 
-"@datocms/cma-client-browser@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@datocms/cma-client-browser/-/cma-client-browser-1.0.0.tgz#7a78fd93c3fe61c0b907dcbba1e1c9d0f50c5b3f"
-  integrity sha512-r54Vv/Ap0DP2uX1j/4S7kLy59OF0iZcr1kVLFjnD7ChewV5J4qcHtvA9pEceVUi5tyJ3cTrURgYhCBJutMoGoA==
+"@datocms/cma-client-browser@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@datocms/cma-client-browser/-/cma-client-browser-1.0.1.tgz#95e3b8257274263720883e6289c897bf20d3ec02"
+  integrity sha512-vvnbJE4GlQbPZQKrWKi6ID2bnJA/2UrEGYJYHF5m/aN2ja+/tthEsxsLWnKOInGKsTVDqlyaYgzWuKNbcDqe9g==
   dependencies:
-    "@datocms/cma-client" "^1.0.0"
+    "@datocms/cma-client" "^1.0.1"
     "@datocms/rest-client-utils" "^1.0.0"
 
-"@datocms/cma-client@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@datocms/cma-client/-/cma-client-1.0.0.tgz#d0dda7723d99156b207c162e7910b9f20ce4c198"
-  integrity sha512-Ibt+SWtbTuTVQzkDrNvBvTPis5waBEWMWt3R23IWQuUBSRFnUcB5VDNrvyjktpneBKHqYWhm+ZnTCE2fnt5qQA==
+"@datocms/cma-client-node@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@datocms/cma-client-node/-/cma-client-node-1.0.1.tgz#b0463ff1348d67865d70512fb5a0a612113c8c7a"
+  integrity sha512-VH/snIoJhZABrFUTvDxfruvELdI5ApHJd+a+uwSQT12YM3mweL/8utCwjD9HqfAcTYwGyq2hiZA8X5NMS4hcXA==
+  dependencies:
+    "@datocms/cma-client" "^1.0.1"
+    "@datocms/rest-client-utils" "^1.0.0"
+    got "^11.8.5"
+    mime-types "^2.1.35"
+    tmp-promise "^3.0.3"
+
+"@datocms/cma-client@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@datocms/cma-client/-/cma-client-1.0.1.tgz#c97a53427434e8412c5b2f820a3b60e163b55eb6"
+  integrity sha512-0O2MA1GVm/RSH5aKxtqmgEr14VGxSKTlE1ZSYXHOFu/eYxlernA2Y+qCQD30NAFjXBqyFDF1kpHYbn07/cyB2g==
   dependencies:
     "@datocms/rest-client-utils" "^1.0.0"
 
@@ -7111,7 +7122,7 @@ got@^10.7.0:
     to-readable-stream "^2.0.0"
     type-fest "^0.10.0"
 
-got@^11.8.2, got@^11.8.3:
+got@^11.8.2, got@^11.8.3, got@^11.8.5:
   version "11.8.5"
   resolved "https://registry.yarnpkg.com/got/-/got-11.8.5.tgz#ce77d045136de56e8f024bebb82ea349bc730046"
   integrity sha512-o0Je4NvQObAuZPHLFoRSkdG2lTgtcynqymzg2Vupdx6PorhaT5MCbIyXG6d4D94kk8ZG57QeosgdiqfJWhEhlQ==
@@ -8639,7 +8650,7 @@ mime-db@1.52.0, "mime-db@>= 1.43.0 < 2":
   resolved "https://registry.yarnpkg.com/mime-db/-/mime-db-1.52.0.tgz#bbabcdc02859f4987301c856e3387ce5ec43bf70"
   integrity sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==
 
-mime-types@^2.1.12, mime-types@^2.1.25, mime-types@^2.1.27, mime-types@^2.1.30, mime-types@~2.1.19, mime-types@~2.1.24, mime-types@~2.1.34:
+mime-types@^2.1.12, mime-types@^2.1.25, mime-types@^2.1.27, mime-types@^2.1.30, mime-types@^2.1.35, mime-types@~2.1.19, mime-types@~2.1.24, mime-types@~2.1.34:
   version "2.1.35"
   resolved "https://registry.yarnpkg.com/mime-types/-/mime-types-2.1.35.tgz#381a871b62a734450660ae3deee44813f70d959a"
   integrity sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==
@@ -11443,6 +11454,13 @@ title-case@^3.0.3:
   dependencies:
     tslib "^2.0.3"
 
+tmp-promise@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/tmp-promise/-/tmp-promise-3.0.3.tgz#60a1a1cc98c988674fcbfd23b6e3367bdeac4ce7"
+  integrity sha512-RwM7MoPojPxsOBYnyd2hy0bxtIlVrihNs9pj5SUvY8Zz1sQcQG2tG1hSr8PDxfgEB8RNKDhqbIlroIarSNDNsQ==
+  dependencies:
+    tmp "^0.2.0"
+
 tmp@^0.0.33:
   version "0.0.33"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.0.33.tgz#6d34335889768d21b2bcda0aa277ced3b1bfadf9"
@@ -11450,7 +11468,7 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmp@^0.2.1:
+tmp@^0.2.0, tmp@^0.2.1:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"
   integrity sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { graphql } from "gatsby";
-import { Box, Heading, Text } from "theme-ui";
+import { Box, Heading, Text, Button } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import Nav from "../components/nav";
 import AddToCart from "../components/addToCart";
@@ -18,7 +18,7 @@ const SkuPage = ({ data: { sku } }) => {
 
   const cl = useClSdk();
 
-  const updateCustomer = async () => {
+  const updateCustomerRecentlyViewed = async () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
@@ -26,37 +26,54 @@ const SkuPage = ({ data: { sku } }) => {
       }
     };
 
-    let lastViewed = customer.metadata.lastViewed
-      ? [...customer.metadata.lastViewed]
+    let recentlyViewed = customer.metadata.recentlyViewed
+      ? [...customer.metadata.recentlyViewed]
       : [];
 
-    lastViewed = [...new Set(lastViewed)];
-    
-    if (lastViewed.length > 9) lastViewed.pop();
+    recentlyViewed = [...new Set(recentlyViewed)];
 
-    if(!lastViewed.find((e)=> e === sku.code))
-    lastViewed = [sku.code].concat(lastViewed);
+    if (recentlyViewed.length > 9) recentlyViewed.pop();
 
-    console.log("customer metadata", {
-      ...customer.metadata,
-      lastViewed: lastViewed,
-    });
+    if (!recentlyViewed.find((e) => e === sku.code))
+      recentlyViewed = [sku.code].concat(recentlyViewed);
 
     const updatedCustomer = await cl.customers
-      .update(
-        {
-          id: customerToken.owner_id,
-          metadata: {
-            ...customer.metadata,
-            lastViewed: lastViewed,
-          },
-        }
-      )
+      .update({
+        id: customerToken.owner_id,
+        metadata: {
+          ...customer.metadata,
+          recentlyViewed: recentlyViewed,
+        },
+      })
       .catch(handleError);
+  };
 
-    // if (customer) {
-    //   setCustomer(customer);
-    // }
+  const updateCustomerFavourites = async () => {
+    const handleError = (e) => {
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        setCustomerToken(null);
+        // console.log("invalid token", e);
+      }
+    };
+
+    let favourites = customer.metadata.favourites
+      ? [...customer.metadata.favourites]
+      : [];
+
+      favourites = [...new Set(favourites)];
+
+    if (!favourites.find((e) => e === sku.code))
+    favourites = [sku.code].concat(favourites);
+
+    const updatedCustomer = await cl.customers
+      .update({
+        id: customerToken.owner_id,
+        metadata: {
+          ...customer.metadata,
+          favourites: favourites,
+        },
+      })
+      .catch(handleError);
   };
 
   const getClSku = async () => {
@@ -78,7 +95,7 @@ const SkuPage = ({ data: { sku } }) => {
   };
 
   useEffect(() => {
-    if (customer && customerToken) updateCustomer();
+    if (customer && customerToken) updateCustomerRecentlyViewed();
   }, [customer]);
 
   useEffect(() => {
@@ -99,6 +116,13 @@ const SkuPage = ({ data: { sku } }) => {
         updateQuantity={updateQuantity}
       />
       <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+      <Button onClick={updateCustomerFavourites} sx={{ cursor: "pointer" }}>
+        <Box
+          dangerouslySetInnerHTML={{
+            __html: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
+          }}
+        />
+      </Button>
       {clSkuDetails && (
         <Box>
           <Text as="p">

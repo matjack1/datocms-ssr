@@ -17,7 +17,8 @@
   "dependencies": {
     "@commercelayer/js-auth": "^2.3.0",
     "@commercelayer/sdk": "^3.8.0",
-    "@datocms/cma-client-browser": "^1.0.0",
+    "@datocms/cma-client-browser": "^1.0.1",
+    "@datocms/cma-client-node": "^1.0.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@mdx-js/react": "v1",

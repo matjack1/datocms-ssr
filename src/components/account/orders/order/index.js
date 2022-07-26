@@ -84,7 +84,7 @@ const CustomerOrder = () => {
                 <Button>Scarica fattura</Button>
               </Box>
               <Box>
-                <Button>Ordina di nuovo</Button>
+                <InboundLink to={"order-again"}>Ordina di nuovo</InboundLink>
               </Box>
             </Box>
           </Box>
