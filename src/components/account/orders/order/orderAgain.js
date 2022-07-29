@@ -20,6 +20,7 @@ import { useClSdk } from "../../../../hooks/useClSdk";
 import SkuQuantity from "../../../skuQuantity";
 import { buildClient } from "@datocms/cma-client-browser";
 import CartContext from "../../../../hooks/cartContext";
+import AddToCart from "../../../addToCart";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -151,40 +152,6 @@ const CustomerOrderReturn = () => {
     getOrder(orderId);
   }, [orderId]);
 
-  const handleOrderAgain = async (e) => {
-    e.preventDefault();
-
-    console.log("handleOrderAgain");
-    let errors = [];
-
-    await Promise.all(
-      skusData.map(async (sku) => {
-        console.log(
-          cl.skus.relationship(sku.id),
-          sku.id,
-          cl.orders.relationship(cart.id)
-        );
-
-        const attributes = {
-          quantity: sku.quantity,
-          order: cl.orders.relationship(cart.id),
-          item: cl.skus.relationship(sku.id),
-          _update_quantity: true,
-        };
-
-        const lineItem = await cl.line_items
-          .create(attributes)
-          .catch((error) => errors.push(error.errors));
-        if (lineItem) {
-          handleSetCurrentOrder(cart.id);
-        }
-      })
-    );
-
-    if (errors.length === 0) setSuccess(true);
-    else setSuccess(false);
-  };
-
   useEffect(() => {
     if (currentOrder) {
       setCart(currentOrder);
@@ -193,7 +160,7 @@ const CustomerOrderReturn = () => {
 
   useEffect(() => {
     if (cart && currentOrder && success) {
-      navigate("/cart")
+      navigate("/cart");
     }
   }, [cart, currentOrder, success]);
 
@@ -239,9 +206,6 @@ const CustomerOrderReturn = () => {
                 </Heading>
               </Flex>
             )}
-            <Box>
-              <Button onClick={handleOrderAgain}>Ordina di nuovo</Button>
-            </Box>
           </Box>
         </>
       )}
@@ -277,9 +241,7 @@ const SkuComponent = ({ sku, removeSku, handleUpdateQuantity }) => {
       ) : (
         <Box>Non disponibile</Box>
       )}
-      <Button onClick={() => removeSku()}>
-        <Text>Rimuovi</Text>
-      </Button>
+      <AddToCart sku={sku} quantity={currentQuantity} />
       {sku && (
         <Box>
           <Text as="p">

@@ -8,14 +8,13 @@ import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import getOrder from "../hooks/getOrder";
 import { useClSdk } from "../hooks/useClSdk";
+import Layout from "../components/layout";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken } = useContext(CustomerTokenContext);
   const { cart, setCart } = useContext(CartContext);
   const cl = useClSdk();
-
-  console.log(customer);
 
   const updateLineItem = async (quantity, id) => {
     const line_item = {
@@ -42,7 +41,6 @@ const CartPage = () => {
       getOrder(cl, cart.id)
         .then((value) => {
           setCart(value);
-          console.log(value);
         })
         .catch((err) => {
           console.log(err);
@@ -55,8 +53,7 @@ const CartPage = () => {
   };
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Box>
         <Heading as="h1">Carrello</Heading>
       </Box>
@@ -100,7 +97,7 @@ const CartPage = () => {
         </Box>)
       }
       </Box>
-    </Box>
+    </Layout>
   );
 };
 

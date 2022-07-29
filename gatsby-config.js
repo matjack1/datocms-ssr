@@ -6,9 +6,6 @@ module.exports = {
   plugins: [
     {
       resolve: "gatsby-plugin-theme-ui",
-      options: {
-        preset: "@theme-ui/preset-funk",
-      },
     },
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
@@ -20,6 +17,14 @@ module.exports = {
         path: "./src/images/",
       },
       __key: "images",
+    },
+    {
+      resolve: 'gatsby-plugin-react-svg',
+      options: {
+        rule: {
+          include: /\.inline\.svg$/
+        }
+      }
     },
     {
       resolve: `gatsby-source-datocms`,

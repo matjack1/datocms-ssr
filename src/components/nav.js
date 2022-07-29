@@ -1,27 +1,37 @@
 import React from "react";
-import { Box, Flex } from "theme-ui";
+import { Box, Flex, Image } from "theme-ui";
 import CartIcon from "./cartIcon";
 import { InboundLink } from "./link";
 import LoginButton from "./loginLink";
 import LogoutButton from "./logoutButton";
 import UserIcon from "./userIcon";
+import Logo from "../assets/img/logo.svg";
+import { BiBookmark } from "react-icons/bi";
 
 const Nav = () => {
   return (
     <Box>
-      <Flex sx={{ justifyContent: "space-between" }}>
-        <InboundLink to="/">Home</InboundLink>
-        <UserIcon />
-        <InboundLink to="/account/favourites">
-          <Box
-            dangerouslySetInnerHTML={{
-              __html: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
-            }}
-          />
-        </InboundLink>
-        <CartIcon />
-        <LoginButton />
-        <LogoutButton />
+      <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+        <Box>
+          <InboundLink to="/">
+            <Image src={Logo} sx={{ minHeight: "80px" }} />
+          </InboundLink>
+        </Box>
+        <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+          <Box sx={{ mx: [2] }}>
+            <UserIcon />
+          </Box>
+          <Box sx={{ mx: [2] }}>
+            <InboundLink to="/account/favourites">
+              <BiBookmark size={24} />
+            </InboundLink>
+          </Box>
+          <Box sx={{ mx: [2] }}>
+            <CartIcon />
+          </Box>
+          <LoginButton />
+          <LogoutButton />
+        </Flex>
       </Flex>
     </Box>
   );

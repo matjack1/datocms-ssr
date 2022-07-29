@@ -17,6 +17,7 @@ import CustomerOrderAgain from "../components/account/orders/order/orderAgain";
 import CustomerFavourites from "../components/account/favourites"
 import CustomerAccount from "../components/account";
 import AddAddress from "../components/account/addresses/add";
+import Settings from "../components/account/settings"
 
 const AccountPage = () => {
   return (
@@ -48,6 +49,7 @@ const AccountPage = () => {
         <PrivateRoute path="/account/addresses/add" component={AddAddress} />
         <PrivateRoute path="/account/payment" component={Payments} />
         <PrivateRoute path="/account/billinginfo" component={BillingInfo} />
+        <PrivateRoute path="/account/settings" component={Settings} />
         <PrivateRoute path="/account/support" component={Support} />
       </Router>
     </Layout>

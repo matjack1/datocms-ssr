@@ -16,13 +16,15 @@ const CustomerAccount = () => {
         <InboundLink to={"/account/payment"}>Metodi di pagamenti</InboundLink>
       </Box>
       <Box>
-        <InboundLink to={"/account/support"}>Assistenza</InboundLink>
-      </Box>
-
-      <Box>
         <InboundLink to={"/account/billinginfo"}>
-          Dati di fatturazione
+          Dati aziendali
         </InboundLink>
+      </Box>
+      <Box>
+        <InboundLink to={"/account/settings"}>Impostazioni</InboundLink>
+      </Box>
+      <Box>
+        <InboundLink to={"/account/support"}>Assistenza</InboundLink>
       </Box>
     </Box>
   );

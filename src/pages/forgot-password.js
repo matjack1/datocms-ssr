@@ -4,6 +4,7 @@ import { Box, Input, Heading, Button, Flex } from "theme-ui";
 import Nav from "../components/nav";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
+import Layout from "../components/layout";
 
 const ForgotPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -48,8 +49,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Heading as="h3" className="card-header">
         Forgot Password
       </Heading>
@@ -91,7 +91,7 @@ const ForgotPassword = () => {
           LOADING
         </Box>
        )}
-    </Box>
+    </Layout>
   );
 };
 

@@ -7,16 +7,16 @@ import Nav from "../components/nav";
 import ForgotPassword from "./forgot-password.js"
 import ResetPassword from "./reset-password.js"
 import RecentlyViewedSkus from "../components/RecentlyViewedSkus";
+import Layout from "../components/layout";
 
 const IndexPage = ({ data: { categories } }) => {
   console.log(categories);
   return (
-    <Box>
-        <Nav />
+    <Layout>
         <Heading as="h1">Home</Heading>
         <RecentlyViewedSkus />
         <CategoriesTabLink categories={categories.nodes[0].treeChildren} />
-    </Box>
+    </Layout>
   );
 };
 

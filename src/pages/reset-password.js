@@ -6,6 +6,7 @@ import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
 import { navigate } from "gatsby";
 import validator from "validator";
+import Layout from "../components/layout";
 
 const ResetPassword = ({ history }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -84,8 +85,7 @@ const ResetPassword = ({ history }) => {
   };
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Heading as="h3" className="card-header">
         Reset Password
       </Heading>
@@ -125,7 +125,7 @@ const ResetPassword = ({ history }) => {
           LOADING
         </Box>
        )}
-    </Box>
+    </Layout>
   );
 };
 

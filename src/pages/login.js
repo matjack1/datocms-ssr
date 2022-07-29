@@ -5,6 +5,7 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import Nav from "../components/nav";
 import { navigate } from "gatsby";
 import { InboundLink } from "../components/link";
+import Layout from "../components/layout";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -44,8 +45,7 @@ const LoginPage = () => {
   };
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Box>
         <Heading as="h1">Login</Heading>
       </Box>
@@ -81,7 +81,7 @@ const LoginPage = () => {
           )}
         </Box>
       </Container>
-    </Box>
+    </Layout>
   );
 };
 

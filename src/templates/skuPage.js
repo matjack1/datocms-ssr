@@ -9,6 +9,7 @@ import SkuQuantity from "../components/skuQuantity";
 import Breadcumbs from "../components/breadcrumbs";
 import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
+import Layout from "../components/layout";
 
 const SkuPage = ({ data: { sku } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -60,10 +61,10 @@ const SkuPage = ({ data: { sku } }) => {
       ? [...customer.metadata.favourites]
       : [];
 
-      favourites = [...new Set(favourites)];
+    favourites = [...new Set(favourites)];
 
     if (!favourites.find((e) => e === sku.code))
-    favourites = [sku.code].concat(favourites);
+      favourites = [sku.code].concat(favourites);
 
     const updatedCustomer = await cl.customers
       .update({
@@ -105,8 +106,7 @@ const SkuPage = ({ data: { sku } }) => {
   }, []);
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Breadcumbs page={sku} />
       <Heading as="h1">{sku.name}</Heading>
       <Text as="p">{sku.code}</Text>
@@ -132,7 +132,7 @@ const SkuPage = ({ data: { sku } }) => {
           </Text>
         </Box>
       )}
-    </Box>
+    </Layout>
   );
 };
 

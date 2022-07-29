@@ -4,7 +4,8 @@ import { Box, Heading } from "theme-ui";
 import Nav from "../components/nav";
 import ProductCollection from "../components/productCollection";
 import CategoriesTabLink from "../components/categoriesTabLink";
-import Breadcrumbs from "../components/breadcrumbs"
+import Breadcrumbs from "../components/breadcrumbs";
+import Layout from "../components/layout";
 
 const CategoryPage = ({
   data: { category, childCategories, siblingCategories, skus },
@@ -15,13 +16,12 @@ const CategoryPage = ({
       : siblingCategories.nodes;
 
   return (
-    <Box>
-      <Nav />
+    <Layout>
       <Breadcrumbs page={category} />
       <Heading as="h1">{category.name}</Heading>
       <CategoriesTabLink categories={categories} />
       <ProductCollection skus={skus.nodes} />
-    </Box>
+    </Layout>
   );
 };
 

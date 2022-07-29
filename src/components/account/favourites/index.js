@@ -43,26 +43,31 @@ const CustomerFavourites = () => {
 
   const handleDeleteFavourite = async (sku) => {
     console.log("called")
-    // const handleError = (e) => {
-    //   if (e.errors[0].code === "INVALID_TOKEN") {
-    //     setCustomerToken(null);
-    //     // console.log("invalid token", e);
-    //   }
-    // };
+    const handleError = (e) => {
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        setCustomerToken(null);
+        // console.log("invalid token", e);
+      }
+    };
 
-    // let favourites = customer.metadata.favourites;
+    let favourites = customer.metadata.favourites;
 
-    // favourites = favourites.filter((e) => e !== sku.code);
+    favourites = favourites.filter((e) => e !== sku.code);
 
-    // const updatedCustomer = await cl.customers
-    //   .update({
-    //     id: customerToken.owner_id,
-    //     metadata: {
-    //       ...customer.metadata,
-    //       favourites: favourites,
-    //     },
-    //   })
-    //   .catch(handleError);
+    const updatedCustomer = await cl.customers
+      .update({
+        id: customerToken.owner_id,
+        metadata: {
+          ...customer.metadata,
+          favourites: favourites,
+        },
+      })
+      .catch(handleError);
+
+    
+      if(updatedCustomer){
+        setCustomer(updatedCustomer)
+      }
   };
 
   useEffect(() => {
