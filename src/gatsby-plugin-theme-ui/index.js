@@ -18,8 +18,8 @@ const theme = {
       '"bc-novatica-cyr", Arial, system-ui, -apple-system, "Helvetica Neue", sans-serif',
   },
   space: [
-    0, 4, 8, 16, 20, 25, 32, 36, 40, 48, 50, 64, 96, 128, 192, 256, 320, 384,
-    448, 512,
+    0, 4, 8, 16, 20, 25, 32, 36, 40, 48, 50, 64, 96, 128, 164, 192, 256, 320,
+    384, 448, 512,
   ],
   fontSizes: [12, 14, 16, 20, 24, 32, 40, 48, 64, 96],
   fontWeights: {
@@ -66,7 +66,7 @@ const theme = {
       mb: 3,
     },
     h2: {
-      fontSize: [5, 6],
+      fontSize: [4, 5],
       fontFamily: "heading",
       lineHeight: [1.2, "48px"],
       fontWeight: 300,
@@ -236,6 +236,15 @@ const theme = {
     },
     header: {
       maxWidth: "100%",
+    },
+    oneSideRight: {
+      maxWidth: [
+        "calc(((100% - 750px) / 2) + 750px) ",
+        "calc(((100% - 970px) / 2) + 970px)",
+        "calc(((100% - 1280px) / 2) + 1280px)",
+      ],
+      mr: ["auto", 0, 0, 0],
+      pl: [5, 6],
     },
   },
   svg: {

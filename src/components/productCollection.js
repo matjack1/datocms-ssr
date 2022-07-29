@@ -192,6 +192,7 @@ const ProductCollection = ({ skus }) => {
 
       const mergedSku = await MergeArrays(skus, tmpclSku);
 
+      console.log("mergedSku",mergedSku)
       setSkusData(mergedSku);
     }
   };

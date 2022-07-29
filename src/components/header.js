@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Container, Text, Flex } from "@theme-ui/components";
 import Nav from "./nav";
 import SecondaryNav from "./secondaryNav";
 import MobileNav from "./mobileNav";
+import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { InboundLink } from "./link";
 
 const Header = ({ color }) => {
   const [isSticky, setIsSticky] = useState("");
+  
   // Sticky Menu Area
   useEffect(() => {
     window.addEventListener("scroll", handleIsSticky);

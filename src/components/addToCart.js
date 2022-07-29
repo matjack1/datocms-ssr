@@ -29,7 +29,7 @@ const AddToCart = ({ sku, quantity }) => {
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       _update_quantity: true,
-      _external_price: true
+      // _external_price: true
     };
 
     const lineItem = await cl.line_items
@@ -52,7 +52,9 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   function isAvailable() {
-    return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0 ? true : false;
+    return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0
+      ? true
+      : false;
   }
 
   return (

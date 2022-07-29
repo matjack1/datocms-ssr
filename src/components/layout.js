@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Heading } from "theme-ui";
 import Header from "./header";
-import { MenuContext } from "../hooks/menuContext";
+import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { useMenu } from "../hooks/useMenu";
 
 const Layout = ({ title, children }) => {
@@ -9,12 +9,10 @@ const Layout = ({ title, children }) => {
 
   return (
     <Box>
-      {menu && menu.length > 0 && (
-        <MenuContext.Provider value={{menu : menu}}>
-          <Header />
-          {children}
-        </MenuContext.Provider>
-      )}
+      <HeaderMenuContext.Provider value={menu}>
+        <Header />
+        {children}
+      </HeaderMenuContext.Provider>
     </Box>
   );
 };

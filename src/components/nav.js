@@ -14,7 +14,7 @@ const Nav = () => {
       <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Box>
           <InboundLink to="/">
-            <Image src={Logo} sx={{ minHeight: "80px" }} />
+            <Image src={Logo} sx={{ maxHeight: "80px", minHeight:"80px" }} />
           </InboundLink>
         </Box>
         <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
