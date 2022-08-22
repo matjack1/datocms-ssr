@@ -10,7 +10,7 @@ const Layout = ({ title, children }) => {
   return (
     <Box>
       <HeaderMenuContext.Provider value={menu}>
-        <Header />
+        <Header title={title} />
         {children}
       </HeaderMenuContext.Provider>
     </Box>

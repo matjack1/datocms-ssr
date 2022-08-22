@@ -6,7 +6,7 @@ import MobileNav from "./mobileNav";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { InboundLink } from "./link";
 
-const Header = ({ color }) => {
+const Header = ({ color, title }) => {
   const [isSticky, setIsSticky] = useState("");
   
   // Sticky Menu Area
