@@ -4,6 +4,8 @@ import { Box, Heading } from "theme-ui";
 import Nav from "../components/nav";
 import ProductCollection from "../components/productCollection";
 import CategoriesTabLink from "../components/categoriesTabLink";
+import Breadcrumbs from "../components/breadcrumbs";
+import Layout from "../components/layout";
 
 const CategoryPage = ({
   data: { category, childCategories, siblingCategories, skus },
@@ -13,22 +15,20 @@ const CategoryPage = ({
       ? childCategories.nodes
       : siblingCategories.nodes;
 
-  console.log(skus.nodes);
-
   return (
-    <Box>
-      <Nav />
+    <Layout>
+      <Breadcrumbs page={category} />
       <Heading as="h1">{category.name}</Heading>
       <CategoriesTabLink categories={categories} />
       <ProductCollection skus={skus.nodes} />
-    </Box>
+    </Layout>
   );
 };
 
 export default CategoryPage;
 
 export const query = graphql`
-  query CategoryPageQuery($id: String!, $parentId: String!) {
+  query CategoryPageQuery($id: String!, $parentId: String!, $ids: [String]!) {
     category: datoCmsCategory(id: { eq: $id }) {
       ...CategoryDetails
     }
@@ -49,7 +49,7 @@ export const query = graphql`
       }
     }
     skus: allDatoCmsSku(
-      filter: { category: { id: { eq: $id } } }
+      filter: { category: { id: { in: $ids } } }
       sort: { fields: code, order: ASC }
     ) {
       nodes {
@@ -58,6 +58,16 @@ export const query = graphql`
         name
         slug
         locale
+        size
+        gloveType
+        pallet
+        packaging
+        ecolabel
+        biodegradable
+        haccp
+        sanitizer
+        detergentType
+        detergentUsage
       }
     }
   }
@@ -67,5 +77,30 @@ export const query = graphql`
     name
     position
     slug
+    locale
+    model {
+      apiKey
+    }
+    treeChildren {
+      id
+      treeChildren {
+        id
+      }
+    }
+    root
+    treeParent {
+      id
+      name
+      slug
+      root
+      locale
+      treeParent {
+        id
+        name
+        slug
+        root
+        locale
+      }
+    }
   }
 `;

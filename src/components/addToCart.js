@@ -4,7 +4,6 @@ import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 
 const AddToCart = ({ sku, quantity }) => {
-  console.log(sku);
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
   const cl = useClSdk();
@@ -20,7 +19,6 @@ const AddToCart = ({ sku, quantity }) => {
       .catch(handleError);
 
     if (order) {
-      console.log(order);
       setOrder(order);
     }
   };
@@ -31,6 +29,7 @@ const AddToCart = ({ sku, quantity }) => {
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       _update_quantity: true,
+      // _external_price: true
     };
 
     const lineItem = await cl.line_items
@@ -49,12 +48,13 @@ const AddToCart = ({ sku, quantity }) => {
   }, [order]);
 
   const addToCart = () => {
-    console.log("AddToCart");
     createLineItem();
   };
 
   function isAvailable() {
-    return sku && sku.stock_items[0].quantity > 0 ? true : false;
+    return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0
+      ? true
+      : false;
   }
 
   return (

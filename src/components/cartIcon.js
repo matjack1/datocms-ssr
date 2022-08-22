@@ -14,7 +14,7 @@ const CartIcon = () => {
   const [order, setOrder] = useState(null);
   const cl = useClSdk();
 
-  const getCostumer = async () => {
+  const getCustomer = async () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
@@ -23,17 +23,15 @@ const CartIcon = () => {
     };
 
     const customer = await cl.customers
-      .retrieve(customerToken.owner_id, { include: ["orders"] })
+      .retrieve(customerToken.owner_id, { include: ["orders","orders.shipping_address","shipping"] })
       .catch(handleError);
 
     if (customer) {
-      console.log(customer);
       setCustomer(customer);
     }
   };
 
   const getOrder = async (id) => {
-    console.log("getOrder");
     const handleError = (e) => {
       console.log("invalid token", e);
     };
@@ -43,7 +41,6 @@ const CartIcon = () => {
       .catch(handleError);
 
     if (order) {
-      console.log(order);
       setOrder(order);
     }
   };
@@ -59,26 +56,30 @@ const CartIcon = () => {
     const newOrder = await cl.orders.create(attributes).catch(handleError);
 
     if (newOrder) {
-      getCostumer();
+      getCustomer();
       getOrder(newOrder.id);
     }
   };
 
   useEffect(() => {
     if (customer) {
-      console.log(customer);
       // da modificare più avanti, qui bisogna considerare solo i draft o pending
-      if (customer.orders.length === 0) {
-        createOrder();
+      let tmpCustomer = { ...customer };
+
+      let ordersPendingDraft = tmpCustomer.orders.filter(
+        (x) => x.status === "draft" || x.status === "pending"
+      );
+
+      if (ordersPendingDraft.length > 0) {
+        getOrder(ordersPendingDraft[ordersPendingDraft.length - 1].id);
       } else {
-        getOrder(customer.orders[0].id);
+        createOrder();
       }
     }
   }, [customer]);
 
   useEffect(() => {
     if (order) {
-      console.log(order);
       setCart(order);
     }
   }, [order]);

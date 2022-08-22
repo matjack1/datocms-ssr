@@ -13,6 +13,20 @@ const i18nPath = {
   },
 };
 
+export function getCategoryPath(page, locale) {
+  
+  const pageLocale = locale || page.locale;
+  let lang =
+    pageLocale === defaultLocale ? "/" : `/${pageLocale.toLowerCase()}/`;
+  let path = `${page.slug}/`;
+
+  if (page.treeParent.root) {
+    return lang + path;
+  }
+  path = `${page.treeParent.slug}/${path}`;
+  return lang + path;
+}
+
 export function getPagePath(page, locale) {
   const pageLocale = locale || page.locale;
   let lang =

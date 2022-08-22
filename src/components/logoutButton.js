@@ -16,7 +16,7 @@ const LogoutButton = () => {
     <>
       {customerToken && (
         <Box>
-          <Button onClick={() => logoutCustomer(null)}>Esci</Button>
+          <Button onClick={logoutCustomer}>Esci</Button>
         </Box>
       )}
     </>
