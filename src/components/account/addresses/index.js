@@ -1,6 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { getCustomerToken } from "@commercelayer/js-auth";
-import { Box, Container, Heading, Label, Input, Text, Button } from "theme-ui";
+import {
+  Box,
+  Container,
+  Heading,
+  Label,
+  Input,
+  Text,
+  Button,
+  Grid,
+} from "theme-ui";
 import CustomerTokenContext from "../../../hooks/customerTokenContext";
 import Nav from "../../../components/nav";
 import { navigate } from "gatsby";
@@ -33,25 +42,44 @@ const Addresses = () => {
 
   return (
     <Box>
-      <Heading as="h1">I tui indirizzi</Heading>
-      <Container sx={{ width: "80%" }}>
-        {addresses && addresses.meta.recordCount > 0 ? (
-          addresses.map((customer_address) => (
-            <CustomerAddress
-              updateAddresses={handleUpdateAddresses}
-              address={customer_address}
-            />
-          ))
-        ) : (
-          <>
-            <Box>
-              <Text>Nessun indirizzo salvato</Text>
-            </Box>
-          </>
-        )}
-        <Box>
-          <InboundLink to={"add"}> Aggiungi indirizzo </InboundLink>
-        </Box>
+      <Container>
+        <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+          I tuoi indirizzi
+        </Heading>
+        <Grid columns={["1fr 1fr 1fr 1fr"]}>
+          {addresses && addresses.meta.recordCount > 0 ? (
+            addresses.map((customer_address, index) => (
+              <>
+                {index === 0 && (
+                  <Box sx={{
+                    minWidth:"290px",
+                    minHeight:"360px",
+                    a:{
+                      display:"inline-block",
+                      height:"100%",
+                      width:"100%"
+                    }
+                  }}>
+                    <InboundLink to={"add"}> 
+                      Aggiungi indirizzo </InboundLink>
+                  </Box>
+                )}
+                <Box>
+                  <CustomerAddress
+                    updateAddresses={handleUpdateAddresses}
+                    address={customer_address}
+                  />
+                </Box>
+              </>
+            ))
+          ) : (
+            <>
+              <Box>
+                <Text>Nessun indirizzo salvato</Text>
+              </Box>
+            </>
+          )}
+        </Grid>
       </Container>
     </Box>
   );

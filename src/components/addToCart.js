@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Text } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
+import { navigate } from "gatsby";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
@@ -11,7 +12,10 @@ const AddToCart = ({ sku, quantity }) => {
   const getOrder = async (id) => {
     console.log("getOrder");
     const handleError = (e) => {
-      console.log("invalid token", e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login")
+        // console.log("invalid token", e);
+      }
     };
 
     const order = await cl.orders
@@ -19,6 +23,7 @@ const AddToCart = ({ sku, quantity }) => {
       .catch(handleError);
 
     if (order) {
+      console.log(order.line_items)
       setOrder(order);
     }
   };
@@ -29,12 +34,14 @@ const AddToCart = ({ sku, quantity }) => {
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       _update_quantity: true,
-      // _external_price: true
+      _external_price: true,
     };
 
     const lineItem = await cl.line_items
       .create(attributes)
       .catch((error) => console.log(error.errors));
+
+    console.log("lineItem",lineItem,quantity)
     if (lineItem) {
       getOrder(cart.id);
     }
@@ -58,11 +65,20 @@ const AddToCart = ({ sku, quantity }) => {
   }
 
   return (
-    <Box>
+    <Box sx={{ width: "100%", height:"100%" }}>
       <Button
         disabled={!isAvailable()}
         onClick={() => addToCart()}
-        sx={{ opacity: isAvailable() ? 1 : 0.5 }}
+        sx={{
+          opacity: isAvailable() ? 1 : 0.5,
+          width: "100%",
+          height:"100%",
+          textAlign: "center",
+          fontSize: [3],
+          fontWeight:"600",
+          borderRadius:"unset",
+          p:[3]
+        }}
       >
         {isAvailable() ? (
           <Text>Aggiungi al carrello</Text>

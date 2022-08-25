@@ -12,6 +12,9 @@ exports.createPages = async function ({ page, actions, graphql }) {
           id
           slug
           locale
+          category {
+            id
+          }
         }
       }
 
@@ -97,6 +100,7 @@ exports.createPages = async function ({ page, actions, graphql }) {
       context: {
         id: page.id,
         locale: page.locale,
+        categoryId: page.category.id
       },
     });
   });

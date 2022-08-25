@@ -14,6 +14,7 @@ const i18nPath = {
 };
 
 export function getCategoryPath(page, locale) {
+  console.log("page.locale",page,page.locale)
   
   const pageLocale = locale || page.locale;
   let lang =

@@ -6,6 +6,7 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { getCartPath } from "../utils/path";
 import { InboundLink } from "./link";
+import { navigate } from "gatsby";
 
 const CartIcon = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -17,7 +18,9 @@ const CartIcon = () => {
   const getCustomer = async () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
+        
         setCustomerToken(null);
+        navigate("/login")
         // console.log("invalid token", e);
       }
     };

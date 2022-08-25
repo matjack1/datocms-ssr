@@ -80,49 +80,49 @@ const Breadcrumbs = ({
           </InboundLink>
         </Item>
       )}
-      <Item color="primary">{page.name}</Item>
+      <Item color="dark">{page.name}</Item>
     </List>
   );
 
   const ServiceBreadcrumbs = ({ page }) => (
     <List>
       <Item>
-        <InboundLink color="primary" to={getHomePath(page.locale)}>
+        <InboundLink color="dark" to={getHomePath(page.locale)}>
           Home
         </InboundLink>
       </Item>
       <Item>Servizi</Item>
-      <Item color="primary">{page.title}</Item>
+      <Item color="dark">{page.title}</Item>
     </List>
   );
 
   const SectorBreadcrumbs = ({ page }) => (
     <List>
       <Item>
-        <InboundLink color="primary" to={getHomePath(page.locale)}>
+        <InboundLink color="dark" to={getHomePath(page.locale)}>
           Home
         </InboundLink>
       </Item>
       <Item>Settori</Item>
-      <Item color="primary">{page.title}</Item>
+      <Item color="dark">{page.title}</Item>
     </List>
   );
 
   const NewsBreadcrumbs = ({ page }) => (
     <List>
       <Item>
-        <InboundLink color="primary" to={getHomePath(page.locale)}>
+        <InboundLink color="dark" to={getHomePath(page.locale)}>
           Home
         </InboundLink>
       </Item>
-      <Item color="primary">{page.title}</Item>
+      <Item color="dark">{page.title}</Item>
     </List>
   );
 
   const PageBreadcrumbs = ({ page }) => (
     <List>
       <Item>
-        <InboundLink color="primary" to={getHomePath(page.locale)}>
+        <InboundLink color="dark" to={getHomePath(page.locale)}>
           Home
         </InboundLink>
       </Item>
@@ -141,7 +141,7 @@ const Breadcrumbs = ({
           </InboundLink>
         </Item>
       )}
-      <Item color="primary">{page.title}</Item>
+      <Item color="dark">{page.title}</Item>
     </List>
   );
 
@@ -188,7 +188,7 @@ const List = (props) => {
         listStyle: "none",
         a: {
           textDecoration: "none",
-          color: "primary",
+          color: "dark",
           "&:hover": {
             textDecoration: "underline",
           },
@@ -204,10 +204,14 @@ const Item = (props) => {
     <Box
       {...props}
       sx={{
+        a: {
+          fontWeight: "600",
+        },
         marginRight: 2,
         "&::after": {
-          content: '"/"',
-          color: "primary",
+          content: '">"',
+          color: "dark",
+          fontWeight:"600",
           marginLeft: 2,
           display: ["inline"],
         },

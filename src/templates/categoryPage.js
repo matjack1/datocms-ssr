@@ -1,6 +1,6 @@
 import React from "react";
 import { graphql } from "gatsby";
-import { Box, Heading } from "theme-ui";
+import { Box, Heading, Container } from "theme-ui";
 import Nav from "../components/nav";
 import ProductCollection from "../components/productCollection";
 import CategoriesTabLink from "../components/categoriesTabLink";
@@ -17,10 +17,14 @@ const CategoryPage = ({
 
   return (
     <Layout>
-      <Breadcrumbs page={category} />
-      <Heading as="h1">{category.name}</Heading>
-      <CategoriesTabLink categories={categories} />
-      <ProductCollection skus={skus.nodes} />
+      <Container>
+        <Breadcrumbs page={category} />
+        <ProductCollection
+          category={category}
+          categories={categories}
+          skus={skus.nodes}
+        />
+      </Container>
     </Layout>
   );
 };

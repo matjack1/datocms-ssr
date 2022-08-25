@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Flex } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import CustomerContext from "../hooks/customerContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { InboundLink } from "./link";
 import { BiUser } from "react-icons/bi";
+import AccountSideBar from "./accountSidebar";
+import { navigate } from "gatsby";
 
 const UserIcon = () => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -15,6 +17,7 @@ const UserIcon = () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
+        navigate("/login")
         // console.log("invalid token", e);
       }
     };
@@ -28,8 +31,30 @@ const UserIcon = () => {
     console.log("customer", customer);
 
     if (customer) {
-      console.log(customer);
       setCustomer(customer);
+    }
+  };
+
+  // STATE TO TRACK IF SIDEDRAWER IS OPEN OR CLOSED
+  const [showSideDrawer, setshowSideDrawer] = useState(false);
+
+  //  FUNCTION TO HANDLE CLOSE ACTION ON SIDEDRAWER/MODAL
+  const sideDrawerClosedHandler = () => {
+    setshowSideDrawer(false);
+
+    // Unsets Background Scrolling to use when SideDrawer/Modal is closed
+    if (typeof window != "undefined" && window.document) {
+      document.body.style.overflow = "unset";
+    }
+  };
+
+  // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
+  const showSidebar = (sidebarLinks, parent) => {
+    setshowSideDrawer(true);
+
+    // Disables Background Scrolling whilst the SideDrawer/Modal is open
+    if (typeof window != "undefined" && window.document) {
+      // document.body.style.overflow = "hidden";
     }
   };
 
@@ -42,20 +67,28 @@ const UserIcon = () => {
   return (
     <>
       {customer && (
-        <Box>
-          <InboundLink to={"/account"}>
-            <Flex sx={{ justifyContent: "space-between", alignItems:"center" }}>
-              <Box>
-                {customer.metadata.company
-                  ? customer.metadata.company
-                  : customer.email}
-              </Box>
-              <Box sx={{ ml: [1] }}>
-                <BiUser size={24} />
-              </Box>
-            </Flex>
-          </InboundLink>
-        </Box>
+        <>
+          <Box>
+            <Box onClick={() => showSidebar()}>
+              <Flex
+                sx={{ justifyContent: "space-between", alignItems: "center" }}
+              >
+                <Box>
+                  {customer.metadata.company
+                    ? customer.metadata.company
+                    : customer.email}
+                </Box>
+                <Box sx={{ ml: [1] }}>
+                  <BiUser size={24} />
+                </Box>
+              </Flex>
+            </Box>
+          </Box>
+          <AccountSideBar
+            open={showSideDrawer}
+            closed={sideDrawerClosedHandler}
+          />
+        </>
       )}
     </>
   );

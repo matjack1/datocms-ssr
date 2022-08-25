@@ -6,15 +6,6 @@ import { getCategoryPath } from "../utils/path";
 import Logo from "../assets/img/logo.svg";
 import { GrClose } from "react-icons/gr"
 
-const slideIn = keyframes({
-  from: { transform: "translateX(0)", opacity: 1 },
-  to: { transform: "translateX(-100%)", opacity: 0 },
-});
-const slideOut = keyframes({
-  from: { transform: "translateX(-100%)", opacity: 0 },
-  to: { transform: "translateX(0)", opacity: 1 },
-});
-
 const Sidebar = ({ open, closed, sideBarData }) => {
   return (
     <>

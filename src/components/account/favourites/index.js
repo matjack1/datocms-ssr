@@ -5,6 +5,7 @@ import { buildClient } from "@datocms/cma-client-browser";
 import CustomerFavourite from "./favourite";
 import { useClSdk } from "../../../hooks/useClSdk";
 import CustomerTokenContext from "../../../hooks/customerTokenContext";
+import { navigate } from "gatsby";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -46,6 +47,7 @@ const CustomerFavourites = () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
+        navigate("/login")
         // console.log("invalid token", e);
       }
     };
@@ -71,7 +73,7 @@ const CustomerFavourites = () => {
   };
 
   useEffect(() => {
-    if (customer && customer.metadata.favourites.length > 0) handleGetSkus();
+    if (customer && customer.metadata && customer.metadata.favourites && customer.metadata.favourites.length > 0) handleGetSkus();
   }, [customer]);
 
   return skus.length > 0 ? (

@@ -118,7 +118,7 @@ const LoginPage = () => {
           <Box>
             <Heading as="h1">Accedi</Heading>
           </Box>
-          <Box as="form" onSubmit={(e) => handleSubmit(e)}>
+          <Box as="form" onSubmit={(e) => handleSubmit(e)} >
             <Label htmlFor="username">Indirizzo email</Label>
             <Input
               name="username"
@@ -127,6 +127,7 @@ const LoginPage = () => {
               placeholder="Email"
               required
               onChange={handleChange}
+              autocomplete="email"
             />
             <Label htmlFor="password">Password</Label>
             <Input
@@ -134,6 +135,7 @@ const LoginPage = () => {
               id="password"
               placeholder="Password"
               type="password"
+              autocomplete="password"
               minLength="6"
               required
               onChange={handleChange}

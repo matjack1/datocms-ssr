@@ -4,8 +4,24 @@ import { Box, Label, Radio, Text } from "theme-ui";
 const ProductOrder = ({ handleOrderChange }) => {
   return (
     <Box>
-      <Text>Ordina per</Text>
-      <Box onChange={(e) => handleOrderChange(e)}>
+      <Box sx={{ pb: [3] }}>
+        <Text sx={{ fontWeight: "600", textDecoration: "none", color: "dark" }}>
+          Ordina per
+        </Text>
+      </Box>
+      <Box
+        onChange={(e) => handleOrderChange(e)}
+        sx={{
+          label: {
+            pb: [2],
+            display: "flex",
+            alignItems: "center",
+          },
+          "input:checked~ svg": {
+            color: "secondary",
+          },
+        }}
+      >
         <Label>
           <Radio name="order-by" value="code-asc" defaultChecked={true} />
           Codice (Asc.)
@@ -31,6 +47,14 @@ const ProductOrder = ({ handleOrderChange }) => {
           Prezzo (Disc.)
         </Label>
       </Box>
+      <Box
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "lightBorder",
+          pt: [4],
+          mb: [4],
+        }}
+      />
     </Box>
   );
 };

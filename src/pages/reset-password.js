@@ -39,7 +39,7 @@ const ResetPassword = ({ history }) => {
       setErrorMessage("Is Not Strong Password");
   };
 
-  const sendMail = async (event) => {
+  const sendResetPassword = async (event) => {
     event.preventDefault();
 
     console.log(event.target.password.value);
@@ -90,7 +90,7 @@ const ResetPassword = ({ history }) => {
         Reset Password
       </Heading>
       {success === null && !loading ? (
-        <Box as="form" onSubmit={sendMail}>
+        <Box as="form" onSubmit={sendResetPassword}>
           <Box>
             <Input type="password" name="password" required />
           </Box>

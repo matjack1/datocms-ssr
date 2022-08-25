@@ -10,4 +10,12 @@ const InboundLink = (props) => {
   return <ThemeUiLink as={AsLink} {...props} />;
 };
 
-export { InboundLink };
+const OutboundLink = props =>{
+  return <ThemeUiLink as={AsOutboundLink} {...props} />
+}
+
+const AsOutboundLink = props =>{
+  return <GatsbyLink target="_blank" {...props} />
+}
+
+export { InboundLink, OutboundLink };

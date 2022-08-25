@@ -1,3 +1,5 @@
+import { darken, lighten } from "@theme-ui/color";
+
 const theme = {
   colors: {
     text: "#151515",
@@ -6,10 +8,11 @@ const theme = {
     primary: "#EA0029",
     secondary: "#0085C7",
     light: "#ffffff",
-    lighter: "rgba(255,255,255,0.5)",
+    lighter: "rgba(255,255,255,0.6)",
     darkBlend: "rgba(19,30,38,0.6)",
     dark: "#151515",
     Grey: "#F2F2F2",
+    lightBorder: lighten("#151515", 0.6),
     lightGrey: "#F8F8F9",
   },
   fonts: {
@@ -21,10 +24,10 @@ const theme = {
     0, 4, 8, 16, 20, 25, 32, 36, 40, 48, 50, 64, 96, 128, 164, 192, 256, 320,
     384, 448, 512,
   ],
-  fontSizes: [12, 14, 16, 20, 24, 32, 40, 48, 64, 96],
+  fontSizes: [12, 14, 16, 18, 21, 20, 24, 26, 32, 40, 48, 64, 96],
   fontWeights: {
     body: 400,
-    heading: 700,
+    heading: 600,
   },
   lineHeights: {
     body: 1.43,
@@ -51,14 +54,14 @@ const theme = {
       lineHeight: "body",
     },
     heading: {
-      fontSize: [5],
+      fontSize: [6],
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
       color: "primary",
     },
     h1: {
-      fontSize: [5, 7],
+      fontSize: [8, 10],
       fontFamily: "heading",
       lineHeight: ["heading", "52px"],
       fontWeight: "heading",
@@ -66,32 +69,32 @@ const theme = {
       mb: 3,
     },
     h2: {
-      fontSize: [4, 5],
+      fontSize: [7, 8],
       fontFamily: "heading",
-      lineHeight: [1.2, "48px"],
-      fontWeight: 300,
+      lineHeight: "heading",
+      fontWeight: "heading",
       color: "text",
       mb: 3,
       mt: 4,
     },
     h3: {
-      fontSize: [4, 5],
+      fontSize: [6, 7],
       fontFamily: "heading",
       lineHeight: "heading",
-      fontWeight: 300,
+      fontWeight: 400,
       color: "text",
       mb: 3,
       mt: 4,
     },
     h4: {
-      fontSize: [4],
+      fontSize: [5,6],
       fontWeight: 300,
       color: "text",
       mb: 2,
       mt: 4,
     },
     h5: {
-      fontSize: 3,
+      fontSize: 4,
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",
@@ -99,7 +102,7 @@ const theme = {
       mt: 4,
     },
     h6: {
-      fontSize: 2,
+      fontSize: 3,
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",
@@ -293,6 +296,52 @@ const theme = {
       },
     },
   },
+  svg: {
+    arrow: {
+      primary: {
+        svg: {
+          circle: {
+            stroke: "primary",
+            strokeWidth: "2px",
+          },
+          use: {
+            fill: "primary",
+          },
+          "g#Group": {
+            fill: "primary",
+          },
+        },
+      },
+      dark: {
+        svg: {
+          circle: {
+            stroke: "dark",
+            strokeWidth: "2px",
+          },
+          use: {
+            fill: "dark",
+          },
+          "g#Group": {
+            fill: "dark",
+          },
+        },
+      },
+      light: {
+        svg: {
+          circle: {
+            stroke: "light",
+            strokeWidth: "2px",
+          },
+          use: {
+            fill: "light",
+          },
+          "g#Group": {
+            fill: "light",
+          },
+        },
+      },
+    },
+  },
   buttons: {
     primaryTransparent: {
       px: [3],
@@ -322,10 +371,14 @@ const theme = {
       fontSize: [1],
       textDecoration: "none",
       cursor: "pointer",
-      color: "primary",
-      // "&:hover": {
-      //   bg: "dark",
-      // },
+      color: "dark",
+      border:"1px solid",
+      borderColor:"dark",
+      backgroundColor: "transparent",
+      borderRadius:"unset",
+      "&:hover": {
+        backgroundColor: "primary",
+      },
     },
     secondary: {
       color: "background",
@@ -459,6 +512,55 @@ const theme = {
         pr: [0, 0, 0, 0],
         mr: [0, 0, 0, 0],
         ml: [" calc(50vw - 375px)", "calc(50vw - 485px)", "calc(50vw - 640px)"],
+      },
+      ".rs-productnav-cardsshelf .rf-cards-scroller-crop": {
+        height: "290px",
+      },
+      ".rf-cards-scroller-crop": {
+        overflow: "hidden",
+        paddingBottom: "26px",
+      },
+      ".rf-cards-scroller-content": { overscrollBehaviorX: "contain" },
+      "[data-core-scroller]": {
+        position: "relative",
+        whiteSpace: "nowrap",
+        scrollSnapType: ["mandatory", "x mandatory"],
+        overflowX: "scroll",
+        WebkitOverflowScrolling: "touch",
+      },
+      ".rf-cards-scroller-platter": {
+        width: "100%",
+        verticalAlign: "top",
+        display: "inline-flex",
+        paddingBottom: "40px",
+      },
+      "[data-core-scroller-platter]>div": {
+        display: "inline-block",
+        scrollSnapCoordinate: "left",
+        scrollSnapAlign: "start",
+      },
+      ".rf-cards-scroller-platter>div:first-child .rf-cards-scroller-itemview":
+        {
+          marginLeft: "0",
+        },
+      ".rs-productnav-cardsshelf .rf-cards-scroller-itemview": {
+        height: "148px",
+        marginRight: "10px",
+      },
+      ".rf-cards-scroller-itemview": {
+        display: "flex",
+        marginRight: "20px",
+        transform: "translateX(calc(max(1280px, 100vw)/2 - 608px))",
+      },
+      "html.js .as-util-relatedlink": { cursor: "pointer" },
+      ".rf-productnav-card": { verticalAlign: "top" },
+      ".rf-productnav-card-content": {
+        overflow: "hidden",
+        backgroundColor: "white",
+        boxSizing: "border-box",
+      },
+      ".rf-cards-scroller-platter>div:last-child .rf-cards-scroller-itemview": {
+        paddingRight: [3],
       },
     },
   },

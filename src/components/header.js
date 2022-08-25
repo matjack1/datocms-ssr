@@ -7,7 +7,7 @@ import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { InboundLink } from "./link";
 
 const Header = ({ color, title }) => {
-  const [isSticky, setIsSticky] = useState("");
+  const [isSticky, setIsSticky] = useState(null);
   
   // Sticky Menu Area
   useEffect(() => {
