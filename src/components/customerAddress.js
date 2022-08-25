@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Box, Checkbox, Label, Radio, Text, Button } from "theme-ui";
+import {
+  Box,
+  Checkbox,
+  Label,
+  Radio,
+  Text,
+  Button,
+  Heading,
+  Flex,
+} from "theme-ui";
 import Modal from "react-modal";
 import { useClSdk } from "../hooks/useClSdk";
+
+Modal.defaultStyles.overlay.zIndex = 99999;
+Modal.defaultStyles.overlay.backgroundColor = "rgba(255, 255, 255, 0.65)";
 
 const customStyles = {
   content: {
@@ -9,6 +21,10 @@ const customStyles = {
     left: "50%",
     right: "auto",
     bottom: "auto",
+    border: "1px solid",
+    borderColor: "dark",
+    borderRadius: "unset",
+    zIndex: 9999,
     transform: "translate(-50%, -50%)",
   },
 };
@@ -43,8 +59,10 @@ const CustomerAddress = ({ address, updateAddresses }) => {
     state_code,
     country_code,
     phone,
+    full_name,
   } = address.address;
 
+  console.log(address.address);
   const handleDeleteAddress = async (id) => {
     let deletedCustomerAddress = await cl.customer_addresses
       .delete(id)
@@ -61,20 +79,35 @@ const CustomerAddress = ({ address, updateAddresses }) => {
   };
 
   return (
-    <Box sx={{ border: "1px solid", borderColor: "dark" }}>
-      {company && (
-        <Box>
-          <strong>{company}</strong>
+    <Box
+      sx={{
+        border: "1px solid",
+        height: "100%",
+        borderColor: "dark",
+        px: [4],
+        py: [6],
+      }}
+    >
+      {full_name && (
+        <Box sx={{ pb: [5] }}>
+          <Heading as="h2" variant="h5" sx={{ my: [0] }}>
+            {full_name}
+          </Heading>
         </Box>
       )}
-      {line_1 && <Box>{line_1}</Box>}
-      {line_2 && <Box>{line_2}</Box>}
-      <Box>
-        {zip_code && zip_code} {city && city} {state_code && state_code}{" "}
-        {country_code && `(${country_code})`}{" "}
+      <Box sx={{ pb: [6] }}>
+        {line_1 && <Box>{line_1}</Box>}
+        {line_2 && <Box>{line_2}</Box>}
+        <Box>
+          {zip_code && zip_code} {city && city} {state_code && state_code}{" "}
+          {country_code && `(${country_code})`}{" "}
+        </Box>
+        <Box>{phone && phone}</Box>
       </Box>
-      <Box>{phone && phone}</Box>
-      <Button onClick={openModal}>Elimina</Button>
+
+      <Button onClick={openModal} variant="buttons.primary">
+        Elimina
+      </Button>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
@@ -82,21 +115,38 @@ const CustomerAddress = ({ address, updateAddresses }) => {
         style={customStyles}
         contentLabel="Example Modal"
       >
-        <Box>
+        <Box sx={{ pb: [5] }}>
           <Text>Confermi di eliminare l'indirizzo selezionato?</Text>
         </Box>
-        <Box>
-          <Text>{address.name}</Text>
+        <Box sx={{ pb: [6] }}>
+          {full_name && (
+            <Box sx={{ pb: [5] }}>
+              <Heading as="h2" variant="h5" sx={{ my: [0] }}>
+                {full_name}
+              </Heading>
+            </Box>
+          )}
+          <Box >
+            {line_1 && <Box>{line_1}</Box>}
+            {line_2 && <Box>{line_2}</Box>}
+            <Box>
+              {zip_code && zip_code} {city && city} {state_code && state_code}{" "}
+              {country_code && `(${country_code})`}{" "}
+            </Box>
+            <Box>{phone && phone}</Box>
+          </Box>
         </Box>
-        <Button
-          sx={{ cursor: "pointer" }}
-          onClick={() => handleDeleteAddress(customerAddressId)}
-        >
-          Elimina
-        </Button>
-        <Button sx={{ cursor: "pointer" }} onClick={closeModal}>
-          Annulla
-        </Button>
+        <Box>
+          <Button
+            sx={{ cursor: "pointer" }}
+            onClick={() => handleDeleteAddress(customerAddressId)}
+          >
+            Elimina
+          </Button>
+          <Button sx={{ cursor: "pointer", ml: [2] }} onClick={closeModal}>
+            Annulla
+          </Button>
+        </Box>
       </Modal>
     </Box>
   );

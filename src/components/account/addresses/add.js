@@ -9,6 +9,8 @@ import {
   Select,
   Text,
   Button,
+  Grid,
+  Flex,
 } from "theme-ui";
 import CustomerTokenContext from "../../../hooks/customerTokenContext";
 import Nav from "../../../components/nav";
@@ -81,40 +83,159 @@ const AddAddress = () => {
 
   return (
     <Box>
-      <Heading as="h1">Aggiungi indirizzo</Heading>
-      <Container sx={{ maxWidth: "1000px" }}>
+      <Container>
+        <Heading as="h1" variant="h2" sx={{ fontWeight: "400", my: [5] }}>
+          Aggiungi un nuovo indirizzo di spedizione
+        </Heading>
         {submitStatus === null && !loading ? (
-          <Box as="form" onSubmit={handleCreateAddress}>
-            <Input type="text" name="company" placeholder="Ragione sociale" />
-            <Input type="text" name="address" placeholder="Indirizzo" />
-            <Input type="text" name="city" placeholder="Città" />
-            <Select name="province" placeholder="Provincia">
-              <option value="" selected disabled>
-                Provincia
-              </option>
-              {Object.keys(provinces).map((key, index) => (
-                <option value={key}>{provinces[key]}</option>
-              ))}
-            </Select>
-            <Input
-              type="text"
-              // pattern="/^[0-9]{5}$/"
-              name="zipcode"
-              placeholder="CAP"
-            />
-            <Select name="nation">
-              <option selected value="IT">
-                Italia
-              </option>
-            </Select>
+          <Box
+            as="form"
+            onSubmit={handleCreateAddress}
+            sx={{ width: ["100%", "100%", "60%"] }}
+          >
+            <Grid
+              sx={{
+                flexWrap: "wrap",
+                flexDirection: "column",
+              }}
+              gap={[0, 0, 0, 0]}
+            >
+              <Box
+                sx={{
+                  pb: [3, 3, 3, 3],
+                  width: ["100%", "100%"],
+                }}
+              >
+                <Input
+                  type="text"
+                  name="company"
+                  placeholder="Ragione sociale *"
+                  variant="inputs.dark"
+                  required
+                />
+              </Box>
+              <Box
+                sx={{
+                  pb: [3, 3, 3, 3],
+                  width: ["100%", "100%"],
+                }}
+              >
+                <Input
+                  type="text"
+                  name="address"
+                  placeholder="Indirizzo *"
+                  variant="inputs.dark"
+                  required
+                />
+              </Box>
+              <Flex sx={{ flexWrap: "wrap" }}>
+                <Box
+                  sx={{
+                    pr: [0, 1, 1, 1],
+                    pb: [3, 3, 3, 3],
+                    width: ["100%", "50%"],
+                  }}
+                >
+                  <Input
+                    type="text"
+                    name="city"
+                    placeholder="Città*"
+                    variant="inputs.dark"
+                    required
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    pl: [0, 1, 1, 1],
+                    pb: [3, 3, 3, 3],
+                    width: ["100%", "50%"],
+                  }}
+                >
+                  <Select
+                    name="province"
+                    placeholder="Provincia*"
+                    variant="inputs.dark"
+                    required
+                  >
+                    <option value="" selected disabled>
+                      Provincia*
+                    </option>
+                    {Object.keys(provinces).map((key, index) => (
+                      <option value={key}>{provinces[key]}</option>
+                    ))}
+                  </Select>
+                </Box>
+              </Flex>
 
-            <Input
-              // pattern="^(\((00|\+)39\)|(00|\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\d{7}$"
-              input="text"
-              name="phone"
-              placeholder="Numero di telefono"
-            />
-            <Button>Aggiungi indirizzo</Button>
+              <Flex sx={{ flexWrap: "wrap" }}>
+                <Box
+                  sx={{
+                    pr: [0, 1, 1, 1],
+                    pb: [3, 3, 3, 3],
+                    width: ["100%", "30%"],
+                  }}
+                >
+                  <Input
+                    type="text"
+                    // pattern="/^[0-9]{5}$/"
+                    name="zipcode"
+                    placeholder="CAP"
+                    variant="inputs.dark"
+                  />
+                </Box>
+                <Box
+                  sx={{
+                    pl: [0, 1, 1, 1],
+                    pb: [3, 3, 3, 3],
+                    width: ["100%", "70%"],
+                  }}
+                >
+                  <Select name="nation" variant="inputs.dark">
+                    <option selected disabled value="">
+                      Nazione*
+                    </option>
+                    <option value="IT">
+                      Italia
+                    </option>
+                  </Select>
+                </Box>
+              </Flex>
+              <Box
+                sx={{
+                  pb: [3, 3, 3, 3],
+                  width: ["100%", "100%"],
+                }}
+              >
+                <Input
+                  // pattern="^(\((00|\+)39\)|(00|\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\d{7}$"
+                  input="text"
+                  name="phone"
+                  placeholder="Numero di telefono"
+                  variant="inputs.dark"
+                />
+              </Box>
+              <Box
+                sx={{
+                  pl: [0, 1, 1, 1],
+                  pb: [3, 3, 3, 3],
+                  width: ["100%", "50%"],
+                }}
+              >
+                <Button
+                  sx={{
+                    width: "100%",
+                    textAlign: "center",
+                    fontSize: [3],
+                    fontWeight: "600",
+                    borderRadius: "unset",
+                    p: [3],
+                  }}
+                  variant="buttons.primary"
+                >
+                  Usa questo indirizzo 
+                </Button>
+              </Box>
+            </Grid>
           </Box>
         ) : loading ? (
           <Box>LOADING</Box>

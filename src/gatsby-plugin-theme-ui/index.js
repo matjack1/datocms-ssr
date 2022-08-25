@@ -12,6 +12,7 @@ const theme = {
     darkBlend: "rgba(19,30,38,0.6)",
     dark: "#151515",
     Grey: "#F2F2F2",
+    lightPrimary: lighten("#EA0029",0.4),
     lightBorder: lighten("#151515", 0.6),
     lightGrey: "#F8F8F9",
   },
@@ -24,7 +25,7 @@ const theme = {
     0, 4, 8, 16, 20, 25, 32, 36, 40, 48, 50, 64, 96, 128, 164, 192, 256, 320,
     384, 448, 512,
   ],
-  fontSizes: [12, 14, 16, 18, 21, 20, 24, 26, 32, 40, 48, 64, 96],
+  fontSizes: [12, 14, 16, 18, 21, 20, 24, 26, 28, 32, 40, 48, 64, 96],
   fontWeights: {
     body: 400,
     heading: 600,
@@ -61,7 +62,7 @@ const theme = {
       color: "primary",
     },
     h1: {
-      fontSize: [8, 10],
+      fontSize: [9, 11],
       fontFamily: "heading",
       lineHeight: ["heading", "52px"],
       fontWeight: "heading",
@@ -69,7 +70,7 @@ const theme = {
       mb: 3,
     },
     h2: {
-      fontSize: [7, 8],
+      fontSize: [8, 9],
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
@@ -78,7 +79,7 @@ const theme = {
       mt: 4,
     },
     h3: {
-      fontSize: [6, 7],
+      fontSize: [7, 8],
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: 400,
@@ -87,14 +88,14 @@ const theme = {
       mt: 4,
     },
     h4: {
-      fontSize: [5,6],
+      fontSize: [6,7],
       fontWeight: 300,
       color: "text",
       mb: 2,
       mt: 4,
     },
     h5: {
-      fontSize: 4,
+      fontSize: 5,
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",
@@ -102,7 +103,7 @@ const theme = {
       mt: 4,
     },
     h6: {
-      fontSize: 3,
+      fontSize: 4,
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",
@@ -359,10 +360,11 @@ const theme = {
       fontSize: [1],
       textDecoration: "none",
       cursor: "pointer",
+      backgroundColor:"primary",
       color: "light",
-      bg: "primary",
+      borderRadius:"unset",
       "&:hover": {
-        bg: "dark",
+        backgroundColor: "dark",
       },
     },
     primaryEmpty: {
