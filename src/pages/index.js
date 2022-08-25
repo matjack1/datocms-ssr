@@ -6,7 +6,7 @@ import CategoriesTabLink from "../components/categoriesTabLink";
 import Nav from "../components/nav";
 import ForgotPassword from "./forgot-password.js";
 import ResetPassword from "./reset-password.js";
-import RecentlyViewedSkus from "../components/_recentlyViewedSkus";
+import RecentlyViewedSkus from "../components/recentlyViewedSkus";
 import Layout from "../components/layout";
 import LatestOrders from "../components/latestOrders";
 import FeaturedProduct from "../components/featuredProduct";
