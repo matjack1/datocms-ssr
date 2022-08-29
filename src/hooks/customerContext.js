@@ -1,3 +1,4 @@
+import { navigate } from "gatsby";
 import React, { createContext, useEffect, useState } from "react";
 
 const CustomerContext = createContext({});
@@ -8,6 +9,8 @@ export const CustomerProvider = ({ children }) => {
 
   useEffect(() => {
     // console.log(customerToken);
+    if(!customer)
+    navigate("/login")
   }, [customer]);
 
   return (

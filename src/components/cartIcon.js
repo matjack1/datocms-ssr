@@ -7,6 +7,10 @@ import { useClSdk } from "../hooks/useClSdk";
 import { getCartPath } from "../utils/path";
 import { InboundLink } from "./link";
 import { navigate } from "gatsby";
+import { BsBag } from "react-icons/bs";
+import { getColor } from "@theme-ui/color";
+import theme from "../gatsby-plugin-theme-ui";
+
 
 const CartIcon = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -14,19 +18,21 @@ const CartIcon = () => {
   const { cart, setCart } = useContext(CartContext);
   const [order, setOrder] = useState(null);
   const cl = useClSdk();
+  const dark = getColor(theme, "dark");
 
   const getCustomer = async () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
-        
         setCustomerToken(null);
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
 
     const customer = await cl.customers
-      .retrieve(customerToken.owner_id, { include: ["orders","orders.shipping_address","shipping"] })
+      .retrieve(customerToken.owner_id, {
+        include: ["orders", "orders.shipping_address", "shipping"],
+      })
       .catch(handleError);
 
     if (customer) {
@@ -91,7 +97,28 @@ const CartIcon = () => {
     <>
       {customer && (
         <InboundLink to={getCartPath()}>
-          <Box>{cart && <Box>{cart.skus_count}</Box>}</Box>
+          <Box sx={{ position: "relative" }}>
+            <BsBag size={24} color={dark} />
+            <Box
+              sx={{
+                position:"absolute",
+                top: "-0.5em",
+                right: "-0.6em",
+                backgroundColor: "primary",
+                color: "light",
+                fontSize: ["10px"],
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width:cart && cart.skus_count > 99 ? "24px" : "18px",
+                height:"18px",
+                borderRadius: cart && cart.skus_count > 99 ? "16px" : "50%",
+              }}
+            >
+              {cart && <Box>{cart.skus_count}</Box>}
+            </Box>
+          </Box>
+
           {/* <Box>{customer && <Box>{customer.orders[0].line_items.length}</Box>}</Box> */}
         </InboundLink>
       )}

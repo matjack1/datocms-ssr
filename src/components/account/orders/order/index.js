@@ -124,17 +124,18 @@ const CustomerOrder = () => {
                     Dettagli della spedizione
                   </Heading>
                   <Box>
-                    Spedizioni {order.shipments_count} di{" "}
-                    {order.shipments_count}
-                    {order.line_items.map(
-                      (item) =>
-                        item.sku_code && (
-                          <Box sx={{ border: "1px solid" }}>
-                            <Box>{item.sku_code}</Box>
-                            <Box>{item.name}</Box>
-                          </Box>
-                        )
-                    )}
+                    <Box sx={{ pb: [8] }}>
+                      Spedizioni {order.shipments_count} di{" "}
+                      {order.shipments_count}
+                    </Box>
+                    <Grid sx={{ gridTemplateRows: ["auto"] }} gap={[6]}>
+                      {order.line_items.map(
+                        (item) =>
+                          item.sku_code && (
+                            <ProductThumb sku={item} horizontal={true} />
+                          )
+                      )}
+                    </Grid>
                   </Box>
                 </Box>
                 <Box sx={{ my: [3] }}>
@@ -303,7 +304,7 @@ const CustomerOrder = () => {
                     </InboundLink>
                   </Box>
                   <Box>
-                    <Button >Scarica fattura</Button>
+                    <Button>Scarica fattura</Button>
                   </Box>
                 </Box>
                 <Box sx={{ my: [3] }}>

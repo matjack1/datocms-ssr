@@ -6,6 +6,8 @@ import CustomerContext from "../hooks/customerContext";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
+import LoginButton from "./loginLink";
+import LogoutButton from "./logoutButton";
 
 const AccountSideBar = ({ open, closed, sideBarData }) => {
   const { customer } = useContext(CustomerContext);
@@ -156,7 +158,7 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                   </Flex>
                 </InboundLink>
               </Box>
-              <Box sx={{ pt: [3] }}>
+              {/* <Box sx={{ pt: [3] }}>
                 <InboundLink
                   onClick={closed}
                   sx={{ color: "text", textDecoration: "none" }}
@@ -171,7 +173,10 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     <Text as="span">Impostazioni</Text>
                     <FiChevronRight color={dark} size={25} />
                   </Flex>
-                </InboundLink>
+                </InboundLink> */}
+              {/* </Box> */}
+              <Box sx={{ pt: [3] }}>
+                <LogoutButton />
               </Box>
             </Box>
             <Box

@@ -7,8 +7,12 @@ import LogoutButton from "./logoutButton";
 import UserIcon from "./userIcon";
 import Logo from "../assets/img/logo.svg";
 import { BiBookmark } from "react-icons/bi";
+import { getColor } from "@theme-ui/color";
+import theme from "../gatsby-plugin-theme-ui";
+
 
 const Nav = () => {
+  const dark = getColor(theme, "dark");
   return (
     <Box>
       <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
@@ -23,14 +27,13 @@ const Nav = () => {
           </Box>
           <Box sx={{ mx: [2] }}>
             <InboundLink to="/account/favourites">
-              <BiBookmark size={24} />
+              <BiBookmark size={24} color={dark} />
             </InboundLink>
           </Box>
           <Box sx={{ mx: [2] }}>
             <CartIcon />
           </Box>
           <LoginButton />
-          <LogoutButton />
         </Flex>
       </Flex>
     </Box>

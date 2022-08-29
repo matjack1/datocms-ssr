@@ -1,11 +1,11 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
 
-const ProductThumb = memo(({ sku, handleSkuLoaded }) => {
+const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
   const cl = useClSdk();
 
@@ -18,12 +18,24 @@ const ProductThumb = memo(({ sku, handleSkuLoaded }) => {
   return (
     <Box>
       {clSkuDetails && (
-        <InboundLink to={getProductPath(sku)} sx={{
-          textDecoration:"none"
-        }}>
-          <Grid sx={{ gridTemplateRows: "1fr auto" }}gap={[3]}>
-            <Flex sx={{ justifyItems: "baseline", width:"100%" }}>
-              <Box sx={{border: "1px solid", borderColor:"dark", width:"100%"}}>
+        <InboundLink
+          to={getProductPath(sku)}
+          sx={{
+            textDecoration: "none",
+            color: "dark",
+          }}
+        >
+          <Grid
+            sx={{
+              gridTemplateRows: !horizontal && "1fr auto",
+              gridTemplateColumns: horizontal && [" 218px 1fr"],
+            }}
+            gap={[horizontal ? 11 : 3]}
+          >
+            <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
+              <Box
+                sx={{ border: "1px solid", borderColor: "dark", width: "100%" }}
+              >
                 {sku.images && sku.images.length > 0 ? (
                   <GatsbyImage
                     image={sku.images[0].gatsbyImageData}
@@ -32,21 +44,48 @@ const ProductThumb = memo(({ sku, handleSkuLoaded }) => {
                 ) : (
                   <Box
                     sx={{
-                      height:"319px",
-                      width:"100%",
+                      height: horizontal ? "216px" : "319px",
+                      width: "100%",
                       backgroundColor: "light",
                     }}
                   />
                 )}
               </Box>
             </Flex>
-            <Box>
-              <Box>{clSkuDetails.name}</Box>
-              <Box>{clSkuDetails.code}</Box>
-              <Text sx={{
-                fontWeight:"600",
-                fontSize:["18px"]
-              }}>
+            <Flex
+              sx={{ flexDirection: "column", justifyContent: "space-between" }}
+            >
+              <Box sx={{ pb: [horizontal ? 5 : 3] }}>
+                <Heading
+                  as={horizontal ? "h3" : "h2"}
+                  variant="h2"
+                  sx={{
+                    color: "dark",
+                    fontWeight: "400",
+                    my: [0],
+                    fontSize: horizontal ? [7, 7] : [4, 4],
+                  }}
+                >
+                  {clSkuDetails.name}
+                </Heading>
+              </Box>
+              <Box>
+                {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
+              </Box>
+              <Text
+                sx={{
+                  fontWeight: "600",
+                  fontSize: [5],
+                }}
+              >
+                {clSkuDetails && clSkuDetails.quantity && `Quantità ${clSkuDetails.quantity}`}
+              </Text>
+              <Text
+                sx={{
+                  fontWeight: "600",
+                  fontSize: ["18px"],
+                }}
+              >
                 {clSkuDetails && clSkuDetails.prices
                   ? clSkuDetails.prices.discountedPrice
                     ? "€" +
@@ -60,7 +99,7 @@ const ProductThumb = memo(({ sku, handleSkuLoaded }) => {
                       })
                   : "Caricamento del prezzo"}
               </Text>
-            </Box>
+            </Flex>
           </Grid>
         </InboundLink>
       )}

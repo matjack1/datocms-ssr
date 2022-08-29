@@ -1,3 +1,4 @@
+import { navigate } from "gatsby";
 import React, { useContext } from "react";
 import { Box, Button } from "theme-ui";
 import CustomerContext from "../hooks/customerContext";
@@ -10,14 +11,27 @@ const LogoutButton = () => {
   const logoutCustomer = () => {
     setCustomerToken(null);
     setCustomer(null);
+    navigate("/login")
   };
 
   return (
     <>
       {customerToken && (
-        <Box>
-          <Button onClick={logoutCustomer}>Esci</Button>
-        </Box>
+        <Button
+          sx={{
+            backgroundColor: "transparent",
+            color: "dark",
+            p:[0],
+            fontSize:[3],
+            "&:hover": {
+              backgroundColor: "transparent",
+              color: "primary",
+            },
+          }}
+          onClick={logoutCustomer}
+        >
+          Esci
+        </Button>
       )}
     </>
   );

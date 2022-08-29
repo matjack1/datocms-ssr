@@ -1,3 +1,4 @@
+import { navigate } from "gatsby";
 import React, { createContext, useEffect, useState } from "react";
 
 const CustomerTokenContext = createContext({});
@@ -8,7 +9,9 @@ export const CustomerTokenProvider = ({ children }) => {
   const value = { customerToken, setCustomerToken };
 
   useEffect(() => {
-    localStorage.setItem("customerToken", JSON.stringify(customerToken));
+    if (customerToken)
+      localStorage.setItem("customerToken", JSON.stringify(customerToken));
+    else navigate("/login");
   }, [customerToken]);
 
   return (

@@ -78,7 +78,7 @@ const LatestOrders = () => {
           Ultimi ordini
         </Heading>
         <Grid columns={[1, "repeat(4,1fr)"]} gap={[0]}>
-          {filteredOrders.slice(0, 5).map((order,index) => (
+          {filteredOrders.slice(0, 4).map((order,index) => (
             <InboundLink
               sx={{
                 pl:[index === 0 ? 0 : 9],
