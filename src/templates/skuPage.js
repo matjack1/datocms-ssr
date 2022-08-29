@@ -21,7 +21,7 @@ import getPrices from "../hooks/getPrices";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
-  const [pricedClSkuDetails ,setPricedClSkuDetails ] = useState(null)
+  const [pricedClSkuDetails, setPricedClSkuDetails] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -99,16 +99,18 @@ const SkuPage = ({ data: { sku, skus } }) => {
     const clSku = await cl.skus
       .list({
         filters: { code_eq: sku.code },
-        include: ["prices", "stock_items"],
+        include: [ "stock_items"],
       })
       .catch(handleError);
+
+    setClSkuDetails(clSku[0]);
 
     const prices = await getPrices({
       iduser: customer.reference,
       items: [sku.code],
     });
 
-    const foundPrices = prices.items[0];
+    const foundPrices = prices && prices.items.length > 0 && prices.items[0];
 
     if (clSku && clSku[0] && foundPrices)
       setClSkuDetails({
@@ -119,9 +121,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
           price: foundPrices.price,
         },
       });
-    else if (clSku && clSku[0]) setClSkuDetails(clSku[0]);
   };
-  
+
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -139,7 +140,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
   useEffect(() => {
     if (customer && customerToken) updateCustomerRecentlyViewed();
     if (cl && customer) {
-      console.log("UPDATING");
       getClSku();
     }
   }, [customer]);
@@ -155,7 +155,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, []);
 
   useEffect(() => {
-    if (!relatedSkus)
+    if (clSkuDetails && clSkuDetails.prices && !relatedSkus)
       setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
   }, [clSkuDetails]);
 

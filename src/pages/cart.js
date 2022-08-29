@@ -46,19 +46,19 @@ const CartPage = () => {
     let allChunks = [];
     let res = [];
 
+    
+
     if (cart) {
       const cartTmp = { ...cart };
       const chunkSize = 4;
       const reducedData = cartTmp.line_items.map((x) => x.sku_code);
 
-      
+      setLineItems(cartTmp.line_items);
 
       for (let i = 0; i < reducedData.length; i += chunkSize) {
         const chunk = reducedData.slice(i, i + chunkSize);
         allChunks.push(chunk);
       }
-
-      console.log("allChunks",allChunks)
 
       for (let i = 0; i < allChunks.length; i++) {
         const prices = await getPrices({
@@ -113,6 +113,10 @@ const CartPage = () => {
       getLineItemsPrices();
     }
   }, [cart]);
+
+  useEffect(()=>{
+    console.log("lineItems")
+  },[lineItems])
 
 
   const updateQuantity = (quantity, id) => {
