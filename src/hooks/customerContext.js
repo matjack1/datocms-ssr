@@ -11,6 +11,10 @@ export const CustomerProvider = ({ children }) => {
     const localStorageCustomer = localStorage.getItem("customer");
 
     if (customer) localStorage.setItem("customer", JSON.stringify(customer));
+    
+    if(customer && customer.metadata && customer.metadata.favourites)
+    localStorage.setItem("favourites", JSON.stringify(customer.metadata.favourites));
+    
 
     if (!localStorageCustomer) navigate("/login");
   }, [customer]);

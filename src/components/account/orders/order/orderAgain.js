@@ -233,11 +233,13 @@ const SkuComponent = ({ sku, removeSku, handleUpdateQuantity }) => {
       <Heading as="h1">{sku.name}</Heading>
       <Text as="p">{sku.sku_code}</Text>
       {isAvailable() ? (
-        <SkuQuantity
-          sku={sku}
-          quantity={currentQuantity}
-          updateQuantity={updateQuantity}
-        />
+        <Box sx={{ pb: [9] }}>
+          <SkuQuantity
+            sku={sku}
+            quantity={currentQuantity}
+            updateQuantity={updateQuantity}
+          />
+        </Box>
       ) : (
         <Box>Non disponibile</Box>
       )}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Text } from "theme-ui";
 
-const SkuQuantity = ({ sku, quantity, updateQuantity }) => {
+const SkuQuantity = ({ sku, quantity, updateQuantity, showMinMult = true }) => {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
 
   function addQuantity() {
@@ -17,7 +17,7 @@ const SkuQuantity = ({ sku, quantity, updateQuantity }) => {
   }, [currentQuantity]);
 
   return (
-    <Box sx={{ pb: [9] }}>
+    <Box >
       <Flex
         sx={{
           alignItems: "center",
@@ -39,10 +39,10 @@ const SkuQuantity = ({ sku, quantity, updateQuantity }) => {
               width: "100px",
               justifyContent: "center",
               alignItems: "center",
-              borderTop:"1px solid",
+              borderTop: "1px solid",
               borderBottom: "1px solid",
-              borderColor:"dark",
-              py:[2]
+              borderColor: "dark",
+              py: [2],
             }}
           >
             {currentQuantity}
@@ -55,11 +55,13 @@ const SkuQuantity = ({ sku, quantity, updateQuantity }) => {
             +
           </Button>
         </Flex>
-        <Text sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}>
-          minimo {sku.minimum}
-          <br />
-          multiplo {sku.multiple}
-        </Text>
+        {showMinMult && (
+          <Text sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}>
+            minimo {sku.minimum}
+            <br />
+            multiplo {sku.multiple}
+          </Text>
+        )}
       </Flex>
     </Box>
   );

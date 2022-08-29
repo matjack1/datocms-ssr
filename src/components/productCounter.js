@@ -4,7 +4,9 @@ import { Box, Text } from "theme-ui";
 const ProductCounter = ({ skus }) => {
   return (
     <Box>
-      <Text sx={{fontWeight:"600"}}>{skus.length} articoli</Text>
+      <Text sx={{ fontWeight: "600" }}>
+        {skus.length} articolarticol{skus.length > 0 ? "i" : "o"}
+      </Text>
     </Box>
   );
 };

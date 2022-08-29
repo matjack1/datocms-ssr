@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Text } from "theme-ui";
+import { Box, Button, Text, Flex } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { navigate } from "gatsby";
+import { BsBag } from "react-icons/bs";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
@@ -13,7 +14,7 @@ const AddToCart = ({ sku, quantity }) => {
     console.log("getOrder");
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
@@ -23,7 +24,7 @@ const AddToCart = ({ sku, quantity }) => {
       .catch(handleError);
 
     if (order) {
-      console.log(order.line_items)
+      console.log(order.line_items);
       setOrder(order);
     }
   };
@@ -41,7 +42,7 @@ const AddToCart = ({ sku, quantity }) => {
       .create(attributes)
       .catch((error) => console.log(error.errors));
 
-    console.log("lineItem",lineItem,quantity)
+    console.log("lineItem", lineItem, quantity);
     if (lineItem) {
       getOrder(cart.id);
     }
@@ -65,23 +66,30 @@ const AddToCart = ({ sku, quantity }) => {
   }
 
   return (
-    <Box sx={{ width: "100%", height:"100%" }}>
+    <Box sx={{ width: "100%", height: "100%" }}>
       <Button
         disabled={!isAvailable()}
         onClick={() => addToCart()}
         sx={{
           opacity: isAvailable() ? 1 : 0.5,
           width: "100%",
-          height:"100%",
+          height: "100%",
           textAlign: "center",
           fontSize: [3],
-          fontWeight:"600",
-          borderRadius:"unset",
-          p:[3]
+          fontWeight: "600",
+          borderRadius: "unset",
+          p: [3],
         }}
       >
         {isAvailable() ? (
-          <Text>Aggiungi al carrello</Text>
+          <Flex sx={{width:"100%", justifyContent:"center", alignItems:"center"}}>
+            <Box>
+              <BsBag />
+            </Box>
+            <Box sx={{ml:[4]}}>
+              <Text>Aggiungi al carrello</Text>
+            </Box>
+          </Flex>
         ) : (
           <Text>Non disponibile</Text>
         )}

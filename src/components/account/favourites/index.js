@@ -1,11 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box } from "theme-ui";
+import { Box, Container, Grid, Heading } from "theme-ui";
 import CustomerContext from "../../../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
-import CustomerFavourite from "./favourite";
+// import CustomerFavourite from "./_favourite";
 import { useClSdk } from "../../../hooks/useClSdk";
 import CustomerTokenContext from "../../../hooks/customerTokenContext";
 import { navigate } from "gatsby";
+import CustomBreadcrumbs from "../../customBreadcrumbs";
+import FavouriteProduct from "../../favouriteProduct";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -18,36 +20,37 @@ const CustomerFavourites = () => {
   console.log("enters");
 
   const handleGetSkus = async () => {
-    const records = await client.items.list({
-      filter: {
-        type: "313716",
-        fields: {
-          code: {
-            in: customer.metadata.favourites,
+    let records = []
+
+    if (customer.metadata.favourites.length > 0) {
+      records = await client.items.list({
+        filter: {
+          type: "313716",
+          fields: {
+            code: {
+              in: customer.metadata.favourites,
+            },
           },
         },
-      },
-    });
+      });
 
-    if (customer.metadata.favourites)
       records.sort(function (a, b) {
         return (
           customer.metadata.favourites.indexOf(a.code) -
           customer.metadata.favourites.indexOf(b.code)
         );
       });
-
-    console.log("customer.metadata.favourites", customer.metadata.favourites, records);
+    }
 
     setSkus(records);
   };
 
   const handleDeleteFavourite = async (sku) => {
-    console.log("called")
+    console.log("called");
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
@@ -66,29 +69,69 @@ const CustomerFavourites = () => {
       })
       .catch(handleError);
 
-    
-      if(updatedCustomer){
-        setCustomer(updatedCustomer)
-      }
+    if (updatedCustomer) {
+      const retrievedCustomer = await cl.customers
+        .retrieve(customerToken.owner_id, {
+          include: ["orders", "orders.shipping_address"],
+        })
+        .catch(handleError);
+
+      setCustomer(retrievedCustomer);
+    }
   };
 
   useEffect(() => {
-    if (customer && customer.metadata && customer.metadata.favourites && customer.metadata.favourites.length > 0) handleGetSkus();
+    if (customer && customer.metadata) handleGetSkus();
   }, [customer]);
 
-  return skus.length > 0 ? (
+  return (
     <Box>
-      {skus.map((sku) => (
-        <Box>
-          <CustomerFavourite
-            sku={sku}
-            handleDeleteFavourite={() => handleDeleteFavourite(sku)}
-          />
+      <Container>
+        <CustomBreadcrumbs
+          data={{
+            pages: [
+              {
+                slug: "/",
+                title: "Home",
+              },
+            ],
+            current: {
+              title: "Preferiti",
+            },
+          }}
+        />
+        <Box sx={{ pb: [8] }}>
+          <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+            Preferiti
+          </Heading>
         </Box>
-      ))}
+        {skus.length > 0 ? (
+          <Grid columns={[".7fr .3fr"]} gap={[12]}>
+            <Box>
+              <Box>
+                <Box>
+                  <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                    {skus.map((sku) => (
+                      <Box>
+                        <FavouriteProduct
+                          sku={sku}
+                          handleDeleteFavourite={() =>
+                            handleDeleteFavourite(sku)
+                          }
+                        />
+                      </Box>
+                    ))}
+                  </Grid>
+                </Box>
+              </Box>
+            </Box>
+            <Box></Box>
+          </Grid>
+        ) : (
+          <Box>La lista dei preferiti è vuota</Box>
+        )}
+      </Container>
     </Box>
-  ) : (
-    <Box>La lista dei preferiti è vuota</Box>
   );
 };
 

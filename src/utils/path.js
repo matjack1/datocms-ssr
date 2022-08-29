@@ -14,8 +14,8 @@ const i18nPath = {
 };
 
 export function getCategoryPath(page, locale) {
-  console.log("page.locale",page,page.locale)
-  
+  console.log("page.locale", page, page.locale);
+
   const pageLocale = locale || page.locale;
   let lang =
     pageLocale === defaultLocale ? "/" : `/${pageLocale.toLowerCase()}/`;
@@ -70,6 +70,18 @@ export function getSearchPath(locale) {
 export function getProductPath(product) {
   const locale = product.locale || defaultLocale;
   return locale === defaultLocale
-    ? `/${i18nPath[locale].product}/${product.slug}/`
-    : `/${locale.toLowerCase()}/${i18nPath[locale].product}/${product.slug}/`;
+    ? `/${i18nPath[locale].product}/${
+        product.slug
+          ? product.slug.toLowerCase()
+          : product.code
+          ? product.code.toLowerCase()
+          : product.sku_code.toLowerCase()
+      }/`
+    : `/${locale.toLowerCase()}/${i18nPath[locale].product}/${
+        product.slug
+          ? product.slug.toLowerCase()
+          : product.code
+          ? product.code.toLowerCase()
+          : product.sku_code.toLowerCase()
+      }/`;
 }

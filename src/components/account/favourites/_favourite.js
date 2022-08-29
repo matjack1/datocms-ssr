@@ -43,11 +43,14 @@ const CustomerFavourite = ({ sku, handleDeleteFavourite }) => {
     <Box>
       <Heading as="h1">{sku.name}</Heading>
       <Text as="p">{sku.code}</Text>
-      <SkuQuantity
-        sku={sku}
-        quantity={currentQuantity}
-        updateQuantity={updateQuantity}
-      />
+      <Box sx={{ pb: [9] }}>
+        <SkuQuantity
+          sku={sku}
+          quantity={currentQuantity}
+          updateQuantity={updateQuantity}
+        />
+      </Box>
+
       <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
       <Button onClick={handleDeleteFavourite} sx={{ cursor: "pointer" }}>
         <Box

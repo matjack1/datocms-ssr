@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Container, Grid, Heading, Link, Text } from "theme-ui";
+import { Box, Container, Grid, Heading, Text, Flex } from "theme-ui";
 import Nav from "../components/nav";
-import RemoveFromCart from "../components/removeFromCart";
-import LineItemQuantity from "../components/lineItemQuantity";
 import CartContext from "../hooks/cartContext";
 import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
@@ -10,11 +8,13 @@ import getOrder from "../hooks/getOrder";
 import { useClSdk } from "../hooks/useClSdk";
 import Layout from "../components/layout";
 import CartProduct from "../components/cartProduct";
+import { InboundLink, OutboundLink } from "../components/link";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken } = useContext(CustomerTokenContext);
   const { cart, setCart } = useContext(CartContext);
+  const [itemQuantity, setItemQuantity] = useState(null);
   const cl = useClSdk();
 
   const updateLineItem = async (quantity, id) => {
@@ -29,8 +29,10 @@ const CartPage = () => {
 
     getOrder(cl, cart.id)
       .then((value) => {
+        let tmp = 0;
+        value.line_items.map((item, a) => (tmp += item.quantity), 0);
+        setItemQuantity(tmp);
         setCart(value);
-        console.log(value);
       })
       .catch((err) => {
         console.log(err);
@@ -41,6 +43,9 @@ const CartPage = () => {
     if (customer && cart) {
       getOrder(cl, cart.id)
         .then((value) => {
+          let tmp = 0;
+          value.line_items.map((item, a) => (tmp += item.quantity), 0);
+          setItemQuantity(tmp);
           setCart(value);
         })
         .catch((err) => {
@@ -56,51 +61,178 @@ const CartPage = () => {
   return (
     <Layout>
       <Container>
-        <Grid columns={[".7fr .3fr"]} gap={[12]}>
-          <Box>
-            <Box>
-              <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-                Carrello
-              </Heading>
-            </Box>
-            <Box>
-              {cart && cart.line_items.length > 0 ? (
+        {cart && cart.line_items.length > 0 ? (
+          <>
+            <Grid columns={[".7fr .3fr"]} gap={[12]}>
+              {console.log("cart", cart)}
+              <Box>
                 <Box>
-                  <Box>
-                    {cart.line_items.map((lineItem) => (
-                      <Box>
-                        <CartProduct sku={lineItem} />
-                        <Box>{lineItem.name}</Box>
-                        <Box>{lineItem.formatted_total_amount}</Box>
-                        <Box>{lineItem.sku_code}</Box>
-                        <LineItemQuantity
-                          lineItem={lineItem}
-                          quantity={lineItem.quantity}
-                          updateQuantity={updateQuantity}
-                        />
-                        <RemoveFromCart sku={lineItem} />
-                      </Box>
-                    ))}
-                  </Box>
-                  <Box>
-                    <Box>Totale parziale: {cart.formatted_subtotal_amount}</Box>
-                    <Box>Spedizione: {cart.formatted_shipping_amount}</Box>
-                    <Box>Tasse: {cart.formatted_total_tax_amount}</Box>
-                    <Box>Totale: {cart.formatted_total_amount_with_taxes}</Box>
-                    <Link
-                      href={`https://socaf-s-p-a.checkout.commercelayer.app/${cart.id}?accessToken=${customerToken.access_token}`}
-                      target="_blank"
-                    >
-                      Checkout
-                    </Link>
+                  <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                    Carrello
+                  </Heading>
+                  <Box
+                    sx={{
+                      fontSize: [2],
+                      fontWeight: "400",
+                      pb: [8],
+                    }}
+                  >
+                    <Text color="lightBorder">
+                      {`${itemQuantity} articol${
+                        itemQuantity > 0 ? "i" : "o"
+                      } |`}
+                    </Text>
+                    <Text>{` ${cart.formatted_subtotal_amount}`}</Text>
                   </Box>
                 </Box>
-              ) : (
-                <Box>Il tuo carrello è attualmente vuoto!</Box>
-              )}
-            </Box>
+                <Box>
+                  <Box>
+                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                      {cart.line_items.map((lineItem) => (
+                        <Box>
+                          <CartProduct
+                            sku={lineItem}
+                            updateQuantity={updateQuantity}
+                          />
+                        </Box>
+                      ))}
+                    </Grid>
+                  </Box>
+                </Box>
+              </Box>
+
+              <Box>
+                <Box>
+                  <Heading
+                    as="h2"
+                    variant="h5"
+                    sx={{ color: "primary", pb: [6] }}
+                  >
+                    Riepilogo ordine
+                  </Heading>
+                  <Flex
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      pb: [6],
+                    }}
+                  >
+                    <Box>
+                      <Text sx={{ fontSize: [5], color: "lightBorder" }}>
+                        Costi di spedizione
+                      </Text>
+                    </Box>
+                    <Box
+                      sx={{
+                        fontSize: [5],
+                        color: "lightBorder",
+                        fontWeight: "600",
+                      }}
+                    >
+                      da calcolare
+                    </Box>
+                  </Flex>
+                  <Flex
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      pb: [6],
+                    }}
+                  >
+                    <Text sx={{ fontSize: [5], color: "lightBorder" }}>
+                      Tasse
+                    </Text>
+                    <Box
+                      sx={{
+                        fontSize: [5],
+                        color: "lightBorder",
+                        fontWeight: "600",
+                      }}
+                    >
+                      da calcolare
+                    </Box>
+                  </Flex>
+                  <Flex
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "start",
+                      pb: [6],
+                    }}
+                  >
+                    <Text sx={{ fontSize: [5] }}>Subtotale</Text>
+                    <Box
+                      sx={{
+                        textAlign: "right",
+                        fontSize: [5],
+                        fontWeight: "600",
+                      }}
+                    >
+                      {cart.formatted_subtotal_amount}
+                    </Box>
+                  </Flex>
+                  <Flex
+                    sx={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      pb: [6],
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        fontSize: [3],
+                        color: "lightBorder",
+                        fontWeight: "600",
+                      }}
+                    >
+                      Prezzo tasse escluse, spese di spedizioni calcolate al
+                      checkout
+                    </Box>
+                  </Flex>
+                  <Box>
+                    <OutboundLink
+                      href={`https://socaf-s-p-a.checkout.commercelayer.app/${cart.id}?accessToken=${customerToken.access_token}`}
+                      target="_blank"
+                      variant="buttons.primary"
+                      sx={{
+                        display: "inline-block",
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        fontSize: [3],
+                        fontWeight: "600",
+                        borderRadius: "unset",
+                        p: [3],
+                      }}
+                    >
+                      Vai al pagamento
+                    </OutboundLink>
+                  </Box>
+                </Box>
+              </Box>
+            </Grid>
+          </>
+        ) : (
+          <Box>Il tuo carrello è attualmente vuoto!</Box>
+        )}
+        <Box>
+          <Heading as="h2" variant="h2" sx={{ my: [6], color:"primary" }}>
+            Preferiti
+          </Heading>
+          <Box sx={{
+            fontWeight:"400",
+            fontSize:[5],
+            a:{
+              color:"dark",
+              "&:hover":{
+                color:"primary"
+              }
+            }
+          }}>
+            <InboundLink to="/account/favourites">
+              Vuoi visualizzare i preferiti?{" "}
+            </InboundLink>
           </Box>
-        </Grid>
+        </Box>
       </Container>
     </Layout>
   );

@@ -23,6 +23,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
+  const [isFavourie, setIsFavourite] = useState(null);
 
   const cl = useClSdk();
 
@@ -30,7 +31,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
@@ -61,20 +62,23 @@ const SkuPage = ({ data: { sku, skus } }) => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
 
     let favourites = customer.metadata.favourites
-      ? [...customer.metadata.favourites]
-      : [];
+        ? [...customer.metadata.favourites]
+        : []
 
-    favourites = [...new Set(favourites)];
-
+    if(!isFavourie)
     if (!favourites.find((e) => e === sku.code))
       favourites = [sku.code].concat(favourites);
+    else
+    favourites = favourites.filter((e) => e !== sku.code);
 
+    setIsFavourite(!isFavourie)
+    localStorage.setItem("favourites", JSON.stringify(favourites));
     const updatedCustomer = await cl.customers
       .update({
         id: customerToken.owner_id,
@@ -104,7 +108,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       [array[i], array[j]] = [array[j], array[i]];
     }
 
-    return array
+    return array;
   };
 
   const updateQuantity = (quantity) => {
@@ -120,19 +124,35 @@ const SkuPage = ({ data: { sku, skus } }) => {
     if (cl) {
       getClSku();
     }
+
+    if (isFavourie === null) {
+      let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
+        (e) => e === sku.code
+      );
+
+      setIsFavourite(findSku[0] === true);
+    }
   }, []);
 
   return (
     <Layout>
       <Container>
-        <Breadcumbs page={sku} />
-        <Grid columns={["minmax(auto, 670px) minmax(auto, 469px)"]} gap={[12]}>
-          <Box>
+        <Box sx={{ pb: [4] }}>
+          <Breadcumbs page={sku} />
+        </Box>
+
+        <Grid columns={["minmax(auto,672px) minmax(auto, 469px)"]} gap={[11]}>
+          <Box
+            sx={{
+              aspectRatio: "1",
+            }}
+          >
             <Box
               sx={{
                 border: "1px solid",
                 borderColor: "dark",
                 width: "100%",
+                height: "100%",
                 mb: [12],
               }}
             >
@@ -144,7 +164,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
               ) : (
                 <Box
                   sx={{
-                    height: "319px",
                     width: "100%",
                     backgroundColor: "light",
                   }}
@@ -269,7 +288,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                 </Flex>
               )}
             </Box>
-            <Box>
+            <Box sx={{ pb: [9] }}>
               <SkuQuantity
                 sku={sku}
                 quantity={currentQuantity}
@@ -297,7 +316,11 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     height: "100%",
                     p: [3],
                     height: "100%",
+                    backgroundColor: isFavourie ? "primary" : "light",
+                    border: "1px solid",
+                    borderColor: !isFavourie  ? "primary" : "transparent",
                     svg: {
+                      color: isFavourie ? "light" : "primary",
                       width: "20px",
                       height: "20px",
                     },
@@ -452,7 +475,10 @@ const SkuPage = ({ data: { sku, skus } }) => {
       {skus.nodes.length > 0 && (
         <RelatedProducts
           sku={sku}
-          skus={shuffleArray(skus.nodes).slice(0, skus.nodes.length > 8 ? 8 : skus.nodes.length)}
+          skus={shuffleArray(skus.nodes).slice(
+            0,
+            skus.nodes.length > 8 ? 8 : skus.nodes.length
+          )}
           customer={customer}
         />
       )}

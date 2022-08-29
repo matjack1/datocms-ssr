@@ -1,29 +1,58 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading, Button } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
-import RemoveFromCart from "../components/removeFromCart";
-import LineItemQuantity from "../components/lineItemQuantity";
+import RemoveFromCart from "./removeFromCart";
+import LineItemQuantity from "./lineItemQuantity";
 import getSkuData from "../hooks/getSkuData";
+import { FiTrash } from "react-icons/fi";
+import SkuQuantity from "./skuQuantity";
+import { FiTrash2 } from "react-icons/fi";
+import AddToCart from "./addToCart";
+import { BsBag } from "react-icons/bs";
 
-const CartProduct = memo(
-  ({ sku, handleSkuLoaded, horizontal = true, updateQuantity }) => {
+const FavouriteProduct = memo(
+  ({ sku, handleSkuLoaded, horizontal = true, handleDeleteFavourite }) => {
+    const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
     const [clSkuDetails, setClSkuDetails] = useState(null);
     const [datoSkusData, setDatoSkusData] = useState();
     const cl = useClSdk();
 
-    useEffect(() => {
-      const handleLoadSkusDatoData = async () => {
-        const skuCode = sku.code ? sku.code : sku.sku_code;
-        const datoSkusData = await getSkuData(skuCode);
-        console.log("{...sku,...datoSkusData}", { ...sku, ...datoSkusData });
-        setClSkuDetails({ ...sku, ...datoSkusData });
-      };
+    const updateQuantity = (quantity) => {
+      console.log(quantity);
+      setCurrentQuantity(quantity);
+    };
 
-      if (!clSkuDetails) handleLoadSkusDatoData();
-    }, [sku]);
+    const handleLoadSkusDatoData = async () => {
+      const skuCode = sku.code ? sku.code : sku.sku_code;
+      const datoSkusData = await getSkuData(skuCode);
+
+      return datoSkusData;
+    };
+
+    const getClSku = async () => {
+      const handleError = (e) => {
+        console.log(e);
+      };
+      const clSku = await cl.skus
+        .list({
+          filters: { code_eq: sku.code },
+          include: ["stock_items"],
+        })
+        .catch(handleError);
+      if (clSku && clSku[0]) {
+        const datoSkusData = await handleLoadSkusDatoData();
+        setClSkuDetails({ ...datoSkusData, ...clSku[0] });
+      }
+    };
+
+    useEffect(() => {
+      if (cl) {
+        getClSku();
+      }
+    }, []);
 
     return (
       <Box>
@@ -95,7 +124,22 @@ const CartProduct = memo(
                   </InboundLink>
                 </Box>
                 <Box sx={{ width: "20%", textAlign: "right" }}>
-                  <RemoveFromCart sku={sku} />
+                  <Box>
+                    <Button
+                      onClick={() => handleDeleteFavourite()}
+                      sx={{
+                        backgroundColor: "transparent",
+                        color: "lightBorder",
+                        p: [0],
+                        "&:hover": {
+                          backgroundColor: "transparent",
+                          color: "primary",
+                        },
+                      }}
+                    >
+                      <FiTrash2 size={24} />
+                    </Button>
+                  </Box>
                 </Box>
               </Flex>
               <Box sx={{ pb: [6] }}>
@@ -239,13 +283,31 @@ const CartProduct = memo(
                     : "Caricamento del prezzo"}
                 </Text>
               </Box>
-              <Box>
-                <LineItemQuantity
-                  lineItem={sku}
-                  quantity={sku.quantity}
+              <Flex sx={{ pb: [9] }}>
+                <SkuQuantity
+                  sku={clSkuDetails}
+                  quantity={currentQuantity}
                   updateQuantity={updateQuantity}
+                  showMinMult={false}
                 />
-              </Box>
+                <Box
+                  sx={{
+                    button: {
+                      width: "100%",
+                      height: "100%",
+                      textAlign: "center",
+                      fontSize: [3],
+                      fontWeight: "600",
+                      borderRadius: "unset",
+                      p:[0],
+                      px: [2],
+                      ml: [2],
+                    },
+                  }}
+                >
+                  <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+                </Box>
+              </Flex>
             </Flex>
           </Grid>
         )}
@@ -254,4 +316,4 @@ const CartProduct = memo(
   }
 );
 
-export default CartProduct;
+export default FavouriteProduct;

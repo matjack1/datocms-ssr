@@ -11,7 +11,6 @@ import { BsBag } from "react-icons/bs";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 
-
 const CartIcon = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -92,6 +91,7 @@ const CartIcon = () => {
       setCart(order);
     }
   }, [order]);
+
 
   return (
     <>

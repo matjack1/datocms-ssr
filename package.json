@@ -17,7 +17,7 @@
   "dependencies": {
     "@commercelayer/js-auth": "^2.3.0",
     "@commercelayer/sdk": "^3.8.0",
-    "@datocms/cma-client-browser": "^1.0.1",
+    "@datocms/cma-client-browser": "^1.1.1",
     "@datocms/cma-client-node": "^1.0.1",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
@@ -40,6 +40,7 @@
     "react-google-recaptcha-v3": "^1.10.0",
     "react-icons": "^4.4.0",
     "react-modal": "^3.15.1",
+    "react-toastify": "^9.0.8",
     "swiper": "^8.3.2",
     "theme-ui": "^0.14.5",
     "validator": "^13.7.0"

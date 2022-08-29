@@ -13,8 +13,6 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
     setClSkuDetails(sku);
   }, [sku]);
 
-  console.log("clSkuDetails", clSkuDetails);
-
   return (
     <Box>
       {clSkuDetails && (
