@@ -51,10 +51,14 @@ const CartPage = () => {
       const chunkSize = 4;
       const reducedData = cartTmp.line_items.map((x) => x.sku_code);
 
+      
+
       for (let i = 0; i < reducedData.length; i += chunkSize) {
         const chunk = reducedData.slice(i, i + chunkSize);
         allChunks.push(chunk);
       }
+
+      console.log("allChunks",allChunks)
 
       for (let i = 0; i < allChunks.length; i++) {
         const prices = await getPrices({
@@ -105,11 +109,11 @@ const CartPage = () => {
   }, [customer]);
 
   useEffect(() => {
-    console.log("UPDATING CART")
-    if (customer && cl) {
+    if (customer && cl ) {
       getLineItemsPrices();
     }
   }, [cart]);
+
 
   const updateQuantity = (quantity, id) => {
     updateLineItem(quantity, id);

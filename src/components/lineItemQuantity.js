@@ -35,6 +35,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
   }, []);
 
   useEffect(() => {
+    if(quantity != currentQuantity)
     updateQuantity(currentQuantity, lineItem.id);
   }, [currentQuantity]);
 

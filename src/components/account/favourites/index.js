@@ -2,26 +2,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Container, Grid, Heading } from "theme-ui";
 import CustomerContext from "../../../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
-// import CustomerFavourite from "./_favourite";
 import { useClSdk } from "../../../hooks/useClSdk";
 import CustomerTokenContext from "../../../hooks/customerTokenContext";
 import { navigate } from "gatsby";
 import CustomBreadcrumbs from "../../customBreadcrumbs";
 import FavouriteProduct from "../../favouriteProduct";
 import getPrices from "../../../hooks/getPrices";
+// import CustomerFavourite from "./_favourite";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
   const { customer, setCustomer } = useContext(CustomerContext);
   const [skus, setSkus] = useState([]);
+  const [pricedSkusData, setPricedSkusData] = useState(null);
 
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
   console.log("enters");
 
   const handleGetSkus = async () => {
-    let records = []
+    let records = [];
 
     if (customer.metadata.favourites.length > 0) {
       records = await client.items.list({
@@ -81,6 +82,57 @@ const CustomerFavourites = () => {
     }
   };
 
+  const getSkusPrices = async () => {
+    let chunkPrices = [];
+    let allChunks = [];
+    let res = [];
+
+    if (skus) {
+      const skusTmp = JSON.parse(JSON.stringify(skus));
+      const chunkSize = 4;
+      const reducedData = skusTmp.map((x) => x.code);
+
+      for (let i = 0; i < reducedData.length; i += chunkSize) {
+        const chunk = reducedData.slice(i, i + chunkSize);
+        allChunks.push(chunk);
+      }
+
+      for (let i = 0; i < allChunks.length; i++) {
+        const prices = await getPrices({
+          iduser: customer.reference,
+          items: allChunks[i],
+        });
+
+        if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+
+        res = await Promise.all(
+          skusTmp.map((obj) => {
+            const index = chunkPrices.findIndex(
+              (el) => el["itemcode"] == obj["code"]
+            );
+            if (chunkPrices[index]) {
+              return {
+                ...obj,
+                prices: {
+                  discount: chunkPrices[index].discount,
+                  discountedPrice: chunkPrices[index].discountedPrice,
+                  price: chunkPrices[index].price,
+                },
+              };
+            }
+
+            return obj;
+          })
+        );
+      }
+      setPricedSkusData(res);
+    }
+  };
+
+  useEffect(() => {
+    getSkusPrices();
+  }, [skus]);
+
   useEffect(() => {
     if (customer && customer.metadata) handleGetSkus();
   }, [customer]);
@@ -106,13 +158,13 @@ const CustomerFavourites = () => {
             Preferiti
           </Heading>
         </Box>
-        {skus.length > 0 ? (
+        {pricedSkusData && pricedSkusData.length > 0 ? (
           <Grid columns={[".7fr .3fr"]} gap={[12]}>
             <Box>
               <Box>
                 <Box>
                   <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                    {skus.map((sku) => (
+                    {pricedSkusData.map((sku) => (
                       <Box>
                         <FavouriteProduct
                           sku={sku}

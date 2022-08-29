@@ -44,7 +44,9 @@ const FavouriteProduct = memo(
         .catch(handleError);
       if (clSku && clSku[0]) {
         const datoSkusData = await handleLoadSkusDatoData();
-        setClSkuDetails({ ...datoSkusData, ...clSku[0] });
+
+        console.log("sku",{ ...sku })
+        setClSkuDetails({ ...sku,...datoSkusData, ...clSku[0] });
       }
     };
 

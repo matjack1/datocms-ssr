@@ -21,6 +21,7 @@ import getPrices from "../hooks/getPrices";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
+  const [pricedClSkuDetails ,setPricedClSkuDetails ] = useState(null)
   const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -109,8 +110,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
 
     const foundPrices = prices.items[0];
 
-    console.log("foundPrices", foundPrices);
-
     if (clSku && clSku[0] && foundPrices)
       setClSkuDetails({
         ...clSku[0],
@@ -122,6 +121,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       });
     else if (clSku && clSku[0]) setClSkuDetails(clSku[0]);
   };
+  
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
