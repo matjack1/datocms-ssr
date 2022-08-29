@@ -34,6 +34,7 @@ const Footer = () => {
         py: 5,
         position: "relative",
         color: "light",
+        minHeight:"516px"
       }}
     >
       <i18nContext.Consumer>

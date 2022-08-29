@@ -9,11 +9,13 @@ import { useClSdk } from "../hooks/useClSdk";
 import Layout from "../components/layout";
 import CartProduct from "../components/cartProduct";
 import { InboundLink, OutboundLink } from "../components/link";
+import getPrices from "../hooks/getPrices";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken } = useContext(CustomerTokenContext);
   const { cart, setCart } = useContext(CartContext);
+  const [lineItems, setLineItems] = useState(null);
   const [itemQuantity, setItemQuantity] = useState(null);
   const cl = useClSdk();
 
@@ -39,6 +41,54 @@ const CartPage = () => {
       });
   };
 
+  const getLineItemsPrices = async () => {
+    let chunkPrices = [];
+    let allChunks = [];
+    let res = [];
+
+    if (cart) {
+      const cartTmp = { ...cart };
+      const chunkSize = 4;
+      const reducedData = cartTmp.line_items.map((x) => x.sku_code);
+
+      for (let i = 0; i < reducedData.length; i += chunkSize) {
+        const chunk = reducedData.slice(i, i + chunkSize);
+        allChunks.push(chunk);
+      }
+
+      for (let i = 0; i < allChunks.length; i++) {
+        const prices = await getPrices({
+          iduser: customer.reference,
+          items: allChunks[i],
+        });
+
+        if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+
+        res = await Promise.all(
+          cartTmp.line_items.map((obj) => {
+            const index = chunkPrices.findIndex(
+              (el) => el["itemcode"] == obj["sku_code"]
+            );
+            if (chunkPrices[index]) {
+              return {
+                ...obj,
+                prices: {
+                  discount: chunkPrices[index].discount,
+                  discountedPrice: chunkPrices[index].discountedPrice,
+                  price: chunkPrices[index].price,
+                },
+              };
+            }
+
+            return obj;
+          })
+        );
+      }
+
+      setLineItems(res);
+    }
+  };
+
   useEffect(() => {
     if (customer && cart) {
       getOrder(cl, cart.id)
@@ -54,6 +104,13 @@ const CartPage = () => {
     }
   }, [customer]);
 
+  useEffect(() => {
+    console.log("UPDATING CART")
+    if (customer && cl) {
+      getLineItemsPrices();
+    }
+  }, [cart]);
+
   const updateQuantity = (quantity, id) => {
     updateLineItem(quantity, id);
   };
@@ -61,7 +118,7 @@ const CartPage = () => {
   return (
     <Layout>
       <Container>
-        {cart && cart.line_items.length > 0 ? (
+        {cart && lineItems && lineItems.length > 0 ? (
           <>
             <Grid columns={[".7fr .3fr"]} gap={[12]}>
               {console.log("cart", cart)}
@@ -88,7 +145,7 @@ const CartPage = () => {
                 <Box>
                   <Box>
                     <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                      {cart.line_items.map((lineItem) => (
+                      {lineItems.map((lineItem) => (
                         <Box>
                           <CartProduct
                             sku={lineItem}
@@ -215,19 +272,21 @@ const CartPage = () => {
           <Box>Il tuo carrello è attualmente vuoto!</Box>
         )}
         <Box>
-          <Heading as="h2" variant="h2" sx={{ my: [6], color:"primary" }}>
+          <Heading as="h2" variant="h2" sx={{ my: [6], color: "primary" }}>
             Preferiti
           </Heading>
-          <Box sx={{
-            fontWeight:"400",
-            fontSize:[5],
-            a:{
-              color:"dark",
-              "&:hover":{
-                color:"primary"
-              }
-            }
-          }}>
+          <Box
+            sx={{
+              fontWeight: "400",
+              fontSize: [5],
+              a: {
+                color: "dark",
+                "&:hover": {
+                  color: "primary",
+                },
+              },
+            }}
+          >
             <InboundLink to="/account/favourites">
               Vuoi visualizzare i preferiti?{" "}
             </InboundLink>

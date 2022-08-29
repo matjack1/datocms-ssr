@@ -17,6 +17,7 @@ import { GoPackage } from "react-icons/go";
 import { TbTruckDelivery } from "react-icons/tb";
 import RelatedProducts from "../components/relatedProducts";
 import { navigate } from "gatsby";
+import getPrices from "../hooks/getPrices";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -24,6 +25,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
   const [isFavourie, setIsFavourite] = useState(null);
+  const [relatedSkus, setRelatedSkus] = useState(null);
 
   const cl = useClSdk();
 
@@ -68,16 +70,15 @@ const SkuPage = ({ data: { sku, skus } }) => {
     };
 
     let favourites = customer.metadata.favourites
-        ? [...customer.metadata.favourites]
-        : []
+      ? [...customer.metadata.favourites]
+      : [];
 
-    if(!isFavourie)
-    if (!favourites.find((e) => e === sku.code))
-      favourites = [sku.code].concat(favourites);
-    else
-    favourites = favourites.filter((e) => e !== sku.code);
+    if (!isFavourie)
+      if (!favourites.find((e) => e === sku.code))
+        favourites = [sku.code].concat(favourites);
+      else favourites = favourites.filter((e) => e !== sku.code);
 
-    setIsFavourite(!isFavourie)
+    setIsFavourite(!isFavourie);
     localStorage.setItem("favourites", JSON.stringify(favourites));
     const updatedCustomer = await cl.customers
       .update({
@@ -100,7 +101,26 @@ const SkuPage = ({ data: { sku, skus } }) => {
         include: ["prices", "stock_items"],
       })
       .catch(handleError);
-    if (clSku && clSku[0]) setClSkuDetails(clSku[0]);
+
+    const prices = await getPrices({
+      iduser: customer.reference,
+      items: [sku.code],
+    });
+
+    const foundPrices = prices.items[0];
+
+    console.log("foundPrices", foundPrices);
+
+    if (clSku && clSku[0] && foundPrices)
+      setClSkuDetails({
+        ...clSku[0],
+        prices: {
+          discount: foundPrices.discount,
+          discountedPrice: foundPrices.discountedPrice,
+          price: foundPrices.price,
+        },
+      });
+    else if (clSku && clSku[0]) setClSkuDetails(clSku[0]);
   };
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -118,13 +138,13 @@ const SkuPage = ({ data: { sku, skus } }) => {
 
   useEffect(() => {
     if (customer && customerToken) updateCustomerRecentlyViewed();
+    if (cl && customer) {
+      console.log("UPDATING");
+      getClSku();
+    }
   }, [customer]);
 
   useEffect(() => {
-    if (cl) {
-      getClSku();
-    }
-
     if (isFavourie === null) {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
@@ -133,6 +153,11 @@ const SkuPage = ({ data: { sku, skus } }) => {
       setIsFavourite(findSku[0] === true);
     }
   }, []);
+
+  useEffect(() => {
+    if (!relatedSkus)
+      setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
+  }, [clSkuDetails]);
 
   return (
     <Layout>
@@ -278,9 +303,18 @@ const SkuPage = ({ data: { sku, skus } }) => {
                   }}
                 >
                   <Text as="span" sx={{ fontWeight: "600", fontSize: [3] }}>
-                    {clSkuDetails &&
-                      clSkuDetails.prices[0] &&
-                      clSkuDetails.prices[0].formatted_amount}
+                    {clSkuDetails && clSkuDetails.prices
+                      ? clSkuDetails.prices.discountedPrice
+                        ? "€" +
+                          clSkuDetails.prices.discountedPrice.toLocaleString(
+                            "it-IT",
+                            { minimumFractionDigits: 2 }
+                          )
+                        : "€" +
+                          clSkuDetails.prices.price.toLocaleString("it-IT", {
+                            minimumFractionDigits: 2,
+                          })
+                      : "Caricamento del prezzo"}
                   </Text>
                   <Text sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}>
                     Prezzo per unità / Tasse escluse
@@ -318,7 +352,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     height: "100%",
                     backgroundColor: isFavourie ? "primary" : "light",
                     border: "1px solid",
-                    borderColor: !isFavourie  ? "primary" : "transparent",
+                    borderColor: !isFavourie ? "primary" : "transparent",
                     svg: {
                       color: isFavourie ? "light" : "primary",
                       width: "20px",
@@ -472,10 +506,10 @@ const SkuPage = ({ data: { sku, skus } }) => {
           </Box>
         </Grid>
       </Container>
-      {skus.nodes.length > 0 && (
+      {relatedSkus && relatedSkus.length > 0 && (
         <RelatedProducts
           sku={sku}
-          skus={shuffleArray(skus.nodes).slice(
+          skus={relatedSkus.slice(
             0,
             skus.nodes.length > 8 ? 8 : skus.nodes.length
           )}

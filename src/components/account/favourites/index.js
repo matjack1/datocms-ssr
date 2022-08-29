@@ -8,6 +8,7 @@ import CustomerTokenContext from "../../../hooks/customerTokenContext";
 import { navigate } from "gatsby";
 import CustomBreadcrumbs from "../../customBreadcrumbs";
 import FavouriteProduct from "../../favouriteProduct";
+import getPrices from "../../../hooks/getPrices";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();

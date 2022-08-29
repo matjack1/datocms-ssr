@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Heading } from "theme-ui";
+import { Box, Container, Heading, Flex } from "theme-ui";
 import Header from "./header";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { useMenu } from "../hooks/useMenu";
@@ -11,9 +11,19 @@ const Layout = ({ title, children }) => {
   return (
     <Box>
       <HeaderMenuContext.Provider value={menu}>
-        <Header title={title} />
-        {children}
-        <Footer />
+        <Flex
+          sx={{
+            flexDirection: "column",
+            justifyContent: "space-between",
+            minHeight: "100vh",
+          }}
+        >
+          <Header title={title} />
+          <Box as="main">
+            {children}
+          </Box>
+          <Footer />
+        </Flex>
       </HeaderMenuContext.Provider>
     </Box>
   );

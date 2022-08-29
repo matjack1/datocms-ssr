@@ -35,7 +35,7 @@ const AddToCart = ({ sku, quantity }) => {
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       _update_quantity: true,
-      _external_price: true,
+      // _external_price: true,
     };
 
     const lineItem = await cl.line_items
