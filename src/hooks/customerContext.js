@@ -8,9 +8,11 @@ export const CustomerProvider = ({ children }) => {
   const value = { customer, setCustomer };
 
   useEffect(() => {
-    // console.log(customerToken);
-    if(!customer)
-    navigate("/login")
+    const localStorageCustomer = localStorage.getItem("customer");
+
+    if (customer) localStorage.setItem("customer", JSON.stringify(customer));
+
+    if (!localStorageCustomer) navigate("/login");
   }, [customer]);
 
   return (

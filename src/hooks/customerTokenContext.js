@@ -9,9 +9,14 @@ export const CustomerTokenProvider = ({ children }) => {
   const value = { customerToken, setCustomerToken };
 
   useEffect(() => {
+    // console.log(customerToken);
+    const localStorageCustomerToken = localStorage.getItem("customerToken");
+
     if (customerToken)
       localStorage.setItem("customerToken", JSON.stringify(customerToken));
-    else navigate("/login");
+
+    if (!localStorageCustomerToken) navigate("/login");
+    
   }, [customerToken]);
 
   return (
