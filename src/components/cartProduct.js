@@ -19,7 +19,7 @@ const CartProduct = memo(
         const skuCode = sku.code ? sku.code : sku.sku_code;
         const datoSkusData = await getSkuData(skuCode);
         console.log("{...sku,...datoSkusData}", { ...sku, ...datoSkusData });
-        setClSkuDetails({ ...sku, ...datoSkusData });
+        setClSkuDetails({ ...datoSkusData, ...sku });
       };
 
       if (!clSkuDetails) handleLoadSkusDatoData();
