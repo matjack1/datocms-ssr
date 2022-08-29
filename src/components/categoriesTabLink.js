@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Container, Heading } from "theme-ui";
 import { InboundLink } from "./link";
 import { getCategoryPath } from "../utils/path";
-import CustomCarousel from "./customCrousel";
+import CustomCarousel from "./customCarousel";
 
 const CategoriesTabLink = ({ categories }) => {
   // console.log(categories);

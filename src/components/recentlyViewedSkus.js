@@ -5,7 +5,7 @@ import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
 import { getProductPath } from "../utils/path";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
-import CustomCarousel from "./customCrousel";
+import CustomCarousel from "./customCarousel";
 
 const RecentlyViewedSkus = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });

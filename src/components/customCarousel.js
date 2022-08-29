@@ -12,7 +12,7 @@ import { InboundLink } from "./link";
 import { getProductPath, getCategoryPath } from "../utils/path";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { GatsbyImage } from "gatsby-plugin-image";
-import ProductThumb from "../components/productThumb";
+import ProductThumb from "./productThumb";
 
 const CustomCarousel = ({
   data,
@@ -20,7 +20,7 @@ const CustomCarousel = ({
   type = "category",
   productThumbnail = false,
 }) => {
-  const isBrowser = typeof window != "undefined" && window.document
+  const isBrowser = typeof window != "undefined" && window.document;
   const windowWidth = isBrowser && document.querySelector("body").offsetWidth;
   const [current, setCurrent] = useState(1);
   const scrollParentRef = useRef(null);
@@ -112,30 +112,31 @@ const CustomCarousel = ({
                       className="rf-productnav-card as-util-relatedlink"
                       data-trigger-click="click [data-relatedlink='c459d270-22fb-11ed-9104-11b35ac48992_link']"
                     >
-                      <InboundLink
-                        to={
-                          type === "category"
-                            ? getCategoryPath(item, item.locale)
-                            : getProductPath(item)
-                        }
-                      >
-                        <Box
-                          as="div"
-                          className="rf-productnav-card-content"
-                          sx={{
-                            width: "290px",
-                            height: small
-                              ? "290px"
-                              : productThumbnail
-                              ? "500px"
-                              : "390px",
-                            minWidth: "290px",
-                            backgroundColor: "light",
-                            border: !small && !productThumbnail  && "2px solid",
-                            borderColor: "dark",
-                          }}
+                      {!productThumbnail ? (
+                        <InboundLink
+                          to={
+                            type === "category"
+                              ? getCategoryPath(item, item.locale)
+                              : getProductPath(item)
+                          }
                         >
-                          {!productThumbnail ? (
+                          <Box
+                            as="div"
+                            className="rf-productnav-card-content"
+                            sx={{
+                              width: "290px",
+                              height: small
+                                ? "290px"
+                                : productThumbnail
+                                ? "500px"
+                                : "390px",
+                              minWidth: "290px",
+                              backgroundColor: "light",
+                              border:
+                                !small && !productThumbnail && "2px solid",
+                              borderColor: "dark",
+                            }}
+                          >
                             <>
                               {!small && item.name && (
                                 <Heading
@@ -174,11 +175,28 @@ const CustomCarousel = ({
                                 )}
                               </Box>
                             </>
-                          ) : (
-                            <ProductThumb sku={item} />
-                          )}
+                          </Box>
+                        </InboundLink>
+                      ) : (
+                        <Box
+                          as="div"
+                          className="rf-productnav-card-content"
+                          sx={{
+                            width: "290px",
+                            height: small
+                              ? "290px"
+                              : productThumbnail
+                              ? "500px"
+                              : "390px",
+                            minWidth: "290px",
+                            backgroundColor: "light",
+                            border: !small && !productThumbnail && "2px solid",
+                            borderColor: "dark",
+                          }}
+                        >
+                          <ProductThumb sku={item} />
                         </Box>
-                      </InboundLink>
+                      )}
                     </Box>
                   </Box>
                 </Box>

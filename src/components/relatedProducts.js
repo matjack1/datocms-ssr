@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import CustomCarousel from "./customCrousel";
+import CustomCarousel from "./customCarousel";
 import { Box, Container, Heading } from "theme-ui";
 import getPrices from "../hooks/getPrices";
 

@@ -59,6 +59,7 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
                   variant="h2"
                   sx={{
                     color: "dark",
+                    whiteSpace: "break-spaces",
                     fontWeight: "400",
                     my: [0],
                     fontSize: horizontal ? [7, 7] : [4, 4],
