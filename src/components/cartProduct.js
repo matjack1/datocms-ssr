@@ -219,24 +219,15 @@ const CartProduct = memo(
                 )}
               </Box>
               <Box sx={{ pb: [6] }}>
+                {console.log("CARTPRODUCT",clSkuDetails)}
                 <Text
                   sx={{
                     fontWeight: "600",
                     fontSize: ["18px"],
                   }}
                 >
-                  {clSkuDetails && clSkuDetails.prices
-                    ? clSkuDetails.prices.discountedPrice
-                      ? "€" +
-                        clSkuDetails.prices.discountedPrice.toLocaleString(
-                          "it-IT",
-                          { minimumFractionDigits: 2 }
-                        )
-                      : "€" +
-                        clSkuDetails.prices.price.toLocaleString("it-IT", {
-                          minimumFractionDigits: 2,
-                        })
-                    : "Caricamento del prezzo"}
+                  {clSkuDetails &&
+                    clSkuDetails.formatted_unit_amount}
                 </Text>
               </Box>
               <Box>

@@ -15,6 +15,7 @@ const CustomerFavourites = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
   const { customer, setCustomer } = useContext(CustomerContext);
   const [skus, setSkus] = useState([]);
+  const [skusPrices, setSkusPrices] = useState(null);
   const [pricedSkusData, setPricedSkusData] = useState(null);
 
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -112,7 +113,7 @@ const CustomerFavourites = () => {
             );
             if (chunkPrices[index]) {
               return {
-                ...obj,
+                code: obj["code"],
                 prices: {
                   discount: chunkPrices[index].discount,
                   discountedPrice: chunkPrices[index].discountedPrice,
@@ -125,13 +126,41 @@ const CustomerFavourites = () => {
           })
         );
       }
-      setPricedSkusData(res);
+      setSkusPrices(res);
     }
+  };
+
+  const handleMergePrices = async () => {
+    const skusTmp = JSON.parse(JSON.stringify(skus));
+    const res = await Promise.all(
+      skusTmp.map((obj) => {
+        const index = skusPrices.findIndex((el) => el["code"] == obj["code"]);
+        if (skusPrices[index]) {
+          let prices = skusPrices[index].prices;
+          return {
+            ...obj,
+            prices: {
+              discount: prices.discount,
+              discountedPrice: prices.discountedPrice,
+              price: prices.price,
+            },
+          };
+        }
+        return obj;
+      })
+    );
+    console.log("res", res);
+    setPricedSkusData(res);
   };
 
   useEffect(() => {
     getSkusPrices();
+    setPricedSkusData(skus);
   }, [skus]);
+
+  useEffect(() => {
+    handleMergePrices();
+  }, [skusPrices]);
 
   useEffect(() => {
     if (customer && customer.metadata) handleGetSkus();
@@ -164,6 +193,7 @@ const CustomerFavourites = () => {
               <Box>
                 <Box>
                   <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                    {console.log(pricedSkusData[0].prices)}
                     {pricedSkusData.map((sku) => (
                       <Box>
                         <FavouriteProduct

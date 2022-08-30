@@ -110,7 +110,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       items: [sku.code],
     });
 
-    const foundPrices = prices && prices.items.length > 0 && prices.items[0];
+    const foundPrices = prices && prices.items && prices.items.length > 0 && prices.items[0];
 
     if (clSku && clSku[0] && foundPrices)
       setClSkuDetails({

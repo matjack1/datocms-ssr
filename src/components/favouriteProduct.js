@@ -54,7 +54,7 @@ const FavouriteProduct = memo(
       if (cl) {
         getClSku();
       }
-    }, []);
+    }, [sku]);
 
     return (
       <Box>
