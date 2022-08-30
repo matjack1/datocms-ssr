@@ -348,7 +348,7 @@ const LabeledRadio = ({
           outlineColor: "secondary",
         },
         svg: {
-          color: "secondaryText",
+          color: "secondary",
         },
       }}
     >
@@ -395,11 +395,11 @@ const LabeledCheckbox = ({
         alignItems: "center",
         color: "dark",
         "input:checked~.css-kydphz": {
-          color: "secondaryText",
+          color: "secondary",
           outlineColor: "secondary",
         },
         svg: {
-          color: "secondaryText",
+          color: "secondary",
         },
       }}
     >

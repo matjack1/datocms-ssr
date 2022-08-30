@@ -20,6 +20,7 @@ import { useParams } from "@reach/router";
 import { useClSdk } from "../../../../hooks/useClSdk";
 import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
+import ProductThumb from "../../../productThumb";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -101,38 +102,48 @@ const CustomerOrderReturn = () => {
             </Heading>
             <Grid columns={[".7fr .3fr"]} gap={[12]}></Grid>
             <Box as="form" onSubmit={handleAskReturn}>
-              <Box>Seleziona prodotti</Box>
-              {order.line_items.map(
-                (item, index) =>
-                  item.sku_code && (
-                    <Box>
-                      <Label
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          color: "dark",
-                          "input:checked~.css-kydphz": {
-                            color: "secondaryText",
-                          },
-                          svg: {
-                            color: "secondaryText",
-                          },
-                        }}
-                      >
-                        <Checkbox
-                          name={"item" + (index - 2)}
+              <Box sx={{ pb: [7] }}>Seleziona prodotti</Box>
+              <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                {order.line_items.map(
+                  (item, index) =>
+                    item.sku_code && (
+                      <Box>
+                        <Label
                           sx={{
+                            pb: [3],
+                            display: "flex",
+                            alignItems: "start",
                             color: "dark",
-                            "input:checked~&": {
-                              color: "primary",
+                            svg: {
+                              color: "lightBorder",
+                            },
+                            "input:checked ~ svg": {
+                              color: "secondary",
+                              outlineColor: "secondary",
+                            },
+                            "input:focus ~ svg": {
+                              color: "secondary",
                             },
                           }}
-                        />
-                        {item.name}
-                      </Label>
-                    </Box>
-                  )
-              )}
+                        >
+                          <Checkbox
+                            sx={{
+                              color: "dark",
+                              "input:checked~&": {
+                                color: "secondary",
+                                outlineColor: "secondary",
+                              },
+                            }}
+                            name={"item" + (index - 2)}
+                          />
+                          <Box sx={{pl:[4]}}>
+                            <ProductThumb sku={item} horizontal={true} />
+                          </Box>
+                        </Label>
+                      </Box>
+                    )
+                )}
+              </Grid>
               <Box
                 sx={{
                   borderBottom: "1px solid",
@@ -142,7 +153,11 @@ const CustomerOrderReturn = () => {
                 }}
               />
               <Box>
-                <Heading as="h2" variant="h2" sx={{ fontWeight: "400", mb:[7] }}>
+                <Heading
+                  as="h2"
+                  variant="h2"
+                  sx={{ fontWeight: "400", mb: [7] }}
+                >
                   Motivazione della richiesta
                 </Heading>
                 <Textarea
