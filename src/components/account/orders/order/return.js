@@ -10,6 +10,7 @@ import {
   Checkbox,
   Textarea,
   Button,
+  Grid,
 } from "theme-ui";
 import CustomerTokenContext from "../../../../hooks/customerTokenContext";
 import Nav from "../../../nav";
@@ -18,6 +19,7 @@ import { InboundLink } from "../../../link";
 import { useParams } from "@reach/router";
 import { useClSdk } from "../../../../hooks/useClSdk";
 import CustomerContext from "../../../../hooks/customerContext";
+import CustomBreadcrumbs from "../../../customBreadcrumbs";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -56,71 +58,127 @@ const CustomerOrderReturn = () => {
 
     let obj = {
       products: [],
-      message: e.target.reason.value
+      message: e.target.reason.value,
     };
 
     order.line_items.map((item, index) => {
-      if (e.target["item" + (index - 2)] &&  e.target["item" + (index - 2)].checked) obj.products.push(item);
-      
-      return item
+      if (
+        e.target["item" + (index - 2)] &&
+        e.target["item" + (index - 2)].checked
+      )
+        obj.products.push(item);
+
+      return item;
     });
 
-    console.log(obj,e.target);
+    console.log(obj, e.target);
   };
 
   return (
     <Box>
-      {order && (
-        <>
-          <Heading as="h1">Richiedi un reso</Heading>
-          <Box as="form" onSubmit={handleAskReturn}>
-            <Box>Seleziona prodotti</Box>
-            {order.line_items.map(
-              (item, index) =>
-                item.sku_code && (
-                  <Box>
-                    <Label
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        color: "dark",
-                        "input:checked~.css-kydphz": {
-                          color: "secondaryText",
-                        },
-                        svg: {
-                          color: "secondaryText",
-                        },
-                      }}
-                    >
-                      <Checkbox
-                        name={"item" + (index - 2)}
+      <Container>
+        {order && (
+          <>
+            <CustomBreadcrumbs
+              data={{
+                pages: [
+                  {
+                    slug: "/",
+                    title: "Home",
+                  },
+                  {
+                    slug: "/account/orders",
+                    title: "Ordini",
+                  },
+                ],
+                current: {
+                  title: "Dettaglio ordine",
+                },
+              }}
+            />
+            <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+              Richiedi un reso
+            </Heading>
+            <Grid columns={[".7fr .3fr"]} gap={[12]}></Grid>
+            <Box as="form" onSubmit={handleAskReturn}>
+              <Box>Seleziona prodotti</Box>
+              {order.line_items.map(
+                (item, index) =>
+                  item.sku_code && (
+                    <Box>
+                      <Label
                         sx={{
+                          display: "flex",
+                          alignItems: "center",
                           color: "dark",
-                          "input:checked~&": {
-                            color: "primary",
+                          "input:checked~.css-kydphz": {
+                            color: "secondaryText",
+                          },
+                          svg: {
+                            color: "secondaryText",
                           },
                         }}
-                      />
-                      {item.name}
-                    </Label>
-                  </Box>
-                )
-            )}
-            <Box>
-              Motivo del reso
-              <Textarea name="reason"  required />
-            </Box>
-            <Box>
-              <Button type="submit">Inoltra la richiesta di reso</Button>
-            </Box>
-            <Box>
-              <Label>
+                      >
+                        <Checkbox
+                          name={"item" + (index - 2)}
+                          sx={{
+                            color: "dark",
+                            "input:checked~&": {
+                              color: "primary",
+                            },
+                          }}
+                        />
+                        {item.name}
+                      </Label>
+                    </Box>
+                  )
+              )}
+              <Box
+                sx={{
+                  borderBottom: "1px solid",
+                  borderColor: "lightBorder",
+                  pt: [6],
+                  mb: [6],
+                }}
+              />
+              <Box>
+                <Heading as="h2" variant="h2" sx={{ fontWeight: "400", mb:[7] }}>
+                  Motivazione della richiesta
+                </Heading>
+                <Textarea
+                  name="reason"
+                  variant="inputs.dark"
+                  placeholder="Testo (min.250 caratteri)"
+                  minLength={250}
+                  required
+                  rows={8}
+                />
+              </Box>
+              <Box sx={{ pb: [9], pt: [7] }}>
                 La richiesta di reso verrà esaminata dal nostro servizio clienti
-              </Label>
+                per accettazione.
+              </Box>
+
+              <Box>
+                <Button
+                  sx={{
+                    textAlign: "center",
+                    fontSize: [3],
+                    fontWeight: "600",
+                    borderRadius: "unset",
+                    p: [3],
+                    px: [11],
+                  }}
+                  type="submit"
+                  variant="buttons.primary"
+                >
+                  Inoltra la richiesta di reso
+                </Button>
+              </Box>
             </Box>
-          </Box>
-        </>
-      )}
+          </>
+        )}
+      </Container>
     </Box>
   );
 };

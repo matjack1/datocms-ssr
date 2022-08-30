@@ -92,7 +92,7 @@ const theme = {
     },
     h4: {
       fontSize: [6, 7],
-      fontWeight: 300,
+      fontWeight: 400,
       color: "text",
       mb: 2,
       mt: 4,
@@ -449,6 +449,7 @@ const theme = {
   },
   inputs: {
     primary: {
+      fontFamily:"body",
       borderColor: "light",
       p: [3],
       border: "1px solid",
@@ -467,6 +468,7 @@ const theme = {
       },
     },
     dark: {
+      fontFamily:"body",
       borderColor: "dark",
       p: [3],
       border: "1px solid",

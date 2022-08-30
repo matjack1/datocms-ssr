@@ -114,6 +114,9 @@ const CustomCarousel = ({
                     >
                       {!productThumbnail ? (
                         <InboundLink
+                          sx={{
+                            textDecoration: "none",
+                          }}
                           to={
                             type === "category"
                               ? getCategoryPath(item, item.locale)
@@ -141,7 +144,7 @@ const CustomCarousel = ({
                               {!small && item.name && (
                                 <Heading
                                   as="h3"
-                                  variant="h3"
+                                  variant="h4"
                                   sx={{
                                     whiteSpace: "break-spaces",
                                     m: [0],
