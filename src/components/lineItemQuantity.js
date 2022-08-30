@@ -51,7 +51,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
         </Text>
         <Flex>
           <Button
-            variant="buttons.primaryEmpty"
+            variant="buttons.darkEmpty"
             disabled={currentQuantity <= sku?.multiple}
             onClick={() => removeQuantity()}
           >
@@ -71,7 +71,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
             {currentQuantity}
           </Flex>
           <Button
-            variant="buttons.primaryEmpty"
+            variant="buttons.darkEmpty"
             disabled={!sku}
             onClick={() => addQuantity()}
           >

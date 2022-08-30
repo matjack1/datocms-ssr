@@ -80,7 +80,7 @@ const Breadcrumbs = ({
           </InboundLink>
         </Item>
       )}
-      <Item color="dark">{page.name}</Item>
+      <Item color="lightBorder">{page.name}</Item>
     </List>
   );
 
@@ -92,7 +92,7 @@ const Breadcrumbs = ({
         </InboundLink>
       </Item>
       <Item>Servizi</Item>
-      <Item color="dark">{page.title}</Item>
+      <Item color="lightBorder">{page.title}</Item>
     </List>
   );
 
@@ -104,7 +104,7 @@ const Breadcrumbs = ({
         </InboundLink>
       </Item>
       <Item>Settori</Item>
-      <Item color="dark">{page.title}</Item>
+      <Item color="lightBorder">{page.title}</Item>
     </List>
   );
 
@@ -115,7 +115,7 @@ const Breadcrumbs = ({
           Home
         </InboundLink>
       </Item>
-      <Item color="dark">{page.title}</Item>
+      <Item color="lightBorder">{page.title}</Item>
     </List>
   );
 
@@ -141,7 +141,7 @@ const Breadcrumbs = ({
           </InboundLink>
         </Item>
       )}
-      <Item color="dark">{page.title}</Item>
+      <Item color="lightBorder">{page.title}</Item>
     </List>
   );
 

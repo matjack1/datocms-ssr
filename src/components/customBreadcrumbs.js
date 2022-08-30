@@ -27,7 +27,7 @@ const CustomBreadcrumbs = ({ data }) => {
           </InboundLink>
         </Item>
       ))}
-      <Item color="dark">{data.current.title}</Item>
+      <Item color="lightBorder">{data.current.title}</Item>
     </List>
   );
 

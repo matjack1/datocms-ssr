@@ -53,7 +53,7 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
             <Flex
               sx={{ flexDirection: "column", justifyContent: "space-between" }}
             >
-              <Box sx={{ pb: [horizontal ? 5 : 3] }}>
+              <Box sx={{ pb: [horizontal ? 0 : 3] }}>
                 <Heading
                   as={horizontal ? "h3" : "h2"}
                   variant="h2"
@@ -68,24 +68,30 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
                   {clSkuDetails.name}
                 </Heading>
               </Box>
-              <Box>
+              <Box sx={{ color: "lightBorder" }}>
                 {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
               </Box>
               <Text
                 sx={{
-                  fontWeight: "600",
+                  fontWeight: "400",
                   fontSize: [5],
                 }}
               >
-                {clSkuDetails && clSkuDetails.quantity && `Quantità ${clSkuDetails.quantity}`}
+                {clSkuDetails &&
+                  clSkuDetails.quantity &&
+                  `Quantità ${clSkuDetails.quantity}`}
               </Text>
               <Text
                 sx={{
                   fontWeight: "600",
-                  fontSize: ["18px"],
+                  fontSize: [6],
+                  pt:[2]
                 }}
               >
-                {clSkuDetails && clSkuDetails.prices
+                {clSkuDetails && clSkuDetails.formatted_unit_amount
+                  ? clSkuDetails.formatted_unit_amount
+                  : clSkuDetails.prices &&
+                    !clSkuDetails.formatted_unit_amount
                   ? clSkuDetails.prices.discountedPrice
                     ? "€" +
                       clSkuDetails.prices.discountedPrice.toLocaleString(

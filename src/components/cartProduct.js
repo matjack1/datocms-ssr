@@ -223,7 +223,7 @@ const CartProduct = memo(
                 <Text
                   sx={{
                     fontWeight: "600",
-                    fontSize: ["18px"],
+                    fontSize: [6],
                   }}
                 >
                   {clSkuDetails &&

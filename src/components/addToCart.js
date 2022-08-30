@@ -4,10 +4,12 @@ import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { navigate } from "gatsby";
 import { BsBag } from "react-icons/bs";
+import { ToastContainer, toast } from "react-toastify";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
+  const [addingToCart, setAddingToCart] = useState(false);
   const cl = useClSdk();
 
   const getOrder = async (id) => {
@@ -24,7 +26,7 @@ const AddToCart = ({ sku, quantity }) => {
       .catch(handleError);
 
     if (order) {
-      console.log(order.line_items);
+      setAddingToCart(false);
       setOrder(order);
     }
   };
@@ -50,12 +52,21 @@ const AddToCart = ({ sku, quantity }) => {
 
   useEffect(() => {
     if (order) {
-      console.log(order);
+      toast.success("Prodotto aggiunto al carrello", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
       setCart(order);
     }
   }, [order]);
 
   const addToCart = () => {
+    setAddingToCart(true);
     createLineItem();
   };
 
@@ -68,10 +79,10 @@ const AddToCart = ({ sku, quantity }) => {
   return (
     <Box sx={{ width: "100%", height: "100%" }}>
       <Button
-        disabled={!isAvailable()}
+        disabled={!isAvailable() || addingToCart}
         onClick={() => addToCart()}
         sx={{
-          opacity: isAvailable() ? 1 : 0.5,
+          opacity: isAvailable() && !addingToCart ? 1 : 0.5,
           width: "100%",
           height: "100%",
           textAlign: "center",
@@ -81,17 +92,26 @@ const AddToCart = ({ sku, quantity }) => {
           p: [3],
         }}
       >
-        {isAvailable() ? (
-          <Flex sx={{width:"100%", justifyContent:"center", alignItems:"center"}}>
+        {isAvailable() && !addingToCart ? (
+          <Flex
+            sx={{
+              width: "100%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Box>
-              <BsBag />
-            </Box>
-            <Box sx={{ml:[4]}}>
               <Text>Aggiungi al carrello</Text>
             </Box>
           </Flex>
         ) : (
-          <Text>Non disponibile</Text>
+          <Box>
+            {!isAvailable() && !addingToCart ? (
+              <Text>Non disponibile</Text>
+            ) : (
+              <Text>Aggiungendo al carrello</Text>
+            )}
+          </Box>
         )}
       </Button>
     </Box>

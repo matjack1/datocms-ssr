@@ -87,7 +87,7 @@ const OrderThumb = ({ order }) => {
                 <Box
                   sx={{
                     borderRadius: "50%",
-                    backgroundColor: "green",
+                    backgroundColor: order.status === "placed" ? "status.approved" : "orange",
                     width: "7px",
                     height: "7px",
                   }}

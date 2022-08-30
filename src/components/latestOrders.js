@@ -84,7 +84,7 @@ const LatestOrders = () => {
                 pl:[index === 0 ? 0 : 9],
                 pr:[index === filteredOrders.length - 1 ? 0 : 9],
                 color: "light",
-                borderRight: index != filteredOrders.length - 1 && "1px solid",
+                borderRight: index != filteredOrders.slice(0, 4).length - 1 && "1px solid",
                 display: "inline-block",
                 textDecoration: "none",
                 borderColor: "lighter",
@@ -110,7 +110,7 @@ const LatestOrders = () => {
                     <Box
                       sx={{
                         borderRadius: "50%",
-                        backgroundColor: "green",
+                        backgroundColor: order.status === "placed" ? "status.approved" : "orange",
                         width: "7px",
                         height: "7px",
                       }}

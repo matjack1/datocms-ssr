@@ -29,7 +29,7 @@ const SkuQuantity = ({ sku, quantity, updateQuantity, showMinMult = true }) => {
         <Flex>
           <Button
             disabled={currentQuantity <= sku?.multiple}
-            variant="buttons.primaryEmpty"
+            variant="buttons.darkEmpty"
             onClick={() => removeQuantity()}
           >
             -
@@ -48,7 +48,7 @@ const SkuQuantity = ({ sku, quantity, updateQuantity, showMinMult = true }) => {
             {currentQuantity}
           </Flex>
           <Button
-            variant="buttons.primaryEmpty"
+            variant="buttons.darkEmpty"
             disabled={!sku}
             onClick={() => addQuantity()}
           >

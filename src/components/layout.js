@@ -4,6 +4,8 @@ import Header from "./header";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { useMenu } from "../hooks/useMenu";
 import Footer from "./footer";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Layout = ({ title, children }) => {
   const menu = useMenu();
@@ -25,6 +27,7 @@ const Layout = ({ title, children }) => {
           <Footer />
         </Flex>
       </HeaderMenuContext.Provider>
+      <ToastContainer />
     </Box>
   );
 };

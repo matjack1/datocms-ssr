@@ -225,20 +225,36 @@ const CustomCarousel = ({
           >
             <FiChevronLeft color={"white"} />
           </Button>
+          {console.log(
+            Math.floor(
+              scrollParentRef.current &&
+                scrollParentRef.current.offsetWidth /
+                  itemRef.current.offsetWidth
+            ),
+            data.length
+            // scrollParentRef.current && itemRef.current
+            //   ? Math.floor(
+            //       scrollParentRef.current.offsetWidth /
+            //         itemRef.current.offsetWidth
+            //     ) == data.length ||
+            //     (scrollParentRef.current &&
+            //       offsetWidth === scrollParentRef.current.offsetWidth + 18)
+            //     ? 0
+            //     : showArrows
+            //     ? 1
+            //     : 0
+            //   : 0
+          )}
           <Button
             sx={{
               opacity:
-                scrollParentRef.current && itemRef.current
-                  ? Math.floor(
-                      scrollParentRef.current.offsetWidth /
-                        itemRef.current.offsetWidth
-                    ) == data.length ||
-                    (scrollParentRef.current &&
-                      offsetWidth === scrollParentRef.current.offsetWidth + 18)
-                    ? 0
-                    : showArrows
-                    ? 1
-                    : 0
+                scrollParentRef.current &&
+                Math.abs(scrollParentRef.current.scrollLeft) ===
+                  scrollParentRef.current.scrollWidth -
+                    scrollParentRef.current.clientWidth
+                  ? 0
+                  : showArrows
+                  ? 1
                   : 0,
               backgroundColor: current != data.length ? "black" : "red",
               display: "block",

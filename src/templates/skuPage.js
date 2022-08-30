@@ -149,8 +149,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
       );
-
-      setIsFavourite(findSku[0] === true);
+      console.log("findSku",findSku)
+      setIsFavourite(findSku[0] && true);
     }
   }, []);
 
@@ -302,7 +302,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     pb: [6],
                   }}
                 >
-                  <Text as="span" sx={{ fontWeight: "600", fontSize: [3] }}>
+                  <Text as="span" sx={{ fontWeight: "600", fontSize: [6], }}>
                     {clSkuDetails && clSkuDetails.prices
                       ? clSkuDetails.prices.discountedPrice
                         ? "€" +
@@ -314,7 +314,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                           clSkuDetails.prices.price.toLocaleString("it-IT", {
                             minimumFractionDigits: 2,
                           })
-                      : "Caricamento del prezzo"}
+                      : "Caricamento..."}
                   </Text>
                   <Text sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}>
                     Prezzo per unità / Tasse escluse
@@ -353,6 +353,12 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     backgroundColor: isFavourie ? "primary" : "light",
                     border: "1px solid",
                     borderColor: !isFavourie ? "primary" : "transparent",
+                    "&:hover":{
+                      borderColor:"transparent",
+                      svg:{
+                        color:"light"
+                      }
+                    },
                     svg: {
                       color: isFavourie ? "light" : "primary",
                       width: "20px",

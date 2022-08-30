@@ -10,6 +10,9 @@ import Layout from "../components/layout";
 import CartProduct from "../components/cartProduct";
 import { InboundLink, OutboundLink } from "../components/link";
 import getPrices from "../hooks/getPrices";
+import { BsBag } from "react-icons/bs";
+import { getColor } from "@theme-ui/color";
+import theme from "../gatsby-plugin-theme-ui";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -17,6 +20,8 @@ const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
   const [itemQuantity, setItemQuantity] = useState(null);
   const cl = useClSdk();
+
+  const lightBorder = getColor(theme, "lightBorder");
 
   const updateLineItem = async (quantity, id) => {
     const line_item = {
@@ -40,7 +45,6 @@ const CartPage = () => {
       });
   };
 
-  
   useEffect(() => {
     if (customer && cart) {
       getOrder(cl, cart.id)
@@ -72,6 +76,7 @@ const CartPage = () => {
                   <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
                     Carrello
                   </Heading>
+
                   <Box
                     sx={{
                       fontSize: [2],
@@ -108,7 +113,7 @@ const CartPage = () => {
                   <Heading
                     as="h2"
                     variant="h5"
-                    sx={{ color: "primary", pb: [6] }}
+                    sx={{ color: "primary", mt:[5], pb: [6] }}
                   >
                     Riepilogo ordine
                   </Heading>
@@ -214,7 +219,34 @@ const CartPage = () => {
             </Grid>
           </>
         ) : (
-          <Box>Il tuo carrello è attualmente vuoto!</Box>
+          <>
+            <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+              Carrello
+            </Heading>
+            <Flex
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                border: "1px solid",
+                color: "lightBorder",
+                svg: {
+                  color: "lightBorder",
+                },
+                borderColor: "lightBorder",
+                p: [14],
+                flexDirection: "column",
+              }}
+            >
+              <Box sx={{ pb: [7] }}>
+                <BsBag size={92} color={lightBorder} />
+              </Box>
+              <Box>
+                <Text sx={{ fontSize: [7] }}>
+                  Il tuo carrello è attualmente vuoto!
+                </Text>
+              </Box>
+            </Flex>
+          </>
         )}
         <Box>
           <Heading as="h2" variant="h2" sx={{ my: [6], color: "primary" }}>

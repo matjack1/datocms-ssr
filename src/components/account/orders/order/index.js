@@ -101,7 +101,10 @@ const CustomerOrder = () => {
                       <Box
                         sx={{
                           borderRadius: "50%",
-                          backgroundColor: "green",
+                          backgroundColor:
+                            order.status === "placed"
+                              ? "status.approved"
+                              : "orange",
                           width: "7px",
                           height: "7px",
                         }}
@@ -138,15 +141,35 @@ const CustomerOrder = () => {
                     </Grid>
                   </Box>
                 </Box>
+                <Box
+                  sx={{
+                    borderBottom: "1px solid",
+                    borderColor: "lightBorder",
+                    pt: [6],
+                    mb: [6],
+                  }}
+                />
                 <Box sx={{ my: [3] }}>
                   <Heading as="h2" variant="h2" sx={{ color: "primary" }}>
                     Informazioni sul pagamento
                   </Heading>
-                  <Heading as="h4">Metodi di pagamento</Heading>
+                  <Heading
+                    as="h3"
+                    variant="h5"
+                    sx={{ fontWeight: "600", color: "dark" }}
+                  >
+                    Metodi di pagamento
+                  </Heading>
                   {order.payment_source_details.type}
-                  <Heading as="h4">Indirizzo di fatturazione</Heading>
+                  <Heading
+                    as="h3"
+                    variant="h5"
+                    sx={{ fontWeight: "600", color: "dark" }}
+                  >
+                    Indirizzo di fatturazione
+                  </Heading>
                   {customerMetadata && (
-                    <Box>
+                    <Box sx={{ fontSize: [5] }}>
                       {customerMetadata.company && (
                         <Box>
                           <strong>{customerMetadata.company}</strong>
@@ -173,10 +196,20 @@ const CustomerOrder = () => {
                       <Box>{customerMetadata.sdi && customerMetadata.sdi}</Box>
                     </Box>
                   )}
-                  <Box sx={{ py: 3 }}>
-                    <Heading as="h4">Indirizzo di spedizione</Heading>
+                  <Box
+                    sx={{
+                      borderBottom: "1px solid",
+                      borderColor: "lightBorder",
+                      pt: [6],
+                      mb: [6],
+                    }}
+                  />
+                  <Box sx={{ pb: 3 }}>
+                    <Heading as="h2" variant="h2" sx={{ color: "primary" }}>
+                      Indirizzo di spedizione
+                    </Heading>
                     {order && (
-                      <Box>
+                      <Box sx={{ fontSize: [5] }}>
                         {order.shipping_address.company && (
                           <Box>
                             <strong>{order.shipping_address.company}</strong>
@@ -216,7 +249,7 @@ const CustomerOrder = () => {
                 </Box>
               </Box>
               <Box>
-                <Box>
+                <Box sx={{ pb: [6] }}>
                   <Heading
                     as="h2"
                     variant="h5"
@@ -245,7 +278,7 @@ const CustomerOrder = () => {
                       pb: [6],
                     }}
                   >
-                    <Text sx={{ fontSize: [5] }}>Spedizioni</Text>
+                    <Text sx={{ fontSize: [5] }}>Spedizione</Text>
                     <Box sx={{ fontSize: [5], fontWeight: "600" }}>
                       {order.formatted_shipping_taxable_amount}
                     </Box>
@@ -300,23 +333,110 @@ const CustomerOrder = () => {
                       {order.number}
                     </Box>
                   </Flex>
-                  <Box>
-                    <InboundLink to={"order-again"}>
+                  <Box
+                    sx={{
+                      a: {
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        fontSize: [3],
+                        fontWeight: "600",
+                        borderRadius: "unset",
+                        p: [3],
+                        display: "inline-block",
+                      },
+                    }}
+                  >
+                    <InboundLink to={"order-again"} variant="buttons.primary">
                       Ordina di nuovo
                     </InboundLink>
                   </Box>
-                  <Box>
-                    <Button>Scarica fattura</Button>
+                  <Box
+                    sx={{
+                      a: {
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        fontSize: [3],
+                        fontWeight: "600",
+                        borderRadius: "unset",
+                        p: [3],
+                        mt: [3],
+                        display: "inline-block",
+                      },
+                    }}
+                  >
+                    <InboundLink
+                      to={"order-again"}
+                      variant="buttons.primaryEmpty"
+                    >
+                      Scarica fattura
+                    </InboundLink>
                   </Box>
                 </Box>
-                <Box sx={{ my: [3] }}>
+                <Box
+                  sx={{
+                    borderBottom: "1px solid",
+                    borderColor: "lightBorder",
+                    pt: [6],
+                    mb: [6],
+                  }}
+                />
+                <Box sx={{ py: [3] }}>
+                  <Heading
+                    as="h2"
+                    variant="h5"
+                    sx={{ color: "primary", my: [3] }}
+                  >
+                    Hai bisogno di aiuto?
+                  </Heading>
                   <Box>
-                    <InboundLink to="/account/support">Contattaci</InboundLink>
+                    <Box
+                      sx={{
+                        a: {
+                          width: "100%",
+                          height: "100%",
+                          textAlign: "center",
+                          fontSize: [3],
+                          fontWeight: "600",
+                          borderRadius: "unset",
+                          p: [3],
+
+                          display: "inline-block",
+                        },
+                      }}
+                    >
+                      <InboundLink
+                        to="/account/support"
+                        variant="buttons.primary"
+                      >
+                        Contattaci
+                      </InboundLink>
+                    </Box>
                   </Box>
                   <Box>
-                    <InboundLink to={`/account/orders/${order.id}/return`}>
-                      Richiedi un reso
-                    </InboundLink>
+                    <Box
+                      sx={{
+                        a: {
+                          width: "100%",
+                          height: "100%",
+                          textAlign: "center",
+                          fontSize: [3],
+                          fontWeight: "600",
+                          borderRadius: "unset",
+                          p: [3],
+                          mt: [3],
+                          display: "inline-block",
+                        },
+                      }}
+                    >
+                      <InboundLink
+                        to={`/account/orders/${order.id}/return`}
+                        variant="buttons.primaryEmpty"
+                      >
+                        Richiedi un reso
+                      </InboundLink>
+                    </Box>
                   </Box>
                 </Box>
               </Box>

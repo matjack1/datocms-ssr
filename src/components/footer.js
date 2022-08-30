@@ -32,6 +32,7 @@ const Footer = () => {
       sx={{
         backgroundColor: "dark",
         py: 5,
+        mt:[8],
         position: "relative",
         color: "light",
         minHeight:"516px"
