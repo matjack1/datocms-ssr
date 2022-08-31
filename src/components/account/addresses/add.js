@@ -19,6 +19,7 @@ import { InboundLink } from "../../link";
 import CustomerContext from "../../../hooks/customerContext";
 import { useClSdk } from "../../../hooks/useClSdk";
 import { getProvinces } from "../../../utils/provinces";
+import CustomInput from "../../customInput";
 
 const AddAddress = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -29,25 +30,35 @@ const AddAddress = () => {
   const [loading, setLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
 
+  const [formData, setFormData] = useState({
+    business: "",
+    company: "",
+    line_1: "",
+    city: "",
+    zip_code: "",
+    state_code: "",
+    country_code: "",
+    phone: "",
+  });
+
+  const onUpdateField = (e) => {
+    console.log("onUpdateField", e);
+    const nextFormState = {
+      ...formData,
+      [e.target.name]: e.target.value,
+    };
+    setFormData(nextFormState);
+  };
+
   const handleCreateAddress = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
     setLoading(true);
-    let tmpData = {
-      business: true,
-      company: formData.get("company"),
-      line_1: formData.get("address"),
-      city: formData.get("city"),
-      zip_code: formData.get("zipcode"),
-      state_code: formData.get("province"),
-      country_code: formData.get("nation"),
-      phone: formData.get("phone"),
-    };
 
     if (customer) {
       const createdAddress = await cl.addresses
-        .create(tmpData)
+        .create(formData)
         .catch((error) => {
           setSubmitStatus(false);
           console.log(error);
@@ -106,7 +117,10 @@ const AddAddress = () => {
                   width: ["100%", "100%"],
                 }}
               >
-                <Input
+                <CustomInput
+                  id="company"
+                  label="Ragione sociale *"
+                  onChange={onUpdateField}
                   type="text"
                   name="company"
                   placeholder="Ragione sociale *"
@@ -120,10 +134,13 @@ const AddAddress = () => {
                   width: ["100%", "100%"],
                 }}
               >
-                <Input
+                <CustomInput
+                  id="address"
+                  label="Indirizzo"
+                  onChange={onUpdateField}
                   type="text"
                   name="address"
-                  placeholder="Indirizzo *"
+                  placeholder="Indirizzo"
                   variant="inputs.dark"
                   required
                 />
@@ -136,10 +153,13 @@ const AddAddress = () => {
                     width: ["100%", "50%"],
                   }}
                 >
-                  <Input
+                  <CustomInput
+                    id="city"
+                    label="Città"
+                    onChange={onUpdateField}
                     type="text"
                     name="city"
-                    placeholder="Città*"
+                    placeholder="Città"
                     variant="inputs.dark"
                     required
                   />
@@ -151,19 +171,23 @@ const AddAddress = () => {
                     width: ["100%", "50%"],
                   }}
                 >
-                  <Select
+                  <CustomInput
+                    id="province"
+                    label="Provincia"
+                    onChange={onUpdateField}
+                    type="select"
                     name="province"
-                    placeholder="Provincia*"
+                    placeholder="Provincia"
                     variant="inputs.dark"
                     required
                   >
                     <option value="" selected disabled>
-                      Provincia*
+                      Seleziona una provincia
                     </option>
                     {Object.keys(provinces).map((key, index) => (
                       <option value={key}>{provinces[key]}</option>
                     ))}
-                  </Select>
+                  </CustomInput>
                 </Box>
               </Flex>
 
@@ -175,12 +199,16 @@ const AddAddress = () => {
                     width: ["100%", "30%"],
                   }}
                 >
-                  <Input
+                  <CustomInput
+                    id="CAP"
+                    label="CAP"
+                    onChange={onUpdateField}
                     type="text"
-                    // pattern="/^[0-9]{5}$/"
                     name="zipcode"
+                    pattern="(^\d{5}$)|(^\d{5}-\d{4}$)"
                     placeholder="CAP"
                     variant="inputs.dark"
+                    required
                   />
                 </Box>
                 <Box
@@ -190,14 +218,21 @@ const AddAddress = () => {
                     width: ["100%", "70%"],
                   }}
                 >
-                  <Select name="nation" variant="inputs.dark">
+                  <CustomInput
+                    id="nazione"
+                    label="Nazione"
+                    onChange={onUpdateField}
+                    type="select"
+                    name="nazione"
+                    placeholder="Nazione"
+                    variant="inputs.dark"
+                    required
+                  >
                     <option selected disabled value="">
-                      Nazione*
+                      Seleziona una nazione
                     </option>
-                    <option value="IT">
-                      Italia
-                    </option>
-                  </Select>
+                    <option value="IT">Italia</option>
+                  </CustomInput>
                 </Box>
               </Flex>
               <Box
@@ -206,12 +241,15 @@ const AddAddress = () => {
                   width: ["100%", "100%"],
                 }}
               >
-                <Input
-                  // pattern="^(\((00|\+)39\)|(00|\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\d{7}$"
-                  input="text"
+                <CustomInput
+                  id="phone"
+                  label="Numero di telefono"
+                  onChange={onUpdateField}
+                  type="text"
                   name="phone"
                   placeholder="Numero di telefono"
                   variant="inputs.dark"
+                  required
                 />
               </Box>
               <Box
@@ -232,7 +270,7 @@ const AddAddress = () => {
                   }}
                   variant="buttons.primary"
                 >
-                  Usa questo indirizzo 
+                  Usa questo indirizzo
                 </Button>
               </Box>
             </Grid>

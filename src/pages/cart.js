@@ -199,25 +199,27 @@ const CartPage = () => {
                       checkout
                     </Box>
                   </Flex>
-                  <Box>
-                    <OutboundLink
-                      href={`https://socaf-s-p-a.checkout.commercelayer.app/${cart.id}?accessToken=${customerToken.access_token}`}
-                      target="_blank"
-                      variant="buttons.primary"
-                      sx={{
-                        display: "inline-block",
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        fontSize: [3],
-                        fontWeight: "600",
-                        borderRadius: "unset",
-                        p: [3],
-                      }}
-                    >
-                      Vai al pagamento
-                    </OutboundLink>
-                  </Box>
+                  {customerToken && customerToken.access_token && (
+                    <Box>
+                      <OutboundLink
+                        href={`https://socaf-s-p-a.checkout.commercelayer.app/${cart.id}?accessToken=${customerToken.access_token}`}
+                        target="_blank"
+                        variant="buttons.primary"
+                        sx={{
+                          display: "inline-block",
+                          width: "100%",
+                          height: "100%",
+                          textAlign: "center",
+                          fontSize: [3],
+                          fontWeight: "600",
+                          borderRadius: "unset",
+                          p: [3],
+                        }}
+                      >
+                        Vai al pagamento
+                      </OutboundLink>
+                    </Box>
+                  )}
                 </Box>
               </Box>
             </Grid>

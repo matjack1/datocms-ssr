@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="28px" height="27px" viewBox="0 0 28 27" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>3. icon / flag</title>
+    <g id="Mobile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Checkout-/-spedizione" transform="translate(-142.000000, -684.000000)">
+            <g id="03.-spedizione" transform="translate(0.000000, 661.500000)">
+                <g id="section-/-title" transform="translate(15.000000, 23.000000)">
+                    <g id="3.-icon-/-flag" transform="translate(128.000000, 0.000000)">
+                        <path d="M10.3225289,17.7656818 L6.20651622,13.649669 C5.93116126,13.3743871 5.93116126,12.9280214 6.20651622,12.6527395 C6.48179817,12.3774575 6.92816383,12.3774575 7.20344577,12.6527395 L10.8877697,16.3369904 L19.0182986,8.20646146 C19.2935805,7.93117951 19.7399462,7.93117951 20.0152281,8.20646146 C20.2905831,8.4817434 20.2905831,8.92818208 20.0152281,9.20346403 L11.4527183,17.7659738 C11.3017879,17.9169043 11.1011314,18 10.8877697,18 C10.6741888,18 10.4733864,17.9167582 10.3225289,17.7656818 Z" id="Fill-1" fill="#08D689"></path>
+                        <circle id="Oval" stroke="#2FCC40" cx="13" cy="13" r="13"></circle>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

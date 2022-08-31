@@ -449,7 +449,7 @@ const theme = {
   },
   inputs: {
     primary: {
-      fontFamily:"body",
+      fontFamily: "body",
       borderColor: "light",
       p: [3],
       border: "1px solid",
@@ -468,18 +468,17 @@ const theme = {
       },
     },
     dark: {
-      fontFamily:"body",
-      borderColor: "dark",
+      fontFamily: "body",
       p: [3],
-      border: "1px solid",
+      boxShadow: `inset 0 0 0 1px ${lighten("#151515", 0.6)}`,
       borderRadius: "0px!important",
       cursor: "pointer",
       color: "dark",
-      "&:focus": {
+      "&:focus,&:hover": {
+        boxShadow: "inset 0 0 0 2px #151515",
         outline: "none",
-        backgroundColor: "dark",
-        color: "white",
-        border: "1px solid dark",
+        color: "dark",
+        borderColor: "dark",
       },
       "::placeholder": {
         /* Chrome, Firefox, Opera, Safari 10.1+ */ color: "dark",

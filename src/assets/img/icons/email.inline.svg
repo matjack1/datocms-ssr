@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="27px" height="19px" viewBox="0 0 27 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 9</title>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Login-/-step-01" transform="translate(-538.000000, -424.000000)" stroke="#151515" stroke-width="1.32">
+            <g id="Group-4" transform="translate(513.000000, 305.000000)">
+                <g id="Group-2" transform="translate(0.000000, 83.000000)">
+                    <g id="Group-3" transform="translate(16.691755, 0.000000)">
+                        <g id="Group-9" transform="translate(9.904393, 37.357477)">
+                            <path d="M22.6627186,16.4812397 L1.50871559,16.4812397 C0.675301097,16.4812397 0,15.8131942 0,14.9894007 L0,1.49183892 C0,0.668045468 0.675301097,0 1.50871559,0 L22.6627186,0 C23.4958313,0 24.1714342,0.668045468 24.1714342,1.49183892 L24.1714342,14.9894007 C24.1714342,15.8131942 23.4958313,16.4812397 22.6627186,16.4812397 Z" id="Stroke-1"></path>
+                            <path d="M0.589547175,0.588615702 L11.1412259,9.08576496 C11.6913191,9.52854665 12.4801151,9.52854665 13.0302082,9.08576496 L23.581887,0.588615702" id="Stroke-3"></path>
+                            <line x1="10.022302" y1="8.24061983" x2="0.589547175" y2="15.892624" id="Stroke-5"></line>
+                            <line x1="23.581887" y1="15.892624" x2="14.1491322" y2="8.24061983" id="Stroke-7"></line>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

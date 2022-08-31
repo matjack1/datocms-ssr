@@ -8,6 +8,7 @@ import {
   Input,
   Text,
   Flex,
+  Button,
   Image,
 } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
@@ -16,6 +17,7 @@ import { navigate } from "gatsby";
 import { InboundLink } from "../components/link";
 import Logo from "../assets/img/logo.svg";
 import Layout from "../components/layout";
+import CustomInput from "../components/customInput";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -32,7 +34,8 @@ const LoginPage = () => {
   };
 
   const handleChange = (e) => {
-    const name = e.target.name;
+    console.log(e.target.name)
+    const name = e.target.name === "email" ? "username" : e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
   };
@@ -115,42 +118,68 @@ const LoginPage = () => {
         sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
       >
         <Box sx={{ maxWidth: "413px", width: ["413px"] }}>
-          <Box>
-            <Heading as="h1">Accedi</Heading>
-          </Box>
-          <Box as="form" onSubmit={(e) => handleSubmit(e)} >
-            <Label htmlFor="username">Indirizzo email</Label>
-            <Input
-              name="username"
-              id="username"
-              type="email"
-              placeholder="Email"
-              required
-              onChange={handleChange}
-              autocomplete="email"
-            />
-            <Label htmlFor="password">Password</Label>
-            <Input
-              name="password"
-              id="password"
-              placeholder="Password"
-              type="password"
-              autocomplete="password"
-              minLength="6"
-              required
-              onChange={handleChange}
-            />
-            <Box>
-              <InboundLink to={"/forgot-password"}>
-                Password dimenticata?
-              </InboundLink>
+          <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+            Accedi
+          </Heading>
+          <Box as="form" onSubmit={(e) => handleSubmit(e)}>
+            <Box sx={{ pb: [4] }}>
+              <CustomInput
+                id="email"
+                label="Email"
+                onChange={handleChange}
+                type="email"
+                name="email"
+                placeholder="Email"
+                variant="inputs.dark"
+                autocomplete="email"
+                required
+              />
             </Box>
-            <Input type="submit" value="Accedi" />
+            <Box sx={{ pb: [4] }}>
+              <CustomInput
+                id="password"
+                label="Password"
+                onChange={handleChange}
+                type="password"
+                name="password"
+                placeholder="Password"
+                autocomplete="password"
+                variant="inputs.dark"
+                required
+              />
+            </Box>
             {loginError && (
               <Box>
                 <Text sx={{ color: "primary" }}>Errore di autenticazione</Text>
               </Box>
             )}
+
+            <Button
+              variant="buttons.primary"
+              type="submit"
+              value="Accedi"
+              sx={{
+                opacity: 1,
+                width: "100%",
+                height: "100%",
+                textAlign: "center",
+                fontSize: [3],
+                fontWeight: "600",
+                borderRadius: "unset",
+                p: [3],
+              }}
+            >
+              Accedi
+            </Button>
+            <Box sx={{ textAlign: "center", py: [6] }}>
+              <InboundLink to={"/forgot-password"}>
+                Password dimenticata?
+              </InboundLink>
+            </Box>
+            <Box sx={{ textAlign: "center", color: "lightBorder" }}>
+              Non riesci ad accedere al servizio? <br /> Contattaci al 800
+              480110
+            </Box>
           </Box>
         </Box>
       </Container>
