@@ -48,75 +48,71 @@ const Addresses = () => {
           I tuoi indirizzi
         </Heading>
         <Grid columns={["repeat(4,minmax(290px,1fr))"]}>
-          {addresses && addresses.meta.recordCount > 0 ? (
+          <Box
+            sx={{
+              minWidth: "290px",
+              minHeight: "360px",
+              a: {
+                display: "inline-block",
+                height: "100%",
+                width: "100%",
+                textDecoration: "none",
+              },
+            }}
+          >
+            <InboundLink to={"add"}>
+              <Flex
+                sx={{
+                  height: "100%",
+                  width: "100%",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid",
+                  flexDirection: "column",
+                  borderColor: "lightPrimary",
+                }}
+              >
+                <Box
+                  sx={{
+                    width: "24px",
+                    height: "24px",
+                    backgroundColor: "primary",
+                    display: "flex",
+                    color: "light",
+                    alignContent: "center",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    mb: [3],
+                  }}
+                >
+                  +
+                </Box>
+                <Box sx={{ alignItems: "center" , textAlign:"center" }}>
+                  <Text sx={{ fontWeight: "600", textAlign: "center" }}>
+                    Aggiungi indirizzo <br /> di spedizione
+                  </Text>
+                </Box>
+              </Flex>
+            </InboundLink>
+          </Box>
+          {addresses &&
+            addresses.meta.recordCount > 0 &&
             addresses.map((customer_address, index) => (
               <>
-                {index === 0 && (
-                  <Box
-                    sx={{
-                      minWidth: "290px",
-                      minHeight: "360px",
-                      a: {
-                        display: "inline-block",
-                        height: "100%",
-                        width: "100%",
-                        textDecoration:"none"
-                      },
-                    }}
-                  >
-                    <InboundLink to={"add"}>
-                      <Flex
-                        sx={{
-                          height: "100%",
-                          width: "100%",
-                          alignContent: "center",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          border: "1px solid",
-                          flexDirection:"column",
-                          borderColor: "lightPrimary",
-                        }}
-                      >
-                        <Box
-                          sx={{
-                            width: "24px",
-                            height: "24px",
-                            backgroundColor: "primary",
-                            display: "flex",
-                            color: "light",
-                            alignContent: "center",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            mb:[3]
-                          }}
-                        >
-                          +
-                        </Box>
-                        <Box sx={{alignItems: "center",}}>
-                          <Text sx={{fontWeight:"600", textAlign:"center"}}>Aggiungi indirizzo <br/> di spedizione</Text>
-                        </Box>
-                      </Flex>
-                    </InboundLink>
-                  </Box>
-                )}
-                <Box sx={{
-                  minWidth: "290px",
-                  minHeight: "360px",
-                }}>
+                <Box
+                  sx={{
+                    minWidth: "290px",
+                    minHeight: "360px",
+                  }}
+                >
                   <CustomerAddress
                     updateAddresses={handleUpdateAddresses}
                     address={customer_address}
                   />
                 </Box>
               </>
-            ))
-          ) : (
-            <>
-              <Box>
-                <Text>Nessun indirizzo salvato</Text>
-              </Box>
-            </>
-          )}
+            ))}
         </Grid>
       </Container>
     </Box>

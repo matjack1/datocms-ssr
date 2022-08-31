@@ -104,7 +104,7 @@ const CustomerFavourites = () => {
           items: allChunks[i],
         });
 
-        console.log("prices",prices)
+        
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
 
         res = await Promise.all(
