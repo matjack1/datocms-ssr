@@ -4,9 +4,9 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import CustomerContext from "../hooks/customerContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { InboundLink } from "./link";
-import { BiUser } from "react-icons/bi";
 import AccountSideBar from "./accountSidebar";
 import { navigate } from "gatsby";
+import UserIconSVG from "../assets/img/icons/login.inline.svg";
 
 const UserIcon = () => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
@@ -17,7 +17,7 @@ const UserIcon = () => {
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
-        navigate("/login")
+        navigate("/login");
         // console.log("invalid token", e);
       }
     };
@@ -78,8 +78,15 @@ const UserIcon = () => {
                     ? customer.metadata.company
                     : customer.email}
                 </Box>
-                <Box sx={{ ml: [1] }}>
-                  <BiUser size={24} />
+                <Box
+                  sx={{
+                    ml: [1],
+                    "svg *": {
+                      stroke: "dark",
+                    },
+                  }}
+                >
+                  <UserIconSVG />
                 </Box>
               </Flex>
             </Box>

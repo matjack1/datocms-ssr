@@ -10,7 +10,8 @@ import CustomerContext from "../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
 import { getProductPath, getCategoryPath } from "../utils/path";
-import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
+import ChevronRightIcon from "../assets/img/icons/chevron-right.inline.svg";
+import ChevronLeftIcon from "../assets/img/icons/chevron-left.inline.svg";
 import { GatsbyImage } from "gatsby-plugin-image";
 import ProductThumb from "./productThumb";
 
@@ -215,18 +216,23 @@ const CustomCarousel = ({
           <Button
             sx={{
               opacity: offsetWidth > 0 ? (showArrows ? 1 : 0) : 0,
-              backgroundColor: current != 1 ? "black" : "red",
-              display: "block",
+              backgroundColor: "black",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
               fontStyle: "normal",
               overflow: "hidden",
               position: "absolute",
               textAlign: "center",
               top: small ? "34%" : productThumbnail ? "24%" : "45%",
               left: [3],
+              "svg *": {
+                fill: "light",
+              },
             }}
             onClick={() => handleArrowIndex(-1)}
           >
-            <FiChevronLeft color={"white"} />
+            <ChevronLeftIcon />
           </Button>
           {console.log(
             Math.floor(
@@ -267,10 +273,13 @@ const CustomCarousel = ({
               textAlign: "center",
               top: small ? "34%" : productThumbnail ? "24%" : "45%",
               right: [3],
+              "svg *": {
+                fill: "light",
+              },
             }}
             onClick={() => handleArrowIndex(1)}
           >
-            <FiChevronRight color={"white"} />
+            <ChevronRightIcon />
           </Button>
         </Box>
       </Box>

@@ -3,7 +3,6 @@ import { Box, Button, Text, Flex } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { navigate } from "gatsby";
-import { BsBag } from "react-icons/bs";
 import { ToastContainer, toast } from "react-toastify";
 
 const AddToCart = ({ sku, quantity }) => {

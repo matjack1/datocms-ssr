@@ -104,6 +104,7 @@ const CustomerFavourites = () => {
           items: allChunks[i],
         });
 
+        console.log("prices",prices)
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
 
         res = await Promise.all(
@@ -111,6 +112,8 @@ const CustomerFavourites = () => {
             const index = chunkPrices.findIndex(
               (el) => el["itemcode"] == obj["code"]
             );
+
+            console.log("chunkPrices",chunkPrices)
             if (chunkPrices[index]) {
               return {
                 code: obj["code"],
@@ -125,8 +128,9 @@ const CustomerFavourites = () => {
             return obj;
           })
         );
+        
+        setSkusPrices(res);
       }
-      setSkusPrices(res);
     }
   };
 
@@ -135,7 +139,7 @@ const CustomerFavourites = () => {
     const res = await Promise.all(
       skusTmp.map((obj) => {
         const index = skusPrices.findIndex((el) => el["code"] == obj["code"]);
-        if (skusPrices[index]) {
+        if (skusPrices[index] && skusPrices[index].prices) {
           let prices = skusPrices[index].prices;
           return {
             ...obj,

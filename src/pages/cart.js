@@ -10,9 +10,9 @@ import Layout from "../components/layout";
 import CartProduct from "../components/cartProduct";
 import { InboundLink, OutboundLink } from "../components/link";
 import getPrices from "../hooks/getPrices";
-import { BsBag } from "react-icons/bs";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
+import BagIcon from "../assets/img/icons/carrello.inline.svg";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -243,8 +243,19 @@ const CartPage = () => {
                 flexDirection: "column",
               }}
             >
-              <Box sx={{ pb: [7] }}>
-                <BsBag size={92} color={lightBorder} />
+              <Box
+                sx={{
+                  pb: [7],
+                  svg: {
+                    width: "92px",
+                    height: "auto",
+                    "*": {
+                      stroke: "lightBorder",
+                    },
+                  },
+                }}
+              >
+                <BagIcon />
               </Box>
               <Box>
                 <Text sx={{ fontSize: [7] }}>

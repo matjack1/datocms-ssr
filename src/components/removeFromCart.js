@@ -3,10 +3,9 @@ import { Box, Button, Text } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import getOrder from "../hooks/getOrder";
 import CartContext from "../hooks/cartContext";
-import { FiTrash2 } from "react-icons/fi";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
-
+import TrashIcon from "../assets/img/icons/cestino.inline.svg"
 
 const RemoveFromCart = ({ sku }) => {
   const lightBorder = getColor(theme, "dark");
@@ -36,19 +35,24 @@ const RemoveFromCart = ({ sku }) => {
 
   return (
     <Box>
-      <Button 
+      <Button
         onClick={() => removeFromCart()}
         sx={{
-          backgroundColor:"transparent",
-          color:"lightBorder",
-          p:[0],
-          "&:hover":{
-            backgroundColor:"transparent",
-            color:"primary"
-          }
+          backgroundColor: "transparent",
+          color: "lightBorder",
+          p: [0],
+          ":hover": {
+            background:"transparent",
+            "svg *": {
+              stroke: "primary",
+            },
+          },
+          "svg *": {
+            stroke: "lightBorder",
+          },
         }}
-        >
-        <FiTrash2 size={24} />
+      >
+        <TrashIcon />
       </Button>
     </Box>
   );

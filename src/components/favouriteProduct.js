@@ -7,11 +7,9 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import RemoveFromCart from "./removeFromCart";
 import LineItemQuantity from "./lineItemQuantity";
 import getSkuData from "../hooks/getSkuData";
-import { FiTrash } from "react-icons/fi";
 import SkuQuantity from "./skuQuantity";
-import { FiTrash2 } from "react-icons/fi";
+import TrashIcon from "../assets/img/icons/cestino.inline.svg"
 import AddToCart from "./addToCart";
-import { BsBag } from "react-icons/bs";
 
 const FavouriteProduct = memo(
   ({ sku, handleSkuLoaded, horizontal = true, handleDeleteFavourite }) => {
@@ -137,9 +135,17 @@ const FavouriteProduct = memo(
                           backgroundColor: "transparent",
                           color: "primary",
                         },
+                        ":hover":{
+                          "svg *":{
+                            stroke:"primary"
+                          }  
+                        },
+                        "svg *":{
+                          stroke:"lightBorder"
+                        }
                       }}
                     >
-                      <FiTrash2 size={24} />
+                      <TrashIcon />
                     </Button>
                   </Box>
                 </Box>

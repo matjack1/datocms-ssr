@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
@@ -7,9 +7,9 @@ import { useClSdk } from "../hooks/useClSdk";
 import { getCartPath } from "../utils/path";
 import { InboundLink } from "./link";
 import { navigate } from "gatsby";
-import { BsBag } from "react-icons/bs";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
+import BagIcon from "../assets/img/icons/carrello.inline.svg"
 
 const CartIcon = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -98,7 +98,16 @@ const CartIcon = () => {
       {customer && (
         <InboundLink to={getCartPath()}>
           <Box sx={{ position: "relative" }}>
-            <BsBag size={24} color={dark} />
+            <Flex sx={{
+              justifyContent:"center",
+              alignItems:"center",
+              svg:{
+                maxWidth:"24px",
+                color:"dark"
+              }
+            }}>
+              <BagIcon />
+            </Flex>
             <Box
               sx={{
                 position:"absolute",

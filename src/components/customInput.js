@@ -19,6 +19,7 @@ const CustomInput = (props) => {
     pattern,
     autocomplete = false,
     events = {},
+    icon,
   } = props;
 
   const handleChange = (event) => {
@@ -83,21 +84,25 @@ const CustomInput = (props) => {
         >
           {label}
         </Label>
-        {console.log("type", type)}
         <Flex
           sx={{
             width: "100%",
-            "input,select,textare": { width: "100%" },
+            "input,select,textare": { 
+              pl: icon && [8],  
+              width: "100%" ,
+            },
             "& > div": { width: "100%" },
+            position:"relative"
           }}
         >
+          {icon && props.children}
           {type === "textarea" ? (
             <Textarea
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               {...fieldProps}
             />
-          ) : type === "text" || type=== "password" || type==="email" ? (
+          ) : type === "text" || type === "password" || type === "email" ? (
             <Input
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
@@ -105,7 +110,7 @@ const CustomInput = (props) => {
             />
           ) : (
             <Select
-              sx={{ width: "100%", minHeight:"54px" }}
+              sx={{ width: "100%", minHeight: "54px" }}
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
               {...fieldProps}

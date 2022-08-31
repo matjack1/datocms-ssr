@@ -51,6 +51,8 @@ const AccountPage = () => {
         <PrivateRoute path="/account/billinginfo" component={BillingInfo} />
         <PrivateRoute path="/account/settings" component={Settings} />
         <PrivateRoute path="/account/support" component={Support} />
+
+
       </Router>
     </Layout>
   );

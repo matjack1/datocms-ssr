@@ -474,7 +474,7 @@ const theme = {
       borderRadius: "0px!important",
       cursor: "pointer",
       color: "dark",
-      "&:focus,&:hover": {
+      "&:-webkit-autofill:hover,:-webkit-autofill:focus,&:focus,&:hover": {
         boxShadow: "inset 0 0 0 2px #151515",
         outline: "none",
         color: "dark",

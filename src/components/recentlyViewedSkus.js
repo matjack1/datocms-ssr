@@ -4,7 +4,6 @@ import CustomerContext from "../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
 import { getProductPath } from "../utils/path";
-import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import CustomCarousel from "./customCarousel";
 
 const RecentlyViewedSkus = () => {

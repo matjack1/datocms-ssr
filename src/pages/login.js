@@ -18,6 +18,8 @@ import { InboundLink } from "../components/link";
 import Logo from "../assets/img/logo.svg";
 import Layout from "../components/layout";
 import CustomInput from "../components/customInput";
+import EmailIcon from "../assets/img/icons/email.inline.svg";
+import PasswordIcon from "../assets/img/icons/password.inline.svg";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -34,7 +36,7 @@ const LoginPage = () => {
   };
 
   const handleChange = (e) => {
-    console.log(e.target.name)
+    console.log(e.target.name);
     const name = e.target.name === "email" ? "username" : e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
@@ -133,7 +135,24 @@ const LoginPage = () => {
                 variant="inputs.dark"
                 autocomplete="email"
                 required
-              />
+                icon={true}
+              >
+                <Flex sx={{
+                  minWidth:"26px",
+                  width:"fit-content!important",
+                  position:"absolute",
+                  left:[2],
+                  top:"50%",
+                  justifyContent:"center",
+                  justifyItems:"center",
+                  transform:"translateY(-50%)",
+                  svg :{
+                    width:"24px"
+                  }
+                }}>
+                  <EmailIcon />
+                </Flex>
+              </CustomInput>
             </Box>
             <Box sx={{ pb: [4] }}>
               <CustomInput
@@ -145,8 +164,25 @@ const LoginPage = () => {
                 placeholder="Password"
                 autocomplete="password"
                 variant="inputs.dark"
+                icon={true}
                 required
-              />
+              >
+                <Flex sx={{
+                  minWidth:"26px",
+                  width:"fit-content!important",
+                  position:"absolute",
+                  left:[2],
+                  top:"50%",
+                  justifyContent:"center",
+                  justifyItems:"center",
+                  transform:"translateY(-50%)",
+                  svg :{
+                    width:"24px"
+                  }
+                }}>
+                  <PasswordIcon />
+                </Flex>
+              </CustomInput>
             </Box>
             {loginError && (
               <Box>

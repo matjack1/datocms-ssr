@@ -11,13 +11,16 @@ import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
-import { GrDocumentPdf } from "react-icons/gr";
 import { OutboundLink } from "../components/link";
-import { GoPackage } from "react-icons/go";
-import { TbTruckDelivery } from "react-icons/tb";
+
+import PdfIcon from "../assets/img/icons/documenti-tecnici.inline.svg";
+import Package from "../assets/img/icons/confezionamento.inline.svg";
+import DeliveryIcon from "../assets/img/icons/corriere-sede.inline.svg";
+
 import RelatedProducts from "../components/relatedProducts";
 import { navigate } from "gatsby";
 import getPrices from "../hooks/getPrices";
+import FavouritIcon from "../assets/img/icons/preferiti.inline.svg";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -99,7 +102,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
     const clSku = await cl.skus
       .list({
         filters: { code_eq: sku.code },
-        include: [ "stock_items"],
+        include: ["stock_items"],
       })
       .catch(handleError);
 
@@ -110,7 +113,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
       items: [sku.code],
     });
 
-    const foundPrices = prices && prices.items && prices.items.length > 0 && prices.items[0];
+    const foundPrices =
+      prices && prices.items && prices.items.length > 0 && prices.items[0];
 
     if (clSku && clSku[0] && foundPrices)
       setClSkuDetails({
@@ -149,7 +153,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
       );
-      console.log("findSku",findSku)
+      console.log("findSku", findSku);
       setIsFavourite(findSku[0] && true);
     }
   }, []);
@@ -197,8 +201,15 @@ const SkuPage = ({ data: { sku, skus } }) => {
             </Box>
             <Box>
               <Box>
-                <Box>
-                  <GrDocumentPdf size={26} />
+                <Box
+                  sx={{
+                    svg: {
+                      width: "26px",
+                      height: "auto",
+                    },
+                  }}
+                >
+                  <PdfIcon />
                 </Box>
                 <Box>
                   <Heading
@@ -229,8 +240,15 @@ const SkuPage = ({ data: { sku, skus } }) => {
                 }}
               />
               <Box>
-                <Box>
-                  <GoPackage size={26} />
+                <Box
+                  sx={{
+                    svg: {
+                      width: "26px",
+                      height: "auto",
+                    },
+                  }}
+                >
+                  <Package />
                 </Box>
                 <Box>
                   <Heading
@@ -255,8 +273,15 @@ const SkuPage = ({ data: { sku, skus } }) => {
             </Box>
 
             <Box>
-              <Box>
-                <TbTruckDelivery size={26} />
+              <Box
+                sx={{
+                  svg: {
+                    width: "26px",
+                    height: "auto",
+                  },
+                }}
+              >
+                <DeliveryIcon />
               </Box>
               <Box>
                 <Heading
@@ -302,7 +327,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     pb: [6],
                   }}
                 >
-                  <Text as="span" sx={{ fontWeight: "600", fontSize: [6], }}>
+                  <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
                     {clSkuDetails && clSkuDetails.prices
                       ? clSkuDetails.prices.discountedPrice
                         ? "€" +
@@ -353,24 +378,22 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     backgroundColor: isFavourie ? "primary" : "light",
                     border: "1px solid",
                     borderColor: !isFavourie ? "primary" : "transparent",
-                    "&:hover":{
-                      borderColor:"transparent",
-                      svg:{
-                        color:"light"
-                      }
+                    "&:hover": {
+                      borderColor: "transparent",
+                      "svg *": {
+                        stroke: "light",
+                      },
                     },
                     svg: {
-                      color: isFavourie ? "light" : "primary",
+                      "*": {
+                        stroke: isFavourie ? "light" : "primary",
+                      },
                       width: "20px",
                       height: "20px",
                     },
                   }}
                 >
-                  <Box
-                    dangerouslySetInnerHTML={{
-                      __html: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-bookmark"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>`,
-                    }}
-                  />
+                  <FavouritIcon />
                 </Button>
               </Box>
             </Flex>

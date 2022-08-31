@@ -1,13 +1,13 @@
 import React, { useContext } from "react";
 import { Box, Flex, Heading, Text } from "theme-ui";
 import { InboundLink } from "./link";
-import { GrClose } from "react-icons/gr";
 import CustomerContext from "../hooks/customerContext";
 import { FiChevronRight, FiChevronLeft } from "react-icons/fi";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import LoginButton from "./loginLink";
 import LogoutButton from "./logoutButton";
+import CloseIcon from "../assets/img/icons/close.inline.svg";
 
 const AccountSideBar = ({ open, closed, sideBarData }) => {
   const { customer } = useContext(CustomerContext);
@@ -54,8 +54,18 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
           visibility: open ? "" : "hidden",
         }}
       >
-        <Box sx={{ position: "absolute", right: [13] }} onClick={closed}>
-          <GrClose size={24} />
+        <Box
+          sx={{
+            position: "absolute",
+            right: [13],
+            svg: {
+              width: "18px",
+              height: "auto",
+            },
+          }}
+          onClick={closed}
+        >
+          <CloseIcon />
         </Box>
         <Flex sx={{ flexDirection: "column", pt: [10] }}>
           <Heading as="h2" variant="h3" color="primary">

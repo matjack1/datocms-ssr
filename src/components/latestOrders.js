@@ -16,7 +16,7 @@ import {
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import { InboundLink } from "./link";
 import CustomerContext from "../hooks/customerContext";
-import { HiOutlineLocationMarker } from "react-icons/hi";
+import LocationMapIcon from "../assets/img/icons/map-pin.inline.svg";
 
 const LatestOrders = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -78,13 +78,14 @@ const LatestOrders = () => {
           Ultimi ordini
         </Heading>
         <Grid columns={[1, "repeat(4,1fr)"]} gap={[0]}>
-          {filteredOrders.slice(0, 4).map((order,index) => (
+          {filteredOrders.slice(0, 4).map((order, index) => (
             <InboundLink
               sx={{
-                pl:[index === 0 ? 0 : 9],
-                pr:[index === filteredOrders.length - 1 ? 0 : 9],
+                pl: [index === 0 ? 0 : 9],
+                pr: [index === filteredOrders.length - 1 ? 0 : 9],
                 color: "light",
-                borderRight: index != filteredOrders.slice(0, 4).length - 1 && "1px solid",
+                borderRight:
+                  index != filteredOrders.slice(0, 4).length - 1 && "1px solid",
                 display: "inline-block",
                 textDecoration: "none",
                 borderColor: "lighter",
@@ -102,15 +103,18 @@ const LatestOrders = () => {
                   </Text>
                 </Box>
                 <Grid
-                  columns={["20px auto"]}
+                  columns={["16px auto"]}
                   gap={[0]}
-                  sx={{ fontSize: [1], alignItems: "center", pb:["10px"] }}
+                  sx={{ fontSize: [1], alignItems: "center", pb: ["10px"] }}
                 >
                   <Flex sx={{ alignItems: "center", justifyContent: "start" }}>
                     <Box
                       sx={{
                         borderRadius: "50%",
-                        backgroundColor: order.status === "placed" ? "status.approved" : "orange",
+                        backgroundColor:
+                          order.status === "placed"
+                            ? "status.approved"
+                            : "orange",
                         width: "7px",
                         height: "7px",
                       }}
@@ -119,16 +123,21 @@ const LatestOrders = () => {
                   {order.status}
                 </Grid>
                 <Grid
-                  columns={["20px auto"]}
+                  columns={["16px auto"]}
                   gap={[0]}
-                  sx={{ fontSize: [1], alignItems: "center", pb:["10px"] }}
+                  sx={{ fontSize: [1], alignItems: "center", pb: ["10px"] }}
                 >
-                  <Flex sx={{ alignItems: "center", justifyContent: "start" }}>
-                    <HiOutlineLocationMarker size={14} />
+                  <Flex
+                    sx={{
+                      alignItems: "center",
+                      justifyContent: "start",
+                    }}
+                  >
+                    <LocationMapIcon />
                   </Flex>
                   {order.shipping_address.last_name}
                 </Grid>
-                <Box sx={{ fontSize: [1], color: "lighter", pb:[5] }}>
+                <Box sx={{ fontSize: [1], color: "lighter", pb: [5] }}>
                   {new Date(order.placed_at).toLocaleDateString("it-IT", {
                     year: "numeric",
                     month: "long",
@@ -137,7 +146,14 @@ const LatestOrders = () => {
                 </Box>
               </Box>
 
-              <Box sx={{ fontSize: [1], alignItems: "center", pb:["10px"], fontWeight:"600" }}>
+              <Box
+                sx={{
+                  fontSize: [1],
+                  alignItems: "center",
+                  pb: ["10px"],
+                  fontWeight: "600",
+                }}
+              >
                 <Box>{order.formatted_total_amount_with_taxes}</Box>
               </Box>
             </InboundLink>
