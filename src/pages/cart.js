@@ -35,9 +35,6 @@ const CartPage = () => {
 
     getOrder(cl, cart.id)
       .then((value) => {
-        let tmp = 0;
-        value.line_items.map((item, a) => (tmp += item.quantity), 0);
-        setItemQuantity(tmp);
         setCart(value);
       })
       .catch((err) => {
@@ -49,9 +46,6 @@ const CartPage = () => {
     if (customer && cart) {
       getOrder(cl, cart.id)
         .then((value) => {
-          let tmp = 0;
-          value.line_items.map((item, a) => (tmp += item.quantity), 0);
-          setItemQuantity(tmp);
           setCart(value);
         })
         .catch((err) => {
@@ -59,6 +53,14 @@ const CartPage = () => {
         });
     }
   }, [customer]);
+
+  useEffect(() => {
+    if (cart && cart.line_items.length > 0) {
+      let tmp = 0;
+      cart.line_items.map((item, a) => (tmp += item.quantity), 0);
+      setItemQuantity(tmp);
+    }
+  }, [cart]);
 
   const updateQuantity = (quantity, id) => {
     updateLineItem(quantity, id);
@@ -77,20 +79,22 @@ const CartPage = () => {
                     Carrello
                   </Heading>
 
-                  <Box
-                    sx={{
-                      fontSize: [2],
-                      fontWeight: "400",
-                      pb: [8],
-                    }}
-                  >
-                    <Text color="lightBorder">
-                      {`${itemQuantity} articol${
-                        itemQuantity > 0 ? "i" : "o"
-                      } |`}
-                    </Text>
-                    <Text>{` ${cart.formatted_subtotal_amount}`}</Text>
-                  </Box>
+                  {itemQuantity && (
+                    <Box
+                      sx={{
+                        fontSize: [2],
+                        fontWeight: "400",
+                        pb: [8],
+                      }}
+                    >
+                      <Text color="lightBorder">
+                        {`${itemQuantity} articol${
+                          itemQuantity > 0 ? "i" : "o"
+                        } |`}
+                      </Text>
+                      <Text>{` ${cart.formatted_subtotal_amount}`}</Text>
+                    </Box>
+                  )}
                 </Box>
                 <Box>
                   <Box>
@@ -113,7 +117,7 @@ const CartPage = () => {
                   <Heading
                     as="h2"
                     variant="h5"
-                    sx={{ color: "primary", mt:[5], pb: [6] }}
+                    sx={{ color: "primary", mt: [5], pb: [6] }}
                   >
                     Riepilogo ordine
                   </Heading>
