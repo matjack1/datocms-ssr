@@ -106,7 +106,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       .catch(handleError);
 
     if (updatedCustomer)
-      toast.success(!isFavourie ? "Prodotto aggiunto ai preferiti" : "Prodotto rimosso dai preferiti", {
+      toast.success(!isFavourie ? "Articolo aggiunto ai preferiti" : "Articolo rimosso dai preferiti", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: true,

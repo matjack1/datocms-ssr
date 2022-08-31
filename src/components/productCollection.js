@@ -291,7 +291,7 @@ const ProductCollection = ({ category, skus, categories }) => {
             ) : Object.keys(checkedFilters).length > 0 ? (
               <Text>Non ci sono risultati per i filtri selezionati</Text>
             ) : (
-              <Text>Nessun risultato per questa ricerca</Text>
+              <Text>Nessun articolo trovato</Text>
             )}
           </Box>
         </Grid>

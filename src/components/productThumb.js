@@ -27,7 +27,7 @@ const ProductThumb = memo(({ sku, horizontal = false }) => {
           <Grid
             sx={{
               gridTemplateRows: !horizontal && "1fr auto",
-              gridTemplateColumns: horizontal && [" 218px 1fr"],
+              gridTemplateColumns: horizontal && ["218px 1fr"],
             }}
             gap={[horizontal ? 11 : 3]}
           >
@@ -45,7 +45,7 @@ const ProductThumb = memo(({ sku, horizontal = false }) => {
                     sx={{
                       height: "100%",
                       img: {
-                        height: "100%",
+                        height: horizontal ? "100%" : "319px",
                         objectFit: "contain",
                       },
                       backgroundColor: "light",
