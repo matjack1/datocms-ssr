@@ -60,7 +60,12 @@ const SecondaryNav = () => {
               key={menuItem.id}
             >
               {menuItem.treeChildren.length > 0 ? (
-                <Box onClick={() => showSidebar(menuItem.treeChildren,menuItem)}>
+                <Box sx={{
+                  "&:hover":{
+                    color:"primary",
+                    cursor:"pointer"
+                  }
+                }} onClick={() => showSidebar(menuItem.treeChildren,menuItem)}>
                   {menuItem.link.link.name}
                 </Box>
               ) : (

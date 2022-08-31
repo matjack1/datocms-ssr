@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading, Image } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
@@ -7,6 +7,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import RemoveFromCart from "../components/removeFromCart";
 import LineItemQuantity from "../components/lineItemQuantity";
 import getSkuData from "../hooks/getSkuData";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const CartProduct = memo(
   ({ sku, handleSkuLoaded, horizontal = true, updateQuantity }) => {
@@ -52,11 +53,16 @@ const CartProduct = memo(
                 ) : (
                   <Box
                     sx={{
-                      height: "166px",
-                      width: "100%",
+                      height: "100%",
+                      img: {
+                        height: "100%",
+                        objectFit: "contain",
+                      },
                       backgroundColor: "light",
                     }}
-                  />
+                  >
+                    <Image src={PlaceholderImage} />
+                  </Box>
                 )}
               </Box>
             </Flex>
@@ -219,15 +225,14 @@ const CartProduct = memo(
                 )}
               </Box>
               <Box sx={{ pb: [6] }}>
-                {console.log("CARTPRODUCT",clSkuDetails)}
+                {console.log("CARTPRODUCT", clSkuDetails)}
                 <Text
                   sx={{
                     fontWeight: "600",
                     fontSize: [6],
                   }}
                 >
-                  {clSkuDetails &&
-                    clSkuDetails.formatted_unit_amount}
+                  {clSkuDetails && clSkuDetails.formatted_unit_amount}
                 </Text>
               </Box>
               <Box>

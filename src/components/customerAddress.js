@@ -11,6 +11,8 @@ import {
 } from "theme-ui";
 import Modal from "react-modal";
 import { useClSdk } from "../hooks/useClSdk";
+import { navigate } from "gatsby";
+import { toast } from "react-toastify";
 
 Modal.defaultStyles.overlay.zIndex = 99999;
 Modal.defaultStyles.overlay.backgroundColor = "rgba(255, 255, 255, 0.65)";
@@ -62,16 +64,39 @@ const CustomerAddress = ({ address, updateAddresses }) => {
     full_name,
   } = address.address;
 
-  console.log(address.address);
+  
   const handleDeleteAddress = async (id) => {
+    const handleError = (e) => {
+      console.log("error", e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login");
+        // console.log("invalid token", e);
+      }
+    };
+
     let deletedCustomerAddress = await cl.customer_addresses
       .delete(id)
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(handleError);
 
-    let deletedAddress = await cl.addresses.delete(addressId).catch((error) => {
-      console.log(error);
+    let deletedAddress = await cl.addresses
+      .delete(addressId)
+      .catch(handleError);
+
+    console.log(
+      "deletedAddress,deletedCustomerAddress",
+      deletedAddress,
+      deletedCustomerAddress
+    );
+
+    console.log("toast.success");
+    toast.success("Indirizzo cancellato", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
     });
 
     updateAddresses(true);
@@ -126,7 +151,7 @@ const CustomerAddress = ({ address, updateAddresses }) => {
               </Heading>
             </Box>
           )}
-          <Box >
+          <Box>
             {line_1 && <Box>{line_1}</Box>}
             {line_2 && <Box>{line_2}</Box>}
             <Box>

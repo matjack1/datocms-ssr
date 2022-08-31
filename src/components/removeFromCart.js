@@ -6,6 +6,7 @@ import CartContext from "../hooks/cartContext";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import TrashIcon from "../assets/img/icons/cestino.inline.svg"
+import { navigate } from "gatsby";
 
 const RemoveFromCart = ({ sku }) => {
   const lightBorder = getColor(theme, "dark");
@@ -14,9 +15,18 @@ const RemoveFromCart = ({ sku }) => {
   const cl = useClSdk();
 
   const deleteLineItem = async () => {
+    
+    const handleError = (e) => {
+      console.log("error", e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login");
+        // console.log("invalid token", e);
+      }
+    };
+
     const lineItem = await cl.line_items
       .delete(sku.id)
-      .catch((error) => console.log(error.errors));
+      .catch(handleError);
 
     getOrder(cl, cart.id)
       .then((value) => {

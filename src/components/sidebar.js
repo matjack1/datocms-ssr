@@ -82,7 +82,7 @@ const Sidebar = ({ open, closed, sideBarData }) => {
                     sx={{ color: "text", textDecoration: "none" }}
                     to={getCategoryPath(menuItem.link.link, menuItem.locale)}
                   >
-                    Tutti
+                    Scopri tutti i prodotti
                   </InboundLink>
                 </>
               ) : (

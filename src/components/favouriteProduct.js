@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading, Button } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading, Button, Image } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
@@ -8,8 +8,10 @@ import RemoveFromCart from "./removeFromCart";
 import LineItemQuantity from "./lineItemQuantity";
 import getSkuData from "../hooks/getSkuData";
 import SkuQuantity from "./skuQuantity";
-import TrashIcon from "../assets/img/icons/cestino.inline.svg"
+import TrashIcon from "../assets/img/icons/cestino.inline.svg";
 import AddToCart from "./addToCart";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
+import { navigate } from "gatsby";
 
 const FavouriteProduct = memo(
   ({ sku, handleSkuLoaded, horizontal = true, handleDeleteFavourite }) => {
@@ -32,19 +34,25 @@ const FavouriteProduct = memo(
 
     const getClSku = async () => {
       const handleError = (e) => {
-        console.log(e);
+        console.log("error", e);
+        if (e.errors[0].code === "INVALID_TOKEN") {
+          navigate("/login");
+          // console.log("invalid token", e);
+        }
       };
+
       const clSku = await cl.skus
         .list({
           filters: { code_eq: sku.code },
           include: ["stock_items"],
         })
         .catch(handleError);
+        
       if (clSku && clSku[0]) {
         const datoSkusData = await handleLoadSkusDatoData();
 
-        console.log("sku",{ ...sku })
-        setClSkuDetails({ ...sku,...datoSkusData, ...clSku[0] });
+        console.log("sku", { ...sku });
+        setClSkuDetails({ ...sku, ...datoSkusData, ...clSku[0] });
       }
     };
 
@@ -81,11 +89,16 @@ const FavouriteProduct = memo(
                 ) : (
                   <Box
                     sx={{
-                      height: "166px",
-                      width: "100%",
+                      height: "100%",
+                      img: {
+                        height: "100%",
+                        objectFit: "contain",
+                      },
                       backgroundColor: "light",
                     }}
-                  />
+                  >
+                    <Image src={PlaceholderImage} />
+                  </Box>
                 )}
               </Box>
             </Flex>
@@ -135,14 +148,14 @@ const FavouriteProduct = memo(
                           backgroundColor: "transparent",
                           color: "primary",
                         },
-                        ":hover":{
-                          "svg *":{
-                            stroke:"primary"
-                          }  
+                        ":hover": {
+                          "svg *": {
+                            stroke: "primary",
+                          },
                         },
-                        "svg *":{
-                          stroke:"lightBorder"
-                        }
+                        "svg *": {
+                          stroke: "lightBorder",
+                        },
                       }}
                     >
                       <TrashIcon />
@@ -307,7 +320,7 @@ const FavouriteProduct = memo(
                       fontSize: [3],
                       fontWeight: "600",
                       borderRadius: "unset",
-                      p:[0],
+                      p: [0],
                       px: [2],
                       ml: [2],
                     },

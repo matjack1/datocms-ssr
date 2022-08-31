@@ -16,8 +16,19 @@ import Nav from "../nav";
 import { navigate } from "gatsby";
 import { InboundLink } from "../link";
 import CustomBreadcrumbs from "../customBreadcrumbs";
+import CustomInput from "../../components/customInput"
 
 const Support = () => {
+
+  const onUpdateField = (e) => {
+  
+    // const nextFormState = {
+    //   ...formData,
+    //   [e.target.name]: e.target.value,
+    // };
+    // setFormData(nextFormState);
+  };
+
   return (
     <Box>
       <Container>
@@ -39,15 +50,17 @@ const Support = () => {
         </Heading>
         <Grid columns={[".7fr .3fr"]} gap={[12]}>
           <Box as="form">
-            <Box sx={{ pb: [6] }}>
-              <Textarea
-                rows={4}
-                sx={{
-                  fontFamily: "body",
-                }}
-                variant="inputs.dark"
+            <Box sx={{ pb: [6], textarea: { fontFamily: "body" } }}>
+              <CustomInput
+                id="messaggio"
+                label="Messaggio"
+                onChange={onUpdateField}
+                type="textarea"
+                name="messaggio"
                 placeholder="Inserisci la tua richiesta per ricevere assistenza. Verrai ricontattato al più presto per aiutarti a risolvere il problema"
-                minr
+                variant="inputs.dark"
+                rows={4}
+                required
               />
             </Box>
             <Button
@@ -76,7 +89,7 @@ const Support = () => {
             >
               <Box
                 sx={{
-                  pb:[4],
+                  pb: [4],
                   fontSize: [6],
                   fontWeight: "600",
                   textAlign: "center",
@@ -88,13 +101,14 @@ const Support = () => {
                 <br />
                 <a href="tel:80048110">800 480110</a>
               </Box>
-              <Box sx={{
-                fontSize:[2]
-              }}>
+              <Box
+                sx={{
+                  fontSize: [2],
+                }}
+              >
                 Numero verde gratuito attivo:
-                <br/>
-                lunedi - venerdi dalle 10:00 alle
-                17:00
+                <br />
+                lunedi - venerdi dalle 10:00 alle 17:00
               </Box>
             </Box>
           </Box>

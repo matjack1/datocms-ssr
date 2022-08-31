@@ -3,7 +3,7 @@ import { Box, Button, Text, Flex } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { navigate } from "gatsby";
-import { ToastContainer, toast } from "react-toastify";
+import {  toast } from "react-toastify";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
@@ -28,6 +28,16 @@ const AddToCart = ({ sku, quantity }) => {
       setAddingToCart(false);
       setOrder(order);
     }
+    else
+    toast.error("Qualcosa è andato storto", {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: false,
+      progress: undefined,
+    });
   };
 
   const createLineItem = async () => {
@@ -39,9 +49,17 @@ const AddToCart = ({ sku, quantity }) => {
       _external_price: true,
     };
 
+    const handleError = (e) => {
+      console.log("error",e)
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login");
+        // console.log("invalid token", e);
+      }
+    };
+    
     const lineItem = await cl.line_items
       .create(attributes)
-      .catch((error) => console.log(error.errors));
+      .catch(handleError);
 
     console.log("lineItem", lineItem, quantity);
     if (lineItem) {
@@ -116,5 +134,10 @@ const AddToCart = ({ sku, quantity }) => {
     </Box>
   );
 };
+
+
+const ToastThumb = () =>{
+
+}
 
 export default AddToCart;

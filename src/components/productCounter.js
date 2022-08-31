@@ -5,7 +5,7 @@ const ProductCounter = ({ skus }) => {
   return (
     <Box>
       <Text sx={{ fontWeight: "600" }}>
-        {skus.length} articolarticol{skus.length > 0 ? "i" : "o"}
+        {skus.length} articol{skus.length > 0 ? "i" : "o"}
       </Text>
     </Box>
   );

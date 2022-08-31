@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Container, Heading, Flex } from "theme-ui";
 import Header from "./header";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
@@ -6,11 +6,21 @@ import { useMenu } from "../hooks/useMenu";
 import Footer from "./footer";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CustomerTokenContext from "../hooks/customerTokenContext";
+import { navigate } from "gatsby";
 
 const Layout = ({ title, children }) => {
   const menu = useMenu();
+  const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-  return (
+  useEffect(() => {
+    if (!customerToken && typeof window != "undefined" && window.location.pathname !== `/login`) {
+      // If we’re not logged in, redirect to the home page.
+      navigate(`/login`);
+    }
+  }, [customerToken]);
+
+  return customerToken &&(
     <Box>
       <HeaderMenuContext.Provider value={menu}>
         <Flex

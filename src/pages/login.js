@@ -53,9 +53,10 @@ const LoginPage = () => {
     ).catch(handleError);
 
     if (clToken) {
+      console.log("logging")
       setCustomerToken(clToken.data);
-      setLoginError("");
       navigate("/");
+      setLoginError("");
     }
   };
 
@@ -75,7 +76,7 @@ const LoginPage = () => {
             </Box>
             <Box>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                SPEDIZIONE E RESO GRATUITI*
+                Spedizione gratuita da 250 €
               </Text>
             </Box>
             <Box>
@@ -137,19 +138,21 @@ const LoginPage = () => {
                 required
                 icon={true}
               >
-                <Flex sx={{
-                  minWidth:"26px",
-                  width:"fit-content!important",
-                  position:"absolute",
-                  left:[2],
-                  top:"50%",
-                  justifyContent:"center",
-                  justifyItems:"center",
-                  transform:"translateY(-50%)",
-                  svg :{
-                    width:"24px"
-                  }
-                }}>
+                <Flex
+                  sx={{
+                    minWidth: "26px",
+                    width: "fit-content!important",
+                    position: "absolute",
+                    left: [2],
+                    top: "50%",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                    transform: "translateY(-50%)",
+                    svg: {
+                      width: "24px",
+                    },
+                  }}
+                >
                   <EmailIcon />
                 </Flex>
               </CustomInput>
@@ -167,19 +170,21 @@ const LoginPage = () => {
                 icon={true}
                 required
               >
-                <Flex sx={{
-                  minWidth:"26px",
-                  width:"fit-content!important",
-                  position:"absolute",
-                  left:[2],
-                  top:"50%",
-                  justifyContent:"center",
-                  justifyItems:"center",
-                  transform:"translateY(-50%)",
-                  svg :{
-                    width:"24px"
-                  }
-                }}>
+                <Flex
+                  sx={{
+                    minWidth: "26px",
+                    width: "fit-content!important",
+                    position: "absolute",
+                    left: [2],
+                    top: "50%",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                    transform: "translateY(-50%)",
+                    svg: {
+                      width: "24px",
+                    },
+                  }}
+                >
                   <PasswordIcon />
                 </Flex>
               </CustomInput>

@@ -12,6 +12,7 @@ import {
   Button,
   Flex,
   Grid,
+  Image
 } from "theme-ui";
 import CustomerTokenContext from "../../../../hooks/customerTokenContext";
 import Nav from "../../../nav";
@@ -26,6 +27,7 @@ import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import { getProductPath } from "../../../../utils/path";
 import { InboundLink } from "../../../link";
 import { GatsbyImage } from "gatsby-plugin-image";
+import PlaceholderImage from "../../../../assets/img/placeholder-image.png";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -202,7 +204,7 @@ const CustomerOrderReturn = () => {
                   title: "Ordini",
                 },
                 {
-                  slug: "/account/orders/"+orderId,
+                  slug: "/account/orders/" + orderId,
                   title: `Ordine #${orderId}`,
                 },
               ],
@@ -296,11 +298,16 @@ const SkuComponent = ({
               ) : (
                 <Box
                   sx={{
-                    height: "166px",
-                    width: "100%",
+                    height: "100%",
+                    img: {
+                      height: "100%",
+                      objectFit: "contain",
+                    },
                     backgroundColor: "light",
                   }}
-                />
+                >
+                  <Image src={PlaceholderImage} />
+                </Box>
               )}
             </Box>
           </Flex>

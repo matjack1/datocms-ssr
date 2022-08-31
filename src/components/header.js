@@ -47,7 +47,7 @@ const Header = ({ color, title }) => {
             </Box>
             <Box>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                SPEDIZIONE E RESO GRATUITI*
+                Spedizione gratuita da 250 €
               </Text>
             </Box>
             <Box>

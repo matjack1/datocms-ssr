@@ -10,11 +10,12 @@ import CustomerContext from "../hooks/customerContext";
 import getPrices from "../hooks/getPrices";
 import { InboundLink } from "./link";
 import { getCategoryPath } from "../utils/path";
+import ContentLoader from "react-content-loader";
 
 const ProductCollection = ({ category, skus, categories }) => {
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
-  const [filteredSkus, setFilteredSkus] = useState(skusData);
+  const [filteredSkus, setFilteredSkus] = useState(null);
   const [orderBy, setOrderBy] = useState("code-asc");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
@@ -88,21 +89,6 @@ const ProductCollection = ({ category, skus, categories }) => {
       });
 
     setFilters(filters);
-  };
-
-  const handleSkuLoaded = (clSku) => {
-    if (clSku) {
-      setFilteredSkus(
-        filteredSkus.concat().map((sku) => {
-          if (sku.code === clSku.code)
-            return {
-              ...sku,
-              prices: clSku.prices[0],
-            };
-          else return sku;
-        })
-      );
-    }
   };
 
   function orderProducts() {
@@ -224,7 +210,7 @@ const ProductCollection = ({ category, skus, categories }) => {
     if (skusData && skusData.length > 0) {
       handleGetFilters();
       orderProducts();
-    }
+    } else setFilteredSkus([]);
   }, [skusData]);
 
   useEffect(() => {
@@ -299,11 +285,7 @@ const ProductCollection = ({ category, skus, categories }) => {
                 }}
               >
                 {filteredSkus.map((sku) => (
-                  <ProductThumb
-                    sku={sku}
-                    key={sku.id}
-                    handleSkuLoaded={handleSkuLoaded}
-                  />
+                  <ProductThumb sku={sku} key={sku.id} />
                 ))}
               </Grid>
             ) : Object.keys(checkedFilters).length > 0 ? (
@@ -313,11 +295,26 @@ const ProductCollection = ({ category, skus, categories }) => {
             )}
           </Box>
         </Grid>
+      ) : filteredSkus != null ? (
+        <Box sx={{ py: [5] }}>Non ci sono prodotti sotto questa categoria.</Box>
       ) : (
-        <Box sx={{ py: [5] }}>
-          {" "}
-          Non ci sono prodotti sotto questa categoria.
-        </Box>
+        <ContentLoader
+          backgroundColor="#d9d9d9"
+          foregroundColor="#ededed"
+          viewBox="0 0 1280 400"
+          width={1280}
+        >
+          {console.log("filteredSkus", filteredSkus)}
+          <rect x="30" y="45" rx="4" ry="4" width="80" height="6" />
+          <rect x="30" y="55" rx="4" ry="4" width="80" height="6" />
+          <rect x="30" y="65" rx="4" ry="4" width="80" height="6" />
+          <rect x="30" y="75" rx="4" ry="4" width="80" height="6" />
+          <rect x="30" y="75" rx="4" ry="4" width="80" height="6" />
+          <rect x="30" y="75" rx="4" ry="4" width="80" height="6" />
+          <rect x="310" y="20" rx="8" ry="8" width="290" height={"430px"} />
+          <rect x="620" y="20" rx="8" ry="8" width="290" height={"430px"} />
+          <rect x="940" y="20" rx="8" ry="8" width="290" height={"430px"} />
+        </ContentLoader>
       )}
     </Box>
   );

@@ -273,9 +273,7 @@ const CustomerOrders = () => {
                   >
                     <Text
                       sx={{
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        whiteSpace: "nowrap",
+                        whiteSpace: "wrap",
                         width: "100%",
                       }}
                     >

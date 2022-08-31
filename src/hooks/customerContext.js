@@ -15,8 +15,16 @@ export const CustomerProvider = ({ children }) => {
     if(customer && customer.metadata && customer.metadata.favourites)
     localStorage.setItem("favourites", JSON.stringify(customer.metadata.favourites));
     
+    if(!customer){
+      localStorage.removeItem("favourites")
+      localStorage.removeItem("customer")
+    }
 
-    if (!localStorageCustomer) navigate("/login");
+    if (!localStorageCustomer && !customer){
+      console.log("customer",customer)
+      navigate("/login")
+    }
+
   }, [customer]);
 
   return (

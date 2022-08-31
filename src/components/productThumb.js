@@ -1,11 +1,12 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading, Image } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
 
-const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
+const ProductThumb = memo(({ sku, horizontal = false }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
   const cl = useClSdk();
 
@@ -42,11 +43,16 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
                 ) : (
                   <Box
                     sx={{
-                      height: horizontal ? "216px" : "319px",
-                      width: "100%",
+                      height: "100%",
+                      img: {
+                        height: "100%",
+                        objectFit: "contain",
+                      },
                       backgroundColor: "light",
                     }}
-                  />
+                  >
+                    <Image src={PlaceholderImage} />
+                  </Box>
                 )}
               </Box>
             </Flex>
@@ -85,13 +91,12 @@ const ProductThumb = memo(({ sku, handleSkuLoaded, horizontal = false }) => {
                 sx={{
                   fontWeight: "600",
                   fontSize: [6],
-                  pt:[2]
+                  pt: [2],
                 }}
               >
                 {clSkuDetails && clSkuDetails.formatted_unit_amount
                   ? clSkuDetails.formatted_unit_amount
-                  : clSkuDetails.prices &&
-                    !clSkuDetails.formatted_unit_amount
+                  : clSkuDetails.prices && !clSkuDetails.formatted_unit_amount
                   ? clSkuDetails.prices.discountedPrice
                     ? "€" +
                       clSkuDetails.prices.discountedPrice.toLocaleString(

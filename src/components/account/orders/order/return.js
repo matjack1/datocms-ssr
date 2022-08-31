@@ -21,6 +21,7 @@ import { useClSdk } from "../../../../hooks/useClSdk";
 import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import ProductThumb from "../../../productThumb";
+import CustomInput from "../../../customInput";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -73,6 +74,15 @@ const CustomerOrderReturn = () => {
     });
 
     console.log(obj, e.target);
+  };
+
+  const onUpdateField = (e) => {
+  
+    // const nextFormState = {
+    //   ...formData,
+    //   [e.target.name]: e.target.value,
+    // };
+    // setFormData(nextFormState);
   };
 
   return (
@@ -136,7 +146,7 @@ const CustomerOrderReturn = () => {
                             }}
                             name={"item" + (index - 2)}
                           />
-                          <Box sx={{pl:[4]}}>
+                          <Box sx={{ pl: [4] }}>
                             <ProductThumb sku={item} horizontal={true} />
                           </Box>
                         </Label>
@@ -160,13 +170,17 @@ const CustomerOrderReturn = () => {
                 >
                   Motivazione della richiesta
                 </Heading>
-                <Textarea
+                <CustomInput
+                  id="reason"
+                  label="Motivo del reso"
+                  onChange={onUpdateField}
+                  type="textarea"
                   name="reason"
+                  placeholder="Motivo del reso (min.250 caratteri)"
                   variant="inputs.dark"
-                  placeholder="Testo (min.250 caratteri)"
+                  rows={8}
                   minLength={250}
                   required
-                  rows={8}
                 />
               </Box>
               <Box sx={{ pb: [9], pt: [7] }}>

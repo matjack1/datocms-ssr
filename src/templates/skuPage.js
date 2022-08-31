@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { graphql } from "gatsby";
-import { Box, Heading, Text, Button, Container, Grid, Flex } from "theme-ui";
+import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  Container,
+  Grid,
+  Flex,
+  Image,
+} from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import Nav from "../components/nav";
 import AddToCart from "../components/addToCart";
@@ -21,6 +30,8 @@ import RelatedProducts from "../components/relatedProducts";
 import { navigate } from "gatsby";
 import getPrices from "../hooks/getPrices";
 import FavouritIcon from "../assets/img/icons/preferiti.inline.svg";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
+import { toast } from "react-toastify";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -93,6 +104,18 @@ const SkuPage = ({ data: { sku, skus } }) => {
         },
       })
       .catch(handleError);
+
+    if (updatedCustomer)
+      toast.success(!isFavourie ? "Prodotto aggiunto ai preferiti" : "Prodotto rimosso dai preferiti", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
+
   };
 
   const getClSku = async () => {
@@ -193,10 +216,16 @@ const SkuPage = ({ data: { sku, skus } }) => {
               ) : (
                 <Box
                   sx={{
-                    width: "100%",
+                    height: "100%",
+                    img: {
+                      height: "100%",
+                      objectFit: "contain",
+                    },
                     backgroundColor: "light",
                   }}
-                />
+                >
+                  <Image src={PlaceholderImage} />
+                </Box>
               )}
             </Box>
             <Box>

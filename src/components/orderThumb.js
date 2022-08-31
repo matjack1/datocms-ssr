@@ -1,7 +1,8 @@
 import React from "react";
-import { Box, Flex, Grid, Heading, Text } from "theme-ui";
+import { Box, Flex, Grid, Heading, Text, Image } from "theme-ui";
 import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const OrderThumb = ({ order }) => {
   return (
@@ -17,7 +18,14 @@ const OrderThumb = ({ order }) => {
         to={`/account/orders/${order.id}`}
       >
         <Grid gap={[10]} columns={["167px auto"]}>
-          <Box sx={{ border: "1px solid", minWidth:"166px", minHeight:"166px", borderColor: "lightBorder" }}>
+          <Box
+            sx={{
+              border: "1px solid",
+              minWidth: "166px",
+              minHeight: "166px",
+              borderColor: "lightBorder",
+            }}
+          >
             {(order.image && order.image.length > 0) ||
             (order.images && order.images.length > 0) ? (
               <GatsbyImage
@@ -35,9 +43,16 @@ const OrderThumb = ({ order }) => {
             ) : (
               <Box
                 sx={{
+                  height: "100%",
+                  img: {
+                    height: "100%",
+                    objectFit: "contain",
+                  },
                   backgroundColor: "light",
                 }}
-              />
+              >
+                <Image src={PlaceholderImage} />
+              </Box>
             )}
           </Box>
 
@@ -67,7 +82,7 @@ const OrderThumb = ({ order }) => {
                 <Box>{order.formatted_total_amount_with_taxes}</Box>
               </Box>
             </Flex>
-            <Box sx={{ fontSize: [2], pb:[5],color: "lightBorder" }}>
+            <Box sx={{ fontSize: [2], pb: [5], color: "lightBorder" }}>
               {new Date(order.placed_at).toLocaleDateString("it-IT", {
                 year: "numeric",
                 month: "long",
@@ -87,7 +102,8 @@ const OrderThumb = ({ order }) => {
                 <Box
                   sx={{
                     borderRadius: "50%",
-                    backgroundColor: order.status === "placed" ? "status.approved" : "orange",
+                    backgroundColor:
+                      order.status === "placed" ? "status.approved" : "orange",
                     width: "7px",
                     height: "7px",
                   }}

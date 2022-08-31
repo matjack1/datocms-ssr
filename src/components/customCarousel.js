@@ -5,7 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Box, Button, Container, Heading, Image } from "theme-ui";
+import { Box, Button, Container, Flex, Heading, Image } from "theme-ui";
 import CustomerContext from "../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
@@ -14,6 +14,8 @@ import ChevronRightIcon from "../assets/img/icons/chevron-right.inline.svg";
 import ChevronLeftIcon from "../assets/img/icons/chevron-left.inline.svg";
 import { GatsbyImage } from "gatsby-plugin-image";
 import ProductThumb from "./productThumb";
+import ContentLoader from "react-content-loader";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const CustomCarousel = ({
   data,
@@ -30,8 +32,8 @@ const CustomCarousel = ({
   const [showNext, setShowNext] = useState(false);
   const [showArrows, setShowArrows] = useState(false);
   const [offsetWidth, setOffsetWidth] = useState(null);
+  const [showCarousel, setShowCarousel] = useState(false);
 
-  //TODO FIX
   const handleArrowIndex = (index) => {
     const scrolls = Math.ceil(
       (itemRef.current.offsetWidth * data.length) /
@@ -58,10 +60,17 @@ const CustomCarousel = ({
 
   // Attach the scroll listener to the div
   useEffect(() => {
-    scrollParentRef.current.addEventListener("scroll", handleScroll);
+    scrollParentRef.current &&
+      scrollParentRef.current.addEventListener("scroll", handleScroll);
   }, [handleScroll]);
 
-  return (
+  useEffect(() => {
+    setTimeout(() => {
+      setShowCarousel(true);
+    }, 300);
+  }, []);
+
+  return showCarousel ? (
     <Box
       onMouseEnter={() => setShowArrows(true)}
       onMouseLeave={() => setShowArrows(false)}
@@ -142,42 +151,61 @@ const CustomCarousel = ({
                             }}
                           >
                             <>
-                              {!small && item.name && (
-                                <Heading
-                                  as="h3"
-                                  variant="h4"
+                              <Flex
+                                sx={{
+                                  flexDirection: "column",
+                                  height: "100%",
+                                }}
+                              >
+                                {!small && item.name && (
+                                  <Heading
+                                    as="h3"
+                                    variant="h4"
+                                    sx={{
+                                      whiteSpace: "break-spaces",
+                                      m: [0],
+                                      p: [3],
+                                      minHeight: "120px",
+                                    }}
+                                  >
+                                    {item.name && item.name}
+                                  </Heading>
+                                )}
+                                <Box
                                   sx={{
-                                    whiteSpace: "break-spaces",
-                                    m: [0],
-                                    p: [3],
+                                    height: "100%",
                                   }}
                                 >
-                                  {item.name && item.name}
-                                </Heading>
-                              )}
-                              <Box>
-                                {(item.image && item.image.length > 0) ||
-                                (item.images && item.images.length > 0) ? (
-                                  <GatsbyImage
-                                    image={
-                                      item.image
-                                        ? item.image.gatsbyImageData
-                                        : item.images[0].gatsbyImageData
-                                    }
-                                    alt={
-                                      item.image
-                                        ? item.image.gatsbyImageData
-                                        : item.images[0].gatsbyImageData
-                                    }
-                                  />
-                                ) : (
-                                  <Box
-                                    sx={{
-                                      backgroundColor: "light",
-                                    }}
-                                  />
-                                )}
-                              </Box>
+                                  {(item.image && item.image.length > 0) ||
+                                  (item.images && item.images.length > 0) ? (
+                                    <GatsbyImage
+                                      image={
+                                        item.image
+                                          ? item.image.gatsbyImageData
+                                          : item.images[0].gatsbyImageData
+                                      }
+                                      alt={
+                                        item.image
+                                          ? item.image.gatsbyImageData
+                                          : item.images[0].gatsbyImageData
+                                      }
+                                    />
+                                  ) : (
+                                    <Box
+                                      sx={{
+                                        height: "100%",
+                                        img: {
+                                          height: "100%",
+                                          objectFit: "contain",
+                                        },
+                                        backgroundColor: "light",
+                                      }}
+                                    >
+                                      <Image src={PlaceholderImage} />
+                                    </Box>
+                                  )}
+                                </Box>
+                              </Flex>
                             </>
                           </Box>
                         </InboundLink>
@@ -283,6 +311,50 @@ const CustomCarousel = ({
           </Button>
         </Box>
       </Box>
+    </Box>
+  ) : (
+    <Box>
+      <Container sx={{ py: [0, 0] }}>
+        <ContentLoader
+          backgroundColor="#d9d9d9"
+          foregroundColor="#ededed"
+          viewBox="0 0 1280 400"
+          width={1280}
+        >
+          <rect
+            x="0"
+            y="20"
+            rx="8"
+            ry="8"
+            width="290"
+            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
+          />
+          <rect
+            x="310"
+            y="20"
+            rx="8"
+            ry="8"
+            width="290"
+            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
+          />
+          <rect
+            x="620"
+            y="20"
+            rx="8"
+            ry="8"
+            width="290"
+            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
+          />
+          <rect
+            x="940"
+            y="20"
+            rx="8"
+            ry="8"
+            width="290"
+            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
+          />
+        </ContentLoader>
+      </Container>
     </Box>
   );
 };

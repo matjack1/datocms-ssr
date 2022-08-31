@@ -9,7 +9,7 @@ import { InboundLink } from "./link";
 import { navigate } from "gatsby";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
-import BagIcon from "../assets/img/icons/carrello.inline.svg"
+import BagIcon from "../assets/img/icons/carrello.inline.svg";
 
 const CartIcon = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -41,7 +41,11 @@ const CartIcon = () => {
 
   const getOrder = async (id) => {
     const handleError = (e) => {
-      console.log("invalid token", e);
+      console.log("error", e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login");
+        // console.log("invalid token", e);
+      }
     };
 
     const order = await cl.orders
@@ -58,7 +62,11 @@ const CartIcon = () => {
       customer_email: customer.email,
     };
     const handleError = (e) => {
-      console.log(e);
+      console.log("error", e);
+      if (e.errors[0].code === "INVALID_TOKEN") {
+        navigate("/login");
+        // console.log("invalid token", e);
+      }
     };
 
     const newOrder = await cl.orders.create(attributes).catch(handleError);
@@ -92,25 +100,26 @@ const CartIcon = () => {
     }
   }, [order]);
 
-
   return (
     <>
       {customer && (
         <InboundLink to={getCartPath()}>
           <Box sx={{ position: "relative" }}>
-            <Flex sx={{
-              justifyContent:"center",
-              alignItems:"center",
-              svg:{
-                maxWidth:"24px",
-                color:"dark"
-              }
-            }}>
+            <Flex
+              sx={{
+                justifyContent: "center",
+                alignItems: "center",
+                svg: {
+                  maxWidth: "24px",
+                  color: "dark",
+                },
+              }}
+            >
               <BagIcon />
             </Flex>
             <Box
               sx={{
-                position:"absolute",
+                position: "absolute",
                 top: "-0.5em",
                 right: "-0.6em",
                 backgroundColor: "primary",
@@ -119,8 +128,8 @@ const CartIcon = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                width:cart && cart.skus_count > 99 ? "24px" : "18px",
-                height:"18px",
+                width: cart && cart.skus_count > 99 ? "24px" : "18px",
+                height: "18px",
                 borderRadius: cart && cart.skus_count > 99 ? "16px" : "50%",
               }}
             >

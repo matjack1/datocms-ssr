@@ -1,9 +1,10 @@
 import React from "react";
-import { Box, Container, Flex, Heading } from "theme-ui";
+import { Box, Container, Flex, Heading, Image } from "theme-ui";
 import { GatsbyImage } from "gatsby-plugin-image";
 import ArrowRight from "../assets/img/arrow-right.inline.svg";
 import { InboundLink } from "./link";
 import { getProductPath } from "../utils/path";
+import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const FeaturedProduct = ({ data }) => {
   return (
@@ -34,7 +35,10 @@ const FeaturedProduct = ({ data }) => {
               }}
               dangerouslySetInnerHTML={{ __html: data.productName }}
             />
-            <InboundLink to={getProductPath(data.product)} sx={{ textDecoration:"none" }}>
+            <InboundLink
+              to={getProductPath(data.product)}
+              sx={{ textDecoration: "none" }}
+            >
               <Flex
                 sx={{ alignItems: "center", alignContent: "center", mt: [9] }}
               >
@@ -72,11 +76,17 @@ const FeaturedProduct = ({ data }) => {
               ) : (
                 <Box
                   sx={{
-                    minWidth: "340px",
-                    minHeight: "340px",
+                    height: "100%",
+                    img: {
+                      maxHeight:"343px",
+                      height: "100%",
+                      objectFit: "contain",
+                    },
                     backgroundColor: "light",
                   }}
-                />
+                >
+                  <Image src={PlaceholderImage} />
+                </Box>
               )}
             </Box>
           </Flex>

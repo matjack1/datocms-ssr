@@ -20,6 +20,7 @@ import CustomerContext from "../../../hooks/customerContext";
 import { useClSdk } from "../../../hooks/useClSdk";
 import { getProvinces } from "../../../utils/provinces";
 import CustomInput from "../../customInput";
+import { toast } from "react-toastify";
 
 const AddAddress = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -31,7 +32,7 @@ const AddAddress = () => {
   const [submitStatus, setSubmitStatus] = useState(null);
 
   const [formData, setFormData] = useState({
-    business: "",
+    business: true,
     company: "",
     line_1: "",
     city: "",
@@ -52,7 +53,6 @@ const AddAddress = () => {
 
   const handleCreateAddress = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
 
     setLoading(true);
 
@@ -60,6 +60,15 @@ const AddAddress = () => {
       const createdAddress = await cl.addresses
         .create(formData)
         .catch((error) => {
+          toast.error("Qualcosa è andato storto", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           setSubmitStatus(false);
           console.log(error);
         });
@@ -79,11 +88,29 @@ const AddAddress = () => {
             },
           })
           .catch((error) => {
+            toast.error("Qualcosa è andato storto", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: true,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: false,
+              progress: undefined,
+            });
             setSubmitStatus(false);
             console.log(error);
           });
         if (createdCustomerAddress) {
           setLoading(false);
+          toast.success("Indirizzo aggiunto", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: false,
+            progress: undefined,
+          });
           setSubmitStatus(true);
         }
       }
@@ -139,7 +166,7 @@ const AddAddress = () => {
                   label="Indirizzo"
                   onChange={onUpdateField}
                   type="text"
-                  name="address"
+                  name="line_1"
                   placeholder="Indirizzo"
                   variant="inputs.dark"
                   required
@@ -176,7 +203,7 @@ const AddAddress = () => {
                     label="Provincia"
                     onChange={onUpdateField}
                     type="select"
-                    name="province"
+                    name="state_code"
                     placeholder="Provincia"
                     variant="inputs.dark"
                     required
@@ -204,7 +231,7 @@ const AddAddress = () => {
                     label="CAP"
                     onChange={onUpdateField}
                     type="text"
-                    name="zipcode"
+                    name="zip_code"
                     pattern="(^\d{5}$)|(^\d{5}-\d{4}$)"
                     placeholder="CAP"
                     variant="inputs.dark"
@@ -223,7 +250,7 @@ const AddAddress = () => {
                     label="Nazione"
                     onChange={onUpdateField}
                     type="select"
-                    name="nazione"
+                    name="country_code"
                     placeholder="Nazione"
                     variant="inputs.dark"
                     required
@@ -278,7 +305,12 @@ const AddAddress = () => {
         ) : loading ? (
           <Box>LOADING</Box>
         ) : submitStatus ? (
-          <Box>Indirizzo aggiunto</Box>
+          <>
+            <Box sx={{ pb: [6] }}>Indirizzo aggiunto</Box>
+            <InboundLink to="/account/addresses">
+              Visualizza i tuoi indirizzi
+            </InboundLink>
+          </>
         ) : (
           <Box>Errore</Box>
         )}

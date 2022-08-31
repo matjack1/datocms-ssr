@@ -15,8 +15,15 @@ export const CustomerTokenProvider = ({ children }) => {
     if (customerToken)
       localStorage.setItem("customerToken", JSON.stringify(customerToken));
 
-    if (!localStorageCustomerToken) navigate("/login");
-    
+    if (!customerToken) {
+      localStorage.removeItem("customerToken");
+      navigate("/login");
+    }
+
+    if (!localStorageCustomerToken && !customerToken) {
+      console.log("customerToken", customerToken);
+      navigate("/login");
+    }
   }, [customerToken]);
 
   return (

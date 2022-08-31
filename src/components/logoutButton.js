@@ -11,7 +11,10 @@ const LogoutButton = () => {
   const logoutCustomer = () => {
     setCustomerToken(null);
     setCustomer(null);
-    navigate("/login")
+    localStorage.removeItem("customer");
+    localStorage.removeItem("customerToken");
+    localStorage.removeItem("favourites");
+    navigate("/login");
   };
 
   return (
@@ -21,8 +24,8 @@ const LogoutButton = () => {
           sx={{
             backgroundColor: "transparent",
             color: "dark",
-            p:[0],
-            fontSize:[3],
+            p: [0],
+            fontSize: [3],
             "&:hover": {
               backgroundColor: "transparent",
               color: "primary",
