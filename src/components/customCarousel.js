@@ -70,6 +70,13 @@ const CustomCarousel = ({
     }, 300);
   }, []);
 
+  useEffect(() => {
+    if (scrollParentRef.current) {
+      console.log("enters");
+      scrollParentRef.current.addEventListener("scroll", handleScroll);
+    }
+  }, [scrollParentRef.current]);
+
   return showCarousel ? (
     <Box
       onMouseEnter={() => setShowArrows(true)}
@@ -241,6 +248,7 @@ const CustomCarousel = ({
             m: [0],
           }}
         >
+          {console.log("offsetWidth", offsetWidth)}
           <Button
             sx={{
               opacity: offsetWidth > 0 ? (showArrows ? 1 : 0) : 0,
