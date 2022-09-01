@@ -296,7 +296,7 @@ const ProductCollection = ({ category, skus, categories }) => {
           </Box>
         </Grid>
       ) : filteredSkus != null ? (
-        <Box sx={{ py: [5] }}>Non ci sono prodotti sotto questa categoria.</Box>
+        <Box sx={{ py: [5] }}>Non ci sono articoli sotto questa categoria.</Box>
       ) : (
         <ContentLoader
           backgroundColor="#d9d9d9"

@@ -22,7 +22,6 @@ export const CustomerProvider = ({ children }) => {
 
     if (!localStorageCustomer && !customer){
       console.log("customer",customer)
-      navigate("/login")
     }
 
   }, [customer]);

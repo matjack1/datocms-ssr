@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { InboundLink } from "../components/link";
-import { Box, Input, Heading, Button, Label, Flex } from "theme-ui";
+import { Box, Input, Text, Heading, Button, Label, Flex, Image, Container } from "theme-ui";
 import Nav from "../components/nav";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
 import { navigate } from "gatsby";
 import validator from "validator";
 import Layout from "../components/layout";
+import Logo from "../assets/img/logo.svg";
 
 const ResetPassword = ({ history }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [loading, setLoading] = useState(false)
-  const [success, setSuccess] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(null);
   const [params, setParams] = useState();
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -59,8 +60,7 @@ const ResetPassword = ({ history }) => {
           password: password,
         })
         .then(function (response) {
-
-            console.log("response")
+          console.log("response");
           setSuccess(true);
           setLoading(false);
 
@@ -74,7 +74,7 @@ const ResetPassword = ({ history }) => {
           }
         })
         .catch(function (error) {
-            console.log("error",error)
+          console.log("error", error);
           setSuccess(false);
           setLoading(false);
         });
@@ -85,47 +85,107 @@ const ResetPassword = ({ history }) => {
   };
 
   return (
-    <Layout>
-      <Heading as="h3" className="card-header">
-        Reset Password
-      </Heading>
-      {success === null && !loading ? (
-        <Box as="form" onSubmit={sendResetPassword}>
-          <Box>
-            <Input type="password" name="password" required />
-          </Box>
-          <Box>
-            <Label>
-              minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1,
-              minSymbols: 1
-            </Label>
-          </Box>
-          {errorMessage && <Box>{errorMessage}</Box>}
-          <Box>
-            <Button type="submit" className="btn btn-primary">
-              Cambia password
-            </Button>
-          </Box>
-        </Box>
-      ) : success === true ? (
-        <Flex sx={{ maxWidth: "600px" }}>
-          <Heading sx={{ my: [4], color: "secondary" }} as="h4">
-            Password cambiata! Esegui il login con la nuova password 
-          </Heading>
-          <InboundLink to="/login">login</InboundLink>
-        </Flex>
-      ) : success === false ? (
-        <Flex sx={{ maxWidth: "600px" }}>
-          <Heading sx={{ my: [4], color: "secondary" }} as="h4">
-            Qualcosa è andato storto! Probabilmente questo link non è più valido!
-          </Heading>
-        </Flex>
-      ) : loading === true && (
+    <>
+      <Box
+        sx={{
+          backgroundColor: "dark",
+        }}
+      >
+        <Container sx={{ py: [1, 1] }}>
+          <Flex sx={{ justifyContent: "space-between" }}>
+            <Box>
+              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
+                14 GIORNI PER IL RESO
+              </Text>
+            </Box>
+            <Box>
+              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
+                Spedizione gratuita da 250 €
+              </Text>
+            </Box>
+            <Box>
+              <InboundLink
+                sx={{
+                  color: "white",
+                  fontWeight: "600",
+                  fontSize: [1],
+                  textDecoration: "none",
+                }}
+                href="/help"
+              >
+                Aiuto
+              </InboundLink>
+            </Box>
+          </Flex>
+        </Container>
+      </Box>
+      <Container
+        sx={{
+          pt: [5, 5],
+          pb: [4, 4],
+          display: ["block", "block", "block", "block"],
+        }}
+      >
         <Box>
-          LOADING
+          <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
+            <Box>
+              <InboundLink to="/">
+                <Image
+                  src={Logo}
+                  sx={{ maxHeight: "80px", minHeight: "80px" }}
+                />
+              </InboundLink>
+            </Box>
+            <Box></Box>
+          </Flex>
         </Box>
-       )}
-    </Layout>
+      </Container>
+
+      <Container
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Box sx={{ maxWidth: "413px", width: ["413px"] }}>
+          <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+            Resetta la password
+          </Heading>
+          {success === null && !loading ? (
+            <Box as="form" onSubmit={sendResetPassword}>
+              <Box>
+                <Input type="password" name="password" required />
+              </Box>
+              <Box>
+                <Label>
+                  minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1,
+                  minSymbols: 1
+                </Label>
+              </Box>
+              {errorMessage && <Box>{errorMessage}</Box>}
+              <Box>
+                <Button type="submit" className="btn btn-primary">
+                  Cambia password
+                </Button>
+              </Box>
+            </Box>
+          ) : success === true ? (
+            <Flex sx={{ maxWidth: "600px" }}>
+              <Heading sx={{ my: [4], color: "secondary" }} as="h4">
+                Password cambiata! Esegui il login con la nuova password
+              </Heading>
+              <InboundLink to="/login">login</InboundLink>
+            </Flex>
+          ) : success === false ? (
+            <Flex sx={{ maxWidth: "600px" }}>
+              <Heading sx={{ my: [4], color: "secondary" }} as="h4">
+                Qualcosa è andato storto! Probabilmente questo link non è più
+                valido!
+              </Heading>
+            </Flex>
+          ) : (
+            loading === true && <Box>LOADING</Box>
+          )}
+        </Box>
+      </Container>
+    </>
   );
 };
 

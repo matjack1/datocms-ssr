@@ -112,7 +112,7 @@ const CustomerOrderReturn = () => {
             </Heading>
             <Grid columns={[".7fr .3fr"]} gap={[12]}></Grid>
             <Box as="form" onSubmit={handleAskReturn}>
-              <Box sx={{ pb: [7] }}>Seleziona prodotti</Box>
+              <Box sx={{ pb: [7] }}>Seleziona articoli</Box>
               <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
                 {order.line_items.map(
                   (item, index) =>

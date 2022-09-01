@@ -265,7 +265,7 @@ const CustomerOrder = () => {
                     }}
                   >
                     <Box>
-                      <Text sx={{ fontSize: [5] }}>Prodotti</Text>
+                      <Text sx={{ fontSize: [5] }}>Articoli</Text>
                     </Box>
                     <Box sx={{ fontSize: [5], fontWeight: "600" }}>
                       {order.formatted_subtotal_taxable_amount}

@@ -17,12 +17,10 @@ export const CustomerTokenProvider = ({ children }) => {
 
     if (!customerToken) {
       localStorage.removeItem("customerToken");
-      navigate("/login");
     }
 
     if (!localStorageCustomerToken && !customerToken) {
       console.log("customerToken", customerToken);
-      navigate("/login");
     }
   }, [customerToken]);
 

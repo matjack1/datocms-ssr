@@ -99,7 +99,7 @@ const LoginPage = () => {
         sx={{
           pt: [5, 5],
           pb: [4, 4],
-          display: ["none", "none", "none", "block"],
+          display: ["none", "none", "block", "block"],
         }}
       >
         <Box>
