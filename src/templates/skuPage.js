@@ -233,7 +233,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
               )}
             </Box>
             <Box>
-              {sku.documents.lenth > 0 && (
+              {console.log("sku.documents",sku.documents)}
+              {sku.documents.length > 0 && (
                 <>
                   <Box>
                     <Box
