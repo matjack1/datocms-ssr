@@ -33,6 +33,10 @@ const Nav = () => {
             <InboundLink
               to="/account/favourites"
               sx={{
+                "svg":{
+                  height:"20px",
+                  width:"auto",
+                },
                 "svg *": {
                   stroke: "dark",
                 },

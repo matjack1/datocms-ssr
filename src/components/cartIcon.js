@@ -110,31 +110,34 @@ const CartIcon = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 svg: {
-                  maxWidth: "24px",
-                  color: "dark",
+                  height:"20px",
+                  width:"auto",
+                  stroke: "dark",
                 },
               }}
             >
               <BagIcon />
             </Flex>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "-0.5em",
-                right: "-0.6em",
-                backgroundColor: "primary",
-                color: "light",
-                fontSize: ["10px"],
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                width: cart && cart.skus_count > 99 ? "24px" : "18px",
-                height: "18px",
-                borderRadius: cart && cart.skus_count > 99 ? "16px" : "50%",
-              }}
-            >
-              {cart && <Box>{cart.skus_count}</Box>}
-            </Box>
+            {cart && cart.skus_count > 0 && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "-0.5em",
+                  right: "-0.7em",
+                  backgroundColor: "primary",
+                  color: "light",
+                  fontSize: ["10px"],
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: cart && cart.skus_count > 99 ? "24px" : "16px",
+                  height: "16px",
+                  borderRadius: cart && cart.skus_count > 99 ? "16px" : "50%",
+                }}
+              >
+                {cart && <Box>{cart.skus_count}</Box>}
+              </Box>
+            )}
           </Box>
 
           {/* <Box>{customer && <Box>{customer.orders[0].line_items.length}</Box>}</Box> */}
