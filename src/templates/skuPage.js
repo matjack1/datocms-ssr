@@ -106,16 +106,20 @@ const SkuPage = ({ data: { sku, skus } }) => {
       .catch(handleError);
 
     if (updatedCustomer)
-      toast.success(!isFavourie ? "Articolo aggiunto ai preferiti" : "Articolo rimosso dai preferiti", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: false,
-        progress: undefined,
-      });
-
+      toast.success(
+        !isFavourie
+          ? "Articolo aggiunto ai preferiti"
+          : "Articolo rimosso dai preferiti",
+        {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        }
+      );
   };
 
   const getClSku = async () => {
@@ -229,76 +233,85 @@ const SkuPage = ({ data: { sku, skus } }) => {
               )}
             </Box>
             <Box>
-              <Box>
-                <Box
-                  sx={{
-                    svg: {
-                      width: "26px",
-                      height: "auto",
-                    },
-                  }}
-                >
-                  <PdfIcon />
-                </Box>
-                <Box>
-                  <Heading
-                    as="h2"
-                    variant="h6"
-                    sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
-                  >
-                    Documenti Tecnici
-                  </Heading>
-                  {sku.documents.map((document) => (
-                    <Box sx={{ pb: [2] }}>
-                      <OutboundLink
-                        sx={{ color: "lightBorder" }}
-                        href={document.url}
-                      >
-                        {document.title}
-                      </OutboundLink>
+              {sku.documents.lenth > 0 && (
+                <>
+                  <Box>
+                    <Box
+                      sx={{
+                        svg: {
+                          width: "26px",
+                          height: "auto",
+                        },
+                      }}
+                    >
+                      <PdfIcon />
                     </Box>
-                  ))}
-                </Box>
-              </Box>
-              <Box
-                sx={{
-                  borderBottom: "1px solid",
-                  mb: [5],
-                  pt: [5],
-                  borderColor: "lightBorder",
-                }}
-              />
-              <Box>
-                <Box
-                  sx={{
-                    svg: {
-                      width: "26px",
-                      height: "auto",
-                    },
-                  }}
-                >
-                  <Package />
-                </Box>
-                <Box>
-                  <Heading
-                    as="h2"
-                    variant="h6"
-                    sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
-                  >
-                    Confezionamento
-                  </Heading>
-                  {sku.pallet}
-                </Box>
-              </Box>
+                    <Box>
+                      <Heading
+                        as="h2"
+                        variant="h6"
+                        sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                      >
+                        Documenti Tecnici
+                      </Heading>
+                      {sku.documents.map((document) => (
+                        <Box sx={{ pb: [2] }}>
+                          <OutboundLink
+                            sx={{ color: "lightBorder" }}
+                            href={document.url}
+                          >
+                            {document.title}
+                          </OutboundLink>
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      borderBottom: "1px solid",
+                      mb: [5],
+                      pt: [5],
+                      borderColor: "lightBorder",
+                    }}
+                  />
+                </>
+              )}
 
-              <Box
-                sx={{
-                  borderBottom: "1px solid",
-                  mb: [5],
-                  pt: [5],
-                  borderColor: "lightBorder",
-                }}
-              />
+              {sku.pallet && (
+                <>
+                  <Box>
+                    <Box
+                      sx={{
+                        svg: {
+                          width: "26px",
+                          height: "auto",
+                        },
+                      }}
+                    >
+                      <Package />
+                    </Box>
+
+                    <Box>
+                      <Heading
+                        as="h2"
+                        variant="h6"
+                        sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                      >
+                        Confezionamento
+                      </Heading>
+                      {sku.pallet}
+                    </Box>
+                  </Box>
+                  <Box
+                    sx={{
+                      borderBottom: "1px solid",
+                      mb: [5],
+                      pt: [5],
+                      borderColor: "lightBorder",
+                    }}
+                  />
+                </>
+              )}
             </Box>
 
             <Box>

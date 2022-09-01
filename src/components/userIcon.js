@@ -69,7 +69,10 @@ const UserIcon = () => {
       {customer && (
         <>
           <Box>
-            <Box onClick={() => showSidebar()}>
+            <Box sx={{
+                cursor:"pointer"
+            }} 
+            onClick={() => showSidebar()}>
               <Flex
                 sx={{ justifyContent: "space-between", alignItems: "center" }}
               >
