@@ -100,7 +100,6 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">Tutti gli ordini</Text>
-                    <FiChevronRight color={dark} size={25} />
                   </Flex>
                 </InboundLink>
               </Box>
@@ -130,7 +129,6 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">I tuoi indirizzi</Text>
-                    <FiChevronRight color={dark} size={25} />
                   </Flex>
                 </InboundLink>
               </Box>
@@ -147,7 +145,6 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">Metodi di pagamenti</Text>
-                    <FiChevronRight color={dark} size={25} />
                   </Flex>
                 </InboundLink>
               </Box>
@@ -164,7 +161,6 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">Dati aziendali</Text>
-                    <FiChevronRight color={dark} size={25} />
                   </Flex>
                 </InboundLink>
               </Box>
@@ -181,7 +177,7 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">Impostazioni</Text>
-                    <FiChevronRight color={dark} size={25} />
+                    
                   </Flex>
                 </InboundLink> */}
               {/* </Box> */}
@@ -214,7 +210,6 @@ const AccountSideBar = ({ open, closed, sideBarData }) => {
                     }}
                   >
                     <Text as="span">Assistenza</Text>
-                    <FiChevronRight color={dark} size={25} />
                   </Flex>
                 </InboundLink>
               </Box>
