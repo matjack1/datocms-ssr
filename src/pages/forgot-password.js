@@ -17,6 +17,7 @@ import Layout from "../components/layout";
 import Logo from "../assets/img/logo.svg";
 import CustomInput from "../components/customInput";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
+import EmailIcon from "../assets/img/icons/email.inline.svg";
 
 const ForgotPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -33,7 +34,6 @@ const ForgotPassword = () => {
 
     setLoading(true);
 
-    console.log("email", email);
 
     if (result && email)
       axios
@@ -124,7 +124,7 @@ const ForgotPassword = () => {
       >
         <Box sx={{ maxWidth: "413px", width: ["413px"] }}>
           <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-          Resetta la password
+            Resetta la password
           </Heading>
           {success === null ? (
             <Box as="form" onSubmit={sendMail}>
@@ -138,8 +138,27 @@ const ForgotPassword = () => {
                     placeholder="Email"
                     variant="inputs.dark"
                     onChange={(e) => setEmail(e.target.value)}
+                    icon={true}
                     required
-                  />
+                  >
+                    <Flex
+                      sx={{
+                        minWidth: "26px",
+                        width: "fit-content!important",
+                        position: "absolute",
+                        left: [2],
+                        top: "50%",
+                        justifyContent: "center",
+                        justifyItems: "center",
+                        transform: "translateY(-50%)",
+                        svg: {
+                          width: "24px",
+                        },
+                      }}
+                    >
+                      <EmailIcon />
+                    </Flex>
+                  </CustomInput>
                 </Box>
                 <Box>
                   <Box sx={{ pb: [5] }}>

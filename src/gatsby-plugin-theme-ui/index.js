@@ -462,10 +462,12 @@ const theme = {
         color: "primary",
         border: "1px solid light",
       },
-      "::placeholder": {
-        /* Chrome, Firefox, Opera, Safari 10.1+ */ color: "light",
-        opacity: 1 /* Firefox */,
-      },
+      "::-webkit-input-placeholder": { color: "lightBorder" },
+      ":-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      "::-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      ":-ms-input-placeholder": { color: "lightBorder" },
+      "::-ms-input-placeholder": { color: "lightBorder" },
+      "::placeholder": { color: "lightBorder" },
     },
     dark: {
       fontFamily: "body",
@@ -480,10 +482,12 @@ const theme = {
         color: "dark",
         borderColor: "dark",
       },
-      "::placeholder": {
-        /* Chrome, Firefox, Opera, Safari 10.1+ */ color: "dark",
-        opacity: 1 /* Firefox */,
-      },
+      "::-webkit-input-placeholder": { color: "lightBorder" },
+      ":-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      "::-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      ":-ms-input-placeholder": { color: "lightBorder" },
+      "::-ms-input-placeholder": { color: "lightBorder" },
+      "::placeholder": { color: "lightBorder" },
     },
   },
   links: {

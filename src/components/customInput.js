@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Flex, Input, Label, Select, Textarea } from "theme-ui";
+import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 
 const CustomInput = (props) => {
+  const [passwordShown, setPasswordShown] = useState(false);
   const [focused, setFocused] = useState(false);
   const {
     id,
@@ -87,12 +89,13 @@ const CustomInput = (props) => {
         <Flex
           sx={{
             width: "100%",
-            "input,select,textare": { 
-              pl: icon && [8],  
-              width: "100%" ,
+            "input,select,textare": {
+              pl: icon && [8],
+              width: "100%",
+              pr: type === "password" && [7]
             },
             "& > div": { width: "100%" },
-            position:"relative"
+            position: "relative",
           }}
         >
           {icon && props.children}
@@ -103,11 +106,36 @@ const CustomInput = (props) => {
               {...fieldProps}
             />
           ) : type === "text" || type === "password" || type === "email" ? (
-            <Input
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              {...fieldProps}
-            />
+            <>
+              <Input
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                {...fieldProps}
+                type={
+                  type === "password" && passwordShown ? "text" : type === "password" ? "password" : type
+                }
+              />
+              {type === "password" && (
+                <Flex
+                  onClick={() => setPasswordShown(!passwordShown)}
+                  sx={{
+                    minWidth: "26px",
+                    width: "fit-content!important",
+                    position: "absolute",
+                    right: [2],
+                    top: "50%",
+                    justifyContent: "center",
+                    justifyItems: "center",
+                    transform: "translateY(-50%)",
+                    svg: {
+                      width: "24px",
+                    },
+                  }}
+                >
+                  {!passwordShown ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                </Flex>
+              )}
+            </>
           ) : (
             <Select
               sx={{ width: "100%", minHeight: "54px" }}

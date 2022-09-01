@@ -14,7 +14,11 @@ const Layout = ({ title, children }) => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
   console.log(
-    "location.pathname",window.location.pathname
+    !customerToken &&
+      typeof window != "undefined" &&
+      (window.location.pathname !== `/login` ||
+        window.location.pathname !== `/forgot-password` ||
+        window.location.pathname !== `/reset-password`)
   );
 
   useEffect(() => {
@@ -25,7 +29,7 @@ const Layout = ({ title, children }) => {
         window.location.pathname !== `/forgot-password` ||
         window.location.pathname !== `/reset-password`)
     ) {
-      // If we’re not logged in, redirect to the home page.
+      console.log("not logged")
       navigate(`/login`);
     }
   }, [customerToken]);

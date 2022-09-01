@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { InboundLink } from "../components/link";
-import { Box, Input, Text, Heading, Button, Label, Flex, Image, Container } from "theme-ui";
+import {
+  Box,
+  Input,
+  Text,
+  Heading,
+  Button,
+  Label,
+  Flex,
+  Image,
+  Container,
+} from "theme-ui";
 import Nav from "../components/nav";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
@@ -8,14 +18,27 @@ import { navigate } from "gatsby";
 import validator from "validator";
 import Layout from "../components/layout";
 import Logo from "../assets/img/logo.svg";
+import CustomInput from "../components/customInput";
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
+import PasswordIcon from "../assets/img/icons/password.inline.svg";
 
 const ResetPassword = ({ history }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
-  const [params, setParams] = useState();
+  const [params, setParams] = useState({
+    password: "",
+    confirm_password: "",
+  });
   const [errorMessage, setErrorMessage] = useState("");
 
+  const onUpdateField = (e) => {
+    const nextFormState = {
+      ...params,
+      [e.target.name]: e.target.value,
+    };
+    setParams(nextFormState);
+  };
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -43,21 +66,18 @@ const ResetPassword = ({ history }) => {
   const sendResetPassword = async (event) => {
     event.preventDefault();
 
-    console.log(event.target.password.value);
-    console.log(validate(event.target.password.value));
-
     const result = await executeRecaptcha("dynamicAction");
-    const password = event.target.password.value;
 
     setLoading(true);
 
-    console.log(errorMessage);
-
-    if (result && errorMessage === "")
+    if (
+      result &&
+      errorMessage === "" &&
+      params.password === params.confirm_password
+    )
       axios
         .post("/.netlify/functions/resetPassword", {
-          ...params,
-          password: password,
+          password: params.password,
         })
         .then(function (response) {
           console.log("response");
@@ -79,8 +99,12 @@ const ResetPassword = ({ history }) => {
           setLoading(false);
         });
     else {
-      setSuccess(false);
-      setLoading(false);
+      if (!result && params.password !== params.confirm_password) {
+        setErrorMessage("Le password non combaciano");
+      } else {
+        setSuccess(false);
+        setLoading(false);
+      }
     }
   };
 
@@ -148,10 +172,97 @@ const ResetPassword = ({ history }) => {
           <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
             Resetta la password
           </Heading>
-          {success === null && !loading ? (
+          {success === null ? (
             <Box as="form" onSubmit={sendResetPassword}>
+              <Box sx={{ pb: [6] }}>
+                <CustomInput
+                  id="password"
+                  label="Password"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  variant="inputs.dark"
+                  onChange={(e) => setParams(e)}
+                  icon={true}
+                  required
+                >
+                  <Flex
+                    sx={{
+                      minWidth: "26px",
+                      width: "fit-content!important",
+                      position: "absolute",
+                      left: [2],
+                      top: "50%",
+                      justifyContent: "center",
+                      justifyItems: "center",
+                      transform: "translateY(-50%)",
+                      svg: {
+                        width: "24px",
+                      },
+                    }}
+                  >
+                    <PasswordIcon />
+                  </Flex>
+                </CustomInput>
+              </Box>
+              <Box sx={{ pb: [6] }}>
+                <CustomInput
+                  id="confirm_password"
+                  label="Confirm password"
+                  type="password"
+                  name="confirm_password"
+                  placeholder="Confirm password"
+                  variant="inputs.dark"
+                  onChange={(e) => setParams(e)}
+                  icon={true}
+                  required
+                >
+                  <Flex
+                    sx={{
+                      minWidth: "26px",
+                      width: "fit-content!important",
+                      position: "absolute",
+                      left: [2],
+                      top: "50%",
+                      justifyContent: "center",
+                      justifyItems: "center",
+                      transform: "translateY(-50%)",
+                      svg: {
+                        width: "24px",
+                      },
+                    }}
+                  >
+                    <PasswordIcon />
+                  </Flex>
+                </CustomInput>
+              </Box>
               <Box>
-                <Input type="password" name="password" required />
+                <Box sx={{ pb: [5] }}>
+                  <Button
+                    sx={{
+                      width: ["100%"],
+                      textAlign: "center",
+                      fontSize: [3],
+                      fontWeight: "600",
+                      borderRadius: "unset",
+                      p: [3],
+                    }}
+                    variant="buttons.primary"
+                    type="submit"
+                    disabled={loading === true}
+                  >
+                    {loading === true ? (
+                      <BouncingDotsLoader />
+                    ) : (
+                      "Invia richiesta"
+                    )}
+                  </Button>
+                </Box>
+                <Box>
+                  <InboundLink to={"/login"} className="btn btn-link">
+                    Torna al login
+                  </InboundLink>
+                </Box>
               </Box>
               <Box>
                 <Label>
@@ -160,28 +271,23 @@ const ResetPassword = ({ history }) => {
                 </Label>
               </Box>
               {errorMessage && <Box>{errorMessage}</Box>}
-              <Box>
-                <Button type="submit" className="btn btn-primary">
-                  Cambia password
-                </Button>
-              </Box>
             </Box>
           ) : success === true ? (
             <Flex sx={{ maxWidth: "600px" }}>
-              <Heading sx={{ my: [4], color: "secondary" }} as="h4">
+              <Heading sx={{ my: [4], color: "dark" }} as="h5">
                 Password cambiata! Esegui il login con la nuova password
               </Heading>
               <InboundLink to="/login">login</InboundLink>
             </Flex>
-          ) : success === false ? (
-            <Flex sx={{ maxWidth: "600px" }}>
-              <Heading sx={{ my: [4], color: "secondary" }} as="h4">
-                Qualcosa è andato storto! Probabilmente questo link non è più
-                valido!
-              </Heading>
-            </Flex>
           ) : (
-            loading === true && <Box>LOADING</Box>
+            success === false && (
+              <Flex sx={{ maxWidth: "600px" }}>
+                <Heading sx={{ my: [4], color: "dark" }} as="h5">
+                  Qualcosa è andato storto! Probabilmente questo link non è più
+                  valido!
+                </Heading>
+              </Flex>
+            )
           )}
         </Box>
       </Container>
