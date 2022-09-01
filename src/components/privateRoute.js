@@ -6,13 +6,13 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-
-  console.log("location.pathname",location.pathname)
+  console.log("location.pathname", location.pathname);
   useEffect(() => {
     if (
-      (!customerToken && location.pathname !== `/login`) ||
-      location.pathname !== `/forgot-password` ||
-      location.pathname !== `/reset-password`
+      !customerToken &&
+      (location.pathname !== `/login` ||
+        location.pathname !== `/forgot-password` ||
+        location.pathname !== `/reset-password`)
     ) {
       // If we’re not logged in, redirect to the home page.
       navigate(`/login`);
