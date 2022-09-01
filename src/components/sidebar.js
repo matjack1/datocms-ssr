@@ -67,28 +67,43 @@ const Sidebar = ({ open, closed, sideBarData }) => {
             <Image src={Logo} sx={{ maxHeight: "80px" }} />
           </InboundLink>
         </Box>
-        <Flex sx={{ flexDirection: "column", pt: [14] }}>
+        <Flex sx={{ flexDirection: "column", pt: [12] }}>
           {console.log(sideBarData)}
           {sideBarData &&
             sideBarData.map((menuItem, index) =>
               index === 0 ? (
                 <>
                   <Box sx={{ pb: [7] }}>
-                    <Text sx={{ fontWeight: "600" }}>
-                      {menuItem.link.link.name}
-                    </Text>
+                    <Box sx={{ pb: [6] }}>
+                      <Text sx={{ fontWeight: "600", fontSize: [4] }}>
+                        {menuItem.link.link.name}
+                      </Text>
+                    </Box>
+                    <InboundLink
+                      sx={{
+                        color: "text",
+                        textDecoration: "none",
+                        fontWeight: "600",
+                        "&:hover": {
+                          color: "primary",
+                        },
+                      }}
+                      to={getCategoryPath(menuItem.link.link, menuItem.locale)}
+                    >
+                      Scopri tutti gli articoli
+                    </InboundLink>
                   </Box>
-                  <InboundLink
-                    sx={{ color: "text", textDecoration: "none" }}
-                    to={getCategoryPath(menuItem.link.link, menuItem.locale)}
-                  >
-                    Scopri tutti gli articoli
-                  </InboundLink>
                 </>
               ) : (
-                <Box sx={{ pt: [5] }}>
+                <Box sx={{ pt: [5], a: {} }}>
                   <InboundLink
-                    sx={{ color: "text", textDecoration: "none" }}
+                    sx={{
+                      color: "text",
+                      textDecoration: "none",
+                      "&:hover": {
+                        color: "primary",
+                      },
+                    }}
                     to={getCategoryPath(menuItem.link.link, menuItem.locale)}
                   >
                     {menuItem.link.link.name}
