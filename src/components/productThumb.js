@@ -6,7 +6,7 @@ import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 
-const ProductThumb = memo(({ sku, horizontal = false }) => {
+const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
   const cl = useClSdk();
 
@@ -27,13 +27,20 @@ const ProductThumb = memo(({ sku, horizontal = false }) => {
           <Grid
             sx={{
               gridTemplateRows: !horizontal && "1fr auto",
-              gridTemplateColumns: horizontal && ["218px 1fr"],
+              gridTemplateColumns: horizontal
+                ? small ? ["78px 1fr"] : ["218px 1fr"]
+                : "",
             }}
-            gap={[horizontal ? 11 : 3]}
+            gap={[horizontal ? (small ? 5 : 11) : 3]}
           >
             <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
               <Box
-                sx={{ border: "1px solid", borderColor: "dark", width: "100%" }}
+                sx={{
+                  border: "1px solid",
+                  borderColor: "dark",
+                  width: "100%",
+                  height: small && "79px",
+                }}
               >
                 {sku.images && sku.images.length > 0 ? (
                   <GatsbyImage
@@ -68,19 +75,20 @@ const ProductThumb = memo(({ sku, horizontal = false }) => {
                     whiteSpace: "break-spaces",
                     fontWeight: "400",
                     my: [0],
-                    fontSize: horizontal ? [7, 7] : [4, 4],
+                    fontSize: horizontal ? (small ? [1, 1] : [2, 2]) : [2, 2],
                   }}
                 >
                   {clSkuDetails.name}
                 </Heading>
               </Box>
-              <Box sx={{ color: "lightBorder" }}>
+              <Box sx={{ color: "lightBorder", fontSize: small && [1, 1], pb:[2] }}>
                 {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
               </Box>
               <Text
                 sx={{
                   fontWeight: "400",
-                  fontSize: [5],
+                  fontSize: small ? [1, 1] : [5],
+                  color: "dark",
                 }}
               >
                 {clSkuDetails &&
@@ -90,8 +98,9 @@ const ProductThumb = memo(({ sku, horizontal = false }) => {
               <Text
                 sx={{
                   fontWeight: "600",
-                  fontSize: [6],
+                  fontSize: small ? [1, 1] : [3,3],
                   pt: [2],
+                  color:"dark"
                 }}
               >
                 {clSkuDetails && clSkuDetails.formatted_unit_amount

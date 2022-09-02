@@ -591,6 +591,48 @@ const theme = {
       ".rf-cards-scroller-platter>div:last-child .rf-cards-scroller-itemview": {
         paddingRight: [3],
       },
+      ".Toastify__toast--default" :{
+        borderRadius:"unset",
+        border:"1px solid",
+        borderColor:"dark"
+      },
+      ".Toastify__toast-container": { width: "420px" },
+      ".Toastify__toast-container--top-left": {},
+      ".Toastify__toast-container--top-center": {},
+      ".Toastify__toast-container--top-right": {
+        // top:["154px"],
+        // right:[5]
+      },
+      ".Toastify__toast-container--bottom-left": {},
+      ".Toastify__toast-container--bottom-center": {},
+      ".Toastify__toast-container--bottom-right": {},
+      ".Toastify__toast": {},
+      ".Toastify__toast--rtl": {},
+      ".Toastify__toast-body": {
+        borderRadius:"unset"
+      },
+      ".Toastify__toast-icon": {},
+      ".Toastify__toast-theme--dark": {},
+      ".Toastify__toast-theme--light": {},
+      ".Toastify__toast-theme--colored.Toastify__toast--default": {},
+      ".Toastify__toast-theme--colored.Toastify__toast--info": {},
+      ".Toastify__toast-theme--colored.Toastify__toast--success": {},
+      ".Toastify__toast-theme--colored.Toastify__toast--warning": {},
+      ".Toastify__toast-theme--colored.Toastify__toast--error": {},
+      ".Toastify__progress-bar": {},
+      ".Toastify__progress-bar--rtl": {},
+      ".Toastify__progress-bar-theme--light": {},
+      ".Toastify__progress-bar-theme--dark": {},
+      ".Toastify__progress-bar--info": {},
+      ".Toastify__progress-bar--success": {},
+      ".Toastify__progress-bar--warning": {},
+      ".Toastify__progress-bar--error": {},
+      ".Toastify__progress-bar-theme--colored.Toastify__progress-bar--info, .Toastify__progress-bar-theme--colored.Toastify__progress-bar--success, .Toastify__progress-bar-theme--colored.Toastify__progress-bar--warning, .Toastify__progress-bar-theme--colored.Toastify__progress-bar--error":
+        {},
+      ".Toastify__close-button": {},
+      ".Toastify__close-button--default": {},
+      ".Toastify__close-button > svg": {},
+      ".Toastify__close-button:hover, .Toastify__close-button:focus": {},
     },
   },
 };

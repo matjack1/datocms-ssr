@@ -19,6 +19,7 @@ const CartPage = () => {
   const { customerToken } = useContext(CustomerTokenContext);
   const { cart, setCart } = useContext(CartContext);
   const [itemQuantity, setItemQuantity] = useState(null);
+  const [cartItems, setCartItems] = useState([]);
   const cl = useClSdk();
 
   const lightBorder = getColor(theme, "lightBorder");
@@ -60,6 +61,8 @@ const CartPage = () => {
       cart.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
     }
+    setCartItems([]);
+    setCartItems(cart && cart.line_items.length > 0 ? cart.line_items : []);
   }, [cart]);
 
   const updateQuantity = (quantity, id) => {
@@ -69,7 +72,7 @@ const CartPage = () => {
   return (
     <Layout>
       <Container>
-        {cart && cart.line_items.length > 0 ? (
+        {cart && cartItems.length > 0 ? (
           <>
             <Grid columns={[".7fr .3fr"]} gap={[12]}>
               {console.log("cart", cart)}
@@ -96,20 +99,17 @@ const CartPage = () => {
                     </Box>
                   )}
                 </Box>
-                <Box>
-                  <Box>
-                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                      {cart.line_items.map((lineItem) => (
-                        <Box>
-                          <CartProduct
-                            sku={lineItem}
-                            updateQuantity={updateQuantity}
-                          />
-                        </Box>
-                      ))}
-                    </Grid>
-                  </Box>
-                </Box>
+                <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                  {console.log("cart.line_items", cartItems)}
+                  {cartItems.map((lineItem,index) => (
+                    <Box key={lineItem.id}>
+                      <CartProduct
+                        sku={lineItem}
+                        updateQuantity={updateQuantity}
+                      />
+                    </Box>
+                  ))}
+                </Grid>
               </Box>
 
               <Box>

@@ -3,12 +3,20 @@ import { Box, Button, Text, Flex } from "theme-ui";
 import CartContext from "../hooks/cartContext";
 import { useClSdk } from "../hooks/useClSdk";
 import { navigate } from "gatsby";
-import {  toast } from "react-toastify";
+import { toast } from "react-toastify";
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
+import ProductThumb from "../components/productThumb";
+import { getCartPath } from "../utils/path";
+import { InboundLink } from "./link";
+import CheckedIcon from "../assets/img/icons/flag.inline.svg";
+import ClosedCirle from "../assets/img/icons/closed-circle.inline.svg";
+
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [lineItem, setLineItem] = useState(null);
   const cl = useClSdk();
 
   const getOrder = async (id) => {
@@ -27,17 +35,16 @@ const AddToCart = ({ sku, quantity }) => {
     if (order) {
       setAddingToCart(false);
       setOrder(order);
-    }
-    else
-    toast.error("Qualcosa è andato storto", {
-      position: "top-right",
-      autoClose: 5000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: false,
-      progress: undefined,
-    });
+    } else
+      toast.error("Qualcosa è andato storto", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+      });
   };
 
   const createLineItem = async () => {
@@ -50,26 +57,24 @@ const AddToCart = ({ sku, quantity }) => {
     };
 
     const handleError = (e) => {
-      console.log("error",e)
+      console.log("error", e);
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
         // console.log("invalid token", e);
       }
     };
-    
-    const lineItem = await cl.line_items
-      .create(attributes)
-      .catch(handleError);
 
-    console.log("lineItem", lineItem, quantity);
+    const lineItem = await cl.line_items.create(attributes).catch(handleError);
+
     if (lineItem) {
+      setLineItem(lineItem);
       getOrder(cart.id);
     }
   };
 
   useEffect(() => {
-    if (order) {
-      toast.success("Prodotto aggiunto al carrello", {
+    if (order && lineItem) {
+      toast(<ToastThumb status="success" item={lineItem} />, {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: true,
@@ -99,7 +104,8 @@ const AddToCart = ({ sku, quantity }) => {
         disabled={!isAvailable() || addingToCart}
         onClick={() => addToCart()}
         sx={{
-          opacity: isAvailable() && !addingToCart ? 1 : 0.5,
+          minWidth: "200px",
+          opacity: isAvailable() ? 1 : 0.7,
           width: "100%",
           height: "100%",
           textAlign: "center",
@@ -126,7 +132,7 @@ const AddToCart = ({ sku, quantity }) => {
             {!isAvailable() && !addingToCart ? (
               <Text>Non disponibile</Text>
             ) : (
-              <Text>Aggiungendo al carrello</Text>
+              <BouncingDotsLoader />
             )}
           </Box>
         )}
@@ -135,9 +141,47 @@ const AddToCart = ({ sku, quantity }) => {
   );
 };
 
-
-const ToastThumb = () =>{
-
-}
+const ToastThumb = ({ status, label, item }) => {
+  console.log("status",status)
+  return status === "success" ? (
+    <Box>
+      <Flex
+        sx={{
+          pb: [4],
+          svg: { width: "15px", height: "auto" },
+          alignItems: "center",
+          justifyContent: "start",
+        }}
+      >
+        <CheckedIcon />
+        <Text sx={{ color: "dark", ml: [1], fontWeight: "600" }}>
+          Aggiunto al carrello
+        </Text>
+      </Flex>
+      <ProductThumb sku={item} horizontal={true} small={true} />
+      <Box sx={{ pt: [4] }}>
+        <InboundLink
+          sx={{ fontSize: [1, 1], textDecoration: "underline", color: "dark" }}
+          to={getCartPath()}
+        >
+          visualizza il carrello
+        </InboundLink>
+      </Box>
+    </Box>
+  ) : status === "error" && (
+    <Flex
+      sx={{
+        svg: { width: "15px", height: "auto" },
+        alignItems: "center",
+        justifyContent: "start",
+      }}
+    >
+      <ClosedCirle />
+      <Text sx={{ color: "primary", ml: [1], fontWeight: "600" }}>
+        Qualcosa è andato storto
+      </Text>
+    </Flex>
+  );
+};
 
 export default AddToCart;
