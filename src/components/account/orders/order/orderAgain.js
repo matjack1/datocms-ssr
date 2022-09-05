@@ -12,7 +12,7 @@ import {
   Button,
   Flex,
   Grid,
-  Image
+  Image,
 } from "theme-ui";
 import CustomerTokenContext from "../../../../hooks/customerTokenContext";
 import Nav from "../../../nav";
@@ -28,6 +28,8 @@ import { getProductPath } from "../../../../utils/path";
 import { InboundLink } from "../../../link";
 import { GatsbyImage } from "gatsby-plugin-image";
 import PlaceholderImage from "../../../../assets/img/placeholder-image.png";
+import ThumbPrice from "../../../thumbPrice";
+import ThumbProductDetails from "../../../thumbProductDetails";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -231,7 +233,6 @@ const CustomerOrderReturn = () => {
                               updateQuantity(e, sku.code)
                             }
                             clSkuDetails={sku}
-                            horizontal={true}
                           />
                         </Box>
                       ))}
@@ -250,11 +251,7 @@ const CustomerOrderReturn = () => {
   );
 };
 
-const SkuComponent = ({
-  clSkuDetails,
-  handleUpdateQuantity,
-  horizontal = false,
-}) => {
+const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
   console.log("sku", clSkuDetails);
   const [currentQuantity, setCurrentQuantity] = useState(clSkuDetails.quantity);
 
@@ -276,10 +273,9 @@ const SkuComponent = ({
       {clSkuDetails && (
         <Grid
           sx={{
-            gridTemplateRows: !horizontal && "1fr auto",
-            gridTemplateColumns: horizontal && ["168px 1fr"],
+            gridTemplateColumns: ["168px 1fr"],
           }}
-          gap={[horizontal ? 11 : 3]}
+          gap={[10]}
         >
           <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
             <Box
@@ -319,7 +315,7 @@ const SkuComponent = ({
           >
             <Flex
               sx={{
-                pb: [horizontal ? 5 : 3],
+                pb: [4],
                 justifyContent: "space-between",
               }}
             >
@@ -332,13 +328,13 @@ const SkuComponent = ({
                   }}
                 >
                   <Heading
-                    as={horizontal ? "h3" : "h2"}
+                    as={"he"}
                     variant="h2"
                     sx={{
                       color: "dark",
                       fontWeight: "400",
                       my: [0],
-                      fontSize: horizontal ? [7, 7] : [4, 4],
+                      fontSize: [5, 5],
                     }}
                   >
                     {clSkuDetails.name}
@@ -346,149 +342,11 @@ const SkuComponent = ({
                 </InboundLink>
               </Box>
             </Flex>
-            <Box sx={{ pb: [6] }}>
+            <Box sx={{ pb: [2], color: "lightBorder" }}>
               {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
             </Box>
-            <Box
-              as="table"
-              sx={{
-                tr: {
-                  p: [0],
-                  "td:first-child": {
-                    textAlign: "left",
-                    verticalAlign: "middle",
-                    color: "lightBorder",
-                  },
-                  td: {
-                    fontSize: [2],
-                    fontWeight: "400",
-                    pb: [3],
-                  },
-                },
-              }}
-            >
-              {clSkuDetails.size && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Dimensione</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.size}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.glove_type && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Tipo di guanto</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.glove_type}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.packaging && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Imballaggio</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.packaging}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.ecolabel && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Etichetta ecologica</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.ecolabel}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.biodegradable && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Biodegradabile</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.biodegradable}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.sanitizer && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Sanificatore</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.sanitizer}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.haccp && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>HACCP</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.haccp}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.detergent_type && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Tipo di detergente</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.detergent_type}</Box>
-                  </Box>
-                </Box>
-              )}
-
-              {clSkuDetails.detergent_usage && (
-                <Box as="tr">
-                  <Box as="td" sx={{ textAlign: "left" }}>
-                    <Box>Uso del detergente</Box>
-                  </Box>
-                  <Box as="td">
-                    <Box sx={{ ml: [4] }}>{clSkuDetails.detergent_usage}</Box>
-                  </Box>
-                </Box>
-              )}
-            </Box>
-            <Box sx={{ pb: [6] }}>
-              <Text
-                sx={{
-                  fontWeight: "600",
-                  fontSize: [6],
-                }}
-              >
-                {clSkuDetails && clSkuDetails.formatted_unit_amount
-                  ? clSkuDetails.formatted_unit_amount
-                  : clSkuDetails.prices && !clSkuDetails.formatted_unit_amount
-                  ? clSkuDetails.prices.discountedPrice
-                    ? "€" +
-                      clSkuDetails.prices.discountedPrice.toLocaleString(
-                        "it-IT",
-                        { minimumFractionDigits: 2 }
-                      )
-                    : "€" +
-                      clSkuDetails.prices.price.toLocaleString("it-IT", {
-                        minimumFractionDigits: 2,
-                      })
-                  : "Caricamento del prezzo"}
-              </Text>
-            </Box>
+            <ThumbProductDetails item={clSkuDetails} />
+            <ThumbPrice item={clSkuDetails} />
             <Flex sx={{ pb: [9] }}>
               <SkuQuantity
                 sku={clSkuDetails}

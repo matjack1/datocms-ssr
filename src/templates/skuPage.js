@@ -32,6 +32,7 @@ import getPrices from "../hooks/getPrices";
 import FavouritIcon from "../assets/img/icons/preferiti.inline.svg";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import { toast } from "react-toastify";
+import ThumbProductDetails from "../components/thumbProductDetails";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -448,134 +449,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
               <Box sx={{ pb: [4] }}>
                 <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
               </Box>
-              <Box
-                as="table"
-                sx={{
-                  tr: {
-                    p: [0],
-                    "td:first-child": {
-                      textAlign: "left",
-                      verticalAlign: "middle",
-                      color: "lightBorder",
-                    },
-                    td: {
-                      fontSize: [2],
-                      fontWeight: "400",
-                      pb: [3],
-                    },
-                  },
-                }}
-              >
-                {sku.code && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Codice</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.code}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.size && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Dimensione</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.size}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.gloveType && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Tipo di guanto</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.gloveType}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.packaging && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Imballaggio</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.packaging}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.ecolabel && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Etichetta ecologica</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.ecolabel}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.biodegradable && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Biodegradabile</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.biodegradable}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.sanitizer && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Sanificatore</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.sanitizer}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.haccp && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>HACCP</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.haccp}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.detergentType && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Tipo di detergente</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.detergentType}</Box>
-                    </Box>
-                  </Box>
-                )}
-
-                {sku.detergentUsage && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>Uso del detergente</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>{sku.detergentUsage}</Box>
-                    </Box>
-                  </Box>
-                )}
-              </Box>
+              <ThumbProductDetails item={sku} />
             </Box>
           </Box>
         </Grid>

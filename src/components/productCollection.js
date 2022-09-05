@@ -224,7 +224,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   return (
     <Box>
       <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
-        <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+        <Heading as="h1" variant="h2" sx={{ color: "primary", mb:[6] }}>
           {category.name}
         </Heading>
         {filteredSkus && <ProductCounter skus={filteredSkus} />}

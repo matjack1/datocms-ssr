@@ -22,23 +22,24 @@ const Nav = () => {
           </InboundLink>
         </Box>
         <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
-          <Box
+          <Flex
             sx={{
               mx: [2],
             }}
           >
             <UserIcon />
-          </Box>
+          </Flex>
           <Box sx={{ mx: [2] }}>
             <InboundLink
               to="/account/favourites"
               sx={{
+                
+                  display:"flex",
+                  alignItems:"flex-end",
+                
                 "svg":{
                   height:"20px",
                   width:"auto",
-                },
-                "svg *": {
-                  stroke: "dark",
                 },
               }}
             >

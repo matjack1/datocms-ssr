@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="16px" height="23px" viewBox="0 0 16 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Stroke 1</title>
-    <g id="Mobile" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Dashboard-/-nuovo-ordine" transform="translate(-307.000000, -16.000000)" stroke="#151515" stroke-width="1.2">
-            <g id="Header" transform="translate(0.000000, 14.000000)">
-                <polygon id="Stroke-1" points="321.734352 3 307.831116 3 307.831116 23 314.748836 15.9121726 321.836663 23"></polygon>
-            </g>
+<svg width="13px" height="20px" viewBox="0 0 13 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>preferiti</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="preferiti" fill="#151515" fill-rule="nonzero">
+            <path d="M0,0 L0,20 L6.41447368,13.0316742 L13,20 L13,0 L0,0 Z M6.41447368,11.4932127 L1.02631579,17.3755656 L1.02631579,1.17647059 L11.8881579,1.17647059 L11.9736842,17.3755656 L6.41447368,11.4932127 Z" id="Shape"></path>
         </g>
     </g>
 </svg>
