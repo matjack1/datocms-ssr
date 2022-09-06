@@ -202,7 +202,7 @@ const CartPage = () => {
                   {customerToken && customerToken.access_token && (
                     <Box>
                       <OutboundLink
-                        href={`https://socaf-s-p-a.checkout.commercelayer.app/${cart.id}?accessToken=${customerToken.access_token}`}
+                        href={`https://socaf-b2b-checkout.netlify.app/${cart.id}?accessToken=${customerToken.access_token}`}
                         target="_blank"
                         variant="buttons.primary"
                         sx={{
