@@ -508,6 +508,34 @@ const theme = {
         fontWeight: "bold",
       },
     },
+    primary: {
+      textDecoration: "none",
+      color: "primary",
+      textDecoration: "underline",
+      "&.active": {
+        color: "primary",
+        //textDecoration: "underline",
+      },
+    },
+    dark: {
+      textDecoration: "none",
+      color: "dark",
+      textDecoration: "underline",
+      "&.active": {
+        color: "primary",
+        //textDecoration: "underline",
+      },
+    },
+    light: {
+      textDecoration: "none",
+      color: "light",
+      fontWeight:"600",
+      textDecoration: "underline",
+      "&.active,&:hover": {
+        color: "primary",
+        //textDecoration: "underline",
+      },
+    },
   },
   styles: {
     root: {
@@ -591,10 +619,10 @@ const theme = {
       ".rf-cards-scroller-platter>div:last-child .rf-cards-scroller-itemview": {
         paddingRight: [3],
       },
-      ".Toastify__toast--default" :{
-        borderRadius:"unset",
-        border:"1px solid",
-        borderColor:"dark"
+      ".Toastify__toast--default": {
+        borderRadius: "unset",
+        border: "1px solid",
+        borderColor: "dark",
       },
       ".Toastify__toast-container": { width: "420px" },
       ".Toastify__toast-container--top-left": {},
@@ -609,7 +637,7 @@ const theme = {
       ".Toastify__toast": {},
       ".Toastify__toast--rtl": {},
       ".Toastify__toast-body": {
-        borderRadius:"unset"
+        borderRadius: "unset",
       },
       ".Toastify__toast-icon": {},
       ".Toastify__toast-theme--dark": {},

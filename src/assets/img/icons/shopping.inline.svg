@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="22px" viewBox="0 0 24 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>3. icon / shopping</title>
+    <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linejoin="round">
+        <g id="DPI-/-guanti-monouso-/-singolo-prodotto" transform="translate(-1140.000000, -2376.000000)" stroke="#FFFFFF" stroke-width="1.2">
+            <g id="footer" transform="translate(0.000000, 2313.105047)">
+                <g id="compra-facile" transform="translate(1141.000000, 62.000000)">
+                    <g id="3.-icon-/-shopping" transform="translate(0.000000, 2.000000)">
+                        <path d="M0,0 L3.52221989,0 C4.21530376,0 4.82627707,0.444781158 5.02493168,1.09411562 L9.12781165,14.5155165 C9.21580828,14.8032145 9.48656716,15 9.79352533,15 L21,15" id="Stroke-1" stroke-linecap="round"></path>
+                        <path d="M12,18.5 C12,19.3283582 11.3283582,20 10.5,20 C9.67164179,20 9,19.3283582 9,18.5 C9,17.6716418 9.67164179,17 10.5,17 C11.3283582,17 12,17.6716418 12,18.5 Z" id="Stroke-3" stroke-linecap="round"></path>
+                        <path d="M21,18.5 C21,19.3283582 20.3283582,20 19.5,20 C18.6716418,20 18,19.3283582 18,18.5 C18,17.6716418 18.6716418,17 19.5,17 C20.3283582,17 21,17.6716418 21,18.5 Z" id="Stroke-5" stroke-linecap="round"></path>
+                        <path d="M8,4 L21.3182054,4 C21.7742624,4 22.1016806,4.41536293 21.9710044,4.82852526 L19.9119081,11.3263418 C19.7855975,11.7260255 19.3964792,12 18.9549741,12 L8.59691963,12" id="Stroke-7" stroke-linecap="round"></path>
+                        <line x1="22" y1="5" x2="20" y2="10" id="Stroke-9" stroke-linecap="round"></line>
+                        <line x1="18" y1="5" x2="17" y2="10" id="Stroke-11" stroke-linecap="round"></line>
+                        <line x1="14.00075" y1="5" x2="13.99925" y2="10" id="Stroke-13" stroke-linecap="round"></line>
+                        <line x1="11" y1="5" x2="12" y2="10" id="Stroke-15" stroke-linecap="round"></line>
+                        <line x1="7" y1="5" x2="9" y2="10" id="Stroke-17" stroke-linecap="round"></line>
+                        <polyline id="Stroke-19" points="20 3 20 0 15 0 15 3"></polyline>
+                        <polyline id="Stroke-21" points="14 1 10 1 10 3"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

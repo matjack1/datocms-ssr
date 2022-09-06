@@ -96,6 +96,7 @@ const Addresses = () => {
               </Flex>
             </InboundLink>
           </Box>
+          {console.log("addresses",addresses)}
           {addresses &&
             addresses.meta.recordCount > 0 &&
             addresses.map((customer_address, index) => (

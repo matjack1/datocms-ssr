@@ -177,7 +177,10 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, [customer]);
 
   useEffect(() => {
-    console.log('localStorage.getItem("favourites")',localStorage.getItem("favourites"))
+    console.log(
+      'localStorage.getItem("favourites")',
+      localStorage.getItem("favourites")
+    );
     if (isFavourie === null && localStorage.getItem("favourites")) {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
@@ -188,7 +191,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, []);
 
   useEffect(() => {
-    console.log("clSkuDetails",clSkuDetails)
+    console.log("clSkuDetails", clSkuDetails);
     if (clSkuDetails && !relatedSkus)
       setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
   }, [clSkuDetails]);
@@ -236,7 +239,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
               )}
             </Box>
             <Box>
-              {console.log("sku.documents",sku.documents)}
+              {console.log("sku.documents", sku.documents)}
               {sku.documents.length > 0 && (
                 <>
                   <Box>
@@ -454,7 +457,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
           </Box>
         </Grid>
       </Container>
-      {console.log("relatedSkus",relatedSkus)}
+      {console.log("relatedSkus", relatedSkus)}
       {relatedSkus && relatedSkus.length > 0 && (
         <RelatedProducts
           sku={sku}
@@ -507,6 +510,10 @@ export const query = graphql`
     documents {
       url
       title
+    }
+    images {
+      url
+      gatsbyImageData(width: 1480, placeholder: BLURRED, forceBlurhash: false)
     }
     model {
       apiKey

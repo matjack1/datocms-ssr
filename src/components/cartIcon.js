@@ -60,6 +60,7 @@ const CartIcon = () => {
   const createOrder = async () => {
     const attributes = {
       customer_email: customer.email,
+      language_code: "it"
     };
     const handleError = (e) => {
       console.log("error", e);
