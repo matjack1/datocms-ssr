@@ -203,7 +203,7 @@ const CartPage = () => {
                     <Box>
                       <OutboundLink
                         href={`https://socaf-b2b-checkout.netlify.app/${cart.id}?accessToken=${customerToken.access_token}`}
-                        target="_blank"
+                        // target="_blank"
                         variant="buttons.primary"
                         sx={{
                           display: "inline-block",
