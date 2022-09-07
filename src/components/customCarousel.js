@@ -5,7 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Box, Button, Container, Flex, Heading, Image } from "theme-ui";
+import { Box, Button, Container, Flex, Heading, Image, Grid } from "theme-ui";
 import CustomerContext from "../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
@@ -14,8 +14,9 @@ import ChevronRightIcon from "../assets/img/icons/chevron-right.inline.svg";
 import ChevronLeftIcon from "../assets/img/icons/chevron-left.inline.svg";
 import { GatsbyImage } from "gatsby-plugin-image";
 import ProductThumb from "./productThumb";
-import ContentLoader from "react-content-loader";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const CustomCarousel = ({
   data,
@@ -323,45 +324,16 @@ const CustomCarousel = ({
   ) : (
     <Box>
       <Container sx={{ py: [0, 0] }}>
-        <ContentLoader
-          backgroundColor="#d9d9d9"
-          foregroundColor="#ededed"
-          viewBox="0 0 1280 400"
-          width={1280}
+        <Grid
+          columns={["1fr", "1fr 1fr", "1fr 1fr", "1fr 1fr 1fr"]}
+          sx={{
+            columnGap: [3],
+          }}
         >
-          <rect
-            x="0"
-            y="20"
-            rx="8"
-            ry="8"
-            width="290"
-            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
-          />
-          <rect
-            x="310"
-            y="20"
-            rx="8"
-            ry="8"
-            width="290"
-            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
-          />
-          <rect
-            x="620"
-            y="20"
-            rx="8"
-            ry="8"
-            width="290"
-            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
-          />
-          <rect
-            x="940"
-            y="20"
-            rx="8"
-            ry="8"
-            width="290"
-            height={small ? "290px" : productThumbnail ? "500px" : "390px"}
-          />
-        </ContentLoader>
+          {[1, 2, 3].map((sku) => (
+            <Skeleton height={small ? "290px" : productThumbnail ? "500px" : "390px"} width={"290px"} />
+          ))}
+        </Grid>
       </Container>
     </Box>
   );

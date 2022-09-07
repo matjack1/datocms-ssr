@@ -54,15 +54,13 @@ const RelatedProducts = ({ sku, skus, customer }) => {
     if (skus.length > 0 && customer) {
       getSkusPrices();
     }
-  }, [skus,customer]);
+  }, [skus, customer]);
 
   return skusData ? (
     <Box sx={{ position: "relative", pb: [11] }}>
-      <Container sx={{ py: [11, 11] }}>
-        <Heading as="h2" variant="h2" sx={{ my: [0], fontWeight: "600" }}>
-          Articoli correlati
-        </Heading>
-      </Container>
+      <Heading as="h2" variant="h2" sx={{ my: [0], fontWeight: "600" }}>
+        Articoli correlati
+      </Heading>
       {/* to do hide on first one */}
 
       <CustomCarousel

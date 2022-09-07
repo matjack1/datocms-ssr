@@ -529,7 +529,7 @@ const theme = {
     light: {
       textDecoration: "none",
       color: "light",
-      fontWeight:"600",
+      fontWeight: "600",
       textDecoration: "underline",
       "&.active,&:hover": {
         color: "primary",
@@ -661,6 +661,13 @@ const theme = {
       ".Toastify__close-button--default": {},
       ".Toastify__close-button > svg": {},
       ".Toastify__close-button:hover, .Toastify__close-button:focus": {},
+      ".skeleton": {
+        animation: "skeleton-loading 1s linear infinite alternate",
+      },
+      "@keyframes skeleton-loading": {
+        "0%": { backgroundColor: "lightBorder" },
+        "100%": { backgroundColor: "lightGrey" },
+      },
     },
   },
 };

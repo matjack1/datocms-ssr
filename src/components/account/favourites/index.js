@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Container, Grid, Heading } from "theme-ui";
+import { Box, Container, Grid, Heading, Flex, Text } from "theme-ui";
 import CustomerContext from "../../../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { useClSdk } from "../../../hooks/useClSdk";
@@ -8,7 +8,8 @@ import { navigate } from "gatsby";
 import CustomBreadcrumbs from "../../customBreadcrumbs";
 import FavouriteProduct from "../../favouriteProduct";
 import getPrices from "../../../hooks/getPrices";
-// import CustomerFavourite from "./_favourite";
+import FavouritesSkeleton from "../../skeleton/favourites";
+import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -104,7 +105,6 @@ const CustomerFavourites = () => {
           items: allChunks[i],
         });
 
-        
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
 
         res = await Promise.all(
@@ -113,7 +113,7 @@ const CustomerFavourites = () => {
               (el) => el["itemcode"] == obj["code"]
             );
 
-            console.log("chunkPrices",chunkPrices)
+            console.log("chunkPrices", chunkPrices);
             if (chunkPrices[index]) {
               return {
                 code: obj["code"],
@@ -128,7 +128,7 @@ const CustomerFavourites = () => {
             return obj;
           })
         );
-        
+
         setSkusPrices(res);
       }
     }
@@ -154,12 +154,16 @@ const CustomerFavourites = () => {
       })
     );
     console.log("res", res);
-    setPricedSkusData(res);
+    setTimeout(() => {
+      setPricedSkusData(res);
+    }, 300);
   };
 
   useEffect(() => {
     getSkusPrices();
-    setPricedSkusData(skus);
+    setTimeout(() => {
+      setPricedSkusData(skus);
+    }, 300);
   }, [skus]);
 
   useEffect(() => {
@@ -173,49 +177,107 @@ const CustomerFavourites = () => {
   return (
     <Box>
       <Container>
-        <CustomBreadcrumbs
-          data={{
-            pages: [
-              {
-                slug: "/",
-                title: "Home",
-              },
-            ],
-            current: {
-              title: "Preferiti",
-            },
-          }}
-        />
-        <Box sx={{ pb: [8] }}>
-          <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-            Preferiti
-          </Heading>
-        </Box>
         {pricedSkusData && pricedSkusData.length > 0 ? (
-          <Grid columns={[".7fr .3fr"]} gap={[12]}>
-            <Box>
+          <>
+            <CustomBreadcrumbs
+              data={{
+                pages: [
+                  {
+                    slug: "/",
+                    title: "Home",
+                  },
+                ],
+                current: {
+                  title: "Preferiti",
+                },
+              }}
+            />
+            <Box sx={{ pb: [8] }}>
+              <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                Preferiti
+              </Heading>
+            </Box>
+
+            <Grid columns={[".7fr .3fr"]} gap={[12]}>
               <Box>
                 <Box>
-                  <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                    {console.log(pricedSkusData[0].prices)}
-                    {pricedSkusData.map((sku) => (
-                      <Box>
-                        <FavouriteProduct
-                          sku={sku}
-                          handleDeleteFavourite={() =>
-                            handleDeleteFavourite(sku)
-                          }
-                        />
-                      </Box>
-                    ))}
-                  </Grid>
+                  <Box>
+                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                      {console.log(pricedSkusData[0].prices)}
+                      {pricedSkusData.map((sku) => (
+                        <Box>
+                          <FavouriteProduct
+                            sku={sku}
+                            handleDeleteFavourite={() =>
+                              handleDeleteFavourite(sku)
+                            }
+                          />
+                        </Box>
+                      ))}
+                    </Grid>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-            <Box></Box>
-          </Grid>
+              <Box></Box>
+            </Grid>
+          </>
+        ) : pricedSkusData != null && pricedSkusData.length < 1 ? (
+          <Box sx={{}}>
+            <>
+              <CustomBreadcrumbs
+                data={{
+                  pages: [
+                    {
+                      slug: "/",
+                      title: "Home",
+                    },
+                  ],
+                  current: {
+                    title: "Preferiti",
+                  },
+                }}
+              />
+              <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                Preferiti
+              </Heading>
+              <Flex
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid",
+                  color: "lightBorder",
+                  svg: {
+                    color: "lightBorder",
+                  },
+                  borderColor: "lightBorder",
+                  p: [14],
+                  flexDirection: "column",
+                }}
+              >
+                <Box
+                  sx={{
+                    pb: [7],
+                    svg: {
+                      width: "92px",
+                      height: "auto",
+                      "*": {
+                        stroke: "lightBorder",
+                      },
+                    },
+                  }}
+                >
+                  <NoPref />
+                </Box>
+                <Box>
+                  <Text sx={{ fontSize: [7] }}>
+                    La lista dei preferiti è vuota
+                  </Text>
+                </Box>
+              </Flex>
+            </>
+          </Box>
         ) : (
-          <Box>La lista dei preferiti è vuota</Box>
+          <FavouritesSkeleton />
         )}
       </Container>
     </Box>

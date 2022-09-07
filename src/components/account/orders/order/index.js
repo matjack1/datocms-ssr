@@ -20,6 +20,7 @@ import { useParams } from "@reach/router";
 import ProductThumb from "../../../productThumb";
 import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
+import CartSkeleton from "../../../skeleton/cart";
 
 const CustomerOrder = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -27,6 +28,7 @@ const CustomerOrder = () => {
   const [order, setOrder] = useState();
   const [orderId, setOrderId] = useState(useParams().orderId);
   const [itemQuantity, setItemQuantity] = useState(null);
+  const [showSkeleton, setShowSkeleton] = useState();
   const cl = useClSdk();
 
   const getOrder = async (id) => {
@@ -50,18 +52,20 @@ const CustomerOrder = () => {
   };
 
   useEffect(() => {
-    console.log("customer", customer);
     if (customer && customer.metadata) setCustomerMetadata(customer.metadata);
   }, [customer]);
 
   useEffect(() => {
     getOrder(orderId);
+    setTimeout(() => {
+      setShowSkeleton(false);
+    }, 300);
   }, [orderId]);
 
   return (
     <Box>
       <Container>
-        {order && (
+        {!showSkeleton && order ? (
           <>
             <CustomBreadcrumbs
               data={{
@@ -442,6 +446,8 @@ const CustomerOrder = () => {
               </Box>
             </Grid>
           </>
+        ) : (
+          <CartSkeleton />
         )}
       </Container>
     </Box>

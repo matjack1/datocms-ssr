@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box, Container, Text, Flex } from "@theme-ui/components";
+import { Box, Container, Text, Flex, Grid } from "@theme-ui/components";
 import Nav from "./nav";
 import SecondaryNav from "./secondaryNav";
 import MobileNav from "./mobileNav";
@@ -8,7 +8,7 @@ import { InboundLink } from "./link";
 
 const Header = ({ color, title }) => {
   const [isSticky, setIsSticky] = useState(null);
-  
+
   // Sticky Menu Area
   useEffect(() => {
     window.addEventListener("scroll", handleIsSticky);
@@ -39,18 +39,21 @@ const Header = ({ color, title }) => {
         }}
       >
         <Container sx={{ py: [1, 1] }}>
-          <Flex sx={{ justifyContent: "space-between" }}>
-            <Box>
+          <Grid
+            columns={["1fr 1fr 1fr"]}
+            sx={{ justifyContent: "space-between" }}
+          >
+            <Box sx={{textAlign:"left"}}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 14 GIORNI PER IL RESO
               </Text>
             </Box>
-            <Box>
+            <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 Spedizione gratuita da 250 €
               </Text>
             </Box>
-            <Box>
+            <Box sx={{textAlign:"right"}}>
               <InboundLink
                 sx={{
                   color: "white",
@@ -58,20 +61,24 @@ const Header = ({ color, title }) => {
                   fontSize: [1],
                   textDecoration: "none",
                 }}
-                href="/help"
+                href="/account/support"
               >
                 Aiuto
               </InboundLink>
             </Box>
-          </Flex>
+          </Grid>
         </Container>
       </Box>
       <Container
-        sx={{ pt: [5, 5], pb:[4,4], display: ["none", "none", "none", "block"] }}
+        sx={{
+          pt: [5, 5],
+          pb: [4, 4],
+          display: ["none", "none", "none", "block"],
+        }}
       >
         <Nav color={color} />
       </Container>
-      <Box sx={{borderTop: "1px solid", borderBottom:"1px solid"}}>
+      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" }}>
         <Container
           className={isSticky}
           sx={{

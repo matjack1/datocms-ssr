@@ -19,6 +19,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
     <Box>
       {clSkuDetails && (
         <InboundLink
+          aria-current="page"
           to={getProductPath(sku)}
           sx={{
             textDecoration: "none",

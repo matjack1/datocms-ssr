@@ -10,6 +10,7 @@ import {
   Flex,
   Button,
   Image,
+  Grid,
 } from "theme-ui";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Nav from "../components/nav";
@@ -53,7 +54,7 @@ const LoginPage = () => {
     ).catch(handleError);
 
     if (clToken) {
-      console.log("logging")
+      console.log("logging");
       setCustomerToken(clToken.data);
       navigate("/");
       setLoginError("");
@@ -68,31 +69,22 @@ const LoginPage = () => {
         }}
       >
         <Container sx={{ py: [1, 1] }}>
-          <Flex sx={{ justifyContent: "space-between" }}>
+          <Grid
+            columns={["1fr 1fr 1fr"]}
+            sx={{ justifyContent: "space-between" }}
+          >
             <Box>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 14 GIORNI PER IL RESO
               </Text>
             </Box>
-            <Box>
+            <Box sx={{textAlign:"center"}}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 Spedizione gratuita da 250 €
               </Text>
             </Box>
-            <Box>
-              <InboundLink
-                sx={{
-                  color: "white",
-                  fontWeight: "600",
-                  fontSize: [1],
-                  textDecoration: "none",
-                }}
-                href="/help"
-              >
-                Aiuto
-              </InboundLink>
-            </Box>
-          </Flex>
+            <Box></Box>
+          </Grid>
         </Container>
       </Box>
       <Container

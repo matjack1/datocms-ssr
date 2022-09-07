@@ -33,6 +33,7 @@ import FavouritIcon from "../assets/img/icons/preferiti.inline.svg";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import { toast } from "react-toastify";
 import ThumbProductDetails from "../components/thumbProductDetails";
+import SkuPageSkeleton from "../components/skeleton/skupage";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -42,6 +43,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
   const [isFavourie, setIsFavourite] = useState(null);
   const [relatedSkus, setRelatedSkus] = useState(null);
+  const [showSkeleton, setShowSkeleton] = useState(true);
 
   const cl = useClSdk();
 
@@ -196,278 +198,301 @@ const SkuPage = ({ data: { sku, skus } }) => {
       setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
   }, [clSkuDetails]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSkeleton(false);
+    }, 300);
+  }, [sku]);
+
   return (
     <Layout>
       <Container>
-        <Box sx={{ pb: [4] }}>
-          <Breadcumbs page={sku} />
-        </Box>
-
-        <Grid columns={["minmax(auto,672px) minmax(auto, 469px)"]} gap={[11]}>
-          <Box
-            sx={{
-              aspectRatio: "1",
-            }}
-          >
-            <Box
-              sx={{
-                border: "1px solid",
-                borderColor: "dark",
-                width: "100%",
-                height: "100%",
-                mb: [12],
-              }}
+        {!showSkeleton ? (
+          <>
+            <Box sx={{ pb: [4] }}>
+              <Breadcumbs page={sku} />
+            </Box>
+            <Grid
+              columns={["minmax(auto,672px) minmax(auto, 469px)"]}
+              gap={[11]}
             >
-              {sku.images && sku.images.length > 0 ? (
-                <GatsbyImage
-                  image={sku.images[0].gatsbyImageData}
-                  alt={sku.images[0].gatsbyImageData}
-                />
-              ) : (
-                <Box
-                  sx={{
-                    height: "100%",
-                    img: {
-                      height: "100%",
-                      objectFit: "contain",
-                    },
-                    backgroundColor: "light",
-                  }}
-                >
-                  <Image src={PlaceholderImage} />
-                </Box>
-              )}
-            </Box>
-            <Box>
-              {console.log("sku.documents", sku.documents)}
-              {sku.documents.length > 0 && (
-                <>
-                  <Box>
-                    <Box
-                      sx={{
-                        svg: {
-                          width: "26px",
-                          height: "auto",
-                        },
-                      }}
-                    >
-                      <PdfIcon />
-                    </Box>
-                    <Box>
-                      <Heading
-                        as="h2"
-                        variant="h6"
-                        sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
-                      >
-                        Documenti Tecnici
-                      </Heading>
-                      {sku.documents.map((document) => (
-                        <Box sx={{ pb: [2] }}>
-                          <OutboundLink
-                            sx={{ color: "lightBorder" }}
-                            href={document.url}
-                          >
-                            {document.title}
-                          </OutboundLink>
-                        </Box>
-                      ))}
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      borderBottom: "1px solid",
-                      mb: [5],
-                      pt: [5],
-                      borderColor: "lightBorder",
-                    }}
-                  />
-                </>
-              )}
-
-              {sku.pallet && (
-                <>
-                  <Box>
-                    <Box
-                      sx={{
-                        svg: {
-                          width: "26px",
-                          height: "auto",
-                        },
-                      }}
-                    >
-                      <Package />
-                    </Box>
-
-                    <Box>
-                      <Heading
-                        as="h2"
-                        variant="h6"
-                        sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
-                      >
-                        Confezionamento
-                      </Heading>
-                      {sku.pallet}
-                    </Box>
-                  </Box>
-                  <Box
-                    sx={{
-                      borderBottom: "1px solid",
-                      mb: [5],
-                      pt: [5],
-                      borderColor: "lightBorder",
-                    }}
-                  />
-                </>
-              )}
-            </Box>
-
-            <Box>
               <Box
                 sx={{
-                  svg: {
-                    width: "26px",
-                    height: "auto",
-                  },
+                  aspectRatio: "1",
                 }}
               >
-                <DeliveryIcon />
-              </Box>
-              <Box>
-                <Heading
-                  as="h2"
-                  variant="h6"
-                  sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                <Box
+                  sx={{
+                    border: "1px solid",
+                    borderColor: "dark",
+                    width: "100%",
+                    height: "100%",
+                    mb: [12],
+                  }}
                 >
-                  1-3 giorni lavorativi
-                </Heading>
-                <Box sx={{ pb: [3] }}>
-                  <Text color="lightBorder">
-                    Consegna rapida gratuita per ordini superiori a 250€ <br />
-                  </Text>
+                  {sku.images && sku.images.length > 0 ? (
+                    <GatsbyImage
+                      image={sku.images[0].gatsbyImageData}
+                      alt={sku.images[0].gatsbyImageData}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        height: "100%",
+                        img: {
+                          height: "100%",
+                          objectFit: "contain",
+                        },
+                        backgroundColor: "light",
+                      }}
+                    >
+                      <Image src={PlaceholderImage} />
+                    </Box>
+                  )}
                 </Box>
                 <Box>
-                  <Text color="lightBorder" sx={{ fontSize: [1] }}>
-                    Spedizione calcolata durante il checkout
-                  </Text>
+                  {sku.documents.length > 0 && (
+                    <>
+                      <Box>
+                        <Box
+                          sx={{
+                            svg: {
+                              width: "26px",
+                              height: "auto",
+                            },
+                          }}
+                        >
+                          <PdfIcon />
+                        </Box>
+                        <Box>
+                          <Heading
+                            as="h2"
+                            variant="h6"
+                            sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                          >
+                            Documenti Tecnici
+                          </Heading>
+                          {sku.documents.map((document) => (
+                            <Box sx={{ pb: [2] }}>
+                              <OutboundLink
+                                sx={{ color: "lightBorder" }}
+                                href={document.url}
+                              >
+                                {document.title}
+                              </OutboundLink>
+                            </Box>
+                          ))}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          borderBottom: "1px solid",
+                          mb: [5],
+                          pt: [5],
+                          borderColor: "lightBorder",
+                        }}
+                      />
+                    </>
+                  )}
+
+                  {sku.pallet && (
+                    <>
+                      <Box>
+                        <Box
+                          sx={{
+                            svg: {
+                              width: "26px",
+                              height: "auto",
+                            },
+                          }}
+                        >
+                          <Package />
+                        </Box>
+
+                        <Box>
+                          <Heading
+                            as="h2"
+                            variant="h6"
+                            sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                          >
+                            Confezionamento
+                          </Heading>
+                          {sku.pallet}
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          borderBottom: "1px solid",
+                          mb: [5],
+                          pt: [5],
+                          borderColor: "lightBorder",
+                        }}
+                      />
+                    </>
+                  )}
+                </Box>
+
+                <Box>
+                  <Box
+                    sx={{
+                      svg: {
+                        width: "26px",
+                        height: "auto",
+                      },
+                    }}
+                  >
+                    <DeliveryIcon />
+                  </Box>
+                  <Box>
+                    <Heading
+                      as="h2"
+                      variant="h6"
+                      sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
+                    >
+                      1-3 giorni lavorativi
+                    </Heading>
+                    <Box sx={{ pb: [3] }}>
+                      <Text color="lightBorder">
+                        Consegna rapida gratuita per ordini superiori a 250€{" "}
+                        <br />
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Text color="lightBorder" sx={{ fontSize: [1] }}>
+                        Spedizione calcolata durante il checkout
+                      </Text>
+                    </Box>
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          </Box>
-          <Box sx={{}}>
-            <Box sx={{ pb: [11] }}>
-              <Heading
-                as="h1"
-                variant="h2"
-                sx={{
-                  color: "dark",
-                  fontWeight: "400",
-                  my: [0],
-                  fontSize: ["28px"],
-                }}
-              >
-                {sku.name}
-              </Heading>
-            </Box>
-            <Box>
-              {clSkuDetails && (
+              <Box sx={{}}>
+                <Box sx={{ pb: [11] }}>
+                  <Heading
+                    as="h1"
+                    variant="h2"
+                    sx={{
+                      color: "dark",
+                      fontWeight: "400",
+                      my: [0],
+                      fontSize: ["28px"],
+                    }}
+                  >
+                    {sku.name}
+                  </Heading>
+                </Box>
+                <Box>
+                  {clSkuDetails && (
+                    <Flex
+                      sx={{
+                        alignItems: "center",
+                        pb: [6],
+                      }}
+                    >
+                      <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
+                        {clSkuDetails && clSkuDetails.prices
+                          ? clSkuDetails.prices.discountedPrice
+                            ? "€" +
+                              clSkuDetails.prices.discountedPrice.toLocaleString(
+                                "it-IT",
+                                { minimumFractionDigits: 2 }
+                              )
+                            : "€" +
+                              clSkuDetails.prices.price.toLocaleString(
+                                "it-IT",
+                                {
+                                  minimumFractionDigits: 2,
+                                }
+                              )
+                          : "Caricamento..."}
+                      </Text>
+                      <Text
+                        sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}
+                      >
+                        Prezzo per unità / Tasse escluse
+                      </Text>
+                    </Flex>
+                  )}
+                </Box>
+                <Box sx={{ pb: [9] }}>
+                  <SkuQuantity
+                    sku={sku}
+                    quantity={currentQuantity}
+                    updateQuantity={updateQuantity}
+                  />
+                </Box>
                 <Flex
                   sx={{
+                    mb: [12],
                     alignItems: "center",
-                    pb: [6],
+                    minHeight: "60px",
+                    height: "60px",
                   }}
                 >
-                  <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
-                    {clSkuDetails && clSkuDetails.prices
-                      ? clSkuDetails.prices.discountedPrice
-                        ? "€" +
-                          clSkuDetails.prices.discountedPrice.toLocaleString(
-                            "it-IT",
-                            { minimumFractionDigits: 2 }
-                          )
-                        : "€" +
-                          clSkuDetails.prices.price.toLocaleString("it-IT", {
-                            minimumFractionDigits: 2,
-                          })
-                      : "Caricamento..."}
-                  </Text>
-                  <Text sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}>
-                    Prezzo per unità / Tasse escluse
-                  </Text>
+                  <Box sx={{ width: "100%", height: "100%" }}>
+                    <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+                  </Box>
+                  <Box sx={{ height: "100%", ml: [2] }}>
+                    <Button
+                      onClick={updateCustomerFavourites}
+                      sx={{
+                        flex: 1,
+                        cursor: "pointer",
+                        borderRadius: "unset",
+                        height: "100%",
+                        p: [3],
+                        height: "100%",
+                        backgroundColor: isFavourie ? "primary" : "light",
+                        border: "1px solid",
+                        borderColor: !isFavourie ? "primary" : "transparent",
+                        "&:hover": {
+                          borderColor: "transparent",
+                          "svg *": {
+                            stroke: "light",
+                          },
+                        },
+                        svg: {
+                          "*": {
+                            stroke: isFavourie ? "light" : "primary",
+                          },
+                          width: "20px",
+                          height: "20px",
+                        },
+                      }}
+                    >
+                      <FavouritIcon />
+                    </Button>
+                  </Box>
                 </Flex>
-              )}
-            </Box>
-            <Box sx={{ pb: [9] }}>
-              <SkuQuantity
-                sku={sku}
-                quantity={currentQuantity}
-                updateQuantity={updateQuantity}
-              />
-            </Box>
-            <Flex
-              sx={{
-                mb: [12],
-                alignItems: "center",
-                minHeight: "60px",
-                height: "60px",
-              }}
-            >
-              <Box sx={{ width: "100%", height: "100%" }}>
-                <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
-              </Box>
-              <Box sx={{ height: "100%", ml: [2] }}>
-                <Button
-                  onClick={updateCustomerFavourites}
+                <Box
                   sx={{
-                    flex: 1,
-                    cursor: "pointer",
-                    borderRadius: "unset",
-                    height: "100%",
-                    p: [3],
-                    height: "100%",
-                    backgroundColor: isFavourie ? "primary" : "light",
                     border: "1px solid",
-                    borderColor: !isFavourie ? "primary" : "transparent",
-                    "&:hover": {
-                      borderColor: "transparent",
-                      "svg *": {
-                        stroke: "light",
-                      },
-                    },
-                    svg: {
-                      "*": {
-                        stroke: isFavourie ? "light" : "primary",
-                      },
-                      width: "20px",
-                      height: "20px",
-                    },
+                    borderColor: "lightBorder",
+                    p: [4],
                   }}
                 >
-                  <FavouritIcon />
-                </Button>
+                  <Box sx={{ pb: [4] }}>
+                    <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
+                  </Box>
+                  <ThumbProductDetails item={sku} />
+                </Box>
               </Box>
-            </Flex>
-            <Box
-              sx={{ border: "1px solid", borderColor: "lightBorder", p: [4] }}
-            >
-              <Box sx={{ pb: [4] }}>
-                <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
-              </Box>
-              <ThumbProductDetails item={sku} />
-            </Box>
-          </Box>
-        </Grid>
+            </Grid>
+            {relatedSkus && relatedSkus.length > 0 && (
+              <RelatedProducts
+                sku={sku}
+                skus={relatedSkus.slice(
+                  0,
+                  skus.nodes.length > 8 ? 8 : skus.nodes.length
+                )}
+                customer={customer}
+              />
+            )}
+          </>
+        ) : (
+          <SkuPageSkeleton />
+        )}
       </Container>
       {console.log("relatedSkus", relatedSkus)}
-      {relatedSkus && relatedSkus.length > 0 && (
-        <RelatedProducts
-          sku={sku}
-          skus={relatedSkus.slice(
-            0,
-            skus.nodes.length > 8 ? 8 : skus.nodes.length
-          )}
-          customer={customer}
-        />
-      )}
     </Layout>
   );
 };

@@ -30,6 +30,7 @@ import { GatsbyImage } from "gatsby-plugin-image";
 import PlaceholderImage from "../../../../assets/img/placeholder-image.png";
 import ThumbPrice from "../../../thumbPrice";
 import ThumbProductDetails from "../../../thumbProductDetails";
+import FavouritesSkeleton from "../../../skeleton/favourites";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -43,8 +44,9 @@ const CustomerOrderReturn = () => {
   const [recordCount, setRecordCount] = useState();
   const [currentOrder, setCurrentOrder] = useState();
   const [success, setSuccess] = useState(null);
+  const [showSkeleton, setShowSkeleton] = useState();
 
-  const [skusData, setSkusData] = useState();
+  const [skusData, setSkusData] = useState(null);
 
   const cl = useClSdk();
 
@@ -194,56 +196,58 @@ const CustomerOrderReturn = () => {
     <Box>
       <Box>
         <Container>
-          <CustomBreadcrumbs
-            data={{
-              pages: [
-                {
-                  slug: "/",
-                  title: "Home",
-                },
-                {
-                  slug: "/account/orders",
-                  title: "Ordini",
-                },
-                {
-                  slug: "/account/orders/" + orderId,
-                  title: `Ordine #${orderId}`,
-                },
-              ],
-              current: {
-                title: "Ordina di nuovo",
-              },
-            }}
-          />
-          <Box sx={{ pb: [8] }}>
-            <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-              Ordina di nuovo
-            </Heading>
-          </Box>
-          {skusData && skusData.length > 0 ? (
-            <Grid columns={[".7fr .3fr"]} gap={[12]}>
-              <Box>
+          {!showSkeleton && skusData && skusData.length > 0 ? (
+            <>
+              <CustomBreadcrumbs
+                data={{
+                  pages: [
+                    {
+                      slug: "/",
+                      title: "Home",
+                    },
+                    {
+                      slug: "/account/orders",
+                      title: "Ordini",
+                    },
+                    {
+                      slug: "/account/orders/" + orderId,
+                      title: `Ordine #${orderId}`,
+                    },
+                  ],
+                  current: {
+                    title: "Ordina di nuovo",
+                  },
+                }}
+              />
+              <Box sx={{ pb: [8] }}>
+                <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                  Ordina di nuovo
+                </Heading>
+              </Box>
+              <Grid columns={[".7fr .3fr"]} gap={[12]}>
                 <Box>
                   <Box>
-                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                      {skusData.map((sku) => (
-                        <Box>
-                          <SkuComponent
-                            handleUpdateQuantity={(e) =>
-                              updateQuantity(e, sku.code)
-                            }
-                            clSkuDetails={sku}
-                          />
-                        </Box>
-                      ))}
-                    </Grid>
+                    <Box>
+                      <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                        {skusData.map((sku) => (
+                          <Box>
+                            <SkuComponent
+                              handleUpdateQuantity={(e) =>
+                                updateQuantity(e, sku.code)
+                              }
+                              clSkuDetails={sku}
+                            />
+                          </Box>
+                        ))}
+                      </Grid>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
-              <Box />
-            </Grid>
+                <Box />
+              </Grid>
+            </>
           ) : (
-            <Box>La lista dei preferiti è vuota</Box>
+            <FavouritesSkeleton />
           )}
         </Container>
       </Box>

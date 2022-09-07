@@ -1,12 +1,18 @@
-const sgMail = require("@sendgrid/mail");
+var nodemailer = require("nodemailer");
 const axios = require("axios");
-
-sgMail.setApiKey(
-  "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"
-);
 
 exports.handler = async function (event, context) {
   const data = await JSON.parse(event.body);
+  var transport = nodemailer.createTransport({
+    host: "smtp.office365.com",
+    port: 587,
+    auth: {
+      user: "no-reply@socaf.it",
+      pass: "Socaf2020",
+    },
+    secureConnection: false,
+    tls: { ciphers: "SSLv3" },
+  });
 
   var access_token_config = {
     method: "post",
@@ -43,12 +49,12 @@ exports.handler = async function (event, context) {
           const id = resetData.id;
           const token = resetData.attributes.reset_password_token;
 
-          const link = `http://localhost:8888/reset-password?id=${id}&token=${token}`;
+          const link = `https://socaf-b2b.netlify.app/reset-password?id=${id}&token=${token}`;
 
-          let msg = {
+          var msg = {
+            from: 'no-reply@socaf.it',
             to: "a.asofii@multi-consult.it",
-            from: "no-reply@multi-consult.it",
-            //bcc: 'n.lazzaroni@multi-consult.it',
+            // bcc: 'n.lazzaroni@multi-consult.it',
             subject: `Socaf - Password dimenticata`,
             html: `<p>E' stata richiesta la modifica della password!<br>  Se non hai fatto questa richiesta, ignora questa e-mail.<br>
             Altrimenti, clicca su questo link per cambiare la tua password: <br> 
@@ -59,8 +65,8 @@ exports.handler = async function (event, context) {
             <br>`,
           };
 
-          return await sgMail
-            .send(msg)
+          return await transport
+            .sendMail(msg)
             .then(() => {
               return {
                 statusCode: 200,
@@ -70,6 +76,7 @@ exports.handler = async function (event, context) {
             .catch((error) => {
               console.error(error);
             });
+
         })
         .catch(function (error) {
           console.log(error);

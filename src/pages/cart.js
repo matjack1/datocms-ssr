@@ -13,6 +13,7 @@ import getPrices from "../hooks/getPrices";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import BagIcon from "../assets/img/icons/carrello.inline.svg";
+import CartSkeleton from "../components/skeleton/cart";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -20,6 +21,7 @@ const CartPage = () => {
   const { cart, setCart } = useContext(CartContext);
   const [itemQuantity, setItemQuantity] = useState(null);
   const [cartItems, setCartItems] = useState([]);
+  const [showSkeleton, setShowSkeleton] = useState(true);
   const cl = useClSdk();
 
   const lightBorder = getColor(theme, "lightBorder");
@@ -69,10 +71,16 @@ const CartPage = () => {
     updateLineItem(quantity, id);
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setShowSkeleton(false);
+    }, 300);
+  }, []);
+
   return (
     <Layout>
       <Container>
-        {cart && cartItems.length > 0 ? (
+        {!showSkeleton && cart && cartItems.length > 0 ? (
           <>
             <Grid columns={[".7fr .3fr"]} gap={[12]}>
               {console.log("cart", cart)}
@@ -101,7 +109,7 @@ const CartPage = () => {
                 </Box>
                 <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
                   {console.log("cart.line_items", cartItems)}
-                  {cartItems.map((lineItem,index) => (
+                  {cartItems.map((lineItem, index) => (
                     <Box key={lineItem.id}>
                       <CartProduct
                         sku={lineItem}
@@ -224,6 +232,8 @@ const CartPage = () => {
               </Box>
             </Grid>
           </>
+        ) : showSkeleton ? (
+          <CartSkeleton />
         ) : (
           <>
             <Heading as="h1" variant="h2" sx={{ color: "primary" }}>

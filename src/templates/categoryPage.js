@@ -18,7 +18,6 @@ const CategoryPage = ({
   return (
     <Layout>
       <Container>
-        <Breadcrumbs page={category} />
         <ProductCollection
           category={category}
           categories={categories}

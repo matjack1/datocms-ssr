@@ -22,13 +22,15 @@ import CustomBreadcrumbs from "../../customBreadcrumbs";
 import { TruncateEllipsis } from "../../../utils/truncateEllipsis";
 import OrderThumb from "../../orderThumb";
 import OrderCounter from "../../orderCounter";
+import OrdersSkeleton from "../../skeleton/orders";
+import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
 
 const CustomerOrders = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const [checkAll, setCheckAll] = useState(null);
   const [checkedCounter, setCheckedCounter] = useState(0);
   const [orders, setOrders] = useState([]);
-  const [filteredOrders, setFilteredOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState(null);
   const [filters, setFilters] = useState({
     orderByDate: "desc",
     orderByTime: "180",
@@ -99,217 +101,286 @@ const CustomerOrders = () => {
   return (
     <Box>
       <Container>
-        <CustomBreadcrumbs
-          data={{
-            pages: [
-              {
-                slug: "/",
-                title: "Home",
-              },
-            ],
-            current: {
-              title: "Ordini",
-            },
-          }}
-        />
-        <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
-          <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-            I tuoi ordini
-          </Heading>
-          {filteredOrders.length > 0 && (
-            <OrderCounter orders={filteredOrders} />
-          )}
-        </Flex>
-        <Grid columns={[1, ".85fr 4.15fr"]}>
-          <Box>
-            <Box>
-              <Box sx={{ pb: [3] }}>
-                <Text
-                  sx={{
-                    fontWeight: "600",
-                    textDecoration: "none",
-                    color: "dark",
-                  }}
-                >
-                  Ordina per
-                </Text>
-              </Box>
-              <LabeledRadio
-                name="orderbydate"
-                value="desc"
-                defaultChecked={true}
-                checkedCheckbox={(e) => {
-                  setCheckedCounter(1);
-                  setFilters((prevState) => ({
-                    ...prevState,
-                    orderByDate: e,
-                  }));
-                }}
-                required={true}
-              >
-                Data (desc.)
-              </LabeledRadio>
-              <LabeledRadio
-                name="orderbydate"
-                value="asc"
-                defaultChecked={false}
-                checkedCheckbox={(e) => {
-                  setCheckedCounter(1);
-                  setFilters((prevState) => ({
-                    ...prevState,
-                    orderByDate: e,
-                  }));
-                }}
-                required={true}
-              >
-                Data (asc.)
-              </LabeledRadio>
-            </Box>
-            <Box
-              sx={{
-                borderBottom: "1px solid",
-                borderColor: "lightBorder",
-                pt: [4],
-                mb: [4],
+        {filteredOrders && filteredOrders.length > 0 ? (
+          <>
+            <CustomBreadcrumbs
+              data={{
+                pages: [
+                  {
+                    slug: "/",
+                    title: "Home",
+                  },
+                ],
+                current: {
+                  title: "Ordini",
+                },
               }}
             />
-            <Box>
-              <Box sx={{ pb: [3] }}>
-                <Text
-                  sx={{
-                    fontWeight: "600",
-                    textDecoration: "none",
-                    color: "dark",
-                  }}
-                >
-                  Intervallo termporale
-                </Text>
-              </Box>
-              <LabeledRadio
-                name="orderbytime"
-                value="30"
-                defaultChecked={false}
-                checkedCheckbox={(e) => {
-                  setCheckedCounter(1);
-                  setFilters((prevState) => ({
-                    ...prevState,
-                    orderByTime: e,
-                  }));
-                }}
-                required={true}
-              >
-                Ultimi 30 giorni
-              </LabeledRadio>
-              <LabeledRadio
-                name="orderbytime"
-                value="180"
-                defaultChecked={true}
-                checkedCheckbox={(e) => {
-                  setCheckedCounter(1);
-                  setFilters((prevState) => ({
-                    ...prevState,
-                    orderByTime: e,
-                  }));
-                }}
-                required={true}
-              >
-                Ultimi 6 mesi
-              </LabeledRadio>
-              <LabeledRadio
-                name="orderbytime"
-                value="365"
-                defaultChecked={false}
-                checkedCheckbox={(e) => {
-                  setCheckedCounter(1);
-                  setFilters((prevState) => ({
-                    ...prevState,
-                    orderByTime: e,
-                  }));
-                }}
-                required={true}
-              >
-                2022
-              </LabeledRadio>
-            </Box>
-            <Box
-              sx={{
-                borderBottom: "1px solid",
-                borderColor: "lightBorder",
-                pt: [4],
-                mb: [4],
-              }}
-            />
-            {orders.length > 0 && (
+            <Flex
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                I tuoi ordini
+              </Heading>
+              {filteredOrders && filteredOrders.length > 0 && (
+                <OrderCounter orders={filteredOrders} />
+              )}
+            </Flex>
+            <Grid columns={[1, ".85fr 4.15fr"]}>
               <Box>
-                <Box sx={{ pb: [3] }}>
-                  <Text
-                    sx={{
-                      fontWeight: "600",
-                      textDecoration: "none",
-                      color: "dark",
-                    }}
-                  >
-                    Indirizzo di spedizione
-                  </Text>
-                </Box>
-                {shippingAddresses.map((address) => (
-                  <LabeledCheckbox
-                    defaultChecked={checkAll}
+                <Box>
+                  <Box sx={{ pb: [3] }}>
+                    <Text
+                      sx={{
+                        fontWeight: "600",
+                        textDecoration: "none",
+                        color: "dark",
+                      }}
+                    >
+                      Ordina per
+                    </Text>
+                  </Box>
+                  <LabeledRadio
+                    name="orderbydate"
+                    value="desc"
+                    defaultChecked={true}
                     checkedCheckbox={(e) => {
                       setCheckedCounter(1);
-
-                      let tmpArray = [...filters.orderByAddress];
-                      tmpArray.push(address.reference);
-                      let uniqueArray = tmpArray.filter(function (item, pos) {
-                        return e ? item !== address : item === address;
-                      });
-
                       setFilters((prevState) => ({
                         ...prevState,
-                        orderByAddress: uniqueArray,
+                        orderByDate: e,
                       }));
                     }}
                     required={true}
                   >
+                    Data (desc.)
+                  </LabeledRadio>
+                  <LabeledRadio
+                    name="orderbydate"
+                    value="asc"
+                    defaultChecked={false}
+                    checkedCheckbox={(e) => {
+                      setCheckedCounter(1);
+                      setFilters((prevState) => ({
+                        ...prevState,
+                        orderByDate: e,
+                      }));
+                    }}
+                    required={true}
+                  >
+                    Data (asc.)
+                  </LabeledRadio>
+                </Box>
+                <Box
+                  sx={{
+                    borderBottom: "1px solid",
+                    borderColor: "lightBorder",
+                    pt: [4],
+                    mb: [4],
+                  }}
+                />
+                <Box>
+                  <Box sx={{ pb: [3] }}>
                     <Text
                       sx={{
-                        whiteSpace: "wrap",
-                        width: "100%",
+                        fontWeight: "600",
+                        textDecoration: "none",
+                        color: "dark",
                       }}
                     >
-                      {address.city}, {address.line_1}
+                      Intervallo termporale
                     </Text>
-                  </LabeledCheckbox>
-                ))}
-              </Box>
-            )}
-          </Box>
-          <Box sx={{ width: "100%" }}>
-            {filteredOrders.length > 0 ? (
-              filteredOrders.map(
-                (order) =>
-                  order.status !== "draft" &&
-                  order.status !== "pending" && (
-                    <Box>
-                      <Box sx={{}}>
-                        <OrderThumb order={order} />
-                      </Box>
-                      <Box
+                  </Box>
+                  <LabeledRadio
+                    name="orderbytime"
+                    value="30"
+                    defaultChecked={false}
+                    checkedCheckbox={(e) => {
+                      setCheckedCounter(1);
+                      setFilters((prevState) => ({
+                        ...prevState,
+                        orderByTime: e,
+                      }));
+                    }}
+                    required={true}
+                  >
+                    Ultimi 30 giorni
+                  </LabeledRadio>
+                  <LabeledRadio
+                    name="orderbytime"
+                    value="180"
+                    defaultChecked={true}
+                    checkedCheckbox={(e) => {
+                      setCheckedCounter(1);
+                      setFilters((prevState) => ({
+                        ...prevState,
+                        orderByTime: e,
+                      }));
+                    }}
+                    required={true}
+                  >
+                    Ultimi 6 mesi
+                  </LabeledRadio>
+                  <LabeledRadio
+                    name="orderbytime"
+                    value="365"
+                    defaultChecked={false}
+                    checkedCheckbox={(e) => {
+                      setCheckedCounter(1);
+                      setFilters((prevState) => ({
+                        ...prevState,
+                        orderByTime: e,
+                      }));
+                    }}
+                    required={true}
+                  >
+                    2022
+                  </LabeledRadio>
+                </Box>
+                <Box
+                  sx={{
+                    borderBottom: "1px solid",
+                    borderColor: "lightBorder",
+                    pt: [4],
+                    mb: [4],
+                  }}
+                />
+                {orders.length > 0 && (
+                  <Box>
+                    <Box sx={{ pb: [3] }}>
+                      <Text
                         sx={{
-                          borderBottom: "1px solid",
-                          borderColor: "lightBorder",
-                          pt: [6],
-                          mb: [6],
+                          fontWeight: "600",
+                          textDecoration: "none",
+                          color: "dark",
                         }}
-                      />
+                      >
+                        Indirizzo di spedizione
+                      </Text>
                     </Box>
-                  )
-              )
-            ) : (
-              <Box>Nessun ordine effettuato</Box>
-            )}
+                    {shippingAddresses.map((address) => (
+                      <LabeledCheckbox
+                        defaultChecked={checkAll}
+                        checkedCheckbox={(e) => {
+                          setCheckedCounter(1);
+
+                          let tmpArray = [...filters.orderByAddress];
+                          tmpArray.push(address.reference);
+                          let uniqueArray = tmpArray.filter(function (
+                            item,
+                            pos
+                          ) {
+                            return e ? item !== address : item === address;
+                          });
+
+                          setFilters((prevState) => ({
+                            ...prevState,
+                            orderByAddress: uniqueArray,
+                          }));
+                        }}
+                        required={true}
+                      >
+                        <Text
+                          sx={{
+                            whiteSpace: "wrap",
+                            width: "100%",
+                          }}
+                        >
+                          {address.city}, {address.line_1}
+                        </Text>
+                      </LabeledCheckbox>
+                    ))}
+                  </Box>
+                )}
+              </Box>
+              <Box sx={{ width: "100%" }}>
+                {filteredOrders.map(
+                  (order) =>
+                    order.status !== "draft" &&
+                    order.status !== "pending" && (
+                      <Box>
+                        <Box sx={{}}>
+                          <OrderThumb order={order} />
+                        </Box>
+                        <Box
+                          sx={{
+                            borderBottom: "1px solid",
+                            borderColor: "lightBorder",
+                            pt: [6],
+                            mb: [6],
+                          }}
+                        />
+                      </Box>
+                    )
+                )}
+              </Box>
+            </Grid>
+          </>
+        ) : filteredOrders != null && filteredOrders.length < 1 ? (
+          <Box sx={{}}>
+            <>
+            <CustomBreadcrumbs
+              data={{
+                pages: [
+                  {
+                    slug: "/",
+                    title: "Home",
+                  },
+                ],
+                current: {
+                  title: "Ordini",
+                },
+              }}
+            />
+            <Flex
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                I tuoi ordini
+              </Heading>
+              {filteredOrders && filteredOrders.length > 0 && (
+                <OrderCounter orders={filteredOrders} />
+              )}
+            </Flex>
+              <Flex
+                sx={{
+                  justifyContent: "center",
+                  alignItems: "center",
+                  border: "1px solid",
+                  color: "lightBorder",
+                  svg: {
+                    color: "lightBorder",
+                  },
+                  borderColor: "lightBorder",
+                  p: [14],
+                  flexDirection: "column",
+                }}
+              >
+                <Box
+                  sx={{
+                    pb: [7],
+                    svg: {
+                      width: "92px",
+                      height: "auto",
+                      "*": {
+                        stroke: "lightBorder",
+                      },
+                    },
+                  }}
+                >
+                  <NoPref />
+                </Box>
+                <Box>
+                  <Text sx={{ fontSize: [7] }}>
+                    La lista degli ordini è vuota
+                  </Text>
+                </Box>
+              </Flex>
+            </>
           </Box>
-        </Grid>
+        ) : (
+          <OrdersSkeleton />
+        )}
       </Container>
     </Box>
   );
@@ -346,7 +417,7 @@ const LabeledRadio = ({
           outlineColor: "secondary",
         },
         svg: {
-          color: "secondary",
+          color: "lightBorder",
         },
       }}
     >
@@ -396,8 +467,12 @@ const LabeledCheckbox = ({
           color: "secondary",
           outlineColor: "secondary",
         },
-        svg: {
+        "input:checked~ svg": {
           color: "secondary",
+          outlineColor: "secondary",
+        },
+        svg: {
+          color: "lightBorder",
         },
       }}
     >
