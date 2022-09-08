@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Flex, Input, Label, Select, Textarea } from "theme-ui";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
+import ErrorIcon from "../assets/img/icons/closed-circle.inline.svg";
 
 const CustomInput = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
@@ -19,9 +20,12 @@ const CustomInput = (props) => {
     variant,
     required,
     pattern,
-    autocomplete = false,
+    autocomplete = "off",
     events = {},
     icon,
+    register,
+    validationSchema,
+    errors,
   } = props;
 
   const handleChange = (event) => {
@@ -36,6 +40,10 @@ const CustomInput = (props) => {
     }
   }, [value, id]);
 
+  useEffect(() => {
+    console.log("focused", focused);
+  }, [focused]);
+
   const fieldProps = {
     id,
     name,
@@ -47,6 +55,8 @@ const CustomInput = (props) => {
     required,
     pattern,
     autocomplete,
+    register,
+    validationSchema,
     onChange: handleChange,
   };
 
@@ -73,10 +83,21 @@ const CustomInput = (props) => {
             py: [1],
             fontSize: [1],
             border: "1px solid",
-            borderColor: "dark",
+            borderColor:
+              errors && Object.keys(errors).length > 0 ? "primary" : "dark",
             mb: ["-1px"],
-            color: focused ? "light" : "dark",
-            backgroundColor: focused ? "dark" : "light",
+            color:
+              errors && Object.keys(errors).length > 0
+                ? "light"
+                : focused
+                ? "light"
+                : "dark",
+            backgroundColor:
+              errors && Object.keys(errors).length > 0
+                ? "primary"
+                : focused
+                ? "dark"
+                : "light",
             "-webkit-transition":
               "background-color .2s linear,color .2s linear",
             "-ms-transition": "background-color .2s linear,color .2s linear",
@@ -92,7 +113,7 @@ const CustomInput = (props) => {
             "input,select,textare": {
               pl: icon && [8],
               width: "100%",
-              pr: type === "password" && [7]
+              pr: type === "password" && [7],
             },
             "& > div": { width: "100%" },
             position: "relative",
@@ -100,20 +121,38 @@ const CustomInput = (props) => {
         >
           {icon && props.children}
           {type === "textarea" ? (
-            <Textarea
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-              {...fieldProps}
-            />
+            <>
+              <Textarea
+                {...fieldProps}
+                {...register(name, validationSchema)}
+                variant={
+                  errors && Object.keys(errors).length > 0
+                    ? "inputs.error"
+                    : fieldProps.variant
+                }
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+              />
+            </>
           ) : type === "text" || type === "password" || type === "email" ? (
             <>
               <Input
+                type={
+                  type === "password" && passwordShown
+                    ? "text"
+                    : type === "password"
+                    ? "password"
+                    : type
+                }
+                {...fieldProps}
+                {...register(name, validationSchema)}
+                variant={
+                  errors && Object.keys(errors).length > 0
+                    ? "inputs.error"
+                    : fieldProps.variant
+                }
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                {...fieldProps}
-                type={
-                  type === "password" && passwordShown ? "text" : type === "password" ? "password" : type
-                }
               />
               {type === "password" && (
                 <Flex
@@ -139,14 +178,46 @@ const CustomInput = (props) => {
           ) : (
             <Select
               sx={{ width: "100%", minHeight: "54px" }}
+              {...fieldProps}
+              {...register(name, validationSchema)}
+              variant={
+                errors && Object.keys(errors).length > 0
+                  ? "inputs.error"
+                  : fieldProps.variant
+              }
               onFocus={() => setFocused(true)}
               onBlur={() => setFocused(false)}
-              {...fieldProps}
             >
               {props.children}
             </Select>
           )}
         </Flex>
+        <>
+          {errors && errors[name]?.type === "required" && (
+            <Flex sx={{ my: [2], color: "primary", alignItems: "center" }}>
+              <Flex sx={{ mr: 1, alignItems: "center" }}>
+                <ErrorIcon />
+              </Flex>
+              <span className="error">{errors[name]?.message}</span>
+            </Flex>
+          )}
+          {errors && errors[name]?.type === "minLength" && (
+            <Flex sx={{ my: [2], color: "primary", alignItems: "center" }}>
+              <Flex sx={{ mr: 1, alignItems: "center" }}>
+                <ErrorIcon />
+              </Flex>
+              <span className="error">{errors[name]?.message}</span>
+            </Flex>
+          )}
+          {errors && errors[name]?.type === "validate" && (
+            <Flex sx={{ my: [2], color: "primary", alignItems: "center" }}>
+              <Flex sx={{ mr: 1, alignItems: "center" }}>
+                <ErrorIcon />
+              </Flex>
+              <span className="error">{errors[name]?.message}</span>
+            </Flex>
+          )}
+        </>
       </Flex>
     </Box>
   ) : (

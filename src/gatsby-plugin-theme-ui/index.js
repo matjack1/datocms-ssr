@@ -448,19 +448,39 @@ const theme = {
     },
   },
   inputs: {
-    primary: {
+    error: {
       fontFamily: "body",
-      borderColor: "light",
       p: [3],
-      border: "1px solid",
+      boxShadow: `inset 0 0 0 2px #EA0029`,
       borderRadius: "0px!important",
       cursor: "pointer",
-      color: "light",
-      "&:focus": {
+      color: "dark",
+      borderColor: "primary",
+      "&:-webkit-autofill:hover,:-webkit-autofill:focus,&:focus,&:hover": {
+        boxShadow: "inset 0 0 0 2px #EA0029",
         outline: "none",
-        backgroundColor: "light",
         color: "primary",
-        border: "1px solid light",
+        borderColor: "primary",
+      },
+      "::-webkit-input-placeholder": { color: "lightBorder" },
+      ":-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      "::-moz-placeholder": { color: "lightBorder", opacity: 1 },
+      ":-ms-input-placeholder": { color: "lightBorder" },
+      "::-ms-input-placeholder": { color: "lightBorder" },
+      "::placeholder": { color: "lightBorder" },
+    },
+    primary: {
+      fontFamily: "body",
+      p: [3],
+      boxShadow: `inset 0 0 0 1px ${lighten("#151515", 0.6)}`,
+      borderRadius: "0px!important",
+      cursor: "pointer",
+      color: "dark",
+      "&:-webkit-autofill:hover,:-webkit-autofill:focus,&:focus,&:hover": {
+        boxShadow: "inset 0 0 0 2px #EA0029",
+        outline: "none",
+        color: "primary",
+        borderColor: "primary",
       },
       "::-webkit-input-placeholder": { color: "lightBorder" },
       ":-moz-placeholder": { color: "lightBorder", opacity: 1 },
@@ -667,6 +687,9 @@ const theme = {
       "@keyframes skeleton-loading": {
         "0%": { backgroundColor: "lightBorder" },
         "100%": { backgroundColor: "lightGrey" },
+      },
+      "option:disabled": {
+        color: "lightBorder",
       },
     },
   },

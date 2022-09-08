@@ -392,18 +392,30 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     >
                       <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
                         {clSkuDetails && clSkuDetails.prices ? (
-                          clSkuDetails.prices.discountedPrice ? (
-                            "€" +
-                            clSkuDetails.prices.discountedPrice.toLocaleString(
-                              "it-IT",
-                              { minimumFractionDigits: 2 }
-                            )
-                          ) : (
-                            "€" +
-                            clSkuDetails.prices.price.toLocaleString("it-IT", {
-                              minimumFractionDigits: 2,
-                            })
-                          )
+                          <>
+                            {clSkuDetails.prices.discountedPrice
+                              ? "€" +
+                                clSkuDetails.prices.discountedPrice.toLocaleString(
+                                  "it-IT",
+                                  { minimumFractionDigits: 2 }
+                                )
+                              : "€" +
+                                clSkuDetails.prices.price.toLocaleString(
+                                  "it-IT",
+                                  {
+                                    minimumFractionDigits: 2,
+                                  }
+                                )}
+                            <Text
+                              sx={{
+                                pl: [2],
+                                fontSize: [1],
+                                color: "lightBorder",
+                              }}
+                            >
+                              Prezzo per unità / Tasse escluse
+                            </Text>
+                          </>
                         ) : (
                           <Box
                             sx={{
@@ -414,11 +426,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
                             <BouncingDotsLoader color="primary" />
                           </Box>
                         )}
-                      </Text>
-                      <Text
-                        sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}
-                      >
-                        Prezzo per unità / Tasse escluse
                       </Text>
                     </Flex>
                   )}
@@ -502,7 +509,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
           <SkuPageSkeleton />
         )}
       </Container>
-      {console.log("relatedSkus", relatedSkus)}
     </Layout>
   );
 };

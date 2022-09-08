@@ -10,7 +10,7 @@ import {
   Label,
   Button,
   Grid,
-  Flex
+  Flex,
 } from "theme-ui";
 import CustomerTokenContext from "../../hooks/customerTokenContext";
 import Nav from "../nav";
@@ -21,6 +21,7 @@ import CustomInput from "../../components/customInput";
 import CustomerContext from "../../hooks/customerContext";
 import axios from "axios";
 import BouncingDotsLoader from "../../components/bouncingDotsLoader";
+import { useForm } from "react-hook-form";
 
 const Support = () => {
   const [formData, setFormData] = useState({
@@ -31,9 +32,14 @@ const Support = () => {
   const [success, setSuccess] = useState(null);
   const { customer } = useContext(CustomerContext);
 
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+
   const handleSupportMail = async (event) => {
-    const form = event.target;
-    event.preventDefault();
 
     const data = formData;
 
@@ -56,6 +62,7 @@ const Support = () => {
   };
 
   const onUpdateField = (e) => {
+    console.log("onUpdateField",e.target.name,e.target.value)
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,
@@ -95,18 +102,22 @@ const Support = () => {
         <Grid columns={[".7fr .3fr"]} gap={[12]}>
           {success === null ? (
             <>
-              <Box as="form" onSubmit={handleSupportMail}>
+              <Box as="form" onSubmit={handleSubmit(handleSupportMail)}>
                 <Box sx={{ pb: [6], textarea: { fontFamily: "body" } }}>
                   <CustomInput
                     id="messaggio"
                     label="Messaggio"
-                    onChange={onUpdateField}
                     type="textarea"
                     name="message"
-                    placeholder="Inserisci la tua richiesta per ricevere assistenza. Verrai ricontattato al più presto per aiutarti a risolvere il problema"
                     variant="inputs.dark"
                     rows={4}
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required:
+                        "Inserisci la tua richiesta per ricevere assistenza.",
+                      onChange: (e) => onUpdateField(e),
+                    }}
                   />
                 </Box>
                 <Button

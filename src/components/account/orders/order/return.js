@@ -26,6 +26,7 @@ import CustomInput from "../../../customInput";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -41,6 +42,13 @@ const CustomerOrderReturn = () => {
     order: "",
     products: [],
   });
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const cl = useClSdk();
 
@@ -60,9 +68,6 @@ const CustomerOrderReturn = () => {
   };
 
   const handleReturnMail = async (event) => {
-    const form = event.target;
-    event.preventDefault();
-
     const data = formData;
 
     axios
@@ -160,114 +165,142 @@ const CustomerOrderReturn = () => {
               Richiedi un reso
             </Heading>
             <Grid columns={[".7fr .3fr"]} gap={[12]}></Grid>
-            <Box as="form" onSubmit={handleReturnMail}>
-              <Box sx={{ pb: [7] }}>Seleziona articoli</Box>
-              <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
-                {order.line_items.map(
-                  (item, index) =>
-                    item.sku_code && (
-                      <Box>
-                        <Label
-                          sx={{
-                            pb: [3],
-                            display: "flex",
-                            alignItems: "start",
-                            color: "dark",
-                            svg: {
-                              color: "lightBorder",
-                            },
-                            "input:checked ~ svg": {
-                              color: "secondary",
-                              outlineColor: "secondary",
-                            },
-                            "input:focus ~ svg": {
-                              color: "secondary",
-                            },
-                          }}
-                        >
-                          <Checkbox
-                            sx={{
-                              color: "dark",
-                              "input:checked~&": {
-                                color: "secondary",
-                                outlineColor: "secondary",
-                              },
-                            }}
-                            name={"item" + (index - 2)}
-                            onChange={(e) => {
-                              handleReturnSkus(e, item);
-                            }}
-                          />
-                          <Box
-                            sx={{
-                              pl: [4],
-                              'a[aria-current="page"]': {
-                                pointerEvents: "none",
-                              },
-                            }}
-                          >
-                            <ProductThumb sku={item} horizontal={true} />
+            {success === null ? (
+              <>
+                <Box as="form" onSubmit={handleSubmit(handleReturnMail)}>
+                  <Box sx={{ pb: [7] }}>Seleziona articoli</Box>
+                  <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                    {order.line_items.map(
+                      (item, index) =>
+                        item.sku_code && (
+                          <Box>
+                            <Label
+                              sx={{
+                                pb: [3],
+                                display: "flex",
+                                alignItems: "start",
+                                color: "dark",
+                                svg: {
+                                  color: "lightBorder",
+                                },
+                                "input:checked ~ svg": {
+                                  color: "secondary",
+                                  outlineColor: "secondary",
+                                },
+                                "input:focus ~ svg": {
+                                  color: "secondary",
+                                },
+                              }}
+                            >
+                              <Checkbox
+                                sx={{
+                                  color: "dark",
+                                  "input:checked~&": {
+                                    color: "secondary",
+                                    outlineColor: "secondary",
+                                  },
+                                }}
+                                name={"item" + (index - 2)}
+                                onChange={(e) => {
+                                  handleReturnSkus(e, item);
+                                }}
+                              />
+                              <Box
+                                sx={{
+                                  pl: [4],
+                                  'a[aria-current="page"]': {
+                                    pointerEvents: "none",
+                                  },
+                                }}
+                              >
+                                <ProductThumb sku={item} horizontal={true} />
+                              </Box>
+                            </Label>
                           </Box>
-                        </Label>
+                        )
+                    )}
+                  </Grid>
+                  {formData.products.length > 0 && (
+                    <>
+                      <Box
+                        sx={{
+                          borderBottom: "1px solid",
+                          borderColor: "lightBorder",
+                          pt: [6],
+                          mb: [6],
+                        }}
+                      />
+                      <Box>
+                        <Heading
+                          as="h2"
+                          variant="h2"
+                          sx={{ fontWeight: "400", mb: [7] }}
+                        >
+                          Motivazione della richiesta
+                        </Heading>
+                        <CustomInput
+                          id="reason"
+                          label="Motivo del reso"
+                          type="textarea"
+                          name="message"
+                          placeholder="Motivo del reso (min.250 caratteri)"
+                          variant="inputs.dark"
+                          rows={8}
+                          minLength={250}
+                          register={register}
+                          errors={errors}
+                          validationSchema={{
+                            required: "Questo campo è obbligatorio.",
+                            minLength: {
+                              value: 250,
+                              message:
+                                "La motivazione deve avere minimo 250 caratteri",
+                            },
+                            onChange: (e) => onUpdateField(e),
+                          }}
+                        />
                       </Box>
-                    )
-                )}
-              </Grid>
-              {formData.products.length > 0 && (
-                <>
-                  <Box
-                    sx={{
-                      borderBottom: "1px solid",
-                      borderColor: "lightBorder",
-                      pt: [6],
-                      mb: [6],
-                    }}
-                  />
-                  <Box>
-                    <Heading
-                      as="h2"
-                      variant="h2"
-                      sx={{ fontWeight: "400", mb: [7] }}
-                    >
-                      Motivazione della richiesta
-                    </Heading>
-                    <CustomInput
-                      id="reason"
-                      label="Motivo del reso"
-                      onChange={onUpdateField}
-                      type="textarea"
-                      name="message"
-                      placeholder="Motivo del reso (min.250 caratteri)"
-                      variant="inputs.dark"
-                      rows={8}
-                      minLength={250}
-                      required
-                    />
-                  </Box>
-                  <Box sx={{ pb: [9], pt: [7] }}>
-                    La richiesta di reso verrà esaminata dal nostro servizio
-                    clienti per accettazione.
-                  </Box>
+                      <Box sx={{ pb: [9], pt: [7] }}>
+                        La richiesta di reso verrà esaminata dal nostro servizio
+                        clienti per accettazione.
+                      </Box>
 
-                  <Box>
-                    <Button
-                      sx={{
-                        textAlign: "center",
-                        fontSize: [3],
-                        fontWeight: "600",
-                        borderRadius: "unset",
-                        p: [3],
-                        px: [11],
-                      }}
-                      type="submit"
-                      variant="buttons.primary"
-                    >
-                      Inoltra la richiesta di reso
-                    </Button>
-                  </Box>
-                </>
-              )}
-            </Box>
+                      <Box>
+                        <Button
+                          sx={{
+                            textAlign: "center",
+                            fontSize: [3],
+                            fontWeight: "600",
+                            borderRadius: "unset",
+                            p: [3],
+                            px: [11],
+                          }}
+                          type="submit"
+                          variant="buttons.primary"
+                        >
+                          Inoltra la richiesta di reso
+                        </Button>
+                      </Box>
+                    </>
+                  )}
+                </Box>
+              </>
+            ) : success === true ? (
+              <Flex sx={{ maxWidth: "600px" }}>
+                <Heading sx={{ my: [4], color: "dark" }} as="h5">
+                  Richiesta di reso inviata! Ti forniremo assistenza al più
+                  presto.
+                </Heading>
+              </Flex>
+            ) : (
+              success === false && (
+                <Flex sx={{ maxWidth: "600px" }}>
+                  <Heading sx={{ my: [4], color: "dark" }} as="h5">
+                    Qualcosa è andato storto
+                  </Heading>
+                </Flex>
+              )
+            )}
           </>
         ) : (
           <>

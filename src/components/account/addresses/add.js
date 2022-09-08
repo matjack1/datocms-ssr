@@ -21,6 +21,7 @@ import { useClSdk } from "../../../hooks/useClSdk";
 import { getProvinces } from "../../../utils/provinces";
 import CustomInput from "../../customInput";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const AddAddress = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -30,6 +31,13 @@ const AddAddress = () => {
   const provinces = getProvinces();
   const [loading, setLoading] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const [formData, setFormData] = useState({
     business: true,
@@ -52,7 +60,6 @@ const AddAddress = () => {
   };
 
   const handleCreateAddress = async (e) => {
-    e.preventDefault();
 
     setLoading(true);
 
@@ -128,7 +135,7 @@ const AddAddress = () => {
         {submitStatus === null && !loading ? (
           <Box
             as="form"
-            onSubmit={handleCreateAddress}
+            onSubmit={handleSubmit(handleCreateAddress)}
             sx={{ width: ["100%", "100%", "60%"] }}
           >
             <Grid
@@ -147,12 +154,16 @@ const AddAddress = () => {
                 <CustomInput
                   id="company"
                   label="Ragione sociale *"
-                  onChange={onUpdateField}
                   type="text"
                   name="company"
                   placeholder="Ragione sociale *"
                   variant="inputs.dark"
-                  required
+                  register={register}
+                  errors={errors}
+                  validationSchema={{
+                    required: "Questo campo è obbligatorio.",
+                    onChange: (e) => onUpdateField(e),
+                  }}
                 />
               </Box>
               <Box
@@ -164,12 +175,16 @@ const AddAddress = () => {
                 <CustomInput
                   id="address"
                   label="Indirizzo"
-                  onChange={onUpdateField}
                   type="text"
                   name="line_1"
                   placeholder="Indirizzo"
                   variant="inputs.dark"
-                  required
+                  register={register}
+                  errors={errors}
+                  validationSchema={{
+                    required: "Questo campo è obbligatorio.",
+                    onChange: (e) => onUpdateField(e),
+                  }}
                 />
               </Box>
               <Flex sx={{ flexWrap: "wrap" }}>
@@ -183,12 +198,16 @@ const AddAddress = () => {
                   <CustomInput
                     id="city"
                     label="Città"
-                    onChange={onUpdateField}
                     type="text"
                     name="city"
                     placeholder="Città"
                     variant="inputs.dark"
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required: "Questo campo è obbligatorio.",
+                      onChange: (e) => onUpdateField(e),
+                    }}
                   />
                 </Box>
                 <Box
@@ -201,12 +220,16 @@ const AddAddress = () => {
                   <CustomInput
                     id="province"
                     label="Provincia"
-                    onChange={onUpdateField}
                     type="select"
                     name="state_code"
                     placeholder="Provincia"
                     variant="inputs.dark"
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required: "Questo campo è obbligatorio.",
+                      onChange: (e) => onUpdateField(e),
+                    }}
                   >
                     <option value="" selected disabled>
                       Seleziona una provincia
@@ -223,37 +246,45 @@ const AddAddress = () => {
                   sx={{
                     pr: [0, 1, 1, 1],
                     pb: [3, 3, 3, 3],
-                    width: ["100%", "30%"],
+                    width: ["100%", "35%"],
                   }}
                 >
                   <CustomInput
                     id="CAP"
                     label="CAP"
-                    onChange={onUpdateField}
                     type="text"
                     name="zip_code"
                     pattern="(^\d{5}$)|(^\d{5}-\d{4}$)"
                     placeholder="CAP"
                     variant="inputs.dark"
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required: "Questo campo è obbligatorio.",
+                      onChange: (e) => onUpdateField(e),
+                    }}
                   />
                 </Box>
                 <Box
                   sx={{
                     pl: [0, 1, 1, 1],
                     pb: [3, 3, 3, 3],
-                    width: ["100%", "70%"],
+                    width: ["100%", "65%"],
                   }}
                 >
                   <CustomInput
                     id="nazione"
                     label="Nazione"
-                    onChange={onUpdateField}
                     type="select"
                     name="country_code"
                     placeholder="Nazione"
                     variant="inputs.dark"
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required: "Questo campo è obbligatorio.",
+                      onChange: (e) => onUpdateField(e),
+                    }}
                   >
                     <option selected disabled value="">
                       Seleziona una nazione
@@ -271,12 +302,16 @@ const AddAddress = () => {
                 <CustomInput
                   id="phone"
                   label="Numero di telefono"
-                  onChange={onUpdateField}
                   type="text"
                   name="phone"
                   placeholder="Numero di telefono"
                   variant="inputs.dark"
-                  required
+                  register={register}
+                  errors={errors}
+                  validationSchema={{
+                    required: "Questo campo è obbligatorio.",
+                    onChange: (e) => onUpdateField(e),
+                  }}
                 />
               </Box>
               <Box

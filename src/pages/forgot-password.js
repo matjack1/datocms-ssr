@@ -19,6 +19,7 @@ import Logo from "../assets/img/logo.svg";
 import CustomInput from "../components/customInput";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import EmailIcon from "../assets/img/icons/email.inline.svg";
+import { useForm } from "react-hook-form";
 
 const ForgotPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -26,15 +27,18 @@ const ForgotPassword = () => {
   const [success, setSuccess] = useState(null);
   const [email, setEmail] = useState("");
 
-  useEffect(() => {}, []);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const sendMail = async (event) => {
-    event.preventDefault();
 
     const result = await executeRecaptcha("dynamicAction");
 
     setLoading(true);
-
 
     if (result && email)
       axios
@@ -80,7 +84,7 @@ const ForgotPassword = () => {
                 14 GIORNI PER IL RESO
               </Text>
             </Box>
-            <Box sx={{textAlign:"center"}}>
+            <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 Spedizione gratuita da 250 €
               </Text>
@@ -119,19 +123,23 @@ const ForgotPassword = () => {
             Resetta la password
           </Heading>
           {success === null ? (
-            <Box as="form" onSubmit={sendMail}>
+            <Box as="form" onSubmit={handleSubmit(sendMail)}>
               <Box>
                 <Box sx={{ pb: [6] }}>
                   <CustomInput
                     id="email"
                     label="Email"
-                    type="text"
+                    type="email"
                     name="email"
                     placeholder="Email"
                     variant="inputs.dark"
-                    onChange={(e) => setEmail(e.target.value)}
                     icon={true}
-                    required
+                    register={register}
+                    errors={errors}
+                    validationSchema={{
+                      required: "Questo campo è obbligatorio.",
+                      onChange: (e) => setEmail(e.target.value),
+                    }}
                   >
                     <Flex
                       sx={{
@@ -156,12 +164,16 @@ const ForgotPassword = () => {
                   <Box sx={{ pb: [5] }}>
                     <Button
                       sx={{
+                        minHeight:"55px",
                         width: ["100%"],
                         textAlign: "center",
                         fontSize: [3],
                         fontWeight: "600",
                         borderRadius: "unset",
                         p: [3],
+                        display:"flex",
+                        alignItems:"center",
+                        justifyContent:"center"
                       }}
                       variant="buttons.primary"
                       type="submit"
@@ -183,18 +195,24 @@ const ForgotPassword = () => {
               </Box>
             </Box>
           ) : success === true ? (
-            <Flex sx={{ maxWidth: "600px" }}>
+            <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
               <Heading sx={{ my: [4], color: "dark" }} as="h5">
                 Richiesta inviata! Riceverai un'email con un link per resettare
                 la tua password!
               </Heading>
+              <InboundLink to={"/login"} className="btn btn-link">
+                Torna al login
+              </InboundLink>
             </Flex>
           ) : (
             success === false && (
-              <Flex sx={{ maxWidth: "600px" }}>
+              <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
                 <Heading sx={{ my: [4], color: "dark" }} as="h5">
                   Qualcosa è andato storto
                 </Heading>
+                <InboundLink to={"/login"} className="btn btn-link">
+                  Torna al login
+                </InboundLink>
               </Flex>
             )
           )}

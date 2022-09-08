@@ -21,36 +21,28 @@ import Layout from "../components/layout";
 import CustomInput from "../components/customInput";
 import EmailIcon from "../assets/img/icons/email.inline.svg";
 import PasswordIcon from "../assets/img/icons/password.inline.svg";
+import { useForm } from "react-hook-form";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
   const [loginError, setLoginError] = useState("");
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    getToken();
-  };
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
-  const handleError = (e) => {
-    setLoginError(e);
-  };
-
-  const handleChange = (e) => {
-    console.log(e.target.name);
-    const name = e.target.name === "email" ? "username" : e.target.name;
-    const value = e.target.value;
-    setData({ ...data, [name]: value });
-  };
-
-  const getToken = async () => {
+  const handleFormSubmit = async (e) => {
     const clToken = await getCustomerToken(
       {
         clientId: "Sq41WaprqH4zFc3a0OyWGpU4zH82Nabx_Z5CzMnzoi4",
         endpoint: "https://socaf-s-p-a.commercelayer.io",
         scope: "market:10247",
       },
-      data
+      { username: e.email, password: e.password }
     ).catch(handleError);
 
     if (clToken) {
@@ -59,6 +51,17 @@ const LoginPage = () => {
       navigate("/");
       setLoginError("");
     }
+  };
+
+  const handleError = (e) => {
+    setLoginError(e);
+  };
+
+  const handleChange = (e) => {
+    console.log("changing");
+    const name = e.target.name === "email" ? "username" : e.target.name;
+    const value = e.target.value;
+    setData({ ...data, [name]: value });
   };
 
   return (
@@ -78,7 +81,7 @@ const LoginPage = () => {
                 14 GIORNI PER IL RESO
               </Text>
             </Box>
-            <Box sx={{textAlign:"center"}}>
+            <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 Spedizione gratuita da 250 €
               </Text>
@@ -116,18 +119,22 @@ const LoginPage = () => {
           <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
             Accedi
           </Heading>
-          <Box as="form" onSubmit={(e) => handleSubmit(e)}>
+          <Box as="form" onSubmit={handleSubmit(handleFormSubmit)}>
             <Box sx={{ pb: [4] }}>
               <CustomInput
                 id="email"
                 label="Email"
-                onChange={handleChange}
                 type="email"
                 name="email"
                 placeholder="Email"
                 variant="inputs.dark"
                 autocomplete="email"
-                required
+                register={register}
+                errors={errors}
+                validationSchema={{
+                  required: "Questo campo è obbligatorio.",
+                  onChange: (e) => handleChange(e),
+                }}
                 icon={true}
               >
                 <Flex
@@ -153,14 +160,18 @@ const LoginPage = () => {
               <CustomInput
                 id="password"
                 label="Password"
-                onChange={handleChange}
                 type="password"
                 name="password"
                 placeholder="Password"
                 autocomplete="password"
                 variant="inputs.dark"
                 icon={true}
-                required
+                register={register}
+                errors={errors}
+                validationSchema={{
+                  required: "Questo campo è obbligatorio.",
+                  onChange: (e) => handleChange(e),
+                }}
               >
                 <Flex
                   sx={{

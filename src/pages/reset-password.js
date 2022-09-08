@@ -22,6 +22,7 @@ import Logo from "../assets/img/logo.svg";
 import CustomInput from "../components/customInput";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import PasswordIcon from "../assets/img/icons/password.inline.svg";
+import { useForm } from "react-hook-form";
 
 const ResetPassword = ({ history }) => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -32,6 +33,13 @@ const ResetPassword = ({ history }) => {
     confirm_password: "",
   });
   const [errorMessage, setErrorMessage] = useState("");
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
 
   const onUpdateField = (e) => {
     const nextFormState = {
@@ -65,7 +73,6 @@ const ResetPassword = ({ history }) => {
   };
 
   const sendResetPassword = async (event) => {
-    event.preventDefault();
 
     const result = await executeRecaptcha("dynamicAction");
 
@@ -126,7 +133,7 @@ const ResetPassword = ({ history }) => {
                 14 GIORNI PER IL RESO
               </Text>
             </Box>
-            <Box sx={{textAlign:"center"}}>
+            <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 Spedizione gratuita da 250 €
               </Text>
@@ -165,7 +172,7 @@ const ResetPassword = ({ history }) => {
             Resetta la password
           </Heading>
           {success === null ? (
-            <Box as="form" onSubmit={sendResetPassword}>
+            <Box as="form" onSubmit={handleSubmit(sendResetPassword)}>
               <Box sx={{ pb: [6] }}>
                 <CustomInput
                   id="password"
@@ -174,9 +181,14 @@ const ResetPassword = ({ history }) => {
                   name="password"
                   placeholder="Password"
                   variant="inputs.dark"
-                  onChange={(e) => setParams(e)}
+                  autocomplete="off"
                   icon={true}
-                  required
+                  register={register}
+                  errors={errors}
+                  validationSchema={{
+                    required: "Questo campo è obbligatorio.",
+                    onChange: (e) => setParams(e),
+                  }}
                 >
                   <Flex
                     sx={{
@@ -205,9 +217,19 @@ const ResetPassword = ({ history }) => {
                   name="confirm_password"
                   placeholder="Confirm password"
                   variant="inputs.dark"
-                  onChange={(e) => setParams(e)}
+                  autocomplete="off"
                   icon={true}
-                  required
+                  register={register}
+                  errors={errors}
+                  validationSchema={{
+                    required: "Questo campo è obbligatorio.",
+                    onChange: (e) => setParams(e),
+                    validate: (val) => {
+                      if (watch("password") != val) {
+                        return "Le password non combaciano!";
+                      }
+                    },
+                  }}
                 >
                   <Flex
                     sx={{
@@ -265,19 +287,24 @@ const ResetPassword = ({ history }) => {
               {errorMessage && <Box>{errorMessage}</Box>}
             </Box>
           ) : success === true ? (
-            <Flex sx={{ maxWidth: "600px" }}>
+            <Flex sx={{ maxWidth: "600px" , flexDirection:"column" }}>
               <Heading sx={{ my: [4], color: "dark" }} as="h5">
                 Password cambiata! Esegui il login con la nuova password
               </Heading>
-              <InboundLink to="/login">login</InboundLink>
+              <InboundLink to={"/login"} className="btn btn-link">
+                Torna al login
+              </InboundLink>
             </Flex>
           ) : (
             success === false && (
-              <Flex sx={{ maxWidth: "600px" }}>
+              <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
                 <Heading sx={{ my: [4], color: "dark" }} as="h5">
                   Qualcosa è andato storto! Probabilmente questo link non è più
                   valido!
                 </Heading>
+                <InboundLink to={"/login"} className="btn btn-link">
+                  Torna al login
+                </InboundLink>
               </Flex>
             )
           )}

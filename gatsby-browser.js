@@ -7,7 +7,7 @@ import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 import "./src/assets/style/layout.css"
 
 export const wrapRootElement = ({ element }) => (
-  <GoogleReCaptchaProvider reCaptchaKey="6Ld_WgUhAAAAAOEbiWDcVm2mGOH5RUyRemBnK7gH">
+  <GoogleReCaptchaProvider reCaptchaKey="6LcO1fwcAAAAABy6FQV1uABJKmwgBibKZAQ52Sn3">
     <CustomerTokenProvider>
       <CustomerProvider>
         <CartProvider>{element}</CartProvider>
