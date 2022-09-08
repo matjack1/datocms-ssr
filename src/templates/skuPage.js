@@ -33,7 +33,7 @@ import FavouritIcon from "../assets/img/icons/preferiti.inline.svg";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import { toast } from "react-toastify";
 import ThumbProductDetails from "../components/thumbProductDetails";
-import SkuPageSkeleton from "../components/skeleton/skupage";
+import SkuPageSkeleton from "../components/skeleton/skuPage";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
