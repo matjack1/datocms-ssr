@@ -34,6 +34,7 @@ import PlaceholderImage from "../assets/img/placeholder-image.png";
 import { toast } from "react-toastify";
 import ThumbProductDetails from "../components/thumbProductDetails";
 import SkuPageSkeleton from "../components/skeleton/skuPage";
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -385,25 +386,34 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     <Flex
                       sx={{
                         alignItems: "center",
-                        pb: [6],
+                        mb: [6],
+                        minHeight: ["36px"],
                       }}
                     >
                       <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
-                        {clSkuDetails && clSkuDetails.prices
-                          ? clSkuDetails.prices.discountedPrice
-                            ? "€" +
-                              clSkuDetails.prices.discountedPrice.toLocaleString(
-                                "it-IT",
-                                { minimumFractionDigits: 2 }
-                              )
-                            : "€" +
-                              clSkuDetails.prices.price.toLocaleString(
-                                "it-IT",
-                                {
-                                  minimumFractionDigits: 2,
-                                }
-                              )
-                          : "Caricamento..."}
+                        {clSkuDetails && clSkuDetails.prices ? (
+                          clSkuDetails.prices.discountedPrice ? (
+                            "€" +
+                            clSkuDetails.prices.discountedPrice.toLocaleString(
+                              "it-IT",
+                              { minimumFractionDigits: 2 }
+                            )
+                          ) : (
+                            "€" +
+                            clSkuDetails.prices.price.toLocaleString("it-IT", {
+                              minimumFractionDigits: 2,
+                            })
+                          )
+                        ) : (
+                          <Box
+                            sx={{
+                              minWidth: "80px",
+                              maxWidth: "80px",
+                            }}
+                          >
+                            <BouncingDotsLoader color="primary" />
+                          </Box>
+                        )}
                       </Text>
                       <Text
                         sx={{ pl: [2], fontSize: [1], color: "lightBorder" }}

@@ -17,7 +17,7 @@ exports.handler = async function (event, context) {
     from: "no-reply@socaf.it",
     to: "a.asofii@multi-consult.it",
     // bcc: 'n.lazzaroni@multi-consult.it',
-    subject: `Richiesta assitenza da Socaf.it E-commerce`,
+    subject: `Richiesta di reso da Socaf.it E-commerce`,
     html: `<p>
     <b>Email: </b>${data.customer}<br>
     <b>Ordine #: </b>${data.order}<br>

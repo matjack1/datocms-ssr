@@ -1,18 +1,17 @@
 import React from "react";
 import { Box } from "theme-ui";
 
-const BouncingDotsLoader = (props) => {
+const BouncingDotsLoader = ({color = "light" }) => {
   return (
     <Box
       className="bouncing-loader"
       sx={{
-        minHeight:["21px"],
         display: "flex", justifyContent: "center" ,
         "& > div": {
           width: "6px",
           height: "6px",
           borderRadius: "50%",
-          backgroundColor: "light",
+          backgroundColor: color,
           opacity: 1,
           animation: "bouncing-loader 0.6s infinite alternate",
         },
