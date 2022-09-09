@@ -2671,6 +2671,11 @@
   dependencies:
     csstype "^3.0.10"
 
+"@theme-ui/match-media@^0.14.7":
+  version "0.14.7"
+  resolved "https://registry.yarnpkg.com/@theme-ui/match-media/-/match-media-0.14.7.tgz#ea0ed22c9b743c4ad006cad21f8ae7cdb3e8ac79"
+  integrity sha512-Kt4q/Ebl5cBZUnoN0uQfzOFnivfumEiDAQWYcQedP5IJanDPnskAIscz1BM6zQ7GeYWX3ZYIJmTgQTid5so2eA==
+
 "@theme-ui/mdx@0.14.5":
   version "0.14.5"
   resolved "https://registry.yarnpkg.com/@theme-ui/mdx/-/mdx-0.14.5.tgz#a462cf378d5a8ef4a03369a75e3b258bbab6d566"
@@ -10265,6 +10270,11 @@ rc@^1.2.7, rc@^1.2.8:
     ini "~1.3.0"
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
+
+react-accessible-accordion@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-accessible-accordion/-/react-accessible-accordion-5.0.0.tgz#5b61d06aec38906a99f977c10324d9bddec0f64c"
+  integrity sha512-MT2obYpTgLIIfPr9d7hEyvPB5rg8uJcHpgA83JSRlEUHvzH48+8HJPvzSs+nM+XprTugDgLfhozO5qyJpBvYRQ==
 
 react-datocms@^3.1.0:
   version "3.1.0"

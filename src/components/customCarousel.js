@@ -86,16 +86,24 @@ const CustomCarousel = ({
         "*": {
           minWidth: "unset",
           ".rf-productnav-card-content": {
-            width: "290px",
-            height: small ? "290px" : productThumbnail ? "500px" : "390px",
-            minWidth: "290px",
+            width: ["160px", "290px"],
+            height: small
+              ? ["160px", "290px"]
+              : productThumbnail
+              ? "500px"
+              : ["212px","390px"],
+            minWidth: ["160px", "290px"],
           },
           ".rf-cards-scroller-crop": {
             overflow: "hidden",
             paddingBottom: "26px",
           },
           ".rf-cards-scroller-crop,.rf-cards-scroller-itemview": {
-            height: small ? "290px" : productThumbnail ? "500px" : "390px",
+            height: small
+              ? ["160px", "290px"]
+              : productThumbnail
+              ? "500px"
+              : ["212px","390px"],
           },
         },
       }}
@@ -145,13 +153,13 @@ const CustomCarousel = ({
                             as="div"
                             className="rf-productnav-card-content"
                             sx={{
-                              width: "290px",
+                              width: ["160px", "290px"],
                               height: small
-                                ? "290px"
+                                ? ["160px", "290px"]
                                 : productThumbnail
                                 ? "500px"
-                                : "390px",
-                              minWidth: "290px",
+                                : ["212px","390px"],
+                              minWidth: ["160px", "290px"],
                               backgroundColor: "light",
                               border:
                                 !small && !productThumbnail && "2px solid",
@@ -172,8 +180,8 @@ const CustomCarousel = ({
                                     sx={{
                                       whiteSpace: "break-spaces",
                                       m: [0],
-                                      p: [3],
-                                      minHeight: "120px",
+                                      p: [1,3],
+                                      minHeight: ["65px","120px"],
                                     }}
                                   >
                                     {item.name && item.name}
@@ -222,13 +230,13 @@ const CustomCarousel = ({
                           as="div"
                           className="rf-productnav-card-content"
                           sx={{
-                            width: "290px",
+                            width: ["160px", "290px"],
                             height: small
-                              ? "290px"
+                              ? ["160px", "290px"]
                               : productThumbnail
                               ? "500px"
-                              : "390px",
-                            minWidth: "290px",
+                              : ["212px","390px"],
+                            minWidth: ["160px", "290px"],
                             backgroundColor: "light",
                             border: !small && !productThumbnail && "2px solid",
                             borderColor: "dark",
@@ -331,7 +339,16 @@ const CustomCarousel = ({
           }}
         >
           {[1, 2, 3].map((sku) => (
-            <Skeleton height={small ? "290px" : productThumbnail ? "500px" : "390px"} width={"290px"} />
+            <Skeleton
+              height={
+                small
+                  ? ["160px", "290px"]
+                  : productThumbnail
+                  ? "500px"
+                  : ["212px","390px"]
+              }
+              width={["160px", "290px"]}
+            />
           ))}
         </Grid>
       </Container>

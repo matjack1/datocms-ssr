@@ -24,7 +24,7 @@ const RichContentStructuredText = ({ text, theme }) => {
         },
       }}
     >
-      {text.value && (
+      {text && text.value && (
         <StructuredText
           data={text}
           renderLinkToRecord={({ record }) => {

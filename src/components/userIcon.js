@@ -7,11 +7,14 @@ import { InboundLink } from "./link";
 import AccountSideBar from "./accountSidebar";
 import { navigate } from "gatsby";
 import UserIconSVG from "../assets/img/icons/login.inline.svg";
+import AccountSideBarMobile from "./accountSidebarMobile";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const UserIcon = () => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
   const { customer, setCustomer } = useContext(CustomerContext);
   const cl = useClSdk();
+  const mediaIndex = useBreakpointIndex();
 
   const getCostumer = async () => {
     const handleError = (e) => {
@@ -69,14 +72,16 @@ const UserIcon = () => {
       {customer && (
         <>
           <Box>
-            <Box sx={{
-                cursor:"pointer"
-            }} 
-            onClick={() => showSidebar()}>
+            <Box
+              sx={{
+                cursor: "pointer",
+              }}
+              onClick={() => showSidebar()}
+            >
               <Flex
                 sx={{ justifyContent: "space-between", alignItems: "center" }}
               >
-                <Box>
+                <Box sx={{ fontSize: [1, 3] }}>
                   {customer.metadata.company
                     ? customer.metadata.company
                     : customer.email}
@@ -84,9 +89,9 @@ const UserIcon = () => {
                 <Box
                   sx={{
                     ml: [1],
-                    svg:{
-                      height:"20px",
-                      width:"auto"
+                    svg: {
+                      height: "20px",
+                      width: "auto",
                     },
                     "svg *": {
                       stroke: "dark",
@@ -98,10 +103,17 @@ const UserIcon = () => {
               </Flex>
             </Box>
           </Box>
-          <AccountSideBar
-            open={showSideDrawer}
-            closed={sideDrawerClosedHandler}
-          />
+          {mediaIndex > 2 ? (
+            <AccountSideBar
+              open={showSideDrawer}
+              closed={sideDrawerClosedHandler}
+            />
+          ) : (
+            <AccountSideBarMobile
+              open={showSideDrawer}
+              closed={sideDrawerClosedHandler}
+            />
+          )}
         </>
       )}
     </>

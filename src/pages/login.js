@@ -22,6 +22,7 @@ import CustomInput from "../components/customInput";
 import EmailIcon from "../assets/img/icons/email.inline.svg";
 import PasswordIcon from "../assets/img/icons/password.inline.svg";
 import { useForm } from "react-hook-form";
+import OutsideNav from "../components/outsideNav";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -66,30 +67,7 @@ const LoginPage = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          backgroundColor: "dark",
-        }}
-      >
-        <Container sx={{ py: [1, 1] }}>
-          <Grid
-            columns={["1fr 1fr 1fr"]}
-            sx={{ justifyContent: "space-between" }}
-          >
-            <Box>
-              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                14 GIORNI PER IL RESO
-              </Text>
-            </Box>
-            <Box sx={{ textAlign: "center" }}>
-              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                Spedizione gratuita da 250 €
-              </Text>
-            </Box>
-            <Box></Box>
-          </Grid>
-        </Container>
-      </Box>
+      <OutsideNav />
       <Container
         sx={{
           pt: [5, 5],
@@ -215,12 +193,12 @@ const LoginPage = () => {
             >
               Accedi
             </Button>
-            <Box sx={{ textAlign: "center", py: [6] }}>
-              <InboundLink to={"/forgot-password"}>
+            <Box sx={{ textAlign: "center", py: [6], }}>
+              <InboundLink sx={{fontSize:[1,2] }} to={"/forgot-password"}>
                 Password dimenticata?
               </InboundLink>
             </Box>
-            <Box sx={{ textAlign: "center", color: "lightBorder" }}>
+            <Box sx={{ textAlign: "center", color: "lightBorder", fontSize:[1,2] }}>
               Non riesci ad accedere al servizio? <br /> Contattaci al 800
               480110
             </Box>

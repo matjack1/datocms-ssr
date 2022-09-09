@@ -17,6 +17,7 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import { InboundLink } from "./link";
 import CustomerContext from "../hooks/customerContext";
 import LocationMapIcon from "../assets/img/icons/map-pin.inline.svg";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const LatestOrders = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -27,6 +28,7 @@ const LatestOrders = () => {
     orderByTime: "180",
     orderByAddress: [],
   });
+  const mediaIndex = useBreakpointIndex();
 
   const handleOrder = () => {
     var today = new Date();
@@ -74,90 +76,122 @@ const LatestOrders = () => {
   return filteredOrders.length > 0 ? (
     <Box sx={{ backgroundColor: "primary" }}>
       <Container>
-        <Heading as="h2" variant="h2" color="light" sx={{ mt: [0], mb: [9] }}>
+        <Heading
+          as="h2"
+          variant="h2"
+          color="light"
+          sx={{ mt: [2,0], mb: [2, 4, 9] }}
+        >
           Ultimi ordini
         </Heading>
-        <Grid columns={[1, "repeat(4,1fr)"]} gap={[0]}>
-          {filteredOrders.slice(0, 4).map((order, index) => (
-            <InboundLink
-              sx={{
-                pl: [index === 0 ? 0 : 9],
-                pr: [index === filteredOrders.length - 1 ? 0 : 9],
-                color: "light",
-                borderRight:
-                  index != filteredOrders.slice(0, 4).length - 1 && "1px solid",
-                display: "inline-block",
-                textDecoration: "none",
-                borderColor: "lighter",
-                width: "100%",
-              }}
-              to={`/account/orders/${order.id}`}
-            >
-              <Box>
-                <Box sx={{ pb: [5] }}>
-                  <Text sx={{ fontSize: [3] }}>
-                    Ordine{" "}
-                    <Box as="span" sx={{ fontWeight: 600 }}>
-                      #{order.number}
-                    </Box>
-                  </Text>
-                </Box>
-                <Grid
-                  columns={["16px auto"]}
-                  gap={[0]}
-                  sx={{ fontSize: [1], alignItems: "center", pb: ["10px"] }}
-                >
-                  <Flex sx={{ alignItems: "center", justifyContent: "start" }}>
+        <Grid columns={["1fr", "repeat(3,1fr)", "repeat(4,1fr)"]} gap={[0]}>
+          {filteredOrders
+            .slice(0, mediaIndex > 1 ? 4 : 3)
+            .map((order, index) => (
+              <InboundLink
+                sx={{
+                  py: [3],
+                  pl: [0, index === 0 ? 0 : 9],
+                  pr: [0, index === filteredOrders.length - 1 ? 0 : 9],
+                  color: "light",
+                  borderRight: [
+                    "unset",
+                    index !=
+                      filteredOrders.slice(0, mediaIndex > 1 ? 4 : 3).length -
+                        1 && "1px solid",
+                  ],
+                  borderBottom: [
+                    index !=
+                      filteredOrders.slice(0, mediaIndex > 1 ? 4 : 3).length -
+                        1 && "1px solid",
+                    "unset",
+                  ],
+                  display: "inline-block",
+                  textDecoration: "none",
+                  borderColor: "lighter",
+                  width: "100%",
+                }}
+                to={`/account/orders/${order.id}`}
+              >
+                <Box>
+                  <Box sx={{ pb: [1, 5], display:["flex","block"], justifyContent:"space-between", alignItems:"center"}}>
+                    <Text sx={{ fontSize: [3] }}>
+                      Ordine{" "}
+                      <Box as="span" sx={{ fontWeight: 600 }}>
+                        #{order.number}
+                      </Box>
+                    </Text>
                     <Box
                       sx={{
-                        borderRadius: "50%",
-                        backgroundColor:
-                          order.status === "placed"
-                            ? "status.approved"
-                            : "orange",
-                        width: "7px",
-                        height: "7px",
+                        display:["block","none"],
+                        fontSize: [1],
+                        alignItems: "center",
+                        pb: [1],
+                        fontWeight: "600",
                       }}
-                    />
-                  </Flex>
-                  {order.status}
-                </Grid>
-                <Grid
-                  columns={["16px auto"]}
-                  gap={[0]}
-                  sx={{ fontSize: [1], alignItems: "center", pb: ["10px"] }}
-                >
-                  <Flex
-                    sx={{
-                      alignItems: "center",
-                      justifyContent: "start",
-                    }}
+                    >
+                      <Box>{order.formatted_total_amount_with_taxes}</Box>
+                    </Box>
+                  </Box>
+                  <Grid
+                    columns={["16px auto"]}
+                    gap={[0]}
+                    sx={{ fontSize: [1], alignItems: "center", pb: [1] }}
                   >
-                    <LocationMapIcon />
-                  </Flex>
-                  {order.shipping_address.last_name}
-                </Grid>
-                <Box sx={{ fontSize: [1], color: "lighter", pb: [5] }}>
-                  {new Date(order.placed_at).toLocaleDateString("it-IT", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                    <Flex
+                      sx={{ alignItems: "center", justifyContent: "start" }}
+                    >
+                      <Box
+                        sx={{
+                          borderRadius: "50%",
+                          backgroundColor:
+                            order.status === "placed"
+                              ? "status.approved"
+                              : "orange",
+                          width: "7px",
+                          height: "7px",
+                        }}
+                      />
+                    </Flex>
+                    {order.status}
+                  </Grid>
+                  <Grid
+                    columns={["16px auto"]}
+                    gap={[0]}
+                    sx={{ fontSize: [1], alignItems: "center", pb: [1] }}
+                  >
+                    <Flex
+                      sx={{
+                        alignItems: "center",
+                        justifyContent: "start",
+                      }}
+                    >
+                      <LocationMapIcon />
+                    </Flex>
+                    {order.shipping_address.last_name}
+                  </Grid>
+                  <Box sx={{ fontSize: [1], color: "lighter", pb: [0, 5] }}>
+                    {new Date(order.placed_at).toLocaleDateString("it-IT", {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </Box>
                 </Box>
-              </Box>
 
-              <Box
-                sx={{
-                  fontSize: [1],
-                  alignItems: "center",
-                  pb: ["10px"],
-                  fontWeight: "600",
-                }}
-              >
-                <Box>{order.formatted_total_amount_with_taxes}</Box>
-              </Box>
-            </InboundLink>
-          ))}
+                <Box
+                  sx={{
+                    display: ["none", "block"],
+                    fontSize: [1],
+                    alignItems: "center",
+                    pb: [1],
+                    fontWeight: "600",
+                  }}
+                >
+                  <Box>{order.formatted_total_amount_with_taxes}</Box>
+                </Box>
+              </InboundLink>
+            ))}
         </Grid>
       </Container>
     </Box>

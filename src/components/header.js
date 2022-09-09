@@ -5,6 +5,7 @@ import SecondaryNav from "./secondaryNav";
 import MobileNav from "./mobileNav";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { InboundLink } from "./link";
+import SecondaryNavMobile from "../components/secondaryNavMobile"
 
 const Header = ({ color, title }) => {
   const [isSticky, setIsSticky] = useState(null);
@@ -35,13 +36,14 @@ const Header = ({ color, title }) => {
     >
       <Box
         sx={{
+          display:["none","block"],
           backgroundColor: "dark",
         }}
       >
         <Container sx={{ py: [1, 1] }}>
           <Grid
             columns={["1fr 1fr 1fr"]}
-            sx={{ justifyContent: "space-between" }}
+            sx={{ display:["none","grid"],justifyContent: "space-between" }}
           >
             <Box sx={{textAlign:"left"}}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
@@ -71,14 +73,13 @@ const Header = ({ color, title }) => {
       </Box>
       <Container
         sx={{
-          pt: [5, 5],
-          pb: [4, 4],
-          display: ["none", "none", "none", "block"],
+          pt: [3, 5],
+          pb: [3, 4],
         }}
       >
         <Nav color={color} />
       </Container>
-      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" }}>
+      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" , display: ["none", "none", "block", "block"]}}>
         <Container
           className={isSticky}
           sx={{
@@ -93,11 +94,14 @@ const Header = ({ color, title }) => {
               animation:
                 "500ms ease-in-out 0s normal none 1 running fadeInDown",
             },
-            display: ["none", "none", "none", "block"],
+            
           }}
         >
           <SecondaryNav color={color} />
         </Container>
+      </Box>
+      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" , display: ["block", "block", "none", "none"]}}>
+        <SecondaryNavMobile />
       </Box>
       <Box sx={{ display: ["block", "block", "block", "none"] }}>
         <MobileNav theme={"light"} />

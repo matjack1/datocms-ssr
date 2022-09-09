@@ -20,6 +20,7 @@ import CustomInput from "../components/customInput";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import EmailIcon from "../assets/img/icons/email.inline.svg";
 import { useForm } from "react-hook-form";
+import OutsideNav from "../components/outsideNav";
 
 const ForgotPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -69,30 +70,7 @@ const ForgotPassword = () => {
 
   return (
     <>
-      <Box
-        sx={{
-          backgroundColor: "dark",
-        }}
-      >
-        <Container sx={{ py: [1, 1] }}>
-          <Grid
-            columns={["1fr 1fr 1fr"]}
-            sx={{ justifyContent: "space-between" }}
-          >
-            <Box>
-              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                14 GIORNI PER IL RESO
-              </Text>
-            </Box>
-            <Box sx={{ textAlign: "center" }}>
-              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                Spedizione gratuita da 250 €
-              </Text>
-            </Box>
-            <Box></Box>
-          </Grid>
-        </Container>
-      </Box>
+      <OutsideNav />
       <Container
         sx={{
           pt: [5, 5],

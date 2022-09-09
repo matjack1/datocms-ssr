@@ -10,8 +10,8 @@ const CategoriesTabLink = ({ categories }) => {
     <Box>
       {categories.map((category) => (
         <Box key={category.id}>
-          <Container>
-            <Heading as="h2" variant="h2" sx={{my:[6]}}>
+          <Container sx={{ py: [6, 11, 11], pb: [3, 11, 11] }}>
+            <Heading as="h2" variant="h2" sx={{ my:[0] }}>
               <InboundLink to={getCategoryPath(category, category.locale)}>
                 {category.name}
               </InboundLink>

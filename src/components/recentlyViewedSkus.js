@@ -39,8 +39,8 @@ const RecentlyViewedSkus = () => {
   }, [customer]);
 
   return skus.length > 0 ? (
-    <Box sx={{ position: "relative", backgroundColor: "#F4F4F4", pb:[11] }}>
-      <Container sx={{py:[11,11]}}>
+    <Box sx={{ position: "relative", backgroundColor: "#F4F4F4", pb:[6,11] }}>
+      <Container sx={{py:[6,11,11], pb:[3,11,11]}}>
         <Heading as="h2" variant="h2" sx={{ my: [0], fontWeight: "600" }}>
           Continua ad acquistare
         </Heading>

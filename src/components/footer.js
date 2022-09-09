@@ -20,6 +20,7 @@ import CartIcon from "../assets/img/icons/shopping.inline.svg";
 import { VscQuestion } from "react-icons/vsc";
 import RichContentStructuredText from "../components/richContentStructuredText";
 import { GatsbyImage } from "gatsby-plugin-image";
+import Accordion from "./accordion";
 
 const Footer = () => {
   const footer = useFooter();
@@ -31,139 +32,147 @@ const Footer = () => {
       sx={{
         backgroundColor: "dark",
         py: 6,
+        pt: [0, 6],
         mt: [8],
         position: "relative",
         color: "light",
-        minHeight: "516px",
+        minHeight: ["auto", "516px"],
       }}
     >
       <i18nContext.Consumer>
         {(t) => (
           <>
+            <Box sx={{ display: ["block", "none"] }}>
+              <Accordion items={footer.content} />
+            </Box>
             <Container>
-              <Grid
-                columns={[1, `repeat(3,1fr)`]}
-                sx={{ columnGap: [15], rowGap: [6] }}
-              >
-                {footer.content.map((block, index) => (
-                  <Box as="section" key={block.id} sx={{}}>
-                    {block.model.apiKey === "text_block" && (
-                      <Box>
-                        <Flex
-                          sx={{
-                            pb: [5],
-                          }}
-                        >
+              <Box sx={{ display: ["none", "block"] }}>
+                <Grid
+                  columns={[1, `repeat(3,1fr)`]}
+                  sx={{ columnGap: [15], rowGap: [6] }}
+                >
+                  {footer.content.map((block, index) => (
+                    <Box as="section" key={block.id} sx={{}}>
+                      {block.model.apiKey === "text_block" && (
+                        <Box>
                           <Flex
                             sx={{
-                              justifyContent: "start",
-                              alignItems: "center",
-                              svg: {
-                                "*": {
-                                  stroke: "light",
+                              pb: [5],
+                            }}
+                          >
+                            <Flex
+                              sx={{
+                                justifyContent: "start",
+                                alignItems: "center",
+                                svg: {
+                                  "*": {
+                                    stroke: "light",
+                                  },
                                 },
+                              }}
+                            >
+                              {block.title === "Hai bisogno di aiuto?" ? (
+                                <VscQuestion size={24} />
+                              ) : block.title === "Compra facile" ? (
+                                <CartIcon />
+                              ) : (
+                                block.title && <SocafIcon />
+                              )}
+                            </Flex>
+                            <Box sx={{ pl: 2 }}>
+                              <Heading
+                                as="h2"
+                                variant="h5"
+                                sx={{
+                                  color: "light",
+                                  my: [0],
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {block.title}
+                              </Heading>
+                            </Box>
+                          </Flex>
+                          <Box
+                            sx={{
+                              a: {
+                                fontSize: [1],
+                                color: block.title === "Socaf" && "light",
+                              },
+                              p: {
+                                fontSize: [1],
                               },
                             }}
                           >
-                            {block.title === "Hai bisogno di aiuto?" ? (
-                              <VscQuestion size={24} />
-                            ) : block.title === "Compra facile" ? (
-                              <CartIcon />
-                            ) : (
-                              block.title && <SocafIcon />
-                            )}
-                          </Flex>
-                          <Box sx={{ pl: 2 }}>
-                            <Heading
-                              as="h2"
-                              variant="h5"
-                              sx={{
-                                color: "light",
-                                my: [0],
-                                fontWeight: "600",
-                              }}
-                            >
-                              {block.title}
-                            </Heading>
+                            <RichContentStructuredText text={block.body} />
                           </Box>
-                        </Flex>
-                        <Box
-                          sx={{
-                            a: {
-                              fontSize: [1],
-                              color: block.title === "Socaf" && "light",
-                            },
-                            p: {
-                              fontSize: [1],
-                            },
-                          }}
-                        >
-                          <RichContentStructuredText text={block.body} />
                         </Box>
-                      </Box>
-                    )}
-                    {block.model.apiKey === "image_gallery" && (
-                      <Box>
-                        <Flex
-                          sx={{
-                            pb: [5],
-                            justifyContent: "start",
-                            alignItems: "center",
-                          }}
-                        >
+                      )}
+                      {block.model.apiKey === "image_gallery" && (
+                        <Box>
                           <Flex
                             sx={{
+                              pb: [5],
                               justifyContent: "start",
                               alignItems: "center",
-                              svg: {
-                                "*": {
-                                  stroke: "light",
-                                },
-                              },
                             }}
                           >
-                            {block.title === "Modalità di pagamento" ? (
-                              <PayIcon />
-                            ) : (
-                              <DeliveryIcon />
-                            )}
-                          </Flex>
-                          <Box sx={{ pl: 2 }}>
-                            <Heading
-                              as="h2"
-                              variant="h5"
+                            <Flex
                               sx={{
-                                color: "light",
-                                my: [0],
-                                fontWeight: "600",
+                                justifyContent: "start",
+                                alignItems: "center",
+                                svg: {
+                                  "*": {
+                                    stroke: "light",
+                                  },
+                                },
                               }}
                             >
-                              {block.title}
-                            </Heading>
-                          </Box>
-                        </Flex>
-                        <Grid columns={["1fr 1fr 1fr 1fr"]}>
-                          {block.images &&
-                            block.images.length > 0 &&
-                            block.images.map((image) => (
-                              <GatsbyImage
-                                image={image.gatsbyImageData}
-                                alt={image.gatsbyImageData}
-                              />
-                            ))}
-                        </Grid>
-                      </Box>
-                    )}
-                  </Box>
-                ))}
-              </Grid>
-              <Flex sx={{ pt: [12], justifyContent: "space-between" }}>
+                              {block.title === "Modalità di pagamento" ? (
+                                <PayIcon />
+                              ) : (
+                                <DeliveryIcon />
+                              )}
+                            </Flex>
+                            <Box sx={{ pl: 2 }}>
+                              <Heading
+                                as="h2"
+                                variant="h5"
+                                sx={{
+                                  color: "light",
+                                  my: [0],
+                                  fontWeight: "600",
+                                }}
+                              >
+                                {block.title}
+                              </Heading>
+                            </Box>
+                          </Flex>
+                          <Grid columns={["1fr 1fr 1fr 1fr"]}>
+                            {block.images &&
+                              block.images.length > 0 &&
+                              block.images.map((image) => (
+                                <GatsbyImage
+                                  image={image.gatsbyImageData}
+                                  alt={image.gatsbyImageData}
+                                />
+                              ))}
+                          </Grid>
+                        </Box>
+                      )}
+                    </Box>
+                  ))}
+                </Grid>
+              </Box>
+              <Flex sx={{ pt: [3, 12], justifyContent: "space-between", flexDirection:["column","row"] }}>
                 <Flex
                   sx={{
                     justifyContent: "flex-start",
                     a: {
-                      textDecoration:"none"
-                    }
+                      textDecoration: "none",
+                      fontSize:[1]
+                    },
+                    flexWrap: "wrap",
                   }}
                 >
                   {footer.policies.map((link, index) => (
@@ -175,6 +184,7 @@ const Footer = () => {
                     </>
                   ))}
                 </Flex>
+                <Box sx={{pt:[4,0], fontSize:[1]}}>© 2022 Socaf SPA</Box>
               </Flex>
             </Container>
           </>

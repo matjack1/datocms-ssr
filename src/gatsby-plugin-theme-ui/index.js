@@ -73,7 +73,7 @@ const theme = {
       mb: 3,
     },
     h2: {
-      fontSize: [8, 9],
+      fontSize: [5,8, 9],
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
@@ -91,7 +91,7 @@ const theme = {
       mt: 4,
     },
     h4: {
-      fontSize: [6, 7],
+      fontSize: [1,6,6, 7],
       fontWeight: 400,
       color: "text",
       mb: 2,
@@ -224,22 +224,22 @@ const theme = {
   },
   layout: {
     container: {
-      padding: [5, 6],
+      padding: [3, 6],
     },
     sm: {
       maxWidth: "720px",
-      padding: [5, 6],
+      padding: [3, 6],
     },
     md: {
       maxWidth: "1020px",
-      padding: [5, 6],
+      padding: [3, 6],
     },
     lg: {
-      padding: [5, 6],
+      padding: [3, 6],
     },
     fw: {
       maxWidth: "100%",
-      padding: [5, 6],
+      padding: [3, 6],
     },
     header: {
       maxWidth: "100%",
@@ -601,7 +601,9 @@ const theme = {
       "[data-core-scroller]": {
         position: "relative",
         whiteSpace: "nowrap",
-        scrollSnapType: ["mandatory", "x mandatory"],
+        scrollBehavior: "smooth",
+        scrollSnapType: "mandatory",
+        scrollSnapType: "x mandatory",
         overflowX: "scroll",
         WebkitOverflowScrolling: "touch",
       },
@@ -610,11 +612,14 @@ const theme = {
         verticalAlign: "top",
         display: "inline-flex",
         paddingBottom: "40px",
+        scrollBehavior: "smooth",
+        scrollSnapType: "mandatory",
+        scrollSnapType: "x mandatory",
       },
       "[data-core-scroller-platter]>div": {
         display: "inline-block",
-        scrollSnapCoordinate: "left",
         scrollSnapAlign: "start",
+        scrollSnapStop: "always"
       },
       ".rf-cards-scroller-platter>div:first-child .rf-cards-scroller-itemview":
         {
@@ -626,8 +631,8 @@ const theme = {
       },
       ".rf-cards-scroller-itemview": {
         display: "flex",
-        marginRight: "20px",
-        transform: "translateX(calc(max(1280px, 100vw)/2 - 608px))",
+        marginRight: [2,4],
+        transform: ["translateX(calc(max(1280px, 100vw)/2 - 624px))","translateX(calc(max(1280px, 100vw)/2 - 608px))"],
       },
       "html.js .as-util-relatedlink": { cursor: "pointer" },
       ".rf-productnav-card": { verticalAlign: "top" },
