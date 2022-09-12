@@ -83,6 +83,7 @@ const CustomCarousel = ({
       onMouseEnter={() => setShowArrows(true)}
       onMouseLeave={() => setShowArrows(false)}
       sx={{
+        overscrollBehaviorX: "none",
         "*": {
           minWidth: "unset",
           ".rf-productnav-card-content": {
