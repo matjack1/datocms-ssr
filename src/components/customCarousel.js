@@ -91,7 +91,7 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? ["auto","420px"]
+              ? ["340px","440px"]
               : ["212px","390px"],
             minWidth: ["160px", "290px"],
           },
@@ -103,7 +103,7 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? ["auto","420px"]
+              ? ["340px","440px"]
               : ["212px","390px"],
           },
         },
@@ -258,7 +258,6 @@ const CustomCarousel = ({
             m: [0],
           }}
         >
-          {console.log("offsetWidth", offsetWidth)}
           <Button
             sx={{
               opacity: offsetWidth > 0 ? (showArrows ? 1 : 0) : 0,

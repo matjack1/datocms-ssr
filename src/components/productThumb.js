@@ -107,7 +107,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                       : [2, 2],
                   }}
                 >
-                  {TruncateEllipsis(clSkuDetails.name, mediaIndex > 1 ? 1000 : 50)}
+                  {horizontal ? clSkuDetails.name : TruncateEllipsis(clSkuDetails.name, mediaIndex > 1 ? 1000 : 50)}
                 </Heading>
               </Box>
               <Box
