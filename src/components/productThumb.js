@@ -6,10 +6,13 @@ import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import ThumbPrice from "./thumbPrice";
+import { TruncateEllipsis } from "../utils/truncateEllipsis";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 
 const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
   const cl = useClSdk();
+  const mediaIndex = useBreakpointIndex();
 
   useEffect(() => {
     setClSkuDetails(sku);
@@ -33,11 +36,18 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                 ? small
                   ? ["78px 1fr"]
                   : ["185px auto", "218px 1fr"]
-                : ["auto"],
+                : ["160px", "290px"],
             }}
             gap={horizontal ? (small ? [3, 5] : [3, 10]) : [3]}
           >
-            <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
+            <Flex
+              sx={{
+                display: "flex",
+                overflow: "hidden",
+                justifyItems: "baseline",
+                width: "100%",
+              }}
+            >
               <Box
                 sx={{
                   border: "1px solid",
@@ -47,7 +57,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                     ? small
                       ? ["78px"]
                       : ["185px", "218px"]
-                    : "auto",
+                    : ["160px", "290px"],
                 }}
               >
                 {sku.images && sku.images.length > 0 ? (
@@ -97,7 +107,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                       : [2, 2],
                   }}
                 >
-                  {clSkuDetails.name}
+                  {TruncateEllipsis(clSkuDetails.name, mediaIndex > 1 ? 1000 : 50)}
                 </Heading>
               </Box>
               <Box

@@ -23,6 +23,7 @@ const OrderThumb = ({ order }) => {
               border: "1px solid",
               minWidth: "166px",
               minHeight: "166px",
+              height:["166px"],
               borderColor: "lightBorder",
             }}
           >

@@ -221,7 +221,20 @@ const SkuPage = ({ data: { sku, skus } }) => {
             >
               <Box
                 sx={{
+                  
                   aspectRatio: "1",
+                  "@supports not (aspect-ratio: 1 / 1)": {
+                    "&::before": {
+                      cssFloat: "left",
+                      paddingTop: "100%",
+                      content: '""',
+                    },
+                    "&::after": {
+                      display: "block",
+                      content: '""',
+                      clear: "both",
+                    },
+                  },
                 }}
               >
                 <Box
@@ -544,17 +557,17 @@ const SideSku = ({
         <Box sx={{ pb: [4] }}>
           <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
         </Box>
-        <ThumbProductDetails item={sku} >
-        {sku.code && (
-          <Box as="tr">
-            <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Codice</Box>
+        <ThumbProductDetails item={sku}>
+          {sku.code && (
+            <Box as="tr">
+              <Box as="td" sx={{ textAlign: "left" }}>
+                <Box>Codice</Box>
+              </Box>
+              <Box as="td">
+                <Box sx={{ ml: [4] }}>{sku.code}</Box>
+              </Box>
             </Box>
-            <Box as="td">
-              <Box sx={{ ml: [4] }}>{sku.code}</Box>
-            </Box>
-          </Box>
-        )}
+          )}
         </ThumbProductDetails>
       </Box>
     </Box>

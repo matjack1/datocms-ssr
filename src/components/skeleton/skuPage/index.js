@@ -13,6 +13,14 @@ const SkuPageSkeleton = () => {
         <Box
           sx={{
             aspectRatio: "1",
+            "@supports not (aspect-ratio: 1 / 1)": {
+              "&::before": {
+                cssFloat: "left",
+                paddingTop: "100%",
+                content: '""',
+              },
+              "&::after": { display: "block", content: '""', clear: "both" },
+            },
           }}
         >
           <Skeleton width={"100%"} height="469px" />

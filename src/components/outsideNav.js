@@ -40,7 +40,7 @@ const OutsideNav = () => {
           borderColor:"dark"
         }}
       >
-        <Image src={Logo} sx={{ maxHeight: "30px", minHeight: "30px" }} />
+        <Image src={Logo} sx={{height: ["30px"], maxHeight: "30px", minHeight: "30px" }} />
       </Flex>
     </>
   );

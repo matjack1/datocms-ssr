@@ -133,7 +133,7 @@ const ResetPassword = ({ history }) => {
               <InboundLink to="/">
                 <Image
                   src={Logo}
-                  sx={{ maxHeight: "80px", minHeight: "80px" }}
+                  sx={{ height: ["30px","80px"] , maxHeight: "80px", minHeight: "80px" }}
                 />
               </InboundLink>
             </Box>

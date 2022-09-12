@@ -131,7 +131,7 @@ const CustomerOrders = () => {
                   <OrderCounter orders={filteredOrders} />
                 )}
             </Flex>
-            <Grid columns={[1, 1, ".85fr .15fr"]} gap={[0, 5]}>
+            <Grid columns={[1, 1, ".85fr 4.15fr"]} gap={[0, 5]}>
               {mediaIndex > 1 ? (
                 <Box>
                   <Box>
