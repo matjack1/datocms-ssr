@@ -64,7 +64,7 @@ const Sidebar = ({ open, closed, sideBarData }) => {
         </Box>
         <Box>
           <InboundLink to="/">
-            <Image src={Logo} sx={{ maxHeight: "80px" }} />
+            <Image src={Logo} sx={{maxHeight: "80px" }} />
           </InboundLink>
         </Box>
         <Flex sx={{ flexDirection: "column", pt: [12] }}>
