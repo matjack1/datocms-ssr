@@ -99,7 +99,7 @@ const Support = () => {
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           Ciao, come posso aiutarti?
         </Heading>
-        <Grid columns={[".7fr .3fr"]} gap={[12]}>
+        <Grid columns={["1fr",".7fr .3fr"]} gap={[0,12]}>
           {success === null ? (
             <>
               <Box as="form" onSubmit={handleSubmit(handleSupportMail)}>

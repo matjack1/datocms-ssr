@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Text } from "theme-ui";
 
-const ThumbProductDetails = ({ item }) => {
+const ThumbProductDetails = ({ item, children }) => {
   return (
     item && (
       <Box
@@ -15,13 +15,14 @@ const ThumbProductDetails = ({ item }) => {
               color: "lightBorder",
             },
             td: {
-              fontSize: [2],
+              fontSize: [1, 2],
               fontWeight: "400",
               pb: [2],
             },
           },
         }}
       >
+        {children}
         {item.size && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>

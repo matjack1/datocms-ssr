@@ -17,13 +17,11 @@ const CategoryPage = ({
 
   return (
     <Layout>
-      <Container>
-        <ProductCollection
-          category={category}
-          categories={categories}
-          skus={skus.nodes}
-        />
-      </Container>
+      <ProductCollection
+        category={category}
+        categories={categories}
+        skus={skus.nodes}
+      />
     </Layout>
   );
 };

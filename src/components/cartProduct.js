@@ -8,40 +8,40 @@ import RemoveFromCart from "../components/removeFromCart";
 import LineItemQuantity from "../components/lineItemQuantity";
 import getSkuData from "../hooks/getSkuData";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
-import ThumbPrice from "../components/thumbPrice"
+import ThumbPrice from "../components/thumbPrice";
 import ThumbProductDetails from "../components/thumbProductDetails";
 
-const CartProduct = memo(
-  ({ sku, handleSkuLoaded,  updateQuantity }) => {
-    const [clSkuDetails, setClSkuDetails] = useState(null);
-    const [datoSkusData, setDatoSkusData] = useState();
-    const cl = useClSdk();
+const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
+  const [clSkuDetails, setClSkuDetails] = useState(null);
+  const [datoSkusData, setDatoSkusData] = useState();
+  const cl = useClSdk();
 
-    useEffect(() => {
-      const handleLoadSkusDatoData = async () => {
-        const skuCode = sku.code ? sku.code : sku.sku_code;
-        const datoSkusData = await getSkuData(skuCode);
-        console.log("{...sku,...datoSkusData}", { ...sku, ...datoSkusData });
-        setClSkuDetails({ ...datoSkusData, ...sku });
-      };
+  useEffect(() => {
+    const handleLoadSkusDatoData = async () => {
+      const skuCode = sku.code ? sku.code : sku.sku_code;
+      const datoSkusData = await getSkuData(skuCode);
+      console.log("{...sku,...datoSkusData}", { ...sku, ...datoSkusData });
+      setClSkuDetails({ ...datoSkusData, ...sku });
+    };
 
-      if (!clSkuDetails) handleLoadSkusDatoData();
-    }, [sku]);
+    if (!clSkuDetails) handleLoadSkusDatoData();
+  }, [sku]);
 
-    return (
-      <Box>
-        {clSkuDetails && (
+  return (
+    <Box>
+      {clSkuDetails && (
+        <>
           <Grid
             sx={{
-              gridTemplateColumns: ["168px 1fr"],
+              gridTemplateColumns: ["83px 1fr", "83px 1fr", "168px 1fr"],
             }}
-            gap={[10]}
+            gap={[3, 10]}
           >
             <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
               <Box
                 sx={{
                   border: "1px solid",
-                  height: "168px",
+                  height: ["81px", "81px", "168px"],
                   borderColor: "dark",
                   width: "100%",
                 }}
@@ -75,7 +75,7 @@ const CartProduct = memo(
             >
               <Flex
                 sx={{
-                  pb: [4],
+                  pb: [2],
                   justifyContent: "space-between",
                 }}
               >
@@ -94,7 +94,7 @@ const CartProduct = memo(
                         color: "dark",
                         fontWeight: "400",
                         my: [0],
-                        fontSize:[5, 5],
+                        fontSize: [1, 5, 5],
                       }}
                     >
                       {clSkuDetails.name}
@@ -105,12 +105,12 @@ const CartProduct = memo(
                   <RemoveFromCart sku={sku} />
                 </Box>
               </Flex>
-              <Box sx={{ pb: [2], color:"lightBorder" }}>
+              <Box sx={{ pb: [2], color: "lightBorder", fontSize:[1,2] }}>
                 {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
               </Box>
               <ThumbProductDetails item={clSkuDetails} />
               <ThumbPrice item={clSkuDetails} />
-              <Box>
+              <Box sx={{ display: ["none", "block", "block"] }}>
                 <LineItemQuantity
                   lineItem={sku}
                   quantity={sku.quantity}
@@ -119,10 +119,18 @@ const CartProduct = memo(
               </Box>
             </Flex>
           </Grid>
-        )}
-      </Box>
-    );
-  }
-);
+
+          <Box sx={{ display: ["block", "none"] }}>
+            <LineItemQuantity
+              lineItem={sku}
+              quantity={sku.quantity}
+              updateQuantity={updateQuantity}
+            />
+          </Box>
+        </>
+      )}
+    </Box>
+  );
+});
 
 export default CartProduct;

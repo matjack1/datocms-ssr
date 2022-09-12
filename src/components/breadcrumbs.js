@@ -182,7 +182,8 @@ const List = (props) => {
     <Flex
       {...props}
       sx={{
-        flexDirection: ["column", "row"],
+        flexDirection: ["row","row", "row"],
+        flexWrap:"wrap",
         margin: 0,
         padding: 0,
         listStyle: "none",

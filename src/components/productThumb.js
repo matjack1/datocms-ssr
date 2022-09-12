@@ -32,10 +32,10 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
               gridTemplateColumns: horizontal
                 ? small
                   ? ["78px 1fr"]
-                  : ["218px 1fr"]
-                : "",
+                  : ["185px auto", "218px 1fr"]
+                : ["auto"],
             }}
-            gap={[horizontal ? (small ? 5 : 10) : 3]}
+            gap={horizontal ? (small ? [3, 5] : [3, 10]) : [3]}
           >
             <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
               <Box
@@ -43,7 +43,11 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                   border: "1px solid",
                   borderColor: "dark",
                   width: "100%",
-                  height: small && "79px",
+                  height: horizontal
+                    ? small
+                      ? ["78px"]
+                      : ["185px", "218px"]
+                    : "auto",
                 }}
               >
                 {sku.images && sku.images.length > 0 ? (
@@ -56,7 +60,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                     sx={{
                       height: "100%",
                       img: {
-                        height: horizontal ? "100%" : "319px",
+                        height: "100%",
                         objectFit: "contain",
                       },
                       backgroundColor: "light",
@@ -68,7 +72,10 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
               </Box>
             </Flex>
             <Flex
-              sx={{ flexDirection: "column", justifyContent: "space-between" }}
+              sx={{
+                flexDirection: "column",
+                justifyContent: !horizontal && "space-between",
+              }}
             >
               <Box
                 sx={{
@@ -83,7 +90,11 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                     whiteSpace: "break-spaces",
                     fontWeight: "400",
                     my: [0],
-                    fontSize: horizontal ? (small ? [1, 1] : [5, 5]) : [2, 2],
+                    fontSize: horizontal
+                      ? small
+                        ? [1, 1, 1]
+                        : [1, 5, 5, 5]
+                      : [2, 2],
                   }}
                 >
                   {clSkuDetails.name}

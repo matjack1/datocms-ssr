@@ -35,6 +35,7 @@ import { toast } from "react-toastify";
 import ThumbProductDetails from "../components/thumbProductDetails";
 import SkuPageSkeleton from "../components/skeleton/skuPage";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -45,6 +46,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   const [isFavourie, setIsFavourite] = useState(null);
   const [relatedSkus, setRelatedSkus] = useState(null);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const mediaIndex = useBreakpointIndex();
 
   const cl = useClSdk();
 
@@ -214,8 +216,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
               <Breadcumbs page={sku} />
             </Box>
             <Grid
-              columns={["minmax(auto,672px) minmax(auto, 469px)"]}
-              gap={[11]}
+              columns={["1fr", "1fr", "minmax(auto,672px) minmax(auto, 469px)"]}
+              gap={[4, 4, 11]}
             >
               <Box
                 sx={{
@@ -228,7 +230,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     borderColor: "dark",
                     width: "100%",
                     height: "100%",
-                    mb: [12],
+                    mb: [4, 5, 12],
                   }}
                 >
                   {sku.images && sku.images.length > 0 ? (
@@ -251,6 +253,17 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     </Box>
                   )}
                 </Box>
+                <Box sx={{ display: ["block", "block", "none", "none"] }}>
+                  <SideSku
+                    sku={sku}
+                    clSkuDetails={clSkuDetails}
+                    currentQuantity={currentQuantity}
+                    updateQuantity={updateQuantity}
+                    updateCustomerFavourites={updateCustomerFavourites}
+                    isFavourie={isFavourie}
+                  />
+                </Box>
+
                 <Box>
                   {sku.documents.length > 0 && (
                     <>
@@ -288,8 +301,8 @@ const SkuPage = ({ data: { sku, skus } }) => {
                       <Box
                         sx={{
                           borderBottom: "1px solid",
-                          mb: [5],
-                          pt: [5],
+                          mb: [4, 5],
+                          pt: [4, 5],
                           borderColor: "lightBorder",
                         }}
                       />
@@ -366,150 +379,185 @@ const SkuPage = ({ data: { sku, skus } }) => {
                   </Box>
                 </Box>
               </Box>
-              <Box sx={{}}>
-                <Box sx={{ pb: [11] }}>
-                  <Heading
-                    as="h1"
-                    variant="h2"
-                    sx={{
-                      color: "dark",
-                      fontWeight: "400",
-                      my: [0],
-                      fontSize: ["28px"],
-                    }}
-                  >
-                    {sku.name}
-                  </Heading>
-                </Box>
-                <Box>
-                  {clSkuDetails && (
-                    <Flex
-                      sx={{
-                        alignItems: "center",
-                        mb: [6],
-                        minHeight: ["36px"],
-                      }}
-                    >
-                      <Text as="span" sx={{ fontWeight: "600", fontSize: [6] }}>
-                        {clSkuDetails && clSkuDetails.prices ? (
-                          <>
-                            {clSkuDetails.prices.discountedPrice
-                              ? "€" +
-                                clSkuDetails.prices.discountedPrice.toLocaleString(
-                                  "it-IT",
-                                  { minimumFractionDigits: 2 }
-                                )
-                              : "€" +
-                                clSkuDetails.prices.price.toLocaleString(
-                                  "it-IT",
-                                  {
-                                    minimumFractionDigits: 2,
-                                  }
-                                )}
-                            <Text
-                              sx={{
-                                pl: [2],
-                                fontSize: [1],
-                                color: "lightBorder",
-                              }}
-                            >
-                              Prezzo per unità / Tasse escluse
-                            </Text>
-                          </>
-                        ) : (
-                          <Box
-                            sx={{
-                              minWidth: "80px",
-                              maxWidth: "80px",
-                            }}
-                          >
-                            <BouncingDotsLoader color="primary" />
-                          </Box>
-                        )}
-                      </Text>
-                    </Flex>
-                  )}
-                </Box>
-                <Box sx={{ pb: [9] }}>
-                  <SkuQuantity
-                    sku={sku}
-                    quantity={currentQuantity}
-                    updateQuantity={updateQuantity}
-                  />
-                </Box>
-                <Flex
-                  sx={{
-                    mb: [12],
-                    alignItems: "center",
-                    minHeight: "60px",
-                    height: "60px",
-                  }}
-                >
-                  <Box sx={{ width: "100%", height: "100%" }}>
-                    <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
-                  </Box>
-                  <Box sx={{ height: "100%", ml: [2] }}>
-                    <Button
-                      onClick={updateCustomerFavourites}
-                      sx={{
-                        flex: 1,
-                        cursor: "pointer",
-                        borderRadius: "unset",
-                        height: "100%",
-                        p: [3],
-                        height: "100%",
-                        backgroundColor: isFavourie ? "primary" : "light",
-                        border: "1px solid",
-                        borderColor: !isFavourie ? "primary" : "transparent",
-                        "&:hover": {
-                          borderColor: "transparent",
-                          "svg *": {
-                            stroke: "light",
-                          },
-                        },
-                        svg: {
-                          "*": {
-                            stroke: isFavourie ? "light" : "primary",
-                          },
-                          width: "20px",
-                          height: "20px",
-                        },
-                      }}
-                    >
-                      <FavouritIcon />
-                    </Button>
-                  </Box>
-                </Flex>
-                <Box
-                  sx={{
-                    border: "1px solid",
-                    borderColor: "lightBorder",
-                    p: [4],
-                  }}
-                >
-                  <Box sx={{ pb: [4] }}>
-                    <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
-                  </Box>
-                  <ThumbProductDetails item={sku} />
-                </Box>
+              <Box sx={{ display: ["none", "none", "block", "block"] }}>
+                <SideSku
+                  sku={sku}
+                  clSkuDetails={clSkuDetails}
+                  currentQuantity={currentQuantity}
+                  updateQuantity={updateQuantity}
+                  updateCustomerFavourites={updateCustomerFavourites}
+                  isFavourie={isFavourie}
+                />
               </Box>
             </Grid>
-            {relatedSkus && relatedSkus.length > 0 && (
-              <RelatedProducts
-                sku={sku}
-                skus={relatedSkus.slice(
-                  0,
-                  skus.nodes.length > 8 ? 8 : skus.nodes.length
-                )}
-                customer={customer}
-              />
-            )}
           </>
         ) : (
           <SkuPageSkeleton />
         )}
       </Container>
+      {relatedSkus && relatedSkus.length > 0 && (
+        <RelatedProducts
+          sku={sku}
+          skus={relatedSkus.slice(
+            0,
+            skus.nodes.length > 8 ? 8 : skus.nodes.length
+          )}
+          customer={customer}
+        />
+      )}
     </Layout>
+  );
+};
+
+const SideSku = ({
+  sku,
+  clSkuDetails,
+  currentQuantity,
+  updateQuantity,
+  updateCustomerFavourites,
+  isFavourie,
+}) => {
+  return (
+    <Box>
+      <Box sx={{ pb: [4, 5, 11] }}>
+        <Heading
+          as="h1"
+          variant="h2"
+          sx={{
+            color: "dark",
+            fontWeight: "400",
+            my: [0],
+            fontSize: [5, "28px"],
+          }}
+        >
+          {sku.name}
+        </Heading>
+      </Box>
+      <Box>
+        {clSkuDetails && (
+          <Flex
+            sx={{
+              alignItems: "center",
+              mb: [4, 5, 6],
+              minHeight: ["36px"],
+            }}
+          >
+            <Text as="span" sx={{ fontWeight: "600", fontSize: [5, 6] }}>
+              {clSkuDetails && clSkuDetails.prices ? (
+                <>
+                  {clSkuDetails.prices.discountedPrice
+                    ? "€" +
+                      (
+                        clSkuDetails.prices.discountedPrice / 100
+                      ).toLocaleString("it-IT", { minimumFractionDigits: 3 })
+                    : "€" +
+                      (clSkuDetails.prices.price / 100).toLocaleString(
+                        "it-IT",
+                        {
+                          minimumFractionDigits: 2,
+                        }
+                      )}
+                  <Text
+                    sx={{
+                      pl: [2],
+                      fontSize: [1],
+                      color: "lightBorder",
+                    }}
+                  >
+                    Prezzo per unità / Tasse escluse
+                  </Text>
+                </>
+              ) : (
+                <Box
+                  sx={{
+                    minWidth: "80px",
+                    maxWidth: "80px",
+                  }}
+                >
+                  <BouncingDotsLoader color="primary" />
+                </Box>
+              )}
+            </Text>
+          </Flex>
+        )}
+      </Box>
+      <Box sx={{ pb: [4, 5, 9] }}>
+        <SkuQuantity
+          sku={sku}
+          quantity={currentQuantity}
+          updateQuantity={updateQuantity}
+        />
+      </Box>
+      <Grid
+        columns={["auto 54px"]}
+        gap={[2]}
+        sx={{
+          mb: [4, 5, 6],
+          alignItems: "center",
+          minHeight: "60px",
+          height: "60px",
+        }}
+      >
+        <Box sx={{ width: "100%", height: "100%" }}>
+          <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+        </Box>
+        <Box sx={{ height: "100%" }}>
+          <Button
+            onClick={updateCustomerFavourites}
+            sx={{
+              flex: 1,
+              cursor: "pointer",
+              borderRadius: "unset",
+              height: "100%",
+              p: [3],
+              height: "100%",
+              backgroundColor: isFavourie ? "primary" : "light",
+              border: "1px solid",
+              borderColor: !isFavourie ? "primary" : "transparent",
+              "&:hover": {
+                borderColor: "transparent",
+                "svg *": {
+                  stroke: "light",
+                },
+              },
+              svg: {
+                "*": {
+                  stroke: isFavourie ? "light" : "primary",
+                },
+                width: "20px",
+                height: "20px",
+              },
+            }}
+          >
+            <FavouritIcon />
+          </Button>
+        </Box>
+      </Grid>
+      <Box
+        sx={{
+          border: "1px solid",
+          borderColor: "lightBorder",
+          p: [4],
+          mb: [4, 5, 0],
+        }}
+      >
+        <Box sx={{ pb: [4] }}>
+          <Text sx={{ fontWeight: "600" }}>Dettagli prodotto</Text>
+        </Box>
+        <ThumbProductDetails item={sku} >
+        {sku.code && (
+          <Box as="tr">
+            <Box as="td" sx={{ textAlign: "left" }}>
+              <Box>Codice</Box>
+            </Box>
+            <Box as="td">
+              <Box sx={{ ml: [4] }}>{sku.code}</Box>
+            </Box>
+          </Box>
+        )}
+        </ThumbProductDetails>
+      </Box>
+    </Box>
   );
 };
 

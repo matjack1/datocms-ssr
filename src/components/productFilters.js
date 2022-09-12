@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Box, Checkbox, Label, Radio, Text, Button } from "theme-ui";
 import { i18nContext } from "../hooks/i18nContext";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const ProductFilters = ({
   handleFiltersChange,
   handleClearFilters,
   filters,
 }) => {
+  const mediaIndex = useBreakpointIndex();
   const [checkAll, setCheckAll] = useState(null);
   const [checkedCounter, setCheckedCounter] = useState(0);
 
@@ -67,7 +69,15 @@ const ProductFilters = ({
           ))}
       </Box>
       {checkedCounter > 0 && (
-        <Box>
+        <Box
+          sx={{
+            position: mediaIndex < 2 && ["absolute", "absolute", "relative"],
+            right: mediaIndex < 2 && [4],
+            display: mediaIndex < 2 && "flex",
+            alignItems: mediaIndex < 2 && "center",
+            top: mediaIndex < 2 && [4],
+          }}
+        >
           <Button
             onClick={() => {
               setCheckAll(false);
@@ -75,7 +85,7 @@ const ProductFilters = ({
               handleClearFilters();
             }}
           >
-            Resetta filtri
+            Reset filtri
           </Button>
         </Box>
       )}
@@ -116,7 +126,7 @@ const LabeledCheckbox = ({
           color: "dark",
           "input:checked~&": {
             color: "secondary",
-            outlineColor:"secondary"
+            outlineColor: "secondary",
           },
         }}
         checked={checked}

@@ -40,7 +40,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
   }, [currentQuantity]);
 
   return (
-    <Box sx={{ pb: [9] }}>
+    <Box sx={{ pb: [4,5,9] }}>
       <Flex
         sx={{
           alignItems: "center",
@@ -59,13 +59,14 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
           </Button>
           <Flex
             sx={{
-              width: "100px",
+              width: "80px",
               justifyContent: "center",
               alignItems: "center",
               borderTop: "1px solid",
               borderBottom: "1px solid",
               borderColor: "dark",
               py: [2],
+              fontSize:[1,2]
             }}
           >
             {currentQuantity}

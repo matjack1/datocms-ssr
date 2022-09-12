@@ -16,7 +16,7 @@ const ThumbPrice = ({ item }) => {
         <Text
           sx={{
             fontWeight: "600",
-            fontSize: [4],
+            fontSize: [1,4],
           }}
         >
           {item && item.formatted_unit_amount ? (
@@ -24,12 +24,12 @@ const ThumbPrice = ({ item }) => {
           ) : item.prices && !item.formatted_unit_amount ? (
             item.prices.discountedPrice ? (
               "€" +
-              item.prices.discountedPrice.toLocaleString("it-IT", {
+              (item.prices.discountedPrice / 100).toLocaleString("it-IT", {
                 minimumFractionDigits: 2,
               })
             ) : (
               "€" +
-              item.prices.price.toLocaleString("it-IT", {
+              (item.prices.price / 100).toLocaleString("it-IT", {
                 minimumFractionDigits: 2,
               })
             )

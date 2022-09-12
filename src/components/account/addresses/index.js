@@ -47,11 +47,17 @@ const Addresses = () => {
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           I tuoi indirizzi
         </Heading>
-        <Grid columns={["repeat(4,minmax(290px,1fr))"]}>
+        <Grid
+          columns={[
+            "1fr",
+            "repeat(2,minmax(290px,1fr))",
+            "repeat(auto-fill, minmax(290px, 1fr))",
+          ]}
+        >
           <Box
             sx={{
-              minWidth: "290px",
-              minHeight: "360px",
+              minWidth: ["auto"],
+              minHeight: ["auto"],
               a: {
                 display: "inline-block",
                 height: "100%",
@@ -71,6 +77,8 @@ const Addresses = () => {
                   border: "1px solid",
                   flexDirection: "column",
                   borderColor: "lightPrimary",
+                  px: [4],
+                  py: [6],
                 }}
               >
                 <Box
@@ -88,7 +96,7 @@ const Addresses = () => {
                 >
                   +
                 </Box>
-                <Box sx={{ alignItems: "center" , textAlign:"center" }}>
+                <Box sx={{ alignItems: "center", textAlign: "center" }}>
                   <Text sx={{ fontWeight: "600", textAlign: "center" }}>
                     Aggiungi indirizzo <br /> di spedizione
                   </Text>
@@ -96,17 +104,12 @@ const Addresses = () => {
               </Flex>
             </InboundLink>
           </Box>
-          {console.log("addresses",addresses)}
+          {console.log("addresses", addresses)}
           {addresses &&
             addresses.meta.recordCount > 0 &&
             addresses.map((customer_address, index) => (
               <>
-                <Box
-                  sx={{
-                    minWidth: "290px",
-                    minHeight: "360px",
-                  }}
-                >
+                <Box>
                   <CustomerAddress
                     updateAddresses={handleUpdateAddresses}
                     address={customer_address}

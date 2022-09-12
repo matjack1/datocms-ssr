@@ -98,7 +98,7 @@ const theme = {
       mt: 4,
     },
     h5: {
-      fontSize: 5,
+      fontSize: [1,5],
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",

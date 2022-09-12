@@ -57,12 +57,15 @@ const RelatedProducts = ({ sku, skus, customer }) => {
   }, [skus, customer]);
 
   return skusData ? (
-    <Box sx={{ position: "relative", pb: [11] }}>
-      <Heading as="h2" variant="h2" sx={{ my: [0], fontWeight: "600" }}>
-        Articoli correlati
-      </Heading>
+    <Box sx={{ position: "relative" }}>
+      <Container sx={{py:[0,0,0]}}> 
+        <Box sx={{ py: [6, 8, 8], pb: [3, 8, 8] }}>
+          <Heading as="h2" variant="h2" sx={{ my: [0] }}>
+            Articoli correlati
+          </Heading>
+        </Box>
+      </Container>
       {/* to do hide on first one */}
-
       <CustomCarousel
         small={false}
         data={skusData}

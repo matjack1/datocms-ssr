@@ -198,11 +198,11 @@ const CustomerFavourites = () => {
               </Heading>
             </Box>
 
-            <Grid columns={[".7fr .3fr"]} gap={[12]}>
+            <Grid columns={["1fr","1fr", ".7fr .3fr"]} gap={[0,0, 12]}>
               <Box>
                 <Box>
                   <Box>
-                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                    <Grid sx={{ gridTemplateRows: "auto" }} gap={[6,8]}>
                       {console.log(pricedSkusData[0].prices)}
                       {pricedSkusData.map((sku) => (
                         <Box>

@@ -32,21 +32,21 @@ const Footer = () => {
       sx={{
         backgroundColor: "dark",
         py: 6,
-        pt: [0, 6],
+        pt: [0,0, 6],
         mt: [8],
         position: "relative",
         color: "light",
-        minHeight: ["auto", "516px"],
+        minHeight: ["auto","auto", "516px"],
       }}
     >
       <i18nContext.Consumer>
         {(t) => (
           <>
-            <Box sx={{ display: ["block", "none"] }}>
+            <Box sx={{ display: ["block","block", "none"] }}>
               <Accordion items={footer.content} />
             </Box>
             <Container>
-              <Box sx={{ display: ["none", "block"] }}>
+              <Box sx={{ display: ["none","none", "block"] }}>
                 <Grid
                   columns={[1, `repeat(3,1fr)`]}
                   sx={{ columnGap: [15], rowGap: [6] }}

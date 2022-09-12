@@ -21,6 +21,7 @@ import ProductThumb from "../../../productThumb";
 import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import CartSkeleton from "../../../skeleton/cart";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const CustomerOrder = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -30,6 +31,8 @@ const CustomerOrder = () => {
   const [itemQuantity, setItemQuantity] = useState(null);
   const [showSkeleton, setShowSkeleton] = useState();
   const cl = useClSdk();
+
+  const mediaIndex = useBreakpointIndex();
 
   const getOrder = async (id) => {
     const handleError = (e) => {
@@ -84,49 +87,150 @@ const CustomerOrder = () => {
                 },
               }}
             />
-            <Grid columns={[".7fr .3fr"]} gap={[12]}>
+            <Grid columns={["1fr", "1fr", ".7fr .3fr"]} gap={[1, 1, 12]}>
               <Box>
                 <Box>
-                  <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
-                    Dettaglio ordine
-                  </Heading>
-                  <Grid
-                    columns={["20px auto"]}
-                    gap={[0]}
+                  <Flex
                     sx={{
-                      fontSize: [2],
-                      alignItems: "center",
-                      color: "lightBorder",
+                      justifyContent: "space-between",
+                      flexDirection: ["row", "row", "column"],
                     }}
                   >
-                    <Flex
-                      sx={{ alignItems: "center", justifyContent: "start" }}
+                    <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
+                      Dettaglio ordine
+                    </Heading>
+                    <Grid
+                      columns={["20px auto"]}
+                      gap={[0]}
+                      sx={{
+                        fontSize: [2],
+                        alignItems: "center",
+                        color: "lightBorder",
+                      }}
                     >
+                      <Flex
+                        sx={{ alignItems: "center", justifyContent: "start" }}
+                      >
+                        <Box
+                          sx={{
+                            borderRadius: "50%",
+                            backgroundColor:
+                              order.status === "placed"
+                                ? "status.approved"
+                                : "orange",
+                            width: "7px",
+                            height: "7px",
+                          }}
+                        />
+                      </Flex>
+                      {order.status}
+                    </Grid>
+                  </Flex>
+                </Box>
+                {mediaIndex < 2 && (
+                  <Box sx={{ pb: [0, 5, 6] }}>
+                    <Flex
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: "start",
+                        pb: [4, 5, 6],
+                      }}
+                    >
+                      <Text sx={{ fontSize: [1, 5] }}>Totale</Text>
                       <Box
                         sx={{
-                          borderRadius: "50%",
-                          backgroundColor:
-                            order.status === "placed"
-                              ? "status.approved"
-                              : "orange",
-                          width: "7px",
-                          height: "7px",
+                          textAlign: "right",
+                          fontSize: [1, 5],
+                          fontWeight: "600",
                         }}
-                      />
+                      >
+                        {order.formatted_total_taxable_amount}
+                        <br />
+                        {`(${itemQuantity} articolarticol${
+                          itemQuantity > 0 ? "i" : "o"
+                        })`}
+                      </Box>
                     </Flex>
-                    {order.status}
-                  </Grid>
-                </Box>
+                    <Flex
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        pb: [4, 5, 6],
+                      }}
+                    >
+                      <Text sx={{ fontSize: [1, 5] }}>Data ordine</Text>
+                      <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
+                        {new Date(order.placed_at).toLocaleDateString("it-IT", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </Box>
+                    </Flex>
+                    <Flex
+                      sx={{
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        pb: [4, 5, 6],
+                      }}
+                    >
+                      <Text sx={{ fontSize: [1, 5] }}>Ordine #</Text>
+                      <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
+                        {order.number}
+                      </Box>
+                    </Flex>
+                    <Box
+                      sx={{
+                        a: {
+                          width: "100%",
+                          height: "100%",
+                          textAlign: "center",
+                          fontSize: [3],
+                          fontWeight: "600",
+                          borderRadius: "unset",
+                          p: [3],
+                          display: "inline-block",
+                        },
+                      }}
+                    >
+                      <InboundLink to={"order-again"} variant="buttons.primary">
+                        Ordina di nuovo
+                      </InboundLink>
+                    </Box>
+                    <Box
+                      sx={{
+                        a: {
+                          width: "100%",
+                          height: "100%",
+                          textAlign: "center",
+                          fontSize: [3],
+                          fontWeight: "600",
+                          borderRadius: "unset",
+                          p: [3],
+                          mt: [3],
+                          display: "inline-block",
+                        },
+                      }}
+                    >
+                      <InboundLink
+                        to={"order-again"}
+                        variant="buttons.primaryEmpty"
+                      >
+                        Scarica fattura
+                      </InboundLink>
+                    </Box>
+                  </Box>
+                )}
                 <Box
                   sx={{
                     borderBottom: "1px solid",
                     borderColor: "lightBorder",
-                    pt: [6],
-                    mb: [6],
+                    pt: [4, 5, 6],
+                    mb: [4, 5, 6],
                   }}
                 />
 
-                <Box sx={{ my: [3] }}>
+                <Box sx={{ my: [0, 3] }}>
                   <Heading as="h2" variant="h2" sx={{ color: "primary" }}>
                     Dettagli della spedizione
                   </Heading>
@@ -149,8 +253,8 @@ const CustomerOrder = () => {
                   sx={{
                     borderBottom: "1px solid",
                     borderColor: "lightBorder",
-                    pt: [6],
-                    mb: [6],
+                    pt: [4, 5, 6],
+                    mb: [4, 5, 6],
                   }}
                 />
                 <Box sx={{ my: [3] }}>
@@ -173,7 +277,7 @@ const CustomerOrder = () => {
                     Indirizzo di fatturazione
                   </Heading>
                   {customerMetadata && (
-                    <Box sx={{ fontSize: [5] }}>
+                    <Box sx={{ fontSize: [1, 5] }}>
                       {customerMetadata.company && (
                         <Box>
                           <strong>{customerMetadata.company}</strong>
@@ -204,16 +308,16 @@ const CustomerOrder = () => {
                     sx={{
                       borderBottom: "1px solid",
                       borderColor: "lightBorder",
-                      pt: [6],
-                      mb: [6],
+                      pt: [4, 5, 6],
+                      mb: [4, 5, 6],
                     }}
                   />
-                  <Box sx={{ pb: 3 }}>
+                  <Box sx={{ pb: [0, 3] }}>
                     <Heading as="h2" variant="h2" sx={{ color: "primary" }}>
                       Indirizzo di spedizione
                     </Heading>
                     {order && (
-                      <Box sx={{ fontSize: [5] }}>
+                      <Box sx={{ fontSize: [1, 5] }}>
                         {order.shipping_address.company && (
                           <Box>
                             <strong>{order.shipping_address.company}</strong>
@@ -252,12 +356,21 @@ const CustomerOrder = () => {
                   </Box>
                 </Box>
               </Box>
+              <Box
+                sx={{
+                  display: ["block", "block", "none"],
+                  borderBottom: "1px solid",
+                  borderColor: "lightBorder",
+                  pt: [4, 5, 6],
+                  mb: [4, 5, 6],
+                }}
+              />
               <Box>
-                <Box sx={{ pb: [6] }}>
+                <Box sx={{ pb: [0, 5, 6] }}>
                   <Heading
                     as="h2"
-                    variant="h5"
-                    sx={{ color: "primary", pb: [6] }}
+                    variant="h2"
+                    sx={{ color: "primary", my: [0], pb: [4, 5, 6] }}
                   >
                     Riepilogo ordine
                   </Heading>
@@ -265,13 +378,13 @@ const CustomerOrder = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [6],
+                      pb: [4, 5, 6],
                     }}
                   >
                     <Box>
-                      <Text sx={{ fontSize: [5] }}>Articoli</Text>
+                      <Text sx={{ fontSize: [1, 5] }}>Articoli</Text>
                     </Box>
-                    <Box sx={{ fontSize: [5], fontWeight: "600" }}>
+                    <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
                       {order.formatted_subtotal_taxable_amount}
                     </Box>
                   </Flex>
@@ -279,11 +392,11 @@ const CustomerOrder = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [5] }}>Spedizione</Text>
-                    <Box sx={{ fontSize: [5], fontWeight: "600" }}>
+                    <Text sx={{ fontSize: [1, 5] }}>Spedizione</Text>
+                    <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
                       {order.formatted_shipping_taxable_amount}
                     </Box>
                   </Flex>
@@ -291,14 +404,14 @@ const CustomerOrder = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "start",
-                      pb: [6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [5] }}>Totale</Text>
+                    <Text sx={{ fontSize: [1, 5] }}>Totale</Text>
                     <Box
                       sx={{
                         textAlign: "right",
-                        fontSize: [5],
+                        fontSize: [1, 5],
                         fontWeight: "600",
                       }}
                     >
@@ -311,13 +424,14 @@ const CustomerOrder = () => {
                   </Flex>
                   <Flex
                     sx={{
+                      display: ["none", "none", "flex"],
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [5] }}>Data ordine</Text>
-                    <Box sx={{ fontSize: [5], fontWeight: "600" }}>
+                    <Text sx={{ fontSize: [1, 5] }}>Data ordine</Text>
+                    <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
                       {new Date(order.placed_at).toLocaleDateString("it-IT", {
                         year: "numeric",
                         month: "long",
@@ -327,18 +441,20 @@ const CustomerOrder = () => {
                   </Flex>
                   <Flex
                     sx={{
+                      display: ["none", "none", "flex"],
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [5] }}>Ordine #</Text>
-                    <Box sx={{ fontSize: [5], fontWeight: "600" }}>
+                    <Text sx={{ fontSize: [1, 5] }}>Ordine #</Text>
+                    <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
                       {order.number}
                     </Box>
                   </Flex>
                   <Box
                     sx={{
+                      display: ["none", "none", "block"],
                       a: {
                         width: "100%",
                         height: "100%",
@@ -357,6 +473,7 @@ const CustomerOrder = () => {
                   </Box>
                   <Box
                     sx={{
+                      display: ["none", "none", "block"],
                       a: {
                         width: "100%",
                         height: "100%",
@@ -382,14 +499,14 @@ const CustomerOrder = () => {
                   sx={{
                     borderBottom: "1px solid",
                     borderColor: "lightBorder",
-                    pt: [6],
-                    mb: [6],
+                    pt: [4, 5, 6],
+                    mb: [4, 5, 6],
                   }}
                 />
-                <Box sx={{ py: [3] }}>
+                <Box sx={{ py: [0, 3] }}>
                   <Heading
                     as="h2"
-                    variant="h5"
+                    variant="h2"
                     sx={{ color: "primary", my: [3] }}
                   >
                     Hai bisogno di aiuto?

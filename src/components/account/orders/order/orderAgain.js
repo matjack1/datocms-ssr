@@ -31,6 +31,7 @@ import PlaceholderImage from "../../../../assets/img/placeholder-image.png";
 import ThumbPrice from "../../../thumbPrice";
 import ThumbProductDetails from "../../../thumbProductDetails";
 import FavouritesSkeleton from "../../../skeleton/favourites";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -224,11 +225,11 @@ const CustomerOrderReturn = () => {
                   Ordina di nuovo
                 </Heading>
               </Box>
-              <Grid columns={[".7fr .3fr"]} gap={[12]}>
+              <Grid columns={["1fr","1fr", ".7fr .3fr"]} gap={[0,0, 12]}>
                 <Box>
                   <Box>
                     <Box>
-                      <Grid sx={{ gridTemplateRows: "auto" }} gap={[8]}>
+                      <Grid sx={{ gridTemplateRows: "auto" }} gap={[6,8]}>
                         {skusData.map((sku) => (
                           <Box>
                             <SkuComponent
@@ -256,8 +257,8 @@ const CustomerOrderReturn = () => {
 };
 
 const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
-  console.log("sku", clSkuDetails);
   const [currentQuantity, setCurrentQuantity] = useState(clSkuDetails.quantity);
+  const mediaIndex = useBreakpointIndex();
 
   const updateQuantity = (quantity) => {
     handleUpdateQuantity(quantity);
@@ -275,83 +276,114 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
   return (
     <Box>
       {clSkuDetails && (
-        <Grid
-          sx={{
-            gridTemplateColumns: ["168px 1fr"],
-          }}
-          gap={[10]}
-        >
-          <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
-            <Box
-              sx={{
-                border: "1px solid",
-                height: "168px",
-                borderColor: "dark",
-                width: "100%",
-              }}
-            >
-              {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
-                <GatsbyImage
-                  image={clSkuDetails.images[0].gatsbyImageData}
-                  alt={clSkuDetails.images[0].gatsbyImageData}
-                />
-              ) : (
-                <Box
-                  sx={{
-                    height: "100%",
-                    img: {
-                      height: "100%",
-                      objectFit: "contain",
-                    },
-                    backgroundColor: "light",
-                  }}
-                >
-                  <Image src={PlaceholderImage} />
-                </Box>
-              )}
-            </Box>
-          </Flex>
-          <Flex
+        <>
+          <Grid
             sx={{
-              flexDirection: "column",
-              justifyContent: "space-between",
+              gridTemplateColumns: ["83px 1fr","83px 1fr","168px 1fr"],
             }}
+            gap={[3, 10]}
           >
+            <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
+              <Box
+                sx={{
+                  border: "1px solid",
+                  height: ["81px","81px","168px"],
+                  borderColor: "dark",
+                  width: "100%",
+                }}
+              >
+                {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
+                  <GatsbyImage
+                    image={clSkuDetails.images[0].gatsbyImageData}
+                    alt={clSkuDetails.images[0].gatsbyImageData}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      height: "100%",
+                      img: {
+                        height: "100%",
+                        objectFit: "contain",
+                      },
+                      backgroundColor: "light",
+                    }}
+                  >
+                    <Image src={PlaceholderImage} />
+                  </Box>
+                )}
+              </Box>
+            </Flex>
             <Flex
               sx={{
-                pb: [4],
+                flexDirection: "column",
                 justifyContent: "space-between",
               }}
             >
-              <Box>
-                <InboundLink
-                  to={getProductPath(clSkuDetails)}
-                  sx={{
-                    textDecoration: "none",
-                    color: "dark",
-                  }}
-                >
-                  <Heading
-                    as={"he"}
-                    variant="h2"
+              <Flex
+                sx={{
+                  pb: [4],
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <InboundLink
+                    to={getProductPath(clSkuDetails)}
                     sx={{
+                      textDecoration: "none",
                       color: "dark",
-                      fontWeight: "400",
-                      my: [0],
-                      fontSize: [5, 5],
                     }}
                   >
-                    {clSkuDetails.name}
-                  </Heading>
-                </InboundLink>
+                    <Heading
+                      as={"he"}
+                      variant="h2"
+                      sx={{
+                        color: "dark",
+                        fontWeight: "400",
+                        my: [0],
+                        fontSize: [1,5, 5],
+                      }}
+                    >
+                      {clSkuDetails.name}
+                    </Heading>
+                  </InboundLink>
+                </Box>
+              </Flex>
+              <Box sx={{ pb: [2], color: "lightBorder" }}>
+                {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
               </Box>
+              <ThumbProductDetails item={clSkuDetails} />
+              <ThumbPrice item={clSkuDetails} />
+              <Flex sx={{ pb: [9], display:["none","none","flex"] }}>
+                <SkuQuantity
+                  sku={clSkuDetails}
+                  quantity={currentQuantity}
+                  updateQuantity={updateQuantity}
+                  showMinMult={false}
+                />
+                <Box
+                  sx={{
+                    button: {
+                      minHeight: "37px",
+                      width: "100%",
+                      height: "100%",
+                      textAlign: "center",
+                      fontSize: [1,3],
+                      fontWeight: "600",
+                      borderRadius: "unset",
+                      p: [0],
+                      px: [2],
+                      ml: [2],
+                    },
+                  }}
+                >
+                  <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+                </Box>
+              </Flex>
             </Flex>
-            <Box sx={{ pb: [2], color: "lightBorder" }}>
-              {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
-            </Box>
-            <ThumbProductDetails item={clSkuDetails} />
-            <ThumbPrice item={clSkuDetails} />
-            <Flex sx={{ pb: [9] }}>
+          </Grid>
+
+          {mediaIndex < 2 && (
+            <Flex sx={{ pb: [9], flexDirection:"column" }}>
               <SkuQuantity
                 sku={clSkuDetails}
                 quantity={currentQuantity}
@@ -361,23 +393,25 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
               <Box
                 sx={{
                   button: {
+                    mt:[3,3],
+                    minHeight: "37px",
                     width: "100%",
                     height: "100%",
                     textAlign: "center",
-                    fontSize: [3],
+                    fontSize: [1,3],
                     fontWeight: "600",
                     borderRadius: "unset",
                     p: [0],
                     px: [2],
-                    ml: [2],
+                    ml: [0,0],
                   },
                 }}
               >
                 <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
               </Box>
             </Flex>
-          </Flex>
-        </Grid>
+          )}
+        </>
       )}
     </Box>
   );

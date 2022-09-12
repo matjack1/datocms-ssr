@@ -17,7 +17,7 @@ const OrderThumb = ({ order }) => {
         }}
         to={`/account/orders/${order.id}`}
       >
-        <Grid gap={[10]} columns={["167px auto"]}>
+        <Grid gap={[3,10]} columns={["185px auto"]}>
           <Box
             sx={{
               border: "1px solid",
@@ -61,11 +61,12 @@ const OrderThumb = ({ order }) => {
               sx={{
                 alignItems: "start",
                 justifyContent: "space-between",
-                pb: [5],
+                flexDirection:["column","row","row"],
+                pb: [4,5],
               }}
             >
               <Box>
-                <Text sx={{ fontSize: [4] }}>
+                <Text sx={{ fontSize: [1,4] }}>
                   Ordine{" "}
                   <Box as="span" sx={{ fontWeight: 600 }}>
                     #{order.number}
@@ -74,7 +75,7 @@ const OrderThumb = ({ order }) => {
               </Box>
               <Box
                 sx={{
-                  fontSize: [4],
+                  fontSize: [1,4],
                   alignItems: "center",
                   fontWeight: "600",
                 }}
@@ -82,7 +83,7 @@ const OrderThumb = ({ order }) => {
                 <Box>{order.formatted_total_amount_with_taxes}</Box>
               </Box>
             </Flex>
-            <Box sx={{ fontSize: [2], pb: [5], color: "lightBorder" }}>
+            <Box sx={{ fontSize: [2], pb: [4,5], color: "lightBorder" }}>
               {new Date(order.placed_at).toLocaleDateString("it-IT", {
                 year: "numeric",
                 month: "long",

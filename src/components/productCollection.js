@@ -12,6 +12,9 @@ import { InboundLink } from "./link";
 import { getCategoryPath } from "../utils/path";
 import Breadcrumbs from "./breadcrumbs";
 import ProductCollectionSkeleton from "../components/skeleton/productCollection";
+import ProductCollectionCategories from "./productCollectionCategories";
+import FilterSidebar from "./filterSidebar";
+import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 
 const ProductCollection = ({ category, skus, categories }) => {
   const cl = useClSdk();
@@ -27,6 +30,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   const [recordCount, setRecordCount] = useState();
   const { customer, setCustomer } = useContext(CustomerContext);
   const [showSkeleton, setShowSkeleton] = useState(true);
+  const mediaIndex = useBreakpointIndex();
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -237,82 +241,91 @@ const ProductCollection = ({ category, skus, categories }) => {
     <Box>
       {!showSkeleton ? (
         <>
-          <Breadcrumbs page={category} />
-          <Flex sx={{ justifyContent: "space-between", alignItems: "center" }}>
-            <Heading as="h1" variant="h2" sx={{ color: "primary", mb: [6] }}>
-              {category.name}
-            </Heading>
-            {filteredSkus && <ProductCounter skus={filteredSkus} />}
-          </Flex>
-          <Grid columns={[1, ".85fr 4.15fr"]}>
-            <Box>
-              <Box as="ul" variant="ul" sx={{ listStyle: "none", pl: [0] }}>
-                {categories.map((category, index) => (
-                  <Box
-                    as="li"
-                    key={category.id}
-                    sx={{
-                      pb: [3],
-                    }}
-                  >
-                    <InboundLink
-                      to={getCategoryPath(category, category.locale)}
+          <Container>
+            <Breadcrumbs page={category} />
+            <Flex
+              sx={{ justifyContent: "space-between", alignItems: "center" }}
+            >
+              <Heading
+                as="h1"
+                variant="h2"
+                sx={{ color: "primary", mb: [2, 6] }}
+              >
+                {category.name}
+              </Heading>
+              {filteredSkus && mediaIndex > 1 && (
+                <ProductCounter skus={filteredSkus} />
+              )}
+            </Flex>
+          </Container>
+          <Container sx={{ px: [0, 0, 6, 6], pt: [0, 0, 0, 0] }}>
+            <Grid columns={[1,1, ".85fr 4.15fr"]} gap={[0,5]}>
+              <Box>
+                <ProductCollectionCategories categories={categories} />
+
+                {mediaIndex > 1 ? (
+                  <>
+                    <ProductOrder handleOrderChange={handleOrderChange} />
+                    <ProductFilters
+                      categories={categories}
+                      handleFiltersChange={handleFiltersChange}
+                      handleClearFilters={() => {
+                        setCheckedFilters([]);
+                      }}
+                      filters={filters}
+                    />
+                  </>
+                ) : (
+                  <>
+                    {filteredSkus && (
+                      <FilterSidebar skus={filteredSkus}>
+                        <ProductOrder handleOrderChange={handleOrderChange} />
+                        <ProductFilters
+                          categories={categories}
+                          handleFiltersChange={handleFiltersChange}
+                          handleClearFilters={() => {
+                            setCheckedFilters([]);
+                          }}
+                          filters={filters}
+                        />
+                      </FilterSidebar>
+                    )}
+                  </>
+                )}
+              </Box>
+              <Container sx={{ px: [3, 3, 0, 0] }}>
+                <Box>
+                  {filteredSkus && filteredSkus.length > 0 ? (
+                    <Grid
+                      columns={["1fr", "1fr", "1fr 1fr", "1fr 1fr 1fr"]}
                       sx={{
-                        fontWeight: "600",
-                        textDecoration: "none",
-                        color: "dark",
-                        "&.active": {
-                          textDecoration: "underline",
-                        },
+                        columnGap: [4,3],
+                        rowGap: [4,9],
                       }}
                     >
-                      {category.name}
-                    </InboundLink>
-                  </Box>
-                ))}
-              </Box>
-              <Box
-                sx={{
-                  borderBottom: "1px solid",
-                  borderColor: "lightBorder",
-                  pt: [1],
-                  mb: [4],
-                }}
-              />
-              <ProductOrder handleOrderChange={handleOrderChange} />
-              <ProductFilters
-                categories={categories}
-                handleFiltersChange={handleFiltersChange}
-                handleClearFilters={() => {
-                  setCheckedFilters([]);
-                }}
-                filters={filters}
-              />
-            </Box>
-            <Box>
-              {filteredSkus && filteredSkus.length > 0 ? (
-                <Grid
-                  columns={["1fr", "1fr 1fr", "1fr 1fr", "1fr 1fr 1fr"]}
-                  sx={{
-                    columnGap: [3],
-                    rowGap: [9],
-                  }}
-                >
-                  {filteredSkus.map((sku) => (
-                    <ProductThumb sku={sku} key={sku.id} />
-                  ))}
-                </Grid>
-              ) : Object.keys(checkedFilters).length > 0 ? (
-                <Text>Non ci sono risultati per i filtri selezionati</Text>
-              ) : (
-                filteredSkus &&
-                filteredSkus.length < 1 && <Text>Nessun articolo trovato</Text>
-              )}
-            </Box>
-          </Grid>
+                      {filteredSkus.map((sku) => (
+                        <ProductThumb horizontal={mediaIndex > 1 ? false : true} sku={sku} key={sku.id} />
+                      ))}
+                    </Grid>
+                  ) : Object.keys(checkedFilters).length > 0 ? (
+                    <Text>Non ci sono risultati per i filtri selezionati</Text>
+                  ) : (
+                    filteredSkus &&
+                    filteredSkus.length < 1 && (
+                      <Text>Nessun articolo trovato</Text>
+                    )
+                  )}
+                </Box>
+              </Container>
+            </Grid>
+          </Container>
         </>
       ) : (
-        showSkeleton && <ProductCollectionSkeleton />
+        showSkeleton && (
+          <Container>
+            <ProductCollectionSkeleton />
+          </Container>
+        )
       )}
     </Box>
   );

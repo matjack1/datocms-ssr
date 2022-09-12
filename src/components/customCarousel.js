@@ -90,7 +90,7 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? "500px"
+              ? ["auto","420px"]
               : ["212px","390px"],
             minWidth: ["160px", "290px"],
           },
@@ -102,7 +102,7 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? "500px"
+              ? ["auto","420px"]
               : ["212px","390px"],
           },
         },
@@ -157,7 +157,7 @@ const CustomCarousel = ({
                               height: small
                                 ? ["160px", "290px"]
                                 : productThumbnail
-                                ? "500px"
+                                ? ["auto","500px"]
                                 : ["212px","390px"],
                               minWidth: ["160px", "290px"],
                               backgroundColor: "light",
@@ -234,7 +234,7 @@ const CustomCarousel = ({
                             height: small
                               ? ["160px", "290px"]
                               : productThumbnail
-                              ? "500px"
+                              ? ["auto","500px"]
                               : ["212px","390px"],
                             minWidth: ["160px", "290px"],
                             backgroundColor: "light",
@@ -344,7 +344,7 @@ const CustomCarousel = ({
                 small
                   ? ["160px", "290px"]
                   : productThumbnail
-                  ? "500px"
+                  ? ["auto","500px"]
                   : ["212px","390px"]
               }
               width={["160px", "290px"]}

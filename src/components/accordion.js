@@ -21,9 +21,11 @@ import HelpIcon from "../assets/img/icons/help.inline.svg";
 import SocafIcon from "../assets/img/icons/socaf.inline.svg";
 import CartIcon from "../assets/img/icons/shopping.inline.svg";
 import { VscQuestion } from "react-icons/vsc";
+import { fontSizes, transforms } from "@theme-ui/preset-tailwind";
+import ChevronRightIcon from "../assets/img/icons/chevron-right.inline.svg";
 
 const Accordion = ({ title, items }) => {
-  const [selectedItem, setSelectedItem] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSelectScrollActivate = (index) => {
     setSelectedItem(index);
@@ -37,8 +39,8 @@ const Accordion = ({ title, items }) => {
       }}
     >
       <AccordionWrapper
-        allowMultipleExpanded={false}
-        allowZeroExpanded={false}
+        allowMultipleExpanded={true}
+        allowZeroExpanded={true}
         onChange={(e) => handleSelectScrollActivate(e[0])}
       >
         {items &&
@@ -69,7 +71,7 @@ const Accordion = ({ title, items }) => {
                               borderColor: "dark",
                             }}
                           >
-                            <Grid columns={["30px 5fr"]} gap={[1]}>
+                            <Grid columns={["30px 5fr 1fr"]} gap={[1]}>
                               <Flex
                                 sx={{
                                   justifyContent: "center",
@@ -100,9 +102,29 @@ const Accordion = ({ title, items }) => {
                                   alignItems: "center",
                                 }}
                               >
-                                <Text variant="h5" sx={{ my: [0] }}>
+                                <Text
+                                  variant="h5"
+                                  as="h2"
+                                  sx={{ my: [0], fontWeight: "600" }}
+                                >
                                   {item.title}
                                 </Text>
+                              </Flex>
+                              <Flex
+                                sx={{
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  svg: {
+                                    height: "15px",
+                                  },
+                                  "svg *": {
+                                    fill: "dark",
+                                  },
+                                  transform:
+                                    index == selectedItem && "rotate(90deg)",
+                                }}
+                              >
+                                <ChevronRightIcon />
                               </Flex>
                             </Grid>
                           </Container>
@@ -119,17 +141,36 @@ const Accordion = ({ title, items }) => {
                       >
                         <Grid
                           columns={[1, 1, "2fr 3fr"]}
-                          gap={32}
+                          gap={[0]}
                           sx={{
                             borderTop: "1px solid",
                             borderColor: "lightGrey",
-                            paddingTop: [2, 5],
+                            paddingTop: [0,2, 5],
                           }}
                         >
-                          <Text variant="h4" sx={{ mt: 0 }}>
-                            {item.subtitle}
-                          </Text>
-                          <RichContentStructuredText text={item.body} />
+                          {item.subtitle && (
+                            <Text variant="h4" sx={{ mt: 0 }}>
+                              {item.subtitle}
+                            </Text>
+                          )}
+                          {item.body && (
+                            <Box
+                              sx={{
+                                p: {
+                                  color: "dark",
+                                  fontSizes: [1],
+                                },
+                                a: {
+                                  color: "dark",
+                                },
+                              }}
+                            >
+                              <RichContentStructuredText
+                                text={item.body}
+                                theme={"dark"}
+                              />
+                            </Box>
+                          )}
                         </Grid>
                       </Container>
                     </AccordionItemPanel>
