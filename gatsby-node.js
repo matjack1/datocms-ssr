@@ -6,7 +6,22 @@ exports.createPages = async function ({ page, actions, graphql }) {
         locale
         locales
       }
-
+      page: allDatoCmsPage(filter: { slug: { ne: null } }) {
+        nodes {
+          id
+          slug
+          locale
+          root
+          treeParent {
+            slug
+            root
+            treeParent {
+              slug
+              root
+            }
+          }
+        }
+      }
       skus: allDatoCmsSku(filter: { slug: { ne: null } }) {
         nodes {
           id
@@ -45,6 +60,15 @@ exports.createPages = async function ({ page, actions, graphql }) {
     }
   `);
 
+  const i18nPath = {
+    en: {
+      search: "search",
+    },
+    it: {
+      search: "cerca",
+    },
+  };
+
   function isRoot(page) {
     return page.root;
   }
@@ -64,18 +88,17 @@ exports.createPages = async function ({ page, actions, graphql }) {
   }
 
   data.categories.nodes.map((page) => {
-
     let ids = [];
     ids.push(page.id);
 
-    if(page.treeChildren.length >0){
-      page.treeChildren.map((children)=>{
+    if (page.treeChildren.length > 0) {
+      page.treeChildren.map((children) => {
         ids.push(children.id);
-        if(children.treeChildren.length >0)
-        children.treeChildren.map((childofChild)=>{
-          ids.push(childofChild.id);
-        })
-      })
+        if (children.treeChildren.length > 0)
+          children.treeChildren.map((childofChild) => {
+            ids.push(childofChild.id);
+          });
+      });
     }
 
     if (page.treeParent)
@@ -100,9 +123,26 @@ exports.createPages = async function ({ page, actions, graphql }) {
       context: {
         id: page.id,
         locale: page.locale,
-        categoryId: page.category.id
+        categoryId: page.category.id,
       },
     });
+  });
+
+  data.page.nodes.map((page) => {
+    if (page.root) {
+      actions.createPage({
+        path:
+          data.site.locale === page.locale
+            ? `${i18nPath[page.locale].search}/`
+            : `${page.slug}/${i18nPath[page.locale.toLowerCase()].search}/`,
+        component: require.resolve("./src/templates/search.js"),
+        context: {
+          locale: page.locale,
+          channel: page.slug,
+          title: i18nPath[page.locale].search,
+        },
+      });
+    }
   });
 };
 
@@ -114,5 +154,4 @@ exports.onCreatePage = async ({ page, actions }) => {
     // Update the page.
     createPage(page);
   }
-
 };

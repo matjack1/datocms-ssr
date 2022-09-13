@@ -5,7 +5,8 @@ import SecondaryNav from "./secondaryNav";
 import MobileNav from "./mobileNav";
 import { HeaderMenuContext } from "../hooks/headerMenuContext";
 import { InboundLink } from "./link";
-import SecondaryNavMobile from "../components/secondaryNavMobile"
+import SecondaryNavMobile from "../components/secondaryNavMobile";
+import SearchBar from "./searchBar";
 
 const Header = ({ color, title }) => {
   const [isSticky, setIsSticky] = useState(null);
@@ -36,16 +37,16 @@ const Header = ({ color, title }) => {
     >
       <Box
         sx={{
-          display:["none","block"],
+          display: ["none", "block"],
           backgroundColor: "dark",
         }}
       >
         <Container sx={{ py: [1, 1] }}>
           <Grid
             columns={["1fr 1fr 1fr"]}
-            sx={{ display:["none","grid"],justifyContent: "space-between" }}
+            sx={{ display: ["none", "grid"], justifyContent: "space-between" }}
           >
-            <Box sx={{textAlign:"left"}}>
+            <Box sx={{ textAlign: "left" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
                 14 GIORNI PER IL RESO
               </Text>
@@ -55,7 +56,7 @@ const Header = ({ color, title }) => {
                 Spedizione gratuita da 250 €
               </Text>
             </Box>
-            <Box sx={{textAlign:"right"}}>
+            <Box sx={{ textAlign: "right" }}>
               <InboundLink
                 sx={{
                   color: "white",
@@ -79,10 +80,21 @@ const Header = ({ color, title }) => {
       >
         <Nav color={color} />
       </Container>
-      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" , display: ["none", "none", "block", "block"]}}>
+      <Box
+        sx={{
+          borderTop: "1px solid",
+          borderBottom: "1px solid",
+          display: ["none", "none", "block", "block"],
+        }}
+      >
         <Container
           className={isSticky}
           sx={{
+            display: "grid",
+            gridTemplateColumns: ["1fr 325px", "1fr 355px"],
+            gridGap : [0],
+            py: [0, 0, 0],
+            justifyContent: "space-between",
             ".isSticky": {
               position: "fixed",
               top: "0",
@@ -94,14 +106,37 @@ const Header = ({ color, title }) => {
               animation:
                 "500ms ease-in-out 0s normal none 1 running fadeInDown",
             },
-            
           }}
         >
-          <SecondaryNav color={color} />
+          <Box
+            sx={{
+              py: [4, 4, 4],
+              borderRight: "1px solid",
+              borderColor: "dark",
+            }}
+          >
+            <SecondaryNav color={color} />
+          </Box>
+          <SearchBar title={title} />
         </Container>
       </Box>
-      <Box sx={{ borderTop: "1px solid", borderBottom: "1px solid" , display: ["block", "block", "none", "none"]}}>
-        <SecondaryNavMobile />
+      <Box
+        sx={{
+          borderTop: "1px solid",
+          borderBottom: "1px solid",
+          display: ["block", "block", "none", "none"],
+        }}
+      >
+        <Grid
+          sx={{
+            display: "grid",
+            gridGap : [0],
+            gridTemplateColumns: ["50px 1fr", "1fr 355px"],
+          }}
+        >
+          <SecondaryNavMobile />
+          <SearchBar title={title} />
+        </Grid>
       </Box>
       <Box sx={{ display: ["block", "block", "block", "none"] }}>
         <MobileNav theme={"light"} />

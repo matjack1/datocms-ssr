@@ -32,21 +32,21 @@ const Footer = () => {
       sx={{
         backgroundColor: "dark",
         py: 6,
-        pt: [0,0, 6],
+        pt: [0, 0, 6],
         mt: [8],
         position: "relative",
         color: "light",
-        minHeight: ["auto","auto", "516px"],
+        minHeight: ["auto", "auto", "516px"],
       }}
     >
       <i18nContext.Consumer>
         {(t) => (
           <>
-            <Box sx={{ display: ["block","block", "none"] }}>
+            <Box sx={{ display: ["block", "block", "none"] }}>
               <Accordion items={footer.content} />
             </Box>
             <Container>
-              <Box sx={{ display: ["none","none", "block"] }}>
+              <Box sx={{ display: ["none", "none", "block"] }}>
                 <Grid
                   columns={[1, `repeat(3,1fr)`]}
                   sx={{ columnGap: [15], rowGap: [6] }}
@@ -148,15 +148,39 @@ const Footer = () => {
                               </Heading>
                             </Box>
                           </Flex>
-                          <Grid columns={["1fr 1fr 1fr 1fr"]}>
+                          <Grid columns={["1fr 1fr 1fr 1fr 1fr"]}>
+                            {console.log(block.images)}
                             {block.images &&
                               block.images.length > 0 &&
-                              block.images.map((image) => (
-                                <GatsbyImage
-                                  image={image.gatsbyImageData}
-                                  alt={image.gatsbyImageData}
-                                />
-                              ))}
+                              block.images.map((image) =>
+                                image.gatsbyImageData ? (
+                                  <GatsbyImage
+                                    image={
+                                      image.gatsbyImageData
+                                        ? image.gatsbyImageData
+                                        : image.url
+                                    }
+                                    alt={
+                                      image.gatsbyImageData
+                                        ? image.gatsbyImageData
+                                        : image.url
+                                    }
+                                  />
+                                ) : (
+                                  <Image
+                                    src={
+                                      image.gatsbyImageData
+                                        ? image.gatsbyImageData
+                                        : image.url
+                                    }
+                                    alt={
+                                      image.gatsbyImageData
+                                        ? image.gatsbyImageData
+                                        : image.url
+                                    }
+                                  />
+                                )
+                              )}
                           </Grid>
                         </Box>
                       )}
@@ -164,13 +188,19 @@ const Footer = () => {
                   ))}
                 </Grid>
               </Box>
-              <Flex sx={{ pt: [3, 12], justifyContent: "space-between", flexDirection:["column","row"] }}>
+              <Flex
+                sx={{
+                  pt: [3, 12],
+                  justifyContent: "space-between",
+                  flexDirection: ["column", "row"],
+                }}
+              >
                 <Flex
                   sx={{
                     justifyContent: "flex-start",
                     a: {
                       textDecoration: "none",
-                      fontSize:[1]
+                      fontSize: [1],
                     },
                     flexWrap: "wrap",
                   }}
@@ -184,7 +214,7 @@ const Footer = () => {
                     </>
                   ))}
                 </Flex>
-                <Box sx={{pt:[4,0], fontSize:[1]}}>© 2022 Socaf SPA</Box>
+                <Box sx={{ pt: [4, 0], fontSize: [1] }}>© 2022 Socaf SPA</Box>
               </Flex>
             </Container>
           </>

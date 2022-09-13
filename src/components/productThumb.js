@@ -36,7 +36,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                 ? small
                   ? ["78px 1fr"]
                   : ["185px auto", "218px 1fr"]
-                : ["160px", "290px"],
+                : ["160px", "auto"],
             }}
             gap={horizontal ? (small ? [3, 5] : [3, 10]) : [3]}
           >
@@ -107,13 +107,22 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                       : [2, 2],
                   }}
                 >
-                  {horizontal ? clSkuDetails.name : TruncateEllipsis(clSkuDetails.name, mediaIndex > 1 ? 1000 : 50)}
+                  {horizontal
+                    ? clSkuDetails.name
+                    : TruncateEllipsis(
+                        clSkuDetails.name,
+                        mediaIndex > 1 ? 1000 : 50
+                      )}
                 </Heading>
               </Box>
               <Box
                 sx={{
                   color: "lightBorder",
-                  fontSize: small && [1, 1],
+                  fontSize: horizontal
+                    ? small
+                      ? [1, 1, 1]
+                      : [1, 5, 5, 5]
+                    : [2, 2],
                   pb: [2],
                 }}
               >

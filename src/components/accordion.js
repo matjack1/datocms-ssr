@@ -6,6 +6,7 @@ import {
   Heading,
   Text,
   Flex,
+  Image
 } from "@theme-ui/components";
 import RichContentStructuredText from "../components/richContentStructuredText";
 import {
@@ -15,6 +16,7 @@ import {
   AccordionItemButton,
   AccordionItemPanel,
 } from "react-accessible-accordion";
+import { GatsbyImage } from "gatsby-plugin-image";
 import DeliveryIcon from "../assets/img/icons/spedizione.inline.svg";
 import PayIcon from "../assets/img/icons/pagamento.inline.svg";
 import HelpIcon from "../assets/img/icons/help.inline.svg";
@@ -110,6 +112,7 @@ const Accordion = ({ title, items }) => {
                                   {item.title}
                                 </Text>
                               </Flex>
+
                               <Flex
                                 sx={{
                                   justifyContent: "center",
@@ -145,31 +148,71 @@ const Accordion = ({ title, items }) => {
                           sx={{
                             borderTop: "1px solid",
                             borderColor: "lightGrey",
-                            paddingTop: [0,2, 5],
+                            paddingTop: [0, 2, 5],
                           }}
                         >
-                          {item.subtitle && (
-                            <Text variant="h4" sx={{ mt: 0 }}>
-                              {item.subtitle}
-                            </Text>
-                          )}
-                          {item.body && (
-                            <Box
-                              sx={{
-                                p: {
-                                  color: "dark",
-                                  fontSizes: [1],
-                                },
-                                a: {
-                                  color: "dark",
-                                },
-                              }}
-                            >
-                              <RichContentStructuredText
-                                text={item.body}
-                                theme={"dark"}
-                              />
+                          {item.model.apiKey === "image_gallery" ? (
+                            <Box>
+                              <Grid columns={["1fr 1fr 1fr 1fr 1fr"]}>
+                                {item.images &&
+                                  item.images.length > 0 &&
+                                  item.images.map((image) =>
+                                    image.gatsbyImageData ? (
+                                      <GatsbyImage
+                                        image={
+                                          image.gatsbyImageData
+                                            ? image.gatsbyImageData
+                                            : image.url
+                                        }
+                                        alt={
+                                          image.gatsbyImageData
+                                            ? image.gatsbyImageData
+                                            : image.url
+                                        }
+                                      />
+                                    ) : (
+                                      <Image
+                                        src={
+                                          image.gatsbyImageData
+                                            ? image.gatsbyImageData
+                                            : image.url
+                                        }
+                                        alt={
+                                          image.gatsbyImageData
+                                            ? image.gatsbyImageData
+                                            : image.url
+                                        }
+                                      />
+                                    )
+                                  )}
+                              </Grid>
                             </Box>
+                          ) : (
+                            <>
+                              {item.subtitle && (
+                                <Text variant="h4" sx={{ mt: 0 }}>
+                                  {item.subtitle}
+                                </Text>
+                              )}
+                              {item.body && (
+                                <Box
+                                  sx={{
+                                    p: {
+                                      color: "dark",
+                                      fontSizes: [1],
+                                    },
+                                    a: {
+                                      color: "dark",
+                                    },
+                                  }}
+                                >
+                                  <RichContentStructuredText
+                                    text={item.body}
+                                    theme={"dark"}
+                                  />
+                                </Box>
+                              )}
+                            </>
                           )}
                         </Grid>
                       </Container>
