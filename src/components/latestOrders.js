@@ -165,7 +165,7 @@ const LatestOrders = () => {
                         }}
                       />
                     </Flex>
-                    {order.status}
+                    {order.status === "placed" ? "In approvazione":"Approvato"  }
                   </Grid>
                   <Grid
                     columns={["16px auto"]}

@@ -144,8 +144,6 @@ const InfiniteHits = ({
           }
         }
 
-        console.log("----",reduced)
-
         delete newAcc.id;
         delete newAcc.code;
         delete newAcc.name;
@@ -308,14 +306,18 @@ const InfiniteHits = ({
     }
   }, [filteredSkus]);
 
-  useEffect(() => {
-    const params = new Proxy(new URLSearchParams(window.location.search), {
-      get: (searchParams, prop) => searchParams.get(prop),
-    });
-    // Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
-    let value = params.query; // "some_value"
-    setQueryURLParams(decodeURIComponent(value));
-  }, []);
+  
+
+  
+  // useEffect(() => {
+  //   console.log("url",url)
+  //   const params = new Proxy(new URLSearchParams(window.location.search), {
+  //     get: (searchParams, prop) => searchParams.get(prop),
+  //   });
+  //   Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+  //   let value = params.query; // "some_value"
+  //   setQueryURLParams(decodeURIComponent(value));
+  // }, [url]);
 
   return (
     <Box>
@@ -344,7 +346,8 @@ const InfiniteHits = ({
               }}
             >
               <Heading as="h1" variant="h2" sx={{ color: "primary", my: [0] }}>
-                Risultati di ricerca per "{queryURLParams}"
+                {/* Risultati di ricerca per "{queryURLParams}" */}
+                Risultati di ricerca
               </Heading>
               {filteredSkus && mediaIndex > 1 && (
                 <ProductCounter skus={filteredSkus} />

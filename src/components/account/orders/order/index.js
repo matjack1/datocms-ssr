@@ -123,7 +123,7 @@ const CustomerOrder = () => {
                           }}
                         />
                       </Flex>
-                      {order.status}
+                      {order.status === "placed" ? "In approvazione":"Approvato"  }
                     </Grid>
                   </Flex>
                 </Box>
