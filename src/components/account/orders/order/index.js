@@ -417,7 +417,7 @@ const CustomerOrder = () => {
                     >
                       {order.formatted_total_taxable_amount}
                       <br />
-                      {`(${itemQuantity} articolarticol${
+                      {`(${itemQuantity} articol${
                         itemQuantity > 0 ? "i" : "o"
                       })`}
                     </Box>
