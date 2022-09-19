@@ -1,22 +1,88 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Box, Grid, Text, Button, Heading, Flex, Container } from "theme-ui";
-import ProductCounter from "./productCounter";
-import ProductOrder from "./productOrder";
-import ProductFilters from "./productFilters";
-import ProductThumb from "./productThumb";
+import React, { useEffect, useState, useContext, useRef } from "react";
+import { graphql } from "gatsby";
+import Layout from "../components/layout";
+import { getSearchPath } from "../utils/path";
+import {
+  Container,
+  Text,
+  Box,
+  Grid,
+  Flex,
+  Heading,
+} from "@theme-ui/components";
 import { useClSdk } from "../hooks/useClSdk";
-import { MergeArrays } from "../utils/mergeArrays";
+import { i18nContext } from "../hooks/i18nContext";
+import { navigate } from "gatsby";
 import CustomerContext from "../hooks/customerContext";
-import getPrices from "../hooks/getPrices";
-import { InboundLink } from "./link";
-import { getCategoryPath } from "../utils/path";
-import Breadcrumbs from "./breadcrumbs";
-import ProductCollectionSkeleton from "../components/skeleton/productCollection";
-import ProductCollectionCategories from "./productCollectionCategories";
-import FilterSidebar from "./filterSidebar";
 import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import getPrices from "../hooks/getPrices";
+import CustomBreadcrumbs from "../components/customBreadcrumbs";
+import ProductCounter from "../components/productCounter";
+import ProductCollectionCategories from "../components/productCollectionCategories";
+import ProductOrder from "../components/productOrder";
+import ProductFilters from "../components/productFilters";
+import FilterSidebar from "../components/filterSidebar";
+import ProductThumb from "../components/productThumb";
+import ProductCollectionSkeleton from "../components/skeleton/productCollection";
+import {
+  InstantSearch,
+  SortBy,
+  ClearRefinements,
+  connectInfiniteHits,
+  connectStateResults,
+  connectSearchBox,
+  SearchBox,
+  Configure,
+} from "react-instantsearch-dom";
+import algoliasearch from "algoliasearch/lite";
+import { debounce } from "lodash";
+import qs from "qs";
 
-const ProductCollection = ({ category, skus, categories }) => {
+import { getColor } from "@theme-ui/color";
+import themeUiTheme from "../gatsby-plugin-theme-ui";
+
+const searchClient = algoliasearch(
+  "L90C68T5L3",
+  "e09290f11a744650ef7bf8d0b72100d2"
+);
+
+function formatNumber(value) {
+  return Number(value).toLocaleString();
+}
+
+const Results = connectStateResults(
+  ({ searchState, searchResults, children }) =>
+    searchResults &&
+    searchResults.query.length > 0 &&
+    searchResults.nbHits !== 0 ? (
+      <Box>{children}</Box>
+    ) : (
+      searchResults &&
+      searchResults.query.length > 0 && (
+        <i18nContext.Consumer>
+          {(t) => (
+            <Box>
+              <div>
+                {t.noResults} <strong>{searchState.query}</strong>.
+              </div>
+            </Box>
+          )}
+        </i18nContext.Consumer>
+      )
+    )
+);
+
+const updateAfter = 700;
+
+const InfiniteHits = ({
+  locale,
+  hits,
+  hasPrevious,
+  refinePrevious,
+  hasMore,
+  refineNext,
+  categories = [],
+}) => {
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
@@ -31,6 +97,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const mediaIndex = useBreakpointIndex();
+  const [queryURLParams, setQueryURLParams] = useState();
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -57,10 +124,10 @@ const ProductCollection = ({ category, skus, categories }) => {
   };
 
   const handleGetFilters = async () => {
-    const filters =
-      skusData &&
-      skusData.length > 0 &&
-      skusData.reduce((acc, cur, idx) => {
+    let reduced = {};
+
+    if (skusData && skusData.length > 0)
+      reduced = skusData.reduce((acc, cur, idx) => {
         const newAcc = { ...acc };
         for (let [key, val] of Object.entries(cur)) {
           if (!newAcc[key]) {
@@ -94,7 +161,8 @@ const ProductCollection = ({ category, skus, categories }) => {
         return newAcc;
       });
 
-    setFilters(filters);
+
+    const filters = setFilters(reduced);
   };
 
   function orderProducts() {
@@ -165,7 +233,7 @@ const ProductCollection = ({ category, skus, categories }) => {
     let chunkPrices = [];
     let allChunks = [];
     const chunkSize = 4;
-    const reducedData = skus.map((x) => x.code);
+    const reducedData = hits.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
@@ -182,7 +250,7 @@ const ProductCollection = ({ category, skus, categories }) => {
 
       let res = [];
       res = await Promise.all(
-        skus.map((obj) => {
+        hits.map((obj) => {
           const index = chunkPrices.findIndex(
             (el) => el["itemcode"] == obj["code"]
           );
@@ -206,11 +274,12 @@ const ProductCollection = ({ category, skus, categories }) => {
   };
 
   useEffect(() => {
-    if (skus.length > 0 && cl && customer) {
-      setSkusData(skus);
+    console.log("ENTERS HITS");
+    if (hits.length > 0 && cl && customer) {
+      setSkusData(hits);
       getSkusPrices();
     }
-  }, [skus, customer]);
+  }, [hits, customer]);
 
   useEffect(() => {
     if (skusData && skusData.length > 0) {
@@ -237,21 +306,48 @@ const ProductCollection = ({ category, skus, categories }) => {
     }
   }, [filteredSkus]);
 
+  
+
+  
+  // useEffect(() => {
+  //   console.log("url",url)
+  //   const params = new Proxy(new URLSearchParams(window.location.search), {
+  //     get: (searchParams, prop) => searchParams.get(prop),
+  //   });
+  //   Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
+  //   let value = params.query; // "some_value"
+  //   setQueryURLParams(decodeURIComponent(value));
+  // }, [url]);
+
   return (
     <Box>
       {!showSkeleton ? (
         <>
           <Container>
-            <Breadcrumbs page={category} />
+            <CustomBreadcrumbs
+              data={{
+                pages: [
+                  {
+                    slug: "/",
+                    title: "Home",
+                  },
+                ],
+                current: {
+                  title: "Cerca",
+                },
+              }}
+            />
             <Flex
-              sx={{ justifyContent: "space-between", alignItems: "center" }}
+              sx={{
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: [2, 6],
+                my: [4, 4],
+              }}
             >
-              <Heading
-                as="h1"
-                variant="h2"
-                sx={{ color: "primary", mb: [2, 6] }}
-              >
-                {category.name}
+              <Heading as="h1" variant="h2" sx={{ color: "primary", my: [0] }}>
+                {/* Risultati di ricerca per "{queryURLParams}" */}
+                Risultati di ricerca
               </Heading>
               {filteredSkus && mediaIndex > 1 && (
                 <ProductCounter skus={filteredSkus} />
@@ -259,8 +355,9 @@ const ProductCollection = ({ category, skus, categories }) => {
             </Flex>
           </Container>
           <Container sx={{ px: [0, 0, 6, 6], pt: [0, 0, 0, 0] }}>
-            <Grid columns={[1,1, ".85fr 4.15fr"]} gap={[0,5]}>
-              <Box>
+            <Grid columns={[1, 1, "1fr"]} gap={[0, 5]}>
+            {/* <Grid columns={[1, 1, ".85fr 4.15fr"]} gap={[0, 5]}> */}
+              {/* <Box>
                 <ProductCollectionCategories categories={categories} />
 
                 {mediaIndex > 1 ? (
@@ -292,19 +389,23 @@ const ProductCollection = ({ category, skus, categories }) => {
                     )}
                   </>
                 )}
-              </Box>
-              <Container sx={{ px: [3, 3, 0, 0], py:[0,0,0,0] }}>
+              </Box> */}
+              <Container sx={{ px: [3, 3, 0, 0], py: [0, 0, 0, 0] }}>
                 <Box>
                   {filteredSkus && filteredSkus.length > 0 ? (
                     <Grid
                       columns={["1fr", "1fr", "1fr 1fr", "1fr 1fr 1fr"]}
                       sx={{
-                        columnGap: [4,3],
-                        rowGap: [4,9],
+                        columnGap: [4, 3],
+                        rowGap: [4, 9],
                       }}
                     >
                       {filteredSkus.map((sku) => (
-                        <ProductThumb horizontal={mediaIndex > 1 ? false : true} sku={sku} key={sku.id} />
+                        <ProductThumb
+                          horizontal={mediaIndex > 1 ? false : true}
+                          sku={sku}
+                          key={sku.id}
+                        />
                       ))}
                     </Grid>
                   ) : Object.keys(checkedFilters).length > 0 ? (
@@ -328,7 +429,112 @@ const ProductCollection = ({ category, skus, categories }) => {
         )
       )}
     </Box>
+    // <Box sx={{ pb: [6, 8] }}>
+    //   <Grid
+    //     columns={[1, 2, 3, 4]}
+    //     gap={["50px 8px", "50px 8px", "50px 8px", "50px 8px"]}
+    //   >
+    //     {hits.map((hit, index) => (
+    //       <Box>index{console.log(index, hit)}</Box>
+    //       // <VideoThumb
+    //       //   search={true}
+    //       //   video={{ ...hit, locale: locale }}
+    //       //   category={hit.category}
+    //       // />
+    //     ))}
+    //   </Grid>
+    //   {hasMore && (
+    //     <Flex sx={{ alignItems: "center", justifyContent: "center", py: [6] }}>
+    //       <Box
+    //         as="button"
+    //         disabled={!hasMore}
+    //         onClick={refineNext}
+    //         variant="links.badge.full"
+    //         sx={{
+    //           cursor: "pointer",
+    //         }}
+    //       >
+    //         Show more
+    //       </Box>
+    //     </Flex>
+    //   )}
+    // </Box>
   );
 };
 
-export default ProductCollection;
+const CustomInfiniteHits = connectInfiniteHits(InfiniteHits);
+
+const createURL = (state) => `?${qs.stringify(state)}`;
+
+const searchStateToUrl = (searchState) =>
+  searchState ? createURL(searchState) : "";
+
+const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
+const DEBOUNCE_TIME = 400;
+
+const SearchPage = ({
+  location,
+  history,
+  data: { site, videos, channel },
+  pageContext,
+}) => {
+  const isBrowser = typeof window !== "undefined";
+
+  const [searchState, setSearchState] = useState(urlToSearchState(location));
+  const debouncedSetStateRef = useRef(null);
+
+  const i18nPaths = site.locales.map((locale) => {
+    return {
+      locale: locale,
+      value: getSearchPath(locale),
+    };
+  });
+
+  function onSearchStateChange(updatedSearchState) {
+    clearTimeout(debouncedSetStateRef.current);
+
+    debouncedSetStateRef.current = setTimeout(() => {
+      navigate(searchStateToUrl(updatedSearchState));
+    }, DEBOUNCE_TIME);
+
+    setSearchState(updatedSearchState);
+  }
+
+  useEffect(() => {
+    setSearchState(urlToSearchState(location));
+  }, [location]);
+
+  return (
+    <InstantSearch
+      searchClient={searchClient}
+      indexName={`dev_SKUS`}
+      searchState={searchState}
+      onSearchStateChange={onSearchStateChange}
+      createURL={createURL}
+      resultsState={undefined}
+      stalledSearchDelay={3000}
+    >
+      <Layout title={"search"}>
+        <i18nContext.Consumer>
+          {(t) => (
+            <>
+              <Results>
+                <CustomInfiniteHits locale={pageContext.locale} />
+              </Results>
+            </>
+          )}
+        </i18nContext.Consumer>
+      </Layout>
+    </InstantSearch>
+  );
+};
+
+export default SearchPage;
+
+export const query = graphql`
+  query SearchQuery {
+    site: datoCmsSite {
+      locales
+    }
+  }
+`;

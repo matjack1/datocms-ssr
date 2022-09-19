@@ -76,14 +76,26 @@ const LatestOrders = () => {
   return filteredOrders.length > 0 ? (
     <Box sx={{ backgroundColor: "primary" }}>
       <Container>
+        <Flex sx={{
+          alignItems:"center",
+          justifyContent:"space-between",
+          mb: [2, 4, 9]
+        }}>
         <Heading
           as="h2"
           variant="h2"
           color="light"
-          sx={{ mt: [2,0], mb: [2, 4, 9] }}
+          sx={{ mt: [2,0], mb:[0,0] }}
         >
           Ultimi ordini
         </Heading>
+        <InboundLink to={"/account/orders"} sx={{
+          color:"light",
+
+        }}>
+          Vedi tutti
+        </InboundLink>
+        </Flex>
         <Grid columns={["1fr", "repeat(3,1fr)", "repeat(4,1fr)"]} gap={[0]}>
           {filteredOrders
             .slice(0, mediaIndex > 1 ? 4 : 3)
@@ -153,7 +165,7 @@ const LatestOrders = () => {
                         }}
                       />
                     </Flex>
-                    {order.status}
+                    {order.status === "placed" ? "In approvazione":"Approvato"  }
                   </Grid>
                   <Grid
                     columns={["16px auto"]}

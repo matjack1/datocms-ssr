@@ -111,7 +111,7 @@ const OrderThumb = ({ order }) => {
                   }}
                 />
               </Flex>
-              {order.status}
+              {order.status === "placed" ? "In approvazione":"Approvato"  }
             </Grid>
           </Box>
         </Grid>

@@ -2,6 +2,7 @@ import React from "react"
 
 export const languages = {
   it: {
+    search:"Cerca",
     size: "Dimensione",
     gloveType: "Tipo di guanto",
     pallet :"Pallet",
