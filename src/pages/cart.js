@@ -63,8 +63,12 @@ const CartPage = () => {
       cart.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
     }
-    setCartItems([]);
-    setCartItems(cart && cart.line_items.length > 0 ? cart.line_items : []);
+    // setCartItems([]);
+    setCartItems(
+      cart && cart.line_items.length > 0
+        ? cart.line_items.filter((item) => item.item_type === "skus")
+        : []
+    );
   }, [cart]);
 
   const updateQuantity = (quantity, id) => {
@@ -95,7 +99,7 @@ const CartPage = () => {
                       sx={{
                         fontSize: [2],
                         fontWeight: "400",
-                        pb: [4,5,8],
+                        pb: [4, 5, 8],
                       }}
                     >
                       <Text color="lightBorder">
@@ -107,7 +111,7 @@ const CartPage = () => {
                     </Box>
                   )}
                 </Box>
-                <Grid sx={{ gridTemplateRows: "auto" }} gap={[4,5,8]}>
+                <Grid sx={{ gridTemplateRows: "auto" }} gap={[4, 5, 8]}>
                   {console.log("cart.line_items", cartItems)}
                   {cartItems.map((lineItem, index) => (
                     <Box key={lineItem.id}>
@@ -125,7 +129,7 @@ const CartPage = () => {
                   <Heading
                     as="h2"
                     variant="h2"
-                    sx={{ color: "primary", mt: [5], pb: [4,5,6] }}
+                    sx={{ color: "primary", mt: [5], pb: [4, 5, 6] }}
                   >
                     Riepilogo ordine
                   </Heading>
@@ -133,17 +137,17 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [4,5,6],
+                      pb: [4, 5, 6],
                     }}
                   >
                     <Box>
-                      <Text sx={{ fontSize: [1,5], color: "lightBorder" }}>
+                      <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
                         Costi di spedizione
                       </Text>
                     </Box>
                     <Box
                       sx={{
-                        fontSize: [1,5],
+                        fontSize: [1, 5],
                         color: "lightBorder",
                         fontWeight: "600",
                       }}
@@ -155,15 +159,15 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [4,5,6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [1,5], color: "lightBorder" }}>
+                    <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
                       Tasse
                     </Text>
                     <Box
                       sx={{
-                        fontSize: [1,5],
+                        fontSize: [1, 5],
                         color: "lightBorder",
                         fontWeight: "600",
                       }}
@@ -175,14 +179,14 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "start",
-                      pb: [4,5,6],
+                      pb: [4, 5, 6],
                     }}
                   >
-                    <Text sx={{ fontSize: [1,5], }}>Subtotale</Text>
+                    <Text sx={{ fontSize: [1, 5] }}>Subtotale</Text>
                     <Box
                       sx={{
                         textAlign: "right",
-                        fontSize: [1,5],
+                        fontSize: [1, 5],
                         fontWeight: "600",
                       }}
                     >
@@ -193,12 +197,12 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [4,5,6],
+                      pb: [4, 5, 6],
                     }}
                   >
                     <Box
                       sx={{
-                        fontSize: [1,3],
+                        fontSize: [1, 3],
                         color: "lightBorder",
                         fontWeight: "600",
                       }}
@@ -255,7 +259,7 @@ const CartPage = () => {
             >
               <Box
                 sx={{
-                  pb: [4,5,7],
+                  pb: [4, 5, 7],
                   svg: {
                     width: "92px",
                     height: "auto",

@@ -12,8 +12,7 @@ import CloseIcon from "../assets/img/icons/close.inline.svg";
 const AccountSideBarMobile = ({ open, closed, sideBarData }) => {
   const { customer } = useContext(CustomerContext);
   const dark = getColor(theme, "dark");
-
-  console.log("22");
+  
   return (
     <>
       <Box

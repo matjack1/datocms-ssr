@@ -69,6 +69,15 @@ export const query = graphql`
         sanitizer
         detergentType
         detergentUsage
+        images {
+          url
+          gatsbyImageData(
+            width: 670
+            height: 670
+            placeholder: BLURRED
+            forceBlurhash: false
+          )
+        }
       }
     }
   }

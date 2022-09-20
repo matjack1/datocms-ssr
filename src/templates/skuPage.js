@@ -221,7 +221,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
             >
               <Box
                 sx={{
-                  
                   aspectRatio: "1",
                   "@supports not (aspect-ratio: 1 / 1)": {
                     "&::before": {
@@ -615,7 +614,12 @@ export const query = graphql`
     }
     images {
       url
-      gatsbyImageData(width: 1480, placeholder: BLURRED, forceBlurhash: false)
+      gatsbyImageData(
+        width: 670
+        height: 670
+        placeholder: BLURRED
+        forceBlurhash: false
+      )
     }
     model {
       apiKey

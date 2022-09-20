@@ -25,14 +25,14 @@ exports.handler = async (event, context) => {
 
   return await axios(config)
     .then(function (response) {
-      console.log(JSON.stringify(response.data));
+      // console.log(JSON.stringify(response.data));
       return {
         statusCode: 200,
         body: JSON.stringify(response.data),
       };
     })
     .catch(function (error) {
-      console.log("error.data",error)
+      // console.log("error.data",error)
       return {
         statusCode: error.response.status,
         body: JSON.stringify(error),
