@@ -53,11 +53,6 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                   border: "1px solid",
                   borderColor: "dark",
                   width: "100%",
-                  // height: horizontal
-                  //   ? small
-                  //     ? ["78px"]
-                  //     : ["185px", "218px"]
-                  //   : ["160px", "290px"],
                 }}
               >
                 {sku.images && sku.images.length > 0 ? (

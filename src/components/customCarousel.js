@@ -5,7 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Box, Button, Container, Flex, Heading, Image, Grid } from "theme-ui";
+import { Box, Button, Container, Flex, Heading, Grid } from "theme-ui";
 import CustomerContext from "../hooks/customerContext";
 import { buildClient } from "@datocms/cma-client-browser";
 import { InboundLink } from "./link";
@@ -17,6 +17,7 @@ import ProductThumb from "./productThumb";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import { Image } from "react-datocms";
 
 const CustomCarousel = ({
   data,
@@ -24,6 +25,7 @@ const CustomCarousel = ({
   type = "category",
   productThumbnail = false,
 }) => {
+  console.log(data);
   const isBrowser = typeof window != "undefined" && window.document;
   const windowWidth = isBrowser && document.querySelector("body").offsetWidth;
   const [current, setCurrent] = useState(1);
@@ -91,8 +93,8 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? ["340px","440px"]
-              : ["212px","390px"],
+              ? ["340px", "440px"]
+              : ["212px", "390px"],
             minWidth: ["160px", "290px"],
           },
           ".rf-cards-scroller-crop": {
@@ -103,8 +105,8 @@ const CustomCarousel = ({
             height: small
               ? ["160px", "290px"]
               : productThumbnail
-              ? ["340px","440px"]
-              : ["212px","390px"],
+              ? ["340px", "440px"]
+              : ["212px", "390px"],
           },
         },
       }}
@@ -158,8 +160,8 @@ const CustomCarousel = ({
                               height: small
                                 ? ["160px", "290px"]
                                 : productThumbnail
-                                ? ["auto","500px"]
-                                : ["212px","390px"],
+                                ? ["auto", "500px"]
+                                : ["212px", "390px"],
                               minWidth: ["160px", "290px"],
                               backgroundColor: "light",
                               border:
@@ -181,8 +183,8 @@ const CustomCarousel = ({
                                     sx={{
                                       whiteSpace: "break-spaces",
                                       m: [0],
-                                      p: [1,3],
-                                      minHeight: ["65px","120px"],
+                                      p: [1, 3],
+                                      minHeight: ["65px", "120px"],
                                     }}
                                   >
                                     {item.name && item.name}
@@ -195,18 +197,25 @@ const CustomCarousel = ({
                                 >
                                   {(item.image && item.image.length > 0) ||
                                   (item.images && item.images.length > 0) ? (
-                                    <GatsbyImage
-                                      image={
-                                        item.image
-                                          ? item.image.gatsbyImageData
-                                          : item.images[0].gatsbyImageData
-                                      }
-                                      alt={
-                                        item.image
-                                          ? item.image.gatsbyImageData
-                                          : item.images[0].gatsbyImageData
-                                      }
-                                    />
+                                    <>
+                                      <GatsbyImage
+                                        image={
+                                          item.image
+                                            ? item.image.gatsbyImageData
+                                            : item.images[0].gatsbyImageData
+                                        }
+                                        alt={
+                                          item.image
+                                            ? item.image.gatsbyImageData
+                                            : item.images[0].gatsbyImageData
+                                        }
+                                      />
+                                      {item.images[0].responsiveImage && (
+                                        <Image
+                                          data={item.images[0].responsiveImage}
+                                        />
+                                      )}
+                                    </>
                                   ) : (
                                     <Box
                                       sx={{
@@ -218,7 +227,7 @@ const CustomCarousel = ({
                                         backgroundColor: "light",
                                       }}
                                     >
-                                      <Image src={PlaceholderImage} />
+                                      <img src={PlaceholderImage} />
                                     </Box>
                                   )}
                                 </Box>
@@ -235,8 +244,8 @@ const CustomCarousel = ({
                             height: small
                               ? ["160px", "290px"]
                               : productThumbnail
-                              ? ["auto","500px"]
-                              : ["212px","390px"],
+                              ? ["auto", "500px"]
+                              : ["212px", "390px"],
                             minWidth: ["160px", "290px"],
                             backgroundColor: "light",
                             border: !small && !productThumbnail && "2px solid",
@@ -344,8 +353,8 @@ const CustomCarousel = ({
                 small
                   ? ["160px", "290px"]
                   : productThumbnail
-                  ? ["auto","500px"]
-                  : ["212px","390px"]
+                  ? ["auto", "500px"]
+                  : ["212px", "390px"]
               }
               width={["160px", "290px"]}
             />

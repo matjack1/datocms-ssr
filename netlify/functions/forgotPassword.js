@@ -48,12 +48,11 @@ exports.handler = async function (event, context) {
           const resetData = response.data.data;
           const id = resetData.id;
           const token = resetData.attributes.reset_password_token;
-
           const link = `https://socaf-b2b.netlify.app/reset-password?id=${id}&token=${token}`;
 
           var msg = {
-            from: 'no-reply@socaf.it',
-            to: "a.asofii@multi-consult.it",
+            from: "no-reply@socaf.it",
+            to: resetData.attributes.customer_email,
             // bcc: 'n.lazzaroni@multi-consult.it',
             subject: `Socaf - Password dimenticata`,
             html: `<p>E' stata richiesta la modifica della password!<br>  Se non hai fatto questa richiesta, ignora questa e-mail.<br>
@@ -76,7 +75,6 @@ exports.handler = async function (event, context) {
             .catch((error) => {
               console.error(error);
             });
-
         })
         .catch(function (error) {
           console.log(error);

@@ -74,7 +74,6 @@ const ResetPassword = ({ history }) => {
   };
 
   const sendResetPassword = async (event) => {
-
     const result = await executeRecaptcha("dynamicAction");
 
     setLoading(true);
@@ -133,7 +132,11 @@ const ResetPassword = ({ history }) => {
               <InboundLink to="/">
                 <Image
                   src={Logo}
-                  sx={{ height: ["30px","80px"] , maxHeight: "80px", minHeight: "80px" }}
+                  sx={{
+                    height: ["30px", "80px"],
+                    maxHeight: "80px",
+                    minHeight: "80px",
+                  }}
                 />
               </InboundLink>
             </Box>
@@ -257,15 +260,12 @@ const ResetPassword = ({ history }) => {
                 </Box>
               </Box>
               <Box>
-                <Label>
-                  minLength: 8, minLowercase: 1, minUppercase: 1, minNumbers: 1,
-                  minSymbols: 1
-                </Label>
+                <Label>Lunghezza minima 8 caratteri</Label>
               </Box>
               {errorMessage && <Box>{errorMessage}</Box>}
             </Box>
           ) : success === true ? (
-            <Flex sx={{ maxWidth: "600px" , flexDirection:"column" }}>
+            <Flex sx={{ maxWidth: "600px", flexDirection: "column" }}>
               <Heading sx={{ my: [4], color: "dark" }} as="h5">
                 Password cambiata! Esegui il login con la nuova password
               </Heading>
@@ -275,7 +275,7 @@ const ResetPassword = ({ history }) => {
             </Flex>
           ) : (
             success === false && (
-              <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
+              <Flex sx={{ maxWidth: "600px", flexDirection: "column" }}>
                 <Heading sx={{ my: [4], color: "dark" }} as="h5">
                   Qualcosa è andato storto! Probabilmente questo link non è più
                   valido!

@@ -124,7 +124,7 @@ const Accordion = ({ title, items }) => {
                                     fill: "dark",
                                   },
                                   transform:
-                                    index == selectedItem && "rotate(90deg)",
+                                    index === selectedItem && "rotate(90deg)",
                                 }}
                               >
                                 <ChevronRightIcon />
