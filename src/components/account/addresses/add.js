@@ -153,7 +153,7 @@ const AddAddress = () => {
               >
                 <CustomInput
                   id="company"
-                  label="Ragione sociale *"
+                  label="Ragione sociale di destinazione *"
                   type="text"
                   name="company"
                   placeholder="Ragione sociale *"
