@@ -7,16 +7,22 @@ import { getProductPath } from "../utils/path";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const FeaturedProduct = ({ data }) => {
+  console.log(data);
   return (
     <Box sx={{ backgroundColor: "secondary" }}>
       <Container sx={{ pt: [4, 9], pb: [0, 0, 0] }}>
-        <Flex sx={{ justifyContent: "space-between", flexDirection : ["column","row"] }}>
+        <Flex
+          sx={{
+            justifyContent: "space-between",
+            flexDirection: ["column", "row"],
+          }}
+        >
           <Box>
             <Heading
               as="h2"
               variant="h2"
               color="white"
-              sx={{ mt: [1,4], mb: [0], lineHeight: [1.2] }}
+              sx={{ mt: [1, 4], mb: [0], lineHeight: [1.2] }}
             >
               {data.title}
             </Heading>
@@ -40,7 +46,12 @@ const FeaturedProduct = ({ data }) => {
               sx={{ textDecoration: "none" }}
             >
               <Flex
-                sx={{ alignItems: "center", alignContent: "center", mt: [6,9], mb:[6,0] }}
+                sx={{
+                  alignItems: "center",
+                  alignContent: "center",
+                  mt: [6, 9],
+                  mb: [6, 0],
+                }}
               >
                 <Flex
                   sx={{
@@ -78,7 +89,7 @@ const FeaturedProduct = ({ data }) => {
                   sx={{
                     height: "100%",
                     img: {
-                      maxHeight:"343px",
+                      maxHeight: "343px",
                       height: "100%",
                       objectFit: "contain",
                     },
