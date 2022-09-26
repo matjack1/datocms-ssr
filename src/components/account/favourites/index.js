@@ -76,7 +76,7 @@ const CustomerFavourites = () => {
     if (updatedCustomer) {
       const retrievedCustomer = await cl.customers
         .retrieve(customerToken.owner_id, {
-          include: ["orders", "orders.shipping_address"],
+          include: ["orders", "orders.shipping_address","orders.line_items"],
         })
         .catch(handleError);
 

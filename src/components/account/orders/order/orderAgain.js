@@ -103,17 +103,16 @@ const CustomerOrderReturn = () => {
       let mergedSku = await Promise.all(
         tmpclSku.map((obj) => {
           const index = line_items.findIndex((el) => el["code"] == obj["code"]);
-          console.log("...obj", obj.id);
-          console.log("...line_items[index].id", line_items[index].id);
-          console.log("...records[index]", records[index].id);
+          obj.images = []
           return {
             ...records[index],
-            ...line_items[index],
             ...obj,
+            ...line_items[index],
           };
         })
       );
 
+      console.log("mergedSku",mergedSku)
       setSkusData(mergedSku);
     }
   };
@@ -126,6 +125,7 @@ const CustomerOrderReturn = () => {
     const order = await cl.orders
       .retrieve(id, { include: ["line_items"] })
       .catch(handleError);
+    console.log("order",order)
 
     if (order) {
       setLineItems(order.line_items);
@@ -230,8 +230,9 @@ const CustomerOrderReturn = () => {
                   <Box>
                     <Box>
                       <Grid sx={{ gridTemplateRows: "auto" }} gap={[6,8]}>
+                        {console.log(skusData)}
                         {skusData.map((sku) => (
-                          <Box>
+                          <Box key={sku.code}>
                             <SkuComponent
                               handleUpdateQuantity={(e) =>
                                 updateQuantity(e, sku.code)
@@ -273,6 +274,8 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
       : false;
   }
 
+  
+
   return (
     <Box>
       {clSkuDetails && (
@@ -292,6 +295,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                   width: "100%",
                 }}
               >
+                {console.log("clSkuDetails",clSkuDetails)}
                 {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
                   <GatsbyImage
                     image={clSkuDetails.images[0].gatsbyImageData}
@@ -303,12 +307,15 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                       height: "100%",
                       img: {
                         height: "100%",
-                        objectFit: "contain",
+                        width: "100%",
+                        objectFit: "cover",
                       },
                       backgroundColor: "light",
                     }}
                   >
-                    <Image src={PlaceholderImage} />
+                    <Image
+                      src={clSkuDetails.image_url ? clSkuDetails.image_url : PlaceholderImage}
+                    />
                   </Box>
                 )}
               </Box>

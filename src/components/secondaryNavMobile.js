@@ -49,10 +49,6 @@ const SecondaryNavMobile = () => {
     }
   };
 
-  useEffect(() => {
-    if (menu) console.log("menu", menu);
-  }, [menu]);
-
   return (
     <>
       <Grid columns={["auto 1fr"]} gap={[0]}>

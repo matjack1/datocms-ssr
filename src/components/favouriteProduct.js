@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading, Button, Image } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading, Button } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
@@ -15,6 +15,7 @@ import { navigate } from "gatsby";
 import ThumbPrice from "./thumbPrice";
 import ThumbProductDetails from "./thumbProductDetails";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import { Image } from "react-datocms";
 
 const FavouriteProduct = memo(
   ({ sku, handleSkuLoaded, handleDeleteFavourite }) => {
@@ -33,7 +34,7 @@ const FavouriteProduct = memo(
       const skuCode = sku.code ? sku.code : sku.sku_code;
       const datoSkusData = await getSkuData(skuCode);
 
-      return datoSkusData;
+      return datoSkusData[0];
     };
 
     const getClSku = async () => {
@@ -55,7 +56,6 @@ const FavouriteProduct = memo(
       if (clSku && clSku[0]) {
         const datoSkusData = await handleLoadSkusDatoData();
 
-        console.log("sku", { ...sku });
         setClSkuDetails({ ...sku, ...datoSkusData, ...clSku[0] });
       }
     };
@@ -77,6 +77,7 @@ const FavouriteProduct = memo(
               gap={[3, 10]}
             >
               <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
+                {console.log("----", clSkuDetails.images)}
                 <Box
                   sx={{
                     border: "1px solid",
@@ -85,23 +86,29 @@ const FavouriteProduct = memo(
                     width: "100%",
                   }}
                 >
-                  {sku.images && sku.images.length > 0 ? (
-                    <GatsbyImage
-                      image={sku.images[0].gatsbyImageData}
-                      alt={sku.images[0].gatsbyImageData}
-                    />
+                  {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
+                    <>
+                      <GatsbyImage
+                        image={clSkuDetails.images[0].gatsbyImageData}
+                        alt={clSkuDetails.images[0].gatsbyImageData}
+                      />
+                      {clSkuDetails.images[0].responsiveImage && (
+                        <Image data={clSkuDetails.images[0].responsiveImage} />
+                      )}
+                    </>
                   ) : (
                     <Box
                       sx={{
                         height: "100%",
                         img: {
-                          height: "100%",
+                          width: "100%",
+                          height:"100%",
                           objectFit: "contain",
                         },
                         backgroundColor: "light",
                       }}
                     >
-                      <Image src={PlaceholderImage} />
+                      <img src={PlaceholderImage} />
                     </Box>
                   )}
                 </Box>
@@ -133,7 +140,7 @@ const FavouriteProduct = memo(
                           color: "dark",
                           fontWeight: "400",
                           my: [0],
-                          fontSize: [1,5, 5],
+                          fontSize: [1, 5, 5],
                         }}
                       >
                         {clSkuDetails.name}
@@ -187,7 +194,7 @@ const FavouriteProduct = memo(
                         width: "100%",
                         height: "100%",
                         textAlign: "center",
-                        fontSize: [1,3],
+                        fontSize: [1, 3],
                         fontWeight: "600",
                         borderRadius: "unset",
                         p: [0],
@@ -213,7 +220,7 @@ const FavouriteProduct = memo(
                   sx={{
                     button: {
                       mt: [3, 3],
-                      maxWidth:"330px",
+                      maxWidth: "330px",
                       minHeight: "37px",
                       width: "100%",
                       height: "100%",

@@ -139,7 +139,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       })
       .catch(handleError);
 
-    setClSkuDetails(clSku[0]);
+    setClSkuDetails({...sku,...clSku[0]});
 
     const prices = await getPrices({
       iduser: customer.reference,
@@ -151,6 +151,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
 
     if (clSku && clSku[0] && foundPrices)
       setClSkuDetails({
+        ...sku,
         ...clSku[0],
         prices: {
           discount: foundPrices.discount,
@@ -511,6 +512,7 @@ const SideSku = ({
         }}
       >
         <Box sx={{ width: "100%", height: "100%" }}>
+          {console.log("add to cart",clSkuDetails)}
           <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
         </Box>
         <Box sx={{ height: "100%" }}>

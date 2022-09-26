@@ -4,7 +4,15 @@ import { InboundLink } from "./link";
 import { GatsbyImage } from "gatsby-plugin-image";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 
+
 const OrderThumb = ({ order }) => {
+  const orderThumbImage =
+    order.line_items.filter((item) => item.item_type === "skus")[0].image_url &&
+    order.line_items
+      .filter((item) => item.item_type === "skus")[0]
+      .image_url.startsWith("http") &&
+    order.line_items.filter((item) => item.item_type === "skus")[0].image_url;
+
   return (
     <Box>
       <InboundLink
@@ -17,13 +25,13 @@ const OrderThumb = ({ order }) => {
         }}
         to={`/account/orders/${order.id}`}
       >
-        <Grid gap={[3,10]} columns={["185px auto"]}>
+        <Grid gap={[3, 10]} columns={["185px auto"]}>
           <Box
             sx={{
               border: "1px solid",
               minWidth: "166px",
               minHeight: "166px",
-              height:["166px"],
+              height: ["166px"],
               borderColor: "lightBorder",
             }}
           >
@@ -47,12 +55,15 @@ const OrderThumb = ({ order }) => {
                   height: "100%",
                   img: {
                     height: "100%",
-                    objectFit: "contain",
+                    width: "100%",
+                    objectFit: "cover",
                   },
                   backgroundColor: "light",
                 }}
               >
-                <Image src={PlaceholderImage} />
+                <Image
+                  src={orderThumbImage ? orderThumbImage : PlaceholderImage}
+                />
               </Box>
             )}
           </Box>
@@ -62,12 +73,12 @@ const OrderThumb = ({ order }) => {
               sx={{
                 alignItems: "start",
                 justifyContent: "space-between",
-                flexDirection:["column","row","row"],
-                pb: [4,5],
+                flexDirection: ["column", "row", "row"],
+                pb: [4, 5],
               }}
             >
               <Box>
-                <Text sx={{ fontSize: [1,4] }}>
+                <Text sx={{ fontSize: [1, 4] }}>
                   Ordine{" "}
                   <Box as="span" sx={{ fontWeight: 600 }}>
                     #{order.number}
@@ -76,7 +87,7 @@ const OrderThumb = ({ order }) => {
               </Box>
               <Box
                 sx={{
-                  fontSize: [1,4],
+                  fontSize: [1, 4],
                   alignItems: "center",
                   fontWeight: "600",
                 }}
@@ -84,7 +95,7 @@ const OrderThumb = ({ order }) => {
                 <Box>{order.formatted_total_amount_with_taxes}</Box>
               </Box>
             </Flex>
-            <Box sx={{ fontSize: [2], pb: [4,5], color: "lightBorder" }}>
+            <Box sx={{ fontSize: [2], pb: [4, 5], color: "lightBorder" }}>
               {new Date(order.placed_at).toLocaleDateString("it-IT", {
                 year: "numeric",
                 month: "long",
@@ -111,7 +122,7 @@ const OrderThumb = ({ order }) => {
                   }}
                 />
               </Flex>
-              {order.status === "placed" ? "In approvazione":"Approvato"  }
+              {order.status === "placed" ? "In approvazione" : "Approvato"}
             </Grid>
           </Box>
         </Grid>

@@ -25,7 +25,7 @@ const CustomCarousel = ({
   type = "category",
   productThumbnail = false,
 }) => {
-  console.log(data);
+
   const isBrowser = typeof window != "undefined" && window.document;
   const windowWidth = isBrowser && document.querySelector("body").offsetWidth;
   const [current, setCurrent] = useState(1);

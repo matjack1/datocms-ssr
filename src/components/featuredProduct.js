@@ -67,11 +67,23 @@ const FeaturedProduct = ({ data }) => {
             </InboundLink>
           </Box>
           <Flex sx={{ justifyItems: "baseline" }}>
-            <Box>
-              {data.images && data.images.length > 0 ? (
+            <Box sx={{
+                backgroundColor:"light",
+                minHeight:"343px",
+                minWidth:"343px",
+                maxHeight:"343px",
+                maxWidth:"343px",
+               img: {
+                height: "100%",
+                width:"auto",
+                objectFit: "contain!important",
+              },
+            }}>
+              {console.log("featured product",data)}
+              {data.product.images && data.product.images.length > 0 ? (
                 <GatsbyImage
-                  image={data.images[0].gatsbyImageData}
-                  alt={data.images[0].gatsbyImageData}
+                  image={data.product.images[0].gatsbyImageData}
+                  alt={data.product.images[0].gatsbyImageData}
                 />
               ) : (
                 <Box
@@ -79,7 +91,9 @@ const FeaturedProduct = ({ data }) => {
                     height: "100%",
                     img: {
                       maxHeight:"343px",
+                      maxWidth:"343px",
                       height: "100%",
+                      width:"auto",
                       objectFit: "contain",
                     },
                     backgroundColor: "light",

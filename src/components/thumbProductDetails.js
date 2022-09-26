@@ -34,6 +34,17 @@ const ThumbProductDetails = ({ item, children }) => {
           </Box>
         )}
 
+        {item.pallet && (
+          <Box as="tr">
+            <Box as="td" sx={{ textAlign: "left" }}>
+              <Box>Pallet</Box>
+            </Box>
+            <Box as="td">
+              <Box sx={{ ml: [4] }}>{item.pallet}</Box>
+            </Box>
+          </Box>
+        )}
+
         {item.glove_type && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>

@@ -1,5 +1,5 @@
 import React, { memo, useEffect, useState } from "react";
-import { Box, Grid, Text, Flex, Heading, Image } from "theme-ui";
+import { Box, Grid, Text, Flex, Heading } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
 import { getProductPath } from "../utils/path";
 import { InboundLink } from "./link";
@@ -10,6 +10,7 @@ import getSkuData from "../hooks/getSkuData";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 import ThumbPrice from "../components/thumbPrice";
 import ThumbProductDetails from "../components/thumbProductDetails";
+import { Image } from "react-datocms";
 
 const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -20,13 +21,13 @@ const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
     const handleLoadSkusDatoData = async () => {
       const skuCode = sku.code ? sku.code : sku.sku_code;
       const datoSkusData = await getSkuData(skuCode);
-      console.log("{...sku,...datoSkusData}", { ...sku, ...datoSkusData });
-      setClSkuDetails({ ...datoSkusData, ...sku });
+      setClSkuDetails({ ...datoSkusData[0], ...sku });
     };
 
     if (!clSkuDetails) handleLoadSkusDatoData();
   }, [sku]);
 
+  console.log("sku",sku)
   return (
     <Box>
       {clSkuDetails && (
@@ -46,11 +47,18 @@ const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
                   width: "100%",
                 }}
               >
-                {sku.images && sku.images.length > 0 ? (
+                {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
+                  <>
                   <GatsbyImage
-                    image={sku.images[0].gatsbyImageData}
-                    alt={sku.images[0].gatsbyImageData}
+                    image={clSkuDetails.images[0].gatsbyImageData}
+                    alt={clSkuDetails.images[0].gatsbyImageData}
                   />
+                  {clSkuDetails.images[0].responsiveImage && (
+                    <Image
+                      data={clSkuDetails.images[0].responsiveImage}
+                    />
+                  )}
+                  </>
                 ) : (
                   <Box
                     sx={{
@@ -62,7 +70,7 @@ const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
                       backgroundColor: "light",
                     }}
                   >
-                    <Image src={PlaceholderImage} />
+                    <img src={PlaceholderImage} />
                   </Box>
                 )}
               </Box>

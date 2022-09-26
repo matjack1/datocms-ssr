@@ -66,12 +66,13 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                       height: "100%",
                       img: {
                         height: "100%",
-                        objectFit: "contain",
+                        width:"100%",
+                        objectFit: "unset",
                       },
                       backgroundColor: "light",
                     }}
                   >
-                    <Image src={PlaceholderImage} />
+                    <Image src={sku.image_url ? sku.image_url : PlaceholderImage} />
                   </Box>
                 )}
               </Box>

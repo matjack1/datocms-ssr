@@ -48,10 +48,12 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
+    console.log("createLineItem",sku)
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
+      image_url: sku.images && sku.images.length > 0 && sku.images[0].url,
       _update_quantity: true,
       _external_price: false,
     };
