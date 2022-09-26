@@ -53,7 +53,7 @@ const AddToCart = ({ sku, quantity }) => {
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       _update_quantity: true,
-      _external_price: false,
+      _external_price: true,
     };
 
     const handleError = (e) => {
