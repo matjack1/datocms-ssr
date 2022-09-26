@@ -195,8 +195,21 @@ const CustomCarousel = ({
                                     height: "100%",
                                   }}
                                 >
-                                  {(item.image && item.image.length > 0) ||
-                                  (item.images && item.images.length > 0) ? (
+                                  {item.image && (
+                                    <GatsbyImage
+                                      image={
+                                        item.image
+                                          ? item.image.gatsbyImageData
+                                          : item.images[0].gatsbyImageData
+                                      }
+                                      alt={
+                                        item.image
+                                          ? item.image.gatsbyImageData
+                                          : item.images[0].gatsbyImageData
+                                      }
+                                    />
+                                  )}
+                                  {item.images && item.images.length > 0 ? (
                                     <>
                                       <GatsbyImage
                                         image={

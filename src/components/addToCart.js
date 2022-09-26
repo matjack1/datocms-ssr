@@ -55,7 +55,7 @@ const AddToCart = ({ sku, quantity }) => {
       item: cl.skus.relationship(sku.id),
       image_url: sku.images && sku.images.length > 0 && sku.images[0].url,
       _update_quantity: true,
-      _external_price: false,
+      _external_price: true,
     };
 
     const handleError = (e) => {

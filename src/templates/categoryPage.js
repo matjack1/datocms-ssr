@@ -88,6 +88,15 @@ export const query = graphql`
     position
     slug
     locale
+    image {
+      url
+      gatsbyImageData(
+        width: 500
+        height: 500
+        placeholder: BLURRED
+        forceBlurhash: false
+      )
+    }
     model {
       apiKey
     }
