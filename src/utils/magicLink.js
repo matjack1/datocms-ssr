@@ -13,8 +13,6 @@ const MagicLink = (props) => {
   const item = props.item
   const children = props.children
 
-  console.log(item)
-
   if (item) {
     if (item.link) {
       const locale = props.locale ? props.locale : item.locale

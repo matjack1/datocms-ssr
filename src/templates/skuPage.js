@@ -344,7 +344,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                           >
                             Confezionamento
                           </Heading>
-                          {sku.pallet}
+                          {sku.packaging}
                         </Box>
                       </Box>
                       <Box

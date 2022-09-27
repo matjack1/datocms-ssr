@@ -400,6 +400,7 @@ const InfiniteHits = ({
                         rowGap: [4, 9],
                       }}
                     >
+                      {console.log(filteredSkus.length)}
                       {filteredSkus.map((sku) => (
                         <ProductThumb
                           horizontal={mediaIndex > 1 ? false : true}

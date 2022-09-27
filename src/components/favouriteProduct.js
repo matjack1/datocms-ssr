@@ -77,7 +77,6 @@ const FavouriteProduct = memo(
               gap={[3, 10]}
             >
               <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
-                {console.log("----", clSkuDetails.images)}
                 <Box
                   sx={{
                     border: "1px solid",

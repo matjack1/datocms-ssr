@@ -55,7 +55,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                   width: "100%",
                 }}
               >
-                {sku.images && sku.images.length > 0 ? (
+                {sku.images && sku.images.length > 0 && sku.images[0].gatsbyImageData ? (
                   <GatsbyImage
                     image={sku.images[0].gatsbyImageData}
                     alt={sku.images[0].gatsbyImageData}
