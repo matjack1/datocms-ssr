@@ -11,9 +11,6 @@ import {
   Button,
   Grid,
 } from "theme-ui";
-import CustomerTokenContext from "../../../../hooks/customerTokenContext";
-import Nav from "../../../nav";
-import { navigate } from "gatsby";
 import { InboundLink } from "../../../link";
 import { useClSdk } from "../../../../hooks/useClSdk";
 import { useParams } from "@reach/router";
@@ -21,7 +18,7 @@ import ProductThumb from "../../../productThumb";
 import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import CartSkeleton from "../../../skeleton/cart";
-import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 
 const CustomerOrder = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -41,12 +38,12 @@ const CustomerOrder = () => {
 
     const order = await cl.orders
       .retrieve(id, {
-        include: ["line_items", "shipping_address"],
-        filters: { status: "draft" },
+        include: ["line_items", "shipping_address","attachments"],
       })
       .catch(handleError);
 
     if (order) {
+      console.log("order attachments",order.attachments)
       let tmp = 0;
       order.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
@@ -55,6 +52,7 @@ const CustomerOrder = () => {
   };
 
   useEffect(() => {
+    console.log("customer",customer)
     if (customer && customer.metadata) setCustomerMetadata(customer.metadata);
   }, [customer]);
 

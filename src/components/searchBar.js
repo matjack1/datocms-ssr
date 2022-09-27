@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Box } from "theme-ui";
 import { getColor } from "@theme-ui/color";
 import themeUiTheme from "../gatsby-plugin-theme-ui";
@@ -14,6 +14,7 @@ const CustomSearchBox = ({
   refine,
   submit,
 }) => {
+  const [currentDefaultQuery, setCurrentDefaultQuery] = useState(null);
   console.log("currentRefinement", currentRefinement);
   const inputReference = useRef();
 
@@ -24,8 +25,17 @@ const CustomSearchBox = ({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    refine(e.target.search_input.value);
+    refine();
+    setTimeout(() => {
+      refine(e.target.search_input.value);
+    }, 100);
   };
+
+  useEffect(() => {
+    if (currentRefinement) {
+      setCurrentDefaultQuery(currentRefinement);
+    }
+  }, [currentRefinement]);
 
   return (
     <Box
@@ -42,7 +52,7 @@ const CustomSearchBox = ({
           position: "absolute",
           px: [3],
           top: "50%",
-          zIndex:222,
+          zIndex: 222,
           right: [0],
           transform: "translateY(-50%)",
           display: "flex",
@@ -84,7 +94,7 @@ const CustomSearchBox = ({
               },
             }}
             ref={inputReference}
-            defaultValue={currentRefinement && currentRefinement}
+            defaultValue={currentDefaultQuery}
             required
           />
         )}
@@ -170,7 +180,7 @@ const ExternalSearchBox = ({}) => {
           position: "absolute",
           px: [3],
           top: "50%",
-          zIndex:222,
+          zIndex: 222,
           right: [0],
           transform: "translateY(-50%)",
           display: "flex",

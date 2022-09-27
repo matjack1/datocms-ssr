@@ -14,14 +14,10 @@ import { useClSdk } from "../hooks/useClSdk";
 import { i18nContext } from "../hooks/i18nContext";
 import { navigate } from "gatsby";
 import CustomerContext from "../hooks/customerContext";
-import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 import getPrices from "../hooks/getPrices";
 import CustomBreadcrumbs from "../components/customBreadcrumbs";
 import ProductCounter from "../components/productCounter";
-import ProductCollectionCategories from "../components/productCollectionCategories";
-import ProductOrder from "../components/productOrder";
-import ProductFilters from "../components/productFilters";
-import FilterSidebar from "../components/filterSidebar";
 import ProductThumb from "../components/productThumb";
 import ProductCollectionSkeleton from "../components/skeleton/productCollection";
 import {
@@ -35,11 +31,7 @@ import {
   Configure,
 } from "react-instantsearch-dom";
 import algoliasearch from "algoliasearch/lite";
-import { debounce } from "lodash";
 import qs from "qs";
-
-import { getColor } from "@theme-ui/color";
-import themeUiTheme from "../gatsby-plugin-theme-ui";
 
 const searchClient = algoliasearch(
   "L90C68T5L3",
@@ -157,10 +149,10 @@ const InfiniteHits = ({
         delete newAcc.metadata;
         delete newAcc.prices;
         delete newAcc.stock_items;
+        delete newAcc.images;
 
         return newAcc;
       });
-
 
     const filters = setFilters(reduced);
   };
@@ -306,19 +298,6 @@ const InfiniteHits = ({
     }
   }, [filteredSkus]);
 
-  
-
-  
-  // useEffect(() => {
-  //   console.log("url",url)
-  //   const params = new Proxy(new URLSearchParams(window.location.search), {
-  //     get: (searchParams, prop) => searchParams.get(prop),
-  //   });
-  //   Get the value of "some_key" in eg "https://example.com/?some_key=some_value"
-  //   let value = params.query; // "some_value"
-  //   setQueryURLParams(decodeURIComponent(value));
-  // }, [url]);
-
   return (
     <Box>
       {!showSkeleton ? (
@@ -356,40 +335,6 @@ const InfiniteHits = ({
           </Container>
           <Container sx={{ px: [0, 0, 6, 6], pt: [0, 0, 0, 0] }}>
             <Grid columns={[1, 1, "1fr"]} gap={[0, 5]}>
-            {/* <Grid columns={[1, 1, ".85fr 4.15fr"]} gap={[0, 5]}> */}
-              {/* <Box>
-                <ProductCollectionCategories categories={categories} />
-
-                {mediaIndex > 1 ? (
-                  <>
-                    <ProductOrder handleOrderChange={handleOrderChange} />
-                    <ProductFilters
-                      categories={categories}
-                      handleFiltersChange={handleFiltersChange}
-                      handleClearFilters={() => {
-                        setCheckedFilters([]);
-                      }}
-                      filters={filters}
-                    />
-                  </>
-                ) : (
-                  <>
-                    {filteredSkus && (
-                      <FilterSidebar skus={filteredSkus}>
-                        <ProductOrder handleOrderChange={handleOrderChange} />
-                        <ProductFilters
-                          categories={categories}
-                          handleFiltersChange={handleFiltersChange}
-                          handleClearFilters={() => {
-                            setCheckedFilters([]);
-                          }}
-                          filters={filters}
-                        />
-                      </FilterSidebar>
-                    )}
-                  </>
-                )}
-              </Box> */}
               <Container sx={{ px: [3, 3, 0, 0], py: [0, 0, 0, 0] }}>
                 <Box>
                   {filteredSkus && filteredSkus.length > 0 ? (
@@ -400,12 +345,11 @@ const InfiniteHits = ({
                         rowGap: [4, 9],
                       }}
                     >
-                      {console.log(filteredSkus.length)}
                       {filteredSkus.map((sku) => (
                         <ProductThumb
                           horizontal={mediaIndex > 1 ? false : true}
                           sku={sku}
-                          key={sku.id}
+                          key={sku.codd}
                         />
                       ))}
                     </Grid>

@@ -90,6 +90,7 @@ const ProductCollection = ({ category, skus, categories }) => {
         delete newAcc.metadata;
         delete newAcc.prices;
         delete newAcc.stock_items;
+        delete newAcc.images
 
         return newAcc;
       });

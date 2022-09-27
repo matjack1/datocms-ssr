@@ -149,7 +149,6 @@ const Footer = () => {
                             </Box>
                           </Flex>
                           <Grid columns={["1fr 1fr 1fr 1fr 1fr"]}>
-                            {console.log(block.images)}
                             {block.images &&
                               block.images.length > 0 &&
                               block.images.map((image) =>

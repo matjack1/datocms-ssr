@@ -27,7 +27,7 @@ const UserIcon = () => {
 
     const customer = await cl.customers
       .retrieve(customerToken.owner_id, {
-        include: ["orders", "orders.shipping_address" ,"orders.line_items"],
+        include: ["orders", "orders.shipping_address" ,"orders.line_items","orders.attachments"],
       })
       .catch(handleError);
 
