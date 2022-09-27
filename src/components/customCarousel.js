@@ -235,6 +235,7 @@ const CustomCarousel = ({
                                         height: "100%",
                                         img: {
                                           height: "100%",
+                                          width:"100%",
                                           objectFit: "contain",
                                         },
                                         backgroundColor: "light",
