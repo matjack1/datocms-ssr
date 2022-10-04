@@ -1,10 +1,6 @@
 import React from "react";
 import { graphql } from "gatsby";
-import { Box, Heading, Container } from "theme-ui";
-import Nav from "../components/nav";
 import ProductCollection from "../components/productCollection";
-import CategoriesTabLink from "../components/categoriesTabLink";
-import Breadcrumbs from "../components/breadcrumbs";
 import Layout from "../components/layout";
 
 const CategoryPage = ({
@@ -14,6 +10,8 @@ const CategoryPage = ({
     childCategories.nodes.length > 0
       ? childCategories.nodes
       : siblingCategories.nodes;
+
+  console.log(skus);
 
   return (
     <Layout>

@@ -11,6 +11,7 @@ const ProductFilters = ({
   const mediaIndex = useBreakpointIndex();
   const [checkAll, setCheckAll] = useState(null);
   const [checkedCounter, setCheckedCounter] = useState(0);
+  console.log(filters);
 
   useEffect(() => {
     if (checkedCounter === 0) setCheckAll(null);

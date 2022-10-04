@@ -1,20 +1,17 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Box, Grid, Text, Button, Heading, Flex, Container } from "theme-ui";
+import { Box, Grid, Text, Heading, Flex, Container } from "theme-ui";
 import ProductCounter from "./productCounter";
 import ProductOrder from "./productOrder";
 import ProductFilters from "./productFilters";
 import ProductThumb from "./productThumb";
 import { useClSdk } from "../hooks/useClSdk";
-import { MergeArrays } from "../utils/mergeArrays";
 import CustomerContext from "../hooks/customerContext";
 import getPrices from "../hooks/getPrices";
-import { InboundLink } from "./link";
-import { getCategoryPath } from "../utils/path";
 import Breadcrumbs from "./breadcrumbs";
 import ProductCollectionSkeleton from "../components/skeleton/productCollection";
 import ProductCollectionCategories from "./productCollectionCategories";
 import FilterSidebar from "./filterSidebar";
-import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 
 const ProductCollection = ({ category, skus, categories }) => {
   const cl = useClSdk();
@@ -23,11 +20,6 @@ const ProductCollection = ({ category, skus, categories }) => {
   const [orderBy, setOrderBy] = useState("code-asc");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageCount, setPageCount] = useState();
-  const [pricesPageCount, setPricesPageCount] = useState();
-  const [currentPricesPage, setCurrentPricePage] = useState(1);
-  const [recordCount, setRecordCount] = useState();
   const { customer, setCustomer } = useContext(CustomerContext);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const mediaIndex = useBreakpointIndex();
@@ -61,11 +53,12 @@ const ProductCollection = ({ category, skus, categories }) => {
       skusData &&
       skusData.length > 0 &&
       skusData.reduce((acc, cur, idx) => {
+        console.log(cur);
         const newAcc = { ...acc };
         for (let [key, val] of Object.entries(cur)) {
-          if (!newAcc[key]) {
-            delete newAcc[key];
-          } else {
+          // if (!newAcc[key]) {
+          //   delete newAcc[key];
+          // } else {
             newAcc[key] = `${newAcc[key]},${val}`;
             newAcc[key] = [
               ...new Set(
@@ -74,7 +67,7 @@ const ProductCollection = ({ category, skus, categories }) => {
                 })
               ),
             ];
-          }
+          // }
         }
 
         delete newAcc.id;
@@ -90,11 +83,10 @@ const ProductCollection = ({ category, skus, categories }) => {
         delete newAcc.metadata;
         delete newAcc.prices;
         delete newAcc.stock_items;
-        delete newAcc.images
-
+        delete newAcc.images;
+        console.log("newAcc", newAcc);
         return newAcc;
       });
-
     setFilters(filters);
   };
 
@@ -260,7 +252,7 @@ const ProductCollection = ({ category, skus, categories }) => {
             </Flex>
           </Container>
           <Container sx={{ px: [0, 0, 6, 6], pt: [0, 0, 0, 0] }}>
-            <Grid columns={[1,1, ".85fr 4.15fr"]} gap={[0,5]}>
+            <Grid columns={[1, 1, ".85fr 4.15fr"]} gap={[0, 5]}>
               <Box>
                 <ProductCollectionCategories categories={categories} />
 
@@ -294,18 +286,22 @@ const ProductCollection = ({ category, skus, categories }) => {
                   </>
                 )}
               </Box>
-              <Container sx={{ px: [3, 3, 0, 0], py:[0,0,0,0] }}>
+              <Container sx={{ px: [3, 3, 0, 0], py: [0, 0, 0, 0] }}>
                 <Box>
                   {filteredSkus && filteredSkus.length > 0 ? (
                     <Grid
                       columns={["1fr", "1fr", "1fr 1fr", "1fr 1fr 1fr"]}
                       sx={{
-                        columnGap: [4,3],
-                        rowGap: [4,9],
+                        columnGap: [4, 3],
+                        rowGap: [4, 9],
                       }}
                     >
                       {filteredSkus.map((sku) => (
-                        <ProductThumb horizontal={mediaIndex > 1 ? false : true} sku={sku} key={sku.id} />
+                        <ProductThumb
+                          horizontal={mediaIndex > 1 ? false : true}
+                          sku={sku}
+                          key={sku.id}
+                        />
                       ))}
                     </Grid>
                   ) : Object.keys(checkedFilters).length > 0 ? (

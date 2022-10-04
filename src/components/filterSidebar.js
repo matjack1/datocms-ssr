@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import { Box, Flex, Image, Text, Container, Button, Heading } from "theme-ui";
-import { keyframes } from "@emotion/react";
-import { InboundLink } from "./link";
-import { getCategoryPath } from "../utils/path";
-import Logo from "../assets/img/logo.svg";
-import { GrClose } from "react-icons/gr";
-import CloseIcon from "../assets/img/icons/close.inline.svg";
-import ChevronRightIcon from "../assets/img/icons/chevron-right.inline.svg";
+import { Box, Flex, Text, Container, Button, Heading } from "theme-ui";
 import ChevronLeftIcon from "../assets/img/icons/chevron-left.inline.svg";
 import FilterIcon from "../assets/img/icons/gear.inline.svg";
 
@@ -14,9 +7,7 @@ const FilterSidebar = ({
   children,
   skus,
   handleOpenSecondary,
-  sideBarData,
   mobile = false,
-  closeBar,
 }) => {
   // STATE TO TRACK IF SIDEDRAWER IS OPEN OR CLOSED
   const [showSideDrawer, setShowSideDrawer] = useState(false);

@@ -34,7 +34,7 @@ module.exports = {
         apiToken: `7f672cb51a4f9c2dce0c59b466b8c6`,
 
         // The project environment to read from. Defaults to the primary environment:
-        environment: `main`,
+        environment: `staging`,
 
         // If you are working on development/staging environment, you might want to
         // preview the latest version of records instead of the published one:
