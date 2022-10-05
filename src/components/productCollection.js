@@ -59,14 +59,14 @@ const ProductCollection = ({ category, skus, categories }) => {
           // if (!newAcc[key]) {
           //   delete newAcc[key];
           // } else {
-            newAcc[key] = `${newAcc[key]},${val}`;
-            newAcc[key] = [
-              ...new Set(
-                newAcc[key].split(",").filter((element) => {
-                  return element && element.length > 0;
-                })
-              ),
-            ];
+          newAcc[key] = `${newAcc[key]},${val}`;
+          newAcc[key] = [
+            ...new Set(
+              newAcc[key].split(",").filter((element) => {
+                return element && element.length > 0;
+              })
+            ),
+          ];
           // }
         }
 
@@ -157,7 +157,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   const getSkusPrices = async () => {
     let chunkPrices = [];
     let allChunks = [];
-    const chunkSize = 4;
+    const chunkSize = 24;
     const reducedData = skus.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {

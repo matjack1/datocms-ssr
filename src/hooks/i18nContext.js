@@ -3,13 +3,13 @@ import React from "react"
 export const languages = {
   it: {
     search:"Cerca",
-    size: "Dimensione",
-    gloveType: "Tipo di guanto",
+    size: "Taglia",
+    gloveType: "Guanto",
     pallet :"Pallet",
     packaging:"Imballaggio",
-    ecolabel:"Etichetta ecologica",
-    biodegradable:"Biodegradabile",
-    sanitizer:"Sanificatore",
+    ecolabel:"Ecolabel",
+    biodegradable:"BIOdegradabile",
+    sanitizer:"Disinfettante",
     haccp : "HACCP",
     detergentType:"Tipo di detergente",
     detergentUsage: "Uso del detergente",

@@ -1,23 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { InboundLink } from "../components/link";
-import {
-  Box,
-  Input,
-  Text,
-  Heading,
-  Button,
-  Label,
-  Flex,
-  Image,
-  Container,
-  Grid,
-} from "theme-ui";
-import Nav from "../components/nav";
+import { Box, Heading, Button, Label, Flex, Image, Container } from "theme-ui";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
 import { navigate } from "gatsby";
 import validator from "validator";
-import Layout from "../components/layout";
 import Logo from "../assets/img/logo.svg";
 import CustomInput from "../components/customInput";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
@@ -25,7 +12,7 @@ import PasswordIcon from "../assets/img/icons/password.inline.svg";
 import { useForm } from "react-hook-form";
 import OutsideNav from "../components/outsideNav";
 
-const ResetPassword = ({ history }) => {
+const ResetPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
@@ -42,13 +29,6 @@ const ResetPassword = ({ history }) => {
     formState: { errors },
   } = useForm();
 
-  const onUpdateField = (e) => {
-    const nextFormState = {
-      ...params,
-      [e.target.name]: e.target.value,
-    };
-    setParams(nextFormState);
-  };
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
@@ -59,19 +39,6 @@ const ResetPassword = ({ history }) => {
       });
     else navigate("/login");
   }, []);
-
-  const validate = (value) => {
-    if (
-      !validator.isStrongPassword(value, {
-        minLength: 8,
-        minLowercase: 0,
-        minUppercase: 0,
-        minNumbers: 0,
-        minSymbols: 0,
-      })
-    )
-      setErrorMessage("Is Not Strong Password");
-  };
 
   const sendResetPassword = async (event) => {
     const result = await executeRecaptcha("dynamicAction");

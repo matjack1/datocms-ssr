@@ -23,7 +23,7 @@ const OutsideNav = () => {
             </Box>
             <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                Spedizione gratuita da 250 €
+                Spedizione gratuita per ordini superiori a €250
               </Text>
             </Box>
             <Box></Box>
@@ -36,11 +36,14 @@ const OutsideNav = () => {
           justifyContent: "center",
           alignItems: "center",
           minHeight: "65px",
-          borderBottom:"1px solid",
-          borderColor:"dark"
+          borderBottom: "1px solid",
+          borderColor: "dark",
         }}
       >
-        <Image src={Logo} sx={{height: ["30px"], maxHeight: "30px", minHeight: "30px" }} />
+        <Image
+          src={Logo}
+          sx={{ height: ["30px"], maxHeight: "30px", minHeight: "30px" }}
+        />
       </Flex>
     </>
   );

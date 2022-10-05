@@ -11,9 +11,7 @@ import {
   Image,
 } from "theme-ui";
 import { useClSdk } from "../hooks/useClSdk";
-import Nav from "../components/nav";
 import AddToCart from "../components/addToCart";
-import LineItemQuantity from "../components/lineItemQuantity";
 import SkuQuantity from "../components/skuQuantity";
 import Breadcumbs from "../components/breadcrumbs";
 import CustomerContext from "../hooks/customerContext";
@@ -35,18 +33,16 @@ import { toast } from "react-toastify";
 import ThumbProductDetails from "../components/thumbProductDetails";
 import SkuPageSkeleton from "../components/skeleton/skuPage";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
-import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
-  const [pricedClSkuDetails, setPricedClSkuDetails] = useState(null);
   const [currentQuantity, setCurrentQuantity] = useState(sku.minimum);
   const { customer, setCustomer } = useContext(CustomerContext);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
   const [isFavourie, setIsFavourite] = useState(null);
   const [relatedSkus, setRelatedSkus] = useState(null);
   const [showSkeleton, setShowSkeleton] = useState(true);
-  const mediaIndex = useBreakpointIndex();
 
   const cl = useClSdk();
 
@@ -139,7 +135,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       })
       .catch(handleError);
 
-    setClSkuDetails({...sku,...clSku[0]});
+    setClSkuDetails({ ...sku, ...clSku[0] });
 
     const prices = await getPrices({
       iduser: customer.reference,
@@ -159,15 +155,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
           price: foundPrices.price,
         },
       });
-  };
-
-  const shuffleArray = (array) => {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
-    }
-
-    return array;
   };
 
   const updateQuantity = (quantity) => {
@@ -322,7 +309,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     </>
                   )}
 
-                  {sku.pallet && (
+                  {sku.pack && (
                     <>
                       <Box>
                         <Box
@@ -335,16 +322,15 @@ const SkuPage = ({ data: { sku, skus } }) => {
                         >
                           <Package />
                         </Box>
-
                         <Box>
                           <Heading
                             as="h2"
                             variant="h6"
                             sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
                           >
-                            Confezionamento
+                            Confezione
                           </Heading>
-                          {sku.packaging}
+                          {sku.pack}
                         </Box>
                       </Box>
                       <Box
@@ -376,7 +362,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                       variant="h6"
                       sx={{ fontSize: [2], my: [3], fontWeight: "600" }}
                     >
-                      1-3 giorni lavorativi
+                      1-3 giorni lavorativi salvo disponibilità
                     </Heading>
                     <Box sx={{ pb: [3] }}>
                       <Text color="lightBorder">
@@ -432,7 +418,7 @@ const SideSku = ({
 }) => {
   return (
     <Box>
-      <Box sx={{ pb: [4, 5, 11] }}>
+      <Box sx={{ mb: [4, 5, 11] }}>
         <Heading
           as="h1"
           variant="h2"
@@ -445,6 +431,12 @@ const SideSku = ({
         >
           {sku.name}
         </Heading>
+        {sku.description && (
+          <Box
+            sx={{ marginTop: 4 }}
+            dangerouslySetInnerHTML={{ __html: sku.description }}
+          />
+        )}
       </Box>
       <Box>
         {clSkuDetails && (
@@ -512,7 +504,7 @@ const SideSku = ({
         }}
       >
         <Box sx={{ width: "100%", height: "100%" }}>
-          {console.log("add to cart",clSkuDetails)}
+          {console.log("add to cart", clSkuDetails)}
           <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
         </Box>
         <Box sx={{ height: "100%" }}>
@@ -596,6 +588,7 @@ export const query = graphql`
   fragment SkuDetails on DatoCmsSku {
     id
     name
+    description
     code
     slug
     minimum
@@ -603,7 +596,7 @@ export const query = graphql`
     size
     gloveType
     pallet
-    packaging
+    pack
     ecolabel
     biodegradable
     sanitizer

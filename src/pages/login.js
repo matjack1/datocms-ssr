@@ -39,9 +39,9 @@ const LoginPage = () => {
   const handleFormSubmit = async (e) => {
     const clToken = await getCustomerToken(
       {
-        clientId: "Sq41WaprqH4zFc3a0OyWGpU4zH82Nabx_Z5CzMnzoi4",
+        clientId: "nr6l5bKbn2tV-iMgkgS0z4KTsvrv_5eu6Dfm5E2fATE",
         endpoint: "https://socaf-s-p-a.commercelayer.io",
-        scope: "market:10247",
+        scope: "market:11461",
       },
       { username: e.email, password: e.password }
     ).catch(handleError);
@@ -81,7 +81,11 @@ const LoginPage = () => {
               <InboundLink to="/">
                 <Image
                   src={Logo}
-                  sx={{ height: ["30px","80px"] , maxHeight: "80px", minHeight: "80px" }}
+                  sx={{
+                    height: ["30px", "80px"],
+                    maxHeight: "80px",
+                    minHeight: "80px",
+                  }}
                 />
               </InboundLink>
             </Box>
@@ -193,12 +197,18 @@ const LoginPage = () => {
             >
               Accedi
             </Button>
-            <Box sx={{ textAlign: "center", py: [6], }}>
-              <InboundLink sx={{fontSize:[1,2] }} to={"/forgot-password"}>
+            <Box sx={{ textAlign: "center", py: [6] }}>
+              <InboundLink sx={{ fontSize: [1, 2] }} to={"/forgot-password"}>
                 Password dimenticata?
               </InboundLink>
             </Box>
-            <Box sx={{ textAlign: "center", color: "lightBorder", fontSize:[1,2] }}>
+            <Box
+              sx={{
+                textAlign: "center",
+                color: "lightBorder",
+                fontSize: [1, 2],
+              }}
+            >
               Non riesci ad accedere al servizio? <br /> Contattaci al 800
               480110
             </Box>
