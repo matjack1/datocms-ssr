@@ -454,7 +454,7 @@ const SideSku = ({
                     ? "€" +
                       (
                         clSkuDetails.prices.discountedPrice / 100
-                      ).toLocaleString("it-IT", { minimumFractionDigits: 3 })
+                      ).toLocaleString("it-IT", { minimumFractionDigits: 2 })
                     : "€" +
                       (clSkuDetails.prices.price / 100).toLocaleString(
                         "it-IT",
