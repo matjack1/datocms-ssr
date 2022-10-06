@@ -160,7 +160,7 @@ const AccountSideBarMobile = ({ open, closed, sideBarData }) => {
                       alignItems: "center",
                     }}
                   >
-                    <Text as="span">Metodi di pagamenti</Text>
+                    <Text as="span">Metodi di pagamento</Text>
                   </Flex>
                 </InboundLink>
               </Box>

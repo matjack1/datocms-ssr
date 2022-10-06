@@ -12,7 +12,7 @@ const CustomerAccount = () => {
         <InboundLink to={"/account/addresses"}>I tuoi indirizzi</InboundLink>
       </Box>
       <Box>
-        <InboundLink to={"/account/payment"}>Metodi di pagamenti</InboundLink>
+        <InboundLink to={"/account/payment"}>Metodi di pagamento</InboundLink>
       </Box>
       <Box>
         <InboundLink to={"/account/billinginfo"}>Dati aziendali</InboundLink>
