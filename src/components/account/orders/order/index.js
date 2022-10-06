@@ -38,12 +38,18 @@ const CustomerOrder = () => {
 
     const order = await cl.orders
       .retrieve(id, {
-        include: ["line_items", "shipping_address", "attachments"],
+        include: [
+          "line_items",
+          "shipping_address",
+          "attachments",
+          "shipments",
+          "shipments.shipping_method",
+        ],
       })
       .catch(handleError);
 
     if (order) {
-      console.log("order attachments", order.attachments);
+      console.log("order", order);
       let tmp = 0;
       order.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
@@ -266,9 +272,42 @@ const CustomerOrder = () => {
                     variant="h5"
                     sx={{ fontWeight: "600", color: "dark" }}
                   >
-                    Metodi di pagamento
+                    Metodo di pagamento
                   </Heading>
-                  {order.payment_source_details.type}
+                  <Flex>
+                    {order.payment_source_details.type === "stripe_payment" ? (
+                      <>
+                        {
+                          order.payment_source_details.payment_method_details
+                            .brand
+                        }
+                        <br />
+                        finisce con{" "}
+                        {
+                          order.payment_source_details.payment_method_details
+                            .last4
+                        }
+                        <br />
+                        scadenza:{" "}
+                        {
+                          order.payment_source_details.payment_method_details
+                            .exp_month
+                        }
+                        {
+                          order.payment_source_details.payment_method_details
+                            .exp_year
+                        }
+                      </>
+                    ) : (
+                      <>
+                        <Box>
+                          {console.log(customer)}
+                          {customer.metadata.payment_method}
+                        </Box>
+                        <Box>{customer.metadata.payment_term}</Box>
+                      </>
+                    )}
+                  </Flex>
                   <Heading
                     as="h3"
                     variant="h5"
@@ -317,41 +356,55 @@ const CustomerOrder = () => {
                       Indirizzo di spedizione
                     </Heading>
                     {order && (
-                      <Box sx={{ fontSize: [1, 5] }}>
-                        {order.shipping_address.company && (
+                      <>
+                        <Box sx={{ fontSize: [1, 5] }}>
+                          {order.shipping_address.company && (
+                            <Box>
+                              <strong>{order.shipping_address.company}</strong>
+                            </Box>
+                          )}
+                          {order.shipping_address.line_1 && (
+                            <Box>{order.shipping_address.line_1}</Box>
+                          )}
+                          {order.shipping_address.line_2 && (
+                            <Box>{order.shipping_address.line_2}</Box>
+                          )}
                           <Box>
-                            <strong>{order.shipping_address.company}</strong>
+                            {order.shipping_address.zip_code &&
+                              order.shipping_address.zip_code}{" "}
+                            {order.shipping_address.city &&
+                              order.shipping_address.city}{" "}
+                            {order.shipping_address.state_code &&
+                              order.shipping_address.state_code}{" "}
+                            {order.shipping_address.country_code &&
+                              `(${order.shipping_address.country_code})`}{" "}
                           </Box>
-                        )}
-                        {order.shipping_address.line_1 && (
-                          <Box>{order.shipping_address.line_1}</Box>
-                        )}
-                        {order.shipping_address.line_2 && (
-                          <Box>{order.shipping_address.line_2}</Box>
-                        )}
-                        <Box>
-                          {order.shipping_address.zip_code &&
-                            order.shipping_address.zip_code}{" "}
-                          {order.shipping_address.city &&
-                            order.shipping_address.city}{" "}
-                          {order.shipping_address.state_code &&
-                            order.shipping_address.state_code}{" "}
-                          {order.shipping_address.country_code &&
-                            `(${order.shipping_address.country_code})`}{" "}
+                          <Box>
+                            {order.shipping_address.phone &&
+                              order.shipping_address.phone}
+                          </Box>
+                          <Box>
+                            {order.shipping_address.vat &&
+                              order.shipping_address.vat}
+                          </Box>
+                          <Box>
+                            {order.shipping_address.sdi &&
+                              order.shipping_address.sdi}
+                          </Box>
                         </Box>
+
+                        <Heading
+                          as="h3"
+                          variant="h5"
+                          sx={{ fontWeight: "600", color: "dark" }}
+                        >
+                          Modalità di spedizione
+                        </Heading>
                         <Box>
-                          {order.shipping_address.phone &&
-                            order.shipping_address.phone}
+                          {order.shipments[0] &&
+                            order.shipments[0].shipping_method.name}
                         </Box>
-                        <Box>
-                          {order.shipping_address.vat &&
-                            order.shipping_address.vat}
-                        </Box>
-                        <Box>
-                          {order.shipping_address.sdi &&
-                            order.shipping_address.sdi}
-                        </Box>
-                      </Box>
+                      </>
                     )}
                   </Box>
                 </Box>
