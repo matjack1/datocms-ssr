@@ -47,14 +47,13 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log(sku.images[0].url)
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       image_url: sku.images && sku.images.length > 0 && sku.images[0].url,
       _update_quantity: true,
-      _external_price: false,
+      _external_price: true,
     };
 
     const handleError = (e) => {
@@ -68,7 +67,6 @@ const AddToCart = ({ sku, quantity }) => {
     const lineItem = await cl.line_items.create(attributes).catch(handleError);
 
     if (lineItem) {
-      console.log(lineItem)
       setLineItem(lineItem);
       getOrder(cart.id);
     }
