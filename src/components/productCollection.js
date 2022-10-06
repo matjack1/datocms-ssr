@@ -54,13 +54,17 @@ const ProductCollection = ({ category, skus, categories }) => {
       skusData.length > 0 &&
       skusData.reduce((r, o) => {
         Object.entries(o).forEach(([k, v]) => {
-
           if (v && v.length > 0) {
-            r[k] = r[k] || []
-            if(!r[k].includes(v))
-            return r[k].push(v);
-          }
+            r[k] = r[k] || [];
+            if (!r[k].includes(v)) r[k].push(v);
 
+            return r[k].sort(function (a, b) {
+              return a.localeCompare(b, undefined, {
+                numeric: true,
+                sensitivity: "base",
+              });
+            });
+          }
         });
         if (r) return r;
       }, Object.create(null));
