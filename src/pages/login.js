@@ -39,9 +39,9 @@ const LoginPage = () => {
   const handleFormSubmit = async (e) => {
     const clToken = await getCustomerToken(
       {
-        clientId: "Sq41WaprqH4zFc3a0OyWGpU4zH82Nabx_Z5CzMnzoi4",
+        clientId: "nr6l5bKbn2tV-iMgkgS0z4KTsvrv_5eu6Dfm5E2fATE",
         endpoint: "https://socaf-s-p-a.commercelayer.io",
-        scope: "market:10247",
+        scope: "market:11461",
       },
       { username: e.email, password: e.password }
     ).catch(handleError);
