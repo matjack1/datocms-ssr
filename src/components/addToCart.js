@@ -47,14 +47,14 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log("createLineItem", sku);
+    console.log(sku.images[0].url)
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
       image_url: sku.images && sku.images.length > 0 && sku.images[0].url,
       _update_quantity: true,
-      _external_price: true,
+      _external_price: false,
     };
 
     const handleError = (e) => {
@@ -68,6 +68,7 @@ const AddToCart = ({ sku, quantity }) => {
     const lineItem = await cl.line_items.create(attributes).catch(handleError);
 
     if (lineItem) {
+      console.log(lineItem)
       setLineItem(lineItem);
       getOrder(cart.id);
     }
@@ -94,7 +95,6 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   function isAvailable() {
-    console.log("sku",sku)
     return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0
       ? true
       : false;
@@ -144,7 +144,6 @@ const AddToCart = ({ sku, quantity }) => {
 };
 
 const ToastThumb = ({ status, label, item }) => {
-  console.log("status", status);
   return status === "success" ? (
     <Box>
       <Flex

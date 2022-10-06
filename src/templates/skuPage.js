@@ -610,12 +610,16 @@ export const query = graphql`
       title
     }
     images {
-      url
+      url(imgixParams: { ar: "1:1", fit: "crop", w: "670", h: "670" })
       gatsbyImageData(
         width: 670
         height: 670
         placeholder: BLURRED
         forceBlurhash: false
+        imgixParams: {
+          ar: "1:1"
+          fit: "crop"
+        }
       )
     }
     model {
