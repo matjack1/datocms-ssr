@@ -17,9 +17,9 @@ const OutsideNav = () => {
             sx={{ justifyContent: "space-between" }}
           >
             <Box>
-              <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                14 GIORNI PER IL RESO
-              </Text>
+              <Text
+                sx={{ color: "white", fontWeight: "600", fontSize: [1] }}
+              ></Text>
             </Box>
             <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>

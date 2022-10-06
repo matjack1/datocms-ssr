@@ -48,7 +48,6 @@ const Header = ({ color, title }) => {
           >
             <Box sx={{ textAlign: "left" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                14 GIORNI PER IL RESO
               </Text>
             </Box>
             <Box sx={{ textAlign: "center" }}>
