@@ -91,7 +91,7 @@ const CustomerFavourites = () => {
 
     if (skus) {
       const skusTmp = JSON.parse(JSON.stringify(skus));
-      const chunkSize = 8;
+      const chunkSize = 4;
       const reducedData = skusTmp.map((x) => x.code);
 
       for (let i = 0; i < reducedData.length; i += chunkSize) {

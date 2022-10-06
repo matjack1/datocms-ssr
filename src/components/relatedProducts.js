@@ -9,7 +9,7 @@ const RelatedProducts = ({ sku, skus, customer }) => {
   const getSkusPrices = async () => {
     let chunkPrices = [];
     let allChunks = [];
-    const chunkSize = 8;
+    const chunkSize = 4;
     const reducedData = skus.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {

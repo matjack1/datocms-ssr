@@ -224,7 +224,7 @@ const InfiniteHits = ({
   const getSkusPrices = async () => {
     let chunkPrices = [];
     let allChunks = [];
-    const chunkSize = 8;
+    const chunkSize = 4;
     const reducedData = hits.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
