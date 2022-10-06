@@ -158,8 +158,8 @@ const LatestOrders = () => {
                           borderRadius: "50%",
                           backgroundColor:
                             order.status === "placed"
-                              ? "status.approved"
-                              : "orange",
+                              ? "orange"
+                              : "status.approved",
                           width: "7px",
                           height: "7px",
                         }}

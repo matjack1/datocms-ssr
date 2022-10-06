@@ -56,9 +56,10 @@ const ProductCollection = ({ category, skus, categories }) => {
         console.log(cur);
         const newAcc = { ...acc };
         for (let [key, val] of Object.entries(cur)) {
-          // if (!newAcc[key]) {
-          //   delete newAcc[key];
-          // } else {
+          console.log(key,newAcc[key])
+          if (!newAcc[key] || newAcc[key].length < 0) {
+            delete newAcc[key];
+          } else {
             newAcc[key] = `${newAcc[key]},${val}`;
             newAcc[key] = [
               ...new Set(
@@ -67,7 +68,13 @@ const ProductCollection = ({ category, skus, categories }) => {
                 })
               ),
             ];
-          // }
+            newAcc[key] = newAcc[key].sort(function(a, b) {
+              return a.localeCompare(b, undefined, {
+                numeric: true,
+                sensitivity: 'base'
+              });
+            });
+          }
         }
 
         delete newAcc.id;
@@ -84,7 +91,8 @@ const ProductCollection = ({ category, skus, categories }) => {
         delete newAcc.prices;
         delete newAcc.stock_items;
         delete newAcc.images;
-        console.log("newAcc", newAcc);
+
+        console.log(newAcc)
         return newAcc;
       });
     setFilters(filters);
