@@ -67,17 +67,6 @@ const ThumbProductDetails = ({ item, children }) => {
           </Box>
         )}
 
-        {/* {item.packaging && (
-          <Box as="tr">
-            <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Imballaggio</Box>
-            </Box>
-            <Box as="td">
-              <Box sx={{ ml: [4] }}>{item.packaging}</Box>
-            </Box>
-          </Box>
-        )} */}
-
         {item.ecolabel && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>

@@ -40,7 +40,12 @@ const RecentlyViewedSkus = () => {
   // };
 
   useEffect(() => {
-    if (customer && customer.metadata.recentlyViewed.length > 0)
+    if (
+      customer &&
+      customer.metadata &&
+      customer.metadata.recentlyViewed &&
+      customer.metadata.recentlyViewed.length > 0
+    )
       handleGetSkus();
   }, [customer]);
 

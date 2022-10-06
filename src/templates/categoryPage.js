@@ -66,6 +66,9 @@ export const query = graphql`
         sanitizer
         detergentType
         detergentUsage
+        pack
+        brand
+        material
         images {
           url
           gatsbyImageData(

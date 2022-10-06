@@ -596,13 +596,15 @@ export const query = graphql`
     size
     gloveType
     pallet
-    pack
     ecolabel
     biodegradable
-    sanitizer
     haccp
+    sanitizer
     detergentType
     detergentUsage
+    pack
+    brand
+    material
     documents {
       url
       title

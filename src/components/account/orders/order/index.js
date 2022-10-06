@@ -38,12 +38,12 @@ const CustomerOrder = () => {
 
     const order = await cl.orders
       .retrieve(id, {
-        include: ["line_items", "shipping_address","attachments"],
+        include: ["line_items", "shipping_address", "attachments"],
       })
       .catch(handleError);
 
     if (order) {
-      console.log("order attachments",order.attachments)
+      console.log("order attachments", order.attachments);
       let tmp = 0;
       order.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
@@ -52,7 +52,7 @@ const CustomerOrder = () => {
   };
 
   useEffect(() => {
-    console.log("customer",customer)
+    console.log("customer", customer);
     if (customer && customer.metadata) setCustomerMetadata(customer.metadata);
   }, [customer]);
 
@@ -114,14 +114,16 @@ const CustomerOrder = () => {
                             borderRadius: "50%",
                             backgroundColor:
                               order.status === "placed"
-                                ? "status.approved"
-                                : "orange",
+                                ? "orange"
+                                : "status.approved",
                             width: "7px",
                             height: "7px",
                           }}
                         />
                       </Flex>
-                      {order.status === "placed" ? "In approvazione":"Approvato"  }
+                      {order.status === "placed"
+                        ? "In approvazione"
+                        : "Approvato"}
                     </Grid>
                   </Flex>
                 </Box>
