@@ -11,7 +11,6 @@ import { InboundLink } from "./link";
 import CheckedIcon from "../assets/img/icons/flag.inline.svg";
 import ClosedCirle from "../assets/img/icons/closed-circle.inline.svg";
 
-
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
@@ -48,7 +47,7 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log("createLineItem",sku)
+    console.log("createLineItem", sku);
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
@@ -144,7 +143,7 @@ const AddToCart = ({ sku, quantity }) => {
 };
 
 const ToastThumb = ({ status, label, item }) => {
-  console.log("status",status)
+  console.log("status", status);
   return status === "success" ? (
     <Box>
       <Flex
@@ -170,19 +169,21 @@ const ToastThumb = ({ status, label, item }) => {
         </InboundLink>
       </Box>
     </Box>
-  ) : status === "error" && (
-    <Flex
-      sx={{
-        svg: { width: "15px", height: "auto" },
-        alignItems: "center",
-        justifyContent: "start",
-      }}
-    >
-      <ClosedCirle />
-      <Text sx={{ color: "primary", ml: [1], fontWeight: "600" }}>
-        Qualcosa è andato storto
-      </Text>
-    </Flex>
+  ) : (
+    status === "error" && (
+      <Flex
+        sx={{
+          svg: { width: "15px", height: "auto" },
+          alignItems: "center",
+          justifyContent: "start",
+        }}
+      >
+        <ClosedCirle />
+        <Text sx={{ color: "primary", ml: [1], fontWeight: "600" }}>
+          Qualcosa è andato storto
+        </Text>
+      </Flex>
+    )
   );
 };
 

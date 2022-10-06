@@ -60,7 +60,6 @@ export const query = graphql`
         size
         gloveType
         pallet
-        packaging
         ecolabel
         biodegradable
         haccp

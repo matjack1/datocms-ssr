@@ -1,29 +1,28 @@
-import { Router } from "@reach/router";
 import { graphql } from "gatsby";
-import React from "react";
-import { Box, Heading } from "theme-ui";
+import React, { useContext } from "react";
+import { Box } from "theme-ui";
 import CategoriesTabLink from "../components/categoriesTabLink";
-import Nav from "../components/nav";
-import ForgotPassword from "./forgot-password.js";
-import ResetPassword from "./reset-password.js";
 import RecentlyViewedSkus from "../components/recentlyViewedSkus";
 import Layout from "../components/layout";
 import LatestOrders from "../components/latestOrders";
 import FeaturedProduct from "../components/featuredProduct";
+import CustomerContext from "../hooks/customerContext";
 
 const IndexPage = ({ data: { page, categories } }) => {
   console.log(categories);
+  const customer = useContext(CustomerContext);
+  // console.log(user);
   return (
     <Layout>
       <LatestOrders />
       <RecentlyViewedSkus />
-      {page.content.map((block) => (
+      {/* {page.content.map((block) => (
         <Box as="section" key={block.id}>
           {block.model.apiKey === "featured_product" && (
             <FeaturedProduct data={block} />
           )}
         </Box>
-      ))}
+      ))} */}
       <CategoriesTabLink categories={categories.nodes[0].treeChildren} />
     </Layout>
   );

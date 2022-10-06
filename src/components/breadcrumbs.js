@@ -1,15 +1,7 @@
 import React from "react";
 import { Box, Flex } from "@theme-ui/components";
-import { InboundLink, OutboundLink } from "./link";
-import {
-  getArticleCategoryPath,
-  getNewsPath,
-  getHomePath,
-  getCategoryPath,
-  getReferencesPath,
-  getPagePath,
-  getCategoryFamilyPath,
-} from "../utils/path";
+import { InboundLink } from "./link";
+import { getHomePath, getCategoryPath, getPagePath } from "../utils/path";
 
 const Breadcrumbs = ({
   page,
@@ -28,10 +20,6 @@ const Breadcrumbs = ({
         return <ServiceBreadcrumbs page={page} />;
       case "sector":
         return <SectorBreadcrumbs page={page} />;
-      case "article":
-        return <ArticleBreadcrumbs page={page} />;
-      case "reference":
-        return <ReferenceBreadcrumbs page={page} />;
       default:
         return <PageBreadcrumbs page={page} />;
     }
@@ -145,35 +133,6 @@ const Breadcrumbs = ({
     </List>
   );
 
-  const ArticleBreadcrumbs = ({ page, pageContext }) => (
-    <List>
-      <Item>
-        <InboundLink to={getHomePath(page.locale)}>Home</InboundLink>
-      </Item>
-      <Item>
-        <InboundLink to={getNewsPath(page.locale)}>News</InboundLink>
-      </Item>
-      {page.category && (
-        <Item>
-          <InboundLink to={getArticleCategoryPath(page.category, page.locale)}>
-            {page.category.title}
-          </InboundLink>
-        </Item>
-      )}
-    </List>
-  );
-
-  const ReferenceBreadcrumbs = ({ page }) => (
-    <List>
-      <Item>
-        <InboundLink to={getHomePath(page.locale)}>Home</InboundLink>
-      </Item>
-      <Item>
-        <InboundLink to={getReferencesPath(page.locale)}>Referenze</InboundLink>
-      </Item>
-    </List>
-  );
-
   return renderSwitch(page);
 };
 
@@ -182,8 +141,8 @@ const List = (props) => {
     <Flex
       {...props}
       sx={{
-        flexDirection: ["row","row", "row"],
-        flexWrap:"wrap",
+        flexDirection: ["row", "row", "row"],
+        flexWrap: "wrap",
         margin: 0,
         padding: 0,
         listStyle: "none",
@@ -212,7 +171,7 @@ const Item = (props) => {
         "&::after": {
           content: '">"',
           color: "dark",
-          fontWeight:"600",
+          fontWeight: "600",
           marginLeft: 2,
           display: ["inline"],
         },

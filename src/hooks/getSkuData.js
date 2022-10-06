@@ -13,7 +13,6 @@ export default async function getSkuData(skus) {
       size
       gloveType
       pallet
-      packaging
       ecolabel
       biodegradable
       sanitizer

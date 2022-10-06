@@ -26,7 +26,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.size && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Dimensione</Box>
+              <Box>Taglia</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.size}</Box>
@@ -48,7 +48,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.glove_type && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Tipo di guanto</Box>
+              <Box>Guanto</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.glove_type}</Box>
@@ -56,7 +56,18 @@ const ThumbProductDetails = ({ item, children }) => {
           </Box>
         )}
 
-        {item.packaging && (
+        {item.pack && (
+          <Box as="tr">
+            <Box as="td" sx={{ textAlign: "left" }}>
+              <Box>Confezione</Box>
+            </Box>
+            <Box as="td">
+              <Box sx={{ ml: [4] }}>{item.pack}</Box>
+            </Box>
+          </Box>
+        )}
+
+        {/* {item.packaging && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
               <Box>Imballaggio</Box>
@@ -65,12 +76,12 @@ const ThumbProductDetails = ({ item, children }) => {
               <Box sx={{ ml: [4] }}>{item.packaging}</Box>
             </Box>
           </Box>
-        )}
+        )} */}
 
         {item.ecolabel && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Etichetta ecologica</Box>
+              <Box>Ecolabel</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.ecolabel}</Box>
@@ -81,7 +92,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.biodegradable && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Biodegradabile</Box>
+              <Box>BIOdegradabile</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.biodegradable}</Box>
@@ -92,7 +103,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.sanitizer && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Sanificatore</Box>
+              <Box>Disinfettante</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.sanitizer}</Box>

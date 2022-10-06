@@ -1,5 +1,4 @@
 import React from "react";
-import Layout from "../layout";
 import { InboundLink } from "../link";
 import { Box } from "theme-ui";
 
@@ -16,9 +15,7 @@ const CustomerAccount = () => {
         <InboundLink to={"/account/payment"}>Metodi di pagamenti</InboundLink>
       </Box>
       <Box>
-        <InboundLink to={"/account/billinginfo"}>
-          Dati aziendali
-        </InboundLink>
+        <InboundLink to={"/account/billinginfo"}>Dati aziendali</InboundLink>
       </Box>
       <Box>
         <InboundLink to={"/account/settings"}>Impostazioni</InboundLink>

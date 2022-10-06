@@ -9,7 +9,7 @@ const RelatedProducts = ({ sku, skus, customer }) => {
   const getSkusPrices = async () => {
     let chunkPrices = [];
     let allChunks = [];
-    const chunkSize = 4;
+    const chunkSize = 24;
     const reducedData = skus.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
@@ -54,11 +54,11 @@ const RelatedProducts = ({ sku, skus, customer }) => {
     if (skus.length > 0 && customer) {
       getSkusPrices();
     }
-  }, [skus, customer]);
+  }, []);
 
   return skusData ? (
     <Box sx={{ position: "relative" }}>
-      <Container sx={{py:[0,0,0]}}> 
+      <Container sx={{ py: [0, 0, 0] }}>
         <Box sx={{ py: [6, 8, 8], pb: [3, 8, 8] }}>
           <Heading as="h2" variant="h2" sx={{ my: [0] }}>
             Articoli correlati
