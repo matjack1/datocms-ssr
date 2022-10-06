@@ -60,14 +60,12 @@ export function getCartPath() {
 }
 
 export function getSearchPath(locale) {
-  console.log("locale", locale);
   return locale === defaultLocale
     ? `/${i18nPath[locale].search}/`
     : `/${locale.toLowerCase()}/${i18nPath[locale].search}/`;
 }
 
 export function getProductPath(product) {
-  console.log(product);
   const locale = product.locale || defaultLocale;
   return locale === defaultLocale
     ? `/${i18nPath[locale].product}/${

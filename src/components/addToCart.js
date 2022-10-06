@@ -94,6 +94,7 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   function isAvailable() {
+    console.log("sku",sku)
     return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0
       ? true
       : false;

@@ -52,49 +52,95 @@ const ProductCollection = ({ category, skus, categories }) => {
     const filters =
       skusData &&
       skusData.length > 0 &&
-      skusData.reduce((acc, cur, idx) => {
-        console.log(cur);
-        const newAcc = { ...acc };
-        for (let [key, val] of Object.entries(cur)) {
-          console.log(key,newAcc[key])
-          if (!newAcc[key] || newAcc[key].length < 0) {
-            delete newAcc[key];
-          } else {
-            newAcc[key] = `${newAcc[key]},${val}`;
-            newAcc[key] = [
-              ...new Set(
-                newAcc[key].split(",").filter((element) => {
-                  return element && element.length > 0;
-                })
-              ),
-            ];
-            newAcc[key] = newAcc[key].sort(function(a, b) {
-              return a.localeCompare(b, undefined, {
-                numeric: true,
-                sensitivity: 'base'
-              });
-            });
+      skusData.reduce((r, o) => {
+        Object.entries(o).forEach(([k, v]) => {
+
+          if (v && v.length > 0) {
+            r[k] = r[k] || []
+            if(!r[k].includes(v))
+            return r[k].push(v);
           }
-        }
 
-        delete newAcc.id;
-        delete newAcc.code;
-        delete newAcc.name;
-        delete newAcc.slug;
-        delete newAcc.locale;
-        delete newAcc.updated_at;
-        delete newAcc.created_at;
-        delete newAcc.do_not_track;
-        delete newAcc.pieces_per_pack;
-        delete newAcc.type;
-        delete newAcc.metadata;
-        delete newAcc.prices;
-        delete newAcc.stock_items;
-        delete newAcc.images;
+        });
+        if (r) return r;
+      }, Object.create(null));
 
-        console.log(newAcc)
-        return newAcc;
-      });
+    delete filters.id;
+    delete filters.code;
+    delete filters.name;
+    delete filters.slug;
+    delete filters.locale;
+    delete filters.updated_at;
+    delete filters.created_at;
+    delete filters.do_not_track;
+    delete filters.pieces_per_pack;
+    delete filters.type;
+    delete filters.metadata;
+    delete filters.prices;
+    delete filters.stock_items;
+    delete filters.images;
+
+    console.log(filters);
+
+    // const filters =
+    //   skusData &&
+    //   skusData.length > 0 &&
+    //   skusData.reduce((acc, cur, idx) => {
+    //     const newAcc = [acc, cur];
+
+    //     console.log(newAcc);
+
+    //     // for (let [key, val] of Object.entries(cur)) {
+    //     //   if (
+    //     //     (!newAcc[key] && !cur[key]) ||
+    //     //     (newAcc[key] &&
+    //     //       newAcc[key].length < 0 &&
+    //     //       cur[key] &&
+    //     //       cur[key].length < 0)
+    //     //   ) {
+    //     //     delete newAcc[key];
+    //     //   } else {
+    //     //     newAcc[key] = `${newAcc[key]},${val}`;
+    //     //     newAcc[key] = [
+    //     //       ...new Set(
+    //     //         newAcc[key].split(",").filter((element) => {
+    //     //           return element && element.length > 0;
+    //     //         })
+    //     //       ),
+    //     //     ];
+    //     //     newAcc[key] = newAcc[key].sort(function (a, b) {
+    //     //       return a.localeCompare(b, undefined, {
+    //     //         numeric: true,
+    //     //         sensitivity: "base",
+    //     //       });
+    //     //     });
+    //     //   }
+    //     // }
+
+    //     // newAcc[key] = newAcc[key].sort(function(a, b) {
+    //     //   return a.localeCompare(b, undefined, {
+    //     //     numeric: true,
+    //     //     sensitivity: 'base'
+    //     //   });
+    //     // });
+
+    //     delete newAcc.id;
+    //     delete newAcc.code;
+    //     delete newAcc.name;
+    //     delete newAcc.slug;
+    //     delete newAcc.locale;
+    //     delete newAcc.updated_at;
+    //     delete newAcc.created_at;
+    //     delete newAcc.do_not_track;
+    //     delete newAcc.pieces_per_pack;
+    //     delete newAcc.type;
+    //     delete newAcc.metadata;
+    //     delete newAcc.prices;
+    //     delete newAcc.stock_items;
+    //     delete newAcc.images;
+
+    //     return newAcc;
+    //   });
     setFilters(filters);
   };
 
@@ -174,6 +220,7 @@ const ProductCollection = ({ category, skus, categories }) => {
     }
 
     for (let i = 0; i < allChunks.length; i++) {
+      console.log("--chunk--", i);
       const prices = await getPrices({
         iduser: customer.reference,
         items: allChunks[i],
