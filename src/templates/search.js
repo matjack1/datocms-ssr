@@ -77,6 +77,7 @@ const InfiniteHits = ({
   refineNext,
   categories = [],
 }) => {
+
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
@@ -266,13 +267,8 @@ const InfiniteHits = ({
       setSkusData(res);
     }
   };
-  useEffect(() => {
-    if (hits.length > 0 && cl && customer) {
-      console.log("hits", hits.length);
-      setSkusData(hits);
-      getSkusPrices();
-    }
-  }, []);
+  
+  
 
   // useEffect(() => {
   //   if (skusData && skusData.length > 0) {
@@ -296,6 +292,13 @@ const InfiniteHits = ({
       }, 300);
     }
   }, [skusData]);
+
+  useEffect(() => {
+    if (hits.length > 0) {
+      setSkusData(hits);
+      getSkusPrices();
+    }
+  }, []);
 
   return (
     <Box>
