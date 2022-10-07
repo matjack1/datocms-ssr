@@ -239,7 +239,16 @@ const ProductCollection = ({ category, skus, categories }) => {
     });
 
     if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    else
+      chunkPrices = allChunks[i].map((x) => {
+        console.log("x",x)
+        return {
+          itemcode: x,
+          error: "no_price",
+        };
+      });
 
+    console.log("chunkPrices", chunkPrices);
     let res = [];
     res = await Promise.all(
       data.map((obj) => {
@@ -249,11 +258,7 @@ const ProductCollection = ({ category, skus, categories }) => {
         if (chunkPrices[index]) {
           return {
             ...obj,
-            prices: {
-              discount: chunkPrices[index].discount,
-              discountedPrice: chunkPrices[index].discountedPrice,
-              price: chunkPrices[index].price,
-            },
+            prices: chunkPrices[index],
           };
         }
 

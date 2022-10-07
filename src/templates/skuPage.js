@@ -143,18 +143,22 @@ const SkuPage = ({ data: { sku, skus } }) => {
     });
 
     const foundPrices =
-      prices && prices.items && prices.items.length > 0 && prices.items[0];
+      prices && prices.items && prices.items.length > 0
+        ? prices.items[0]
+        : { error: "no_price" };
 
-    if (clSku && clSku[0] && foundPrices)
+    if (clSku && clSku[0])
       setClSkuDetails({
         ...sku,
         ...clSku[0],
-        prices: {
-          discount: foundPrices.discount,
-          discountedPrice: foundPrices.discountedPrice,
-          price: foundPrices.price,
-        },
+        prices: foundPrices,
       });
+
+    console.log("22", {
+      ...sku,
+      ...clSku[0],
+      prices: foundPrices,
+    });
   };
 
   const updateQuantity = (quantity) => {
@@ -389,7 +393,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
           <SkuPageSkeleton />
         )}
       </Container>
-      {console.log("---loading SKU PAGE---- ")}
       {relatedSkus && relatedSkus.length > 0 && (
         <RelatedProducts
           sku={sku}
@@ -444,7 +447,9 @@ const SideSku = ({
             }}
           >
             <Text as="span" sx={{ fontWeight: "600", fontSize: [5, 6] }}>
-              {clSkuDetails && clSkuDetails.prices ? (
+              {clSkuDetails &&
+              clSkuDetails.prices &&
+              !clSkuDetails.prices.error ? (
                 <>
                   {clSkuDetails.prices.discountedPrice
                     ? "€" +
@@ -468,6 +473,8 @@ const SideSku = ({
                     Prezzo per unità / Tasse escluse
                   </Text>
                 </>
+              ) : clSkuDetails.prices && clSkuDetails.prices.error ? (
+                <Box>Prezzo non disponibile</Box>
               ) : (
                 <Box
                   sx={{
@@ -611,10 +618,7 @@ export const query = graphql`
         height: 670
         placeholder: BLURRED
         forceBlurhash: false
-        imgixParams: {
-          ar: "1:1"
-          fit: "crop"
-        }
+        imgixParams: { ar: "1:1", fit: "crop" }
       )
     }
     model {
