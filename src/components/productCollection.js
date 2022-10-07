@@ -23,6 +23,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   const { customer, setCustomer } = useContext(CustomerContext);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const mediaIndex = useBreakpointIndex();
+  const [pricesPage, setPricesPage] = useState(0);
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -78,6 +79,8 @@ const ProductCollection = ({ category, skus, categories }) => {
     delete filters.prices;
     delete filters.stock_items;
     delete filters.images;
+    delete filters.pack;
+    delete filters.pallet;
 
     for (let [key, val] of Object.entries(filters)) {
       filters[key].sort(function (a, b) {
@@ -216,57 +219,73 @@ const ProductCollection = ({ category, skus, categories }) => {
     }
   }
 
-  const getSkusPrices = async () => {
+  const getSkusPrices = async (pricesPage) => {
+    let i = pricesPage;
     let chunkPrices = [];
     let allChunks = [];
+
+    const data = pricesPage != 0 ? JSON.parse(JSON.stringify(skusData)) : skus;
     const chunkSize = 4;
-    const reducedData = skus.map((x) => x.code);
+    const reducedData = data.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
       allChunks.push(chunk);
     }
 
-    for (let i = 0; i < allChunks.length; i++) {
-      console.log("--chunk--", i);
-      const prices = await getPrices({
-        iduser: customer.reference,
-        items: allChunks[i],
-      });
+    const prices = await getPrices({
+      iduser: customer.reference,
+      items: allChunks[i],
+    });
 
-      if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
 
-      let res = [];
-      res = await Promise.all(
-        skus.map((obj) => {
-          const index = chunkPrices.findIndex(
-            (el) => el["itemcode"] == obj["code"]
-          );
-          if (chunkPrices[index]) {
-            return {
-              ...obj,
-              prices: {
-                discount: chunkPrices[index].discount,
-                discountedPrice: chunkPrices[index].discountedPrice,
-                price: chunkPrices[index].price,
-              },
-            };
-          }
+    let res = [];
+    res = await Promise.all(
+      data.map((obj) => {
+        const index = chunkPrices.findIndex(
+          (el) => el["itemcode"] == obj["code"]
+        );
+        if (chunkPrices[index]) {
+          return {
+            ...obj,
+            prices: {
+              discount: chunkPrices[index].discount,
+              discountedPrice: chunkPrices[index].discountedPrice,
+              price: chunkPrices[index].price,
+            },
+          };
+        }
 
-          return obj;
-        })
+        return obj;
+      })
+    );
+
+    setSkusData(res);
+
+    if (pricesPage < allChunks.length - 1) {
+      console.log(
+        "pricesPage < allChunks.length - 1",
+        pricesPage,
+        allChunks.length - 1
       );
-
-      setSkusData(res);
+      setPricesPage(pricesPage + 1);
     }
   };
 
   useEffect(() => {
     if (skus.length > 0 && cl && customer) {
       setSkusData(skus);
-      getSkusPrices();
+      if (pricesPage === 0) getSkusPrices(pricesPage);
     }
   }, [skus, customer]);
+
+  useEffect(() => {
+    console.log("pricesPage", pricesPage);
+    if (skus.length > 0 && cl && customer) {
+      getSkusPrices(pricesPage);
+    }
+  }, [pricesPage]);
 
   useEffect(() => {
     if (skusData && skusData.length > 0) {

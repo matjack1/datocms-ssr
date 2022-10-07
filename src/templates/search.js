@@ -92,6 +92,7 @@ const InfiniteHits = ({
   const [showSkeleton, setShowSkeleton] = useState(true);
   const mediaIndex = useBreakpointIndex();
   const [queryURLParams, setQueryURLParams] = useState();
+  const [pricesPage, setPricesPage] = useState(0);
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -152,6 +153,8 @@ const InfiniteHits = ({
         delete newAcc.prices;
         delete newAcc.stock_items;
         delete newAcc.images;
+        delete newAcc.pack;
+        delete newAcc.pallet;
 
         return newAcc;
       });
@@ -223,47 +226,57 @@ const InfiniteHits = ({
     }
   }
 
-  const getSkusPrices = async () => {
+  const getSkusPrices = async (pricesPage) => {
+    let i = pricesPage;
     let chunkPrices = [];
     let allChunks = [];
+
+    const data = pricesPage != 0 && skusData ? JSON.parse(JSON.stringify(skusData)) : hits;
     const chunkSize = 4;
-    const reducedData = hits.map((x) => x.code);
+    const reducedData = data.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
       allChunks.push(chunk);
     }
 
-    for (let i = 0; i < allChunks.length; i++) {
-      const prices = await getPrices({
-        iduser: customer.reference,
-        items: allChunks[i],
-      });
+    const prices = await getPrices({
+      iduser: customer.reference,
+      items: allChunks[i],
+    });
 
-      if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
 
-      let res = [];
-      res = await Promise.all(
-        hits.map((obj) => {
-          const index = chunkPrices.findIndex(
-            (el) => el["itemcode"] == obj["code"]
-          );
-          if (chunkPrices[index]) {
-            return {
-              ...obj,
-              prices: {
-                discount: chunkPrices[index].discount,
-                discountedPrice: chunkPrices[index].discountedPrice,
-                price: chunkPrices[index].price,
-              },
-            };
-          }
+    let res = [];
+    res = await Promise.all(
+      data.map((obj) => {
+        const index = chunkPrices.findIndex(
+          (el) => el["itemcode"] == obj["code"]
+        );
+        if (chunkPrices[index]) {
+          return {
+            ...obj,
+            prices: {
+              discount: chunkPrices[index].discount,
+              discountedPrice: chunkPrices[index].discountedPrice,
+              price: chunkPrices[index].price,
+            },
+          };
+        }
 
-          return obj;
-        })
+        return obj;
+      })
+    );
+
+    setSkusData(res);
+
+    if (pricesPage < allChunks.length - 1) {
+      console.log(
+        "pricesPage < allChunks.length - 1",
+        pricesPage,
+        allChunks.length - 1
       );
-
-      setSkusData(res);
+      setPricesPage(pricesPage + 1);
     }
   };
 
@@ -280,8 +293,14 @@ const InfiniteHits = ({
       setTimeout(() => {
         setShowSkeleton(false);
       }, 300);
-    }
+    } else if (skusData && pricesPage === 0) getSkusPrices();
   }, [skusData]);
+
+  useEffect(() => {
+    if (hits.length > 0 && cl && customer) {
+      getSkusPrices(pricesPage);
+    }
+  }, [pricesPage]);
 
   useEffect(() => {
     if (
@@ -290,11 +309,9 @@ const InfiniteHits = ({
       customer &&
       (!skusData || getDifference(hits, skusData).length > 0)
     ) {
-      console.log("--enters--")
       setSkusData(hits);
-      getSkusPrices();
     }
-  }, [hits,cl,customer]);
+  }, [hits, cl, customer]);
 
   return (
     <Box>

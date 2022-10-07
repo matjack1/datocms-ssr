@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Box } from "theme-ui";
+import { Box, Button} from "theme-ui";
 import { getColor } from "@theme-ui/color";
 import themeUiTheme from "../gatsby-plugin-theme-ui";
 import Search from "../assets/img/icons/nessun-risultato.inline.svg";
@@ -43,7 +43,9 @@ const CustomSearchBox = ({
       sx={{ position: "relative", height: "100%", width: "100%" }}
       onSubmit={handleFormSubmit}
     >
-      <Box
+      <Button
+        type="submit"
+        variant="buttons.primaryTransparent"
         sx={{
           position: "absolute",
           px: [3],
@@ -55,17 +57,20 @@ const CustomSearchBox = ({
           justifyContent: "center",
           alignContent: "center",
           alignItems: "center",
+          backgroundColor:"transparent",
+          color:"dark",
           svg: {
             height: "24px!important",
           },
         }}
+        disabled={isSearchStalled}
       >
         {isSearchStalled ? (
           <BouncingDotsLoader color={"primary"} />
         ) : (
           <Search color={dark} />
         )}
-      </Box>
+      </Button>
       <i18nContext.Consumer>
         {(t) => (
           <Box
