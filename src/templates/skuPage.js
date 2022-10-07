@@ -170,10 +170,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, [customer]);
 
   useEffect(() => {
-    console.log(
-      'localStorage.getItem("favourites")',
-      localStorage.getItem("favourites")
-    );
     if (isFavourie === null && localStorage.getItem("favourites")) {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
@@ -184,7 +180,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, []);
 
   useEffect(() => {
-    console.log("clSkuDetails", clSkuDetails);
     if (clSkuDetails && !relatedSkus)
       setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
   }, [clSkuDetails]);
@@ -394,6 +389,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
           <SkuPageSkeleton />
         )}
       </Container>
+      {console.log("---loading SKU PAGE---- ")}
       {relatedSkus && relatedSkus.length > 0 && (
         <RelatedProducts
           sku={sku}
@@ -504,7 +500,6 @@ const SideSku = ({
         }}
       >
         <Box sx={{ width: "100%", height: "100%" }}>
-          {console.log("add to cart", clSkuDetails)}
           <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
         </Box>
         <Box sx={{ height: "100%" }}>

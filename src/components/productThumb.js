@@ -59,7 +59,6 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
                   },
                 }}
               >
-                {console.log(sku)}
                 {sku.images && sku.images.length > 0 ? (
                   <>
                     {sku.images[0].gatsbyImageData ? (
