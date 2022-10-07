@@ -4,7 +4,7 @@ import { getColor } from "@theme-ui/color";
 import themeUiTheme from "../gatsby-plugin-theme-ui";
 import Search from "../assets/img/icons/nessun-risultato.inline.svg";
 import { i18nContext } from "../hooks/i18nContext";
-
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import { connectSearchBox } from "react-instantsearch-dom";
 import { navigate } from "@reach/router";
 
@@ -15,11 +15,13 @@ const CustomSearchBox = ({
   submit,
 }) => {
   const [currentDefaultQuery, setCurrentDefaultQuery] = useState(null);
-  console.log("currentRefinement", currentRefinement);
   const inputReference = useRef();
 
   useEffect(() => {
     inputReference.current.focus();
+    if (currentRefinement) {
+      setCurrentDefaultQuery(currentRefinement);
+    }
   }, []);
   const dark = getColor(themeUiTheme, `dark`);
 
@@ -30,12 +32,6 @@ const CustomSearchBox = ({
       refine(e.target.search_input.value);
     }, 100);
   };
-
-  useEffect(() => {
-    if (currentRefinement) {
-      setCurrentDefaultQuery(currentRefinement);
-    }
-  }, [currentRefinement]);
 
   return (
     <Box
@@ -64,7 +60,11 @@ const CustomSearchBox = ({
           },
         }}
       >
-        {isSearchStalled ? "LOADING SPINNER" : <Search color={dark} />}
+        {isSearchStalled ? (
+          <BouncingDotsLoader color={"primary"} />
+        ) : (
+          <Search color={dark} />
+        )}
       </Box>
       <i18nContext.Consumer>
         {(t) => (

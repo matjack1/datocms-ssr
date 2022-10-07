@@ -60,7 +60,12 @@ const CartPage = () => {
   useEffect(() => {
     if (cart && cart.line_items.length > 0) {
       let tmp = 0;
-      cart.line_items.map((item, a) => (tmp += item.quantity), 0);
+      cart.line_items.map((item, a) => {
+        if (item.item_type === "skus") tmp += item.quantity;
+
+        return item;
+      }, 0);
+
       setItemQuantity(tmp);
     }
     // setCartItems([]);
@@ -214,7 +219,7 @@ const CartPage = () => {
                   {customerToken && customerToken.access_token && (
                     <Box>
                       <OutboundLink
-                        href={`https://socaf-b2b-checkout.netlify.app/${cart.id}?accessToken=${customerToken.access_token}`}
+                        href={`https://checkout.socaf.it/${cart.id}?accessToken=${customerToken.access_token}`}
                         target="_self"
                         variant="buttons.primary"
                         sx={{
