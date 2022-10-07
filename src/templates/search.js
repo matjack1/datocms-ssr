@@ -284,9 +284,13 @@ const InfiniteHits = ({
   }, [skusData]);
 
   useEffect(() => {
-    if (hits.length > 0 && cl && customer) {
-      if (!skusData || getDifference(hits, skusData).length > 0)
-        setSkusData(hits);
+    if (
+      hits.length > 0 &&
+      cl &&
+      customer &&
+      (!skusData || getDifference(hits, skusData).length > 0)
+    ) {
+      setSkusData(hits);
       getSkusPrices();
     }
   }, [hits]);
