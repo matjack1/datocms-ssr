@@ -43,14 +43,15 @@ function formatNumber(value) {
 }
 
 const Results = connectStateResults(
-  ({ searchState, searchResults, children }) =>
-    searchResults &&
-    searchResults.query.length > 0 &&
-    searchResults.nbHits !== 0 ? (
-      <Box>{children}</Box>
+  ({ searchState, searchResults, children }) => {
+    return searchResults &&
+      searchResults.query.length > 0 &&
+      searchResults.nbHits !== 0 ? (
+      <>
+        <Box>{children}</Box>
+      </>
     ) : (
-      searchResults &&
-      searchResults.query.length > 0 && (
+      searchResults && searchResults.query.length > 0 && (
         <i18nContext.Consumer>
           {(t) => (
             <Box>
@@ -61,7 +62,8 @@ const Results = connectStateResults(
           )}
         </i18nContext.Consumer>
       )
-    )
+    );
+  }
 );
 
 const updateAfter = 700;
@@ -264,39 +266,36 @@ const InfiniteHits = ({
       setSkusData(res);
     }
   };
-
   useEffect(() => {
-    console.log("ENTERS HITS");
     if (hits.length > 0 && cl && customer) {
+      console.log("hits", hits.length);
       setSkusData(hits);
       getSkusPrices();
     }
-  }, [hits, customer]);
+  }, []);
+
+  // useEffect(() => {
+  //   if (skusData && skusData.length > 0) {
+  //     handleGetFilters();
+  //     orderProducts();
+  //   }
+  // }, [skusData]);
+
+  // useEffect(() => {
+  //   if (skusData && skusData.length > 0) orderProducts();
+  // }, [orderBy]);
+
+  // useEffect(() => {
+  //   if (skusData && skusData.length > 0) orderProducts();
+  // }, [checkedFilters]);
 
   useEffect(() => {
-    if (skusData && skusData.length > 0) {
-      handleGetFilters();
-      orderProducts();
-    } else {
-      setFilteredSkus([]);
-    }
-  }, [skusData]);
-
-  useEffect(() => {
-    if (skusData && skusData.length > 0) orderProducts();
-  }, [orderBy]);
-
-  useEffect(() => {
-    if (skusData && skusData.length > 0) orderProducts();
-  }, [checkedFilters]);
-
-  useEffect(() => {
-    if (filteredSkus != null) {
+    if (skusData != null) {
       setTimeout(() => {
         setShowSkeleton(false);
       }, 300);
     }
-  }, [filteredSkus]);
+  }, [skusData]);
 
   return (
     <Box>
@@ -328,16 +327,14 @@ const InfiniteHits = ({
                 {/* Risultati di ricerca per "{queryURLParams}" */}
                 Risultati di ricerca
               </Heading>
-              {filteredSkus && mediaIndex > 1 && (
-                <ProductCounter skus={filteredSkus} />
-              )}
+              {skusData && mediaIndex > 1 && <ProductCounter skus={skusData} />}
             </Flex>
           </Container>
           <Container sx={{ px: [0, 0, 6, 6], pt: [0, 0, 0, 0] }}>
             <Grid columns={[1, 1, "1fr"]} gap={[0, 5]}>
               <Container sx={{ px: [3, 3, 0, 0], py: [0, 0, 0, 0] }}>
                 <Box>
-                  {filteredSkus && filteredSkus.length > 0 ? (
+                  {skusData && skusData.length > 0 ? (
                     <Grid
                       columns={["1fr", "1fr", "1fr 1fr", "1fr 1fr 1fr"]}
                       sx={{
@@ -345,7 +342,7 @@ const InfiniteHits = ({
                         rowGap: [4, 9],
                       }}
                     >
-                      {filteredSkus.map((sku) => (
+                      {skusData.map((sku) => (
                         <ProductThumb
                           horizontal={mediaIndex > 1 ? false : true}
                           sku={sku}
@@ -356,10 +353,8 @@ const InfiniteHits = ({
                   ) : Object.keys(checkedFilters).length > 0 ? (
                     <Text>Non ci sono risultati per i filtri selezionati</Text>
                   ) : (
-                    filteredSkus &&
-                    filteredSkus.length < 1 && (
-                      <Text>Nessun articolo trovato</Text>
-                    )
+                    skusData &&
+                    skusData.length < 1 && <Text>Nessun articolo trovato</Text>
                   )}
                 </Box>
               </Container>
@@ -449,6 +444,10 @@ const SearchPage = ({
     setSearchState(urlToSearchState(location));
   }, [location]);
 
+  useEffect(() => {
+    console.log("----searchState", searchState);
+  }, []);
+
   return (
     <InstantSearch
       searchClient={searchClient}
@@ -460,15 +459,9 @@ const SearchPage = ({
       stalledSearchDelay={3000}
     >
       <Layout title={"search"}>
-        <i18nContext.Consumer>
-          {(t) => (
-            <>
-              <Results>
-                <CustomInfiniteHits locale={pageContext.locale} />
-              </Results>
-            </>
-          )}
-        </i18nContext.Consumer>
+        <Results>
+          <CustomInfiniteHits locale={pageContext.locale} />
+        </Results>
       </Layout>
     </InstantSearch>
   );

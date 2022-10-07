@@ -15,7 +15,6 @@ const CustomSearchBox = ({
   submit,
 }) => {
   const [currentDefaultQuery, setCurrentDefaultQuery] = useState(null);
-  console.log("currentRefinement", currentRefinement);
   const inputReference = useRef();
 
   useEffect(() => {
