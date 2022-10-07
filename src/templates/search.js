@@ -19,7 +19,7 @@ import getPrices from "../hooks/getPrices";
 import CustomBreadcrumbs from "../components/customBreadcrumbs";
 import ProductCounter from "../components/productCounter";
 import ProductThumb from "../components/productThumb";
-import ProductCollectionSkeleton from "../components/skeleton/productCollection";
+import SearchSkeleton from "../components/skeleton/search";
 import {
   InstantSearch,
   SortBy,
@@ -77,7 +77,6 @@ const InfiniteHits = ({
   refineNext,
   categories = [],
 }) => {
-
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
@@ -267,8 +266,6 @@ const InfiniteHits = ({
       setSkusData(res);
     }
   };
-  
-  
 
   // useEffect(() => {
   //   if (skusData && skusData.length > 0) {
@@ -294,7 +291,7 @@ const InfiniteHits = ({
   }, [skusData]);
 
   useEffect(() => {
-    if (hits.length > 0) {
+    if (hits.length > 0 && cl && customer) {
       setSkusData(hits);
       getSkusPrices();
     }
@@ -367,7 +364,7 @@ const InfiniteHits = ({
       ) : (
         showSkeleton && (
           <Container>
-            <ProductCollectionSkeleton />
+            <SearchSkeleton />
           </Container>
         )
       )}
@@ -447,26 +444,24 @@ const SearchPage = ({
     setSearchState(urlToSearchState(location));
   }, [location]);
 
-  useEffect(() => {
-    console.log("----searchState", searchState);
-  }, []);
-
   return (
-    <InstantSearch
-      searchClient={searchClient}
-      indexName={`dev_SKUS`}
-      searchState={searchState}
-      onSearchStateChange={onSearchStateChange}
-      createURL={createURL}
-      resultsState={undefined}
-      stalledSearchDelay={3000}
-    >
-      <Layout title={"search"}>
-        <Results>
-          <CustomInfiniteHits locale={pageContext.locale} />
-        </Results>
-      </Layout>
-    </InstantSearch>
+    <Box>
+      <InstantSearch
+        searchClient={searchClient}
+        indexName={`dev_SKUS`}
+        searchState={searchState}
+        onSearchStateChange={onSearchStateChange}
+        createURL={createURL}
+        resultsState={undefined}
+        stalledSearchDelay={3000}
+      >
+        <Layout title={"search"}>
+          <Results>
+            <CustomInfiniteHits locale={pageContext.locale} />
+          </Results>
+        </Layout>
+      </InstantSearch>
+    </Box>
   );
 };
 
