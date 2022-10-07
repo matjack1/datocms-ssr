@@ -50,6 +50,8 @@ export const query = graphql`
                   blendColor: "#212C30"
                   blendMode: "multiply"
                   blendAlpha: 30
+                  ar: "1:1"
+                  fit: "crop"
                 }
               )
             }

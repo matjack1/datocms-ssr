@@ -8,6 +8,7 @@ import PlaceholderImage from "../assets/img/placeholder-image.png";
 import ThumbPrice from "./thumbPrice";
 import { TruncateEllipsis } from "../utils/truncateEllipsis";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import { Image as ResponsiveImage } from "react-datocms";
 
 const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -34,7 +35,7 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
               gridTemplateRows: !horizontal && "1fr auto",
               gridTemplateColumns: horizontal
                 ? small
-                  ? ["78px 1fr"]
+                  ? ["120px 1fr"]
                   : ["185px auto", "218px 1fr"]
                 : ["160px", "auto"],
             }}
@@ -50,29 +51,64 @@ const ProductThumb = memo(({ sku, horizontal = false, small = false }) => {
             >
               <Box
                 sx={{
-                  border: "1px solid",
-                  borderColor: "dark",
+                  height: "auto",
                   width: "100%",
+                  img: {
+                    border: "1px solid",
+                    borderColor: "dark",
+                  },
                 }}
               >
-                {sku.images && sku.images.length > 0 && sku.images[0].gatsbyImageData ? (
-                  <GatsbyImage
-                    image={sku.images[0].gatsbyImageData}
-                    alt={sku.images[0].gatsbyImageData}
-                  />
+                {console.log(sku)}
+                {sku.images && sku.images.length > 0 ? (
+                  <>
+                    {sku.images[0].gatsbyImageData ? (
+                      <GatsbyImage
+                        image={sku.images[0].gatsbyImageData}
+                        alt={sku.images[0].gatsbyImageData}
+                      />
+                    ) : (
+                      <Box
+                        sx={{
+                          height: "100%",
+                          img: {
+                            width: "100%",
+                            height: "auto",
+                            objectFit: "cover",
+                          },
+                          backgroundColor: "light",
+                        }}
+                      >
+                        <Image
+                          src={
+                            sku.images[0] && sku.images[0].responsiveImage
+                              ? sku.images[0].responsiveImage.src
+                              : PlaceholderImage
+                          }
+                          alt={
+                            sku.images[0] && sku.images[0].responsiveImage
+                              ? sku.images[0].responsiveImage.alt
+                              : ""
+                          }
+                        />
+                      </Box>
+                    )}
+                  </>
                 ) : (
                   <Box
                     sx={{
                       height: "100%",
                       img: {
-                        height: "100%",
-                        width:"100%",
+                        height: "auto",
+                        width: "100%",
                         objectFit: "unset",
                       },
                       backgroundColor: "light",
                     }}
                   >
-                    <Image src={sku.image_url ? sku.image_url : PlaceholderImage} />
+                    <Image
+                      src={sku.image_url ? sku.image_url : PlaceholderImage}
+                    />
                   </Box>
                 )}
               </Box>

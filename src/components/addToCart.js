@@ -47,7 +47,6 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log("createLineItem", sku);
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
@@ -94,7 +93,6 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   function isAvailable() {
-    console.log("sku",sku)
     return sku && sku.stock_items[0] && sku.stock_items[0].quantity > 0
       ? true
       : false;
@@ -144,7 +142,6 @@ const AddToCart = ({ sku, quantity }) => {
 };
 
 const ToastThumb = ({ status, label, item }) => {
-  console.log("status", status);
   return status === "success" ? (
     <Box>
       <Flex

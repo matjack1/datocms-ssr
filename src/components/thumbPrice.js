@@ -11,6 +11,7 @@ const ThumbPrice = ({ item }) => {
           minHeight: ["30px"],
           display: "flex",
           alignItems: "center",
+          color:"dark"
         }}
       >
         <Text

@@ -70,12 +70,13 @@ export const query = graphql`
         brand
         material
         images {
-          url
+          url(imgixParams: { ar: "1:1", fit: "crop", w: "600", h: "600" })
           gatsbyImageData(
-            width: 670
-            height: 670
+            width: 800
+            height: 800
             placeholder: BLURRED
             forceBlurhash: false
+            imgixParams: { ar: "1:1", fit: "crop" }
           )
         }
       }

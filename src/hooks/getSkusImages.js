@@ -25,7 +25,7 @@ export default async function getSkusImage(skus) {
           }
           images {
             id
-            responsiveImage(imgixParams: {fit: crop, w: 600, h: 600 }) {
+            responsiveImage(imgixParams: {fit: crop, ar: "1:1", w: 600, h: 600 }) {
               srcSet           
                 webpSrcSet
                 sizes
