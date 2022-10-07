@@ -284,12 +284,17 @@ const InfiniteHits = ({
   }, [skusData]);
 
   useEffect(() => {
+    console.log("hits.length > 0",hits.length > 0)
+    console.log("cl",cl)
+    console.log("customer",customer)
+    console.log("!skusData || getDifference(hits, skusData).length > 0",!skusData || getDifference(hits, skusData).length > 0)
     if (
       hits.length > 0 &&
       cl &&
       customer &&
       (!skusData || getDifference(hits, skusData).length > 0)
     ) {
+      console.log("--enters--")
       setSkusData(hits);
       getSkusPrices();
     }
