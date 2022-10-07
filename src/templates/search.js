@@ -55,9 +55,9 @@ const Results = connectStateResults(
         <i18nContext.Consumer>
           {(t) => (
             <Box>
-              <div>
-                {t.noResults} <strong>{searchState.query}</strong>.
-              </div>
+              <Container>
+                {t.noResults} per <strong>{searchState.query}</strong>.
+              </Container>
             </Box>
           )}
         </i18nContext.Consumer>

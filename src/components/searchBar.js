@@ -4,7 +4,7 @@ import { getColor } from "@theme-ui/color";
 import themeUiTheme from "../gatsby-plugin-theme-ui";
 import Search from "../assets/img/icons/nessun-risultato.inline.svg";
 import { i18nContext } from "../hooks/i18nContext";
-
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import { connectSearchBox } from "react-instantsearch-dom";
 import { navigate } from "@reach/router";
 
@@ -63,7 +63,11 @@ const CustomSearchBox = ({
           },
         }}
       >
-        {isSearchStalled ? "LOADING SPINNER" : <Search color={dark} />}
+        {isSearchStalled ? (
+          <BouncingDotsLoader color={"primary"} />
+        ) : (
+          <Search color={dark} />
+        )}
       </Box>
       <i18nContext.Consumer>
         {(t) => (
