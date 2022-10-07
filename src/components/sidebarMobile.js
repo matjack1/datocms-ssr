@@ -220,7 +220,6 @@ const SidebarMobile = ({
             )
           ) : (
             <>
-              {console.log("sideBarData", sideBarData)}
               {sideBarData &&
                 sideBarData.treeChildren.map((menuItem, index) =>
                   index === 0 ? (
