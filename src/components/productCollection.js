@@ -58,12 +58,7 @@ const ProductCollection = ({ category, skus, categories }) => {
             r[k] = r[k] || [];
             if (!r[k].includes(v)) r[k].push(v);
 
-            return r[k].sort(function (a, b) {
-              return a.localeCompare(b, undefined, {
-                numeric: true,
-                sensitivity: "base",
-              });
-            });
+            return r[k];
           }
         });
         if (r) return r;
@@ -83,6 +78,15 @@ const ProductCollection = ({ category, skus, categories }) => {
     delete filters.prices;
     delete filters.stock_items;
     delete filters.images;
+
+    for (let [key, val] of Object.entries(filters)) {
+      filters[key].sort(function (a, b) {
+        return a.localeCompare(b, undefined, {
+          numeric: true,
+          sensitivity: "base",
+        });
+      });
+    }
 
     console.log(filters);
 
