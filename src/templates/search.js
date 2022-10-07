@@ -298,7 +298,7 @@ const InfiniteHits = ({
       setSkusData(hits);
       getSkusPrices();
     }
-  }, [hits]);
+  }, [hits,cl,customer]);
 
   return (
     <Box>
