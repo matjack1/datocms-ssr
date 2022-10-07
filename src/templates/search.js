@@ -267,20 +267,13 @@ const InfiniteHits = ({
     }
   };
 
-  // useEffect(() => {
-  //   if (skusData && skusData.length > 0) {
-  //     handleGetFilters();
-  //     orderProducts();
-  //   }
-  // }, [skusData]);
-
-  // useEffect(() => {
-  //   if (skusData && skusData.length > 0) orderProducts();
-  // }, [orderBy]);
-
-  // useEffect(() => {
-  //   if (skusData && skusData.length > 0) orderProducts();
-  // }, [checkedFilters]);
+  const getDifference = (array1, array2) => {
+    return array1.filter((object1) => {
+      return !array2.some((object2) => {
+        return object1.code === object2.code;
+      });
+    });
+  };
 
   useEffect(() => {
     if (skusData != null) {
@@ -292,10 +285,11 @@ const InfiniteHits = ({
 
   useEffect(() => {
     if (hits.length > 0 && cl && customer) {
-      setSkusData(hits);
+      if (!skusData || getDifference(hits, skusData).length > 0)
+        setSkusData(hits);
       getSkusPrices();
     }
-  }, []);
+  }, [hits]);
 
   return (
     <Box>
@@ -404,23 +398,22 @@ const InfiniteHits = ({
 
 const CustomInfiniteHits = connectInfiniteHits(InfiniteHits);
 
-const createURL = (state) => `?${qs.stringify(state)}`;
-
-const searchStateToUrl = (searchState) =>
-  searchState ? createURL(searchState) : "";
-
-const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
-const DEBOUNCE_TIME = 400;
-
 const SearchPage = ({
   location,
   history,
   data: { site, videos, channel },
   pageContext,
 }) => {
-  const isBrowser = typeof window !== "undefined";
-
+  const urlToSearchState = ({ search }) => qs.parse(search.slice(1));
   const [searchState, setSearchState] = useState(urlToSearchState(location));
+
+  const DEBOUNCE_TIME = 400;
+  const createURL = (state) => `?${qs.stringify(state)}`;
+
+  const searchStateToUrl = (searchState) =>
+    searchState ? createURL(searchState) : "";
+
+  const isBrowser = typeof window !== "undefined";
   const debouncedSetStateRef = useRef(null);
 
   const i18nPaths = site.locales.map((locale) => {
@@ -436,7 +429,6 @@ const SearchPage = ({
     debouncedSetStateRef.current = setTimeout(() => {
       navigate(searchStateToUrl(updatedSearchState));
     }, DEBOUNCE_TIME);
-
     setSearchState(updatedSearchState);
   }
 
@@ -446,6 +438,7 @@ const SearchPage = ({
 
   return (
     <Box>
+      {console.log(searchClient, searchState, pageContext.locale)}
       <InstantSearch
         searchClient={searchClient}
         indexName={`dev_SKUS`}
@@ -453,7 +446,6 @@ const SearchPage = ({
         onSearchStateChange={onSearchStateChange}
         createURL={createURL}
         resultsState={undefined}
-        stalledSearchDelay={3000}
       >
         <Layout title={"search"}>
           <Results>

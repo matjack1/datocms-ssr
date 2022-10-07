@@ -19,6 +19,9 @@ const CustomSearchBox = ({
 
   useEffect(() => {
     inputReference.current.focus();
+    if (currentRefinement) {
+      setCurrentDefaultQuery(currentRefinement);
+    }
   }, []);
   const dark = getColor(themeUiTheme, `dark`);
 
@@ -29,12 +32,6 @@ const CustomSearchBox = ({
       refine(e.target.search_input.value);
     }, 100);
   };
-
-  useEffect(() => {
-    if (currentRefinement) {
-      setCurrentDefaultQuery(currentRefinement);
-    }
-  }, [currentRefinement]);
 
   return (
     <Box
