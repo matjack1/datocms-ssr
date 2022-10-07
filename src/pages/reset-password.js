@@ -17,6 +17,8 @@ const ResetPassword = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(null);
   const [params, setParams] = useState({
+    id: "",
+    token: "",
     password: "",
     confirm_password: "",
   });
@@ -40,10 +42,20 @@ const ResetPassword = () => {
     else navigate("/login");
   }, []);
 
+  const onUpdateField = (e) => {
+    const nextFormState = {
+      ...params,
+      [e.target.name]: e.target.value,
+    };
+    setParams(nextFormState);
+  };
+
   const sendResetPassword = async (event) => {
     const result = await executeRecaptcha("dynamicAction");
 
     setLoading(true);
+
+    console.log(params)
 
     if (
       result &&
@@ -51,9 +63,7 @@ const ResetPassword = () => {
       params.password === params.confirm_password
     )
       axios
-        .post("/.netlify/functions/resetPassword", {
-          password: params.password,
-        })
+        .post("/.netlify/functions/resetPassword", params)
         .then(function (response) {
           console.log("response");
           setSuccess(true);
@@ -135,7 +145,7 @@ const ResetPassword = () => {
                   errors={errors}
                   validationSchema={{
                     required: "Questo campo è obbligatorio.",
-                    onChange: (e) => setParams(e),
+                    onChange: (e) => onUpdateField(e),
                   }}
                 >
                   <Flex
@@ -171,7 +181,7 @@ const ResetPassword = () => {
                   errors={errors}
                   validationSchema={{
                     required: "Questo campo è obbligatorio.",
-                    onChange: (e) => setParams(e),
+                    onChange: (e) => onUpdateField(e),
                     validate: (val) => {
                       if (watch("password") != val) {
                         return "Le password non combaciano!";

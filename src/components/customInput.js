@@ -136,7 +136,16 @@ const CustomInput = (props) => {
             </>
           ) : type === "text" || type === "password" || type === "email" ? (
             <>
+              {console.log(
+                type === "password" && passwordShown
+                  ? "text"
+                  : type === "password"
+                  ? "password"
+                  : type
+              )}
               <Input
+                {...fieldProps}
+                {...register(name, validationSchema)}
                 type={
                   type === "password" && passwordShown
                     ? "text"
@@ -144,8 +153,6 @@ const CustomInput = (props) => {
                     ? "password"
                     : type
                 }
-                {...fieldProps}
-                {...register(name, validationSchema)}
                 variant={
                   errors && Object.keys(errors).length > 0
                     ? "inputs.error"
