@@ -17,7 +17,7 @@ const ProductCollection = ({ category, skus, categories }) => {
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
-  const [orderBy, setOrderBy] = useState("code-asc");
+  const [orderBy, setOrderBy] = useState("ranking");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -90,8 +90,6 @@ const ProductCollection = ({ category, skus, categories }) => {
         });
       });
     }
-
-    console.log(filters);
 
     // const filters =
     //   skusData &&
@@ -191,6 +189,16 @@ const ProductCollection = ({ category, skus, categories }) => {
             })
             .reverse()
         );
+      case "ranking":
+        return setFilteredSkus(
+          tmpFilteredSkus.concat().sort(function (a, b) {
+            return (
+              (a.ranking === null) - (b.ranking === null) ||
+              +(a.ranking > b.ranking) ||
+              -(a.ranking < b.ranking)
+            );
+          })
+        );
       case "code-asc":
         return setFilteredSkus(
           tmpFilteredSkus.concat().sort((a, b) => a.code.localeCompare(b.code))
@@ -241,14 +249,12 @@ const ProductCollection = ({ category, skus, categories }) => {
     if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
     else
       chunkPrices = allChunks[i].map((x) => {
-        console.log("x",x)
         return {
           itemcode: x,
           error: "no_price",
         };
       });
 
-    console.log("chunkPrices", chunkPrices);
     let res = [];
     res = await Promise.all(
       data.map((obj) => {
@@ -269,11 +275,6 @@ const ProductCollection = ({ category, skus, categories }) => {
     setSkusData(res);
 
     if (pricesPage < allChunks.length - 1) {
-      console.log(
-        "pricesPage < allChunks.length - 1",
-        pricesPage,
-        allChunks.length - 1
-      );
       setPricesPage(pricesPage + 1);
     }
   };
@@ -286,7 +287,6 @@ const ProductCollection = ({ category, skus, categories }) => {
   }, [skus, customer]);
 
   useEffect(() => {
-    console.log("pricesPage", pricesPage);
     if (skus.length > 0 && cl && customer) {
       getSkusPrices(pricesPage);
     }

@@ -81,7 +81,7 @@ const InfiniteHits = ({
   const { customer, setCustomer } = useContext(CustomerContext);
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
-  const [orderBy, setOrderBy] = useState("code-asc");
+  const [orderBy, setOrderBy] = useState("ranking");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -198,6 +198,16 @@ const InfiniteHits = ({
             })
             .reverse()
         );
+      case "ranking":
+        return setFilteredSkus(
+          tmpFilteredSkus.concat().sort(function (a, b) {
+            return (
+              (a.ranking === null) - (b.ranking === null) ||
+              +(a.ranking > b.ranking) ||
+              -(a.ranking < b.ranking)
+            );
+          })
+        );
       case "code-asc":
         return setFilteredSkus(
           tmpFilteredSkus.concat().sort((a, b) => a.code.localeCompare(b.code))
@@ -231,7 +241,8 @@ const InfiniteHits = ({
     let chunkPrices = [];
     let allChunks = [];
 
-    const data = pricesPage != 0 && skusData ? JSON.parse(JSON.stringify(skusData)) : hits;
+    const data =
+      pricesPage != 0 && skusData ? JSON.parse(JSON.stringify(skusData)) : hits;
     const chunkSize = 4;
     const reducedData = data.map((x) => x.code);
 
@@ -247,13 +258,13 @@ const InfiniteHits = ({
 
     if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
     else
-    chunkPrices = allChunks[i].map((x) => {
-      console.log("x", x);
-      return {
-        itemcode: x,
-        error: "no_price",
-      };
-    });
+      chunkPrices = allChunks[i].map((x) => {
+        console.log("x", x);
+        return {
+          itemcode: x,
+          error: "no_price",
+        };
+      });
 
     let res = [];
     res = await Promise.all(
@@ -264,7 +275,7 @@ const InfiniteHits = ({
         if (chunkPrices[index]) {
           return {
             ...obj,
-            prices: chunkPrices[index]
+            prices: chunkPrices[index],
           };
         }
 
