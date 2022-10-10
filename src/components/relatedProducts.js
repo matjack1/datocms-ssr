@@ -52,6 +52,14 @@ const RelatedProducts = ({ sku, skus, customer }) => {
       })
     );
 
+    res = res.sort(function (a, b) {
+      return (
+        (a.ranking === null) - (b.ranking === null) ||
+        +(a.ranking > b.ranking) ||
+        -(a.ranking < b.ranking)
+      );
+    });
+    console.log("res",res)
     setSkusData(res);
 
     if (pricesPage < allChunks.length - 1) {

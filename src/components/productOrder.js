@@ -23,7 +23,11 @@ const ProductOrder = ({ handleOrderChange }) => {
         }}
       >
         <Label>
-          <Radio name="order-by" value="code-asc" defaultChecked={true} />
+          <Radio name="order-by" value="ranking" defaultChecked={true} />
+          Rilevanza
+        </Label>
+        <Label>
+          <Radio name="order-by" value="code-asc" />
           Codice (Asc.)
         </Label>
         <Label>

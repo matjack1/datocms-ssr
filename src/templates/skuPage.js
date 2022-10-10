@@ -604,6 +604,7 @@ export const query = graphql`
     sanitizer
     detergentType
     detergentUsage
+    ranking
     pack
     brand
     material
