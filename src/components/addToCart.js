@@ -10,16 +10,17 @@ import { getCartPath } from "../utils/path";
 import { InboundLink } from "./link";
 import CheckedIcon from "../assets/img/icons/flag.inline.svg";
 import ClosedCirle from "../assets/img/icons/closed-circle.inline.svg";
+import ErrorIcon from "../assets/img/icons/closed-circle.inline.svg";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
   const { cart, setCart } = useContext(CartContext);
   const [addingToCart, setAddingToCart] = useState(false);
+  const [errorAddToCart, setErrorAddToCart] = useState(null);
   const [lineItem, setLineItem] = useState(null);
   const cl = useClSdk();
 
   const getOrder = async (id) => {
-    console.log("getOrder");
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
@@ -47,7 +48,6 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log(sku,sku.images && sku.images.length > 0 && sku.images[0].url)
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
@@ -61,7 +61,6 @@ const AddToCart = ({ sku, quantity }) => {
       console.log("error", e);
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
-        // console.log("invalid token", e);
       }
     };
 
@@ -70,6 +69,20 @@ const AddToCart = ({ sku, quantity }) => {
     if (lineItem) {
       setLineItem(lineItem);
       getOrder(cart.id);
+    } else {
+      setAddingToCart(true);
+      setTimeout(() => {
+        setAddingToCart(false);
+        toast(<ToastThumb status="error" item={lineItem} />, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: false,
+          progress: undefined,
+        });
+      }, 2000);
     }
   };
 
@@ -90,6 +103,7 @@ const AddToCart = ({ sku, quantity }) => {
 
   const addToCart = () => {
     setAddingToCart(true);
+    setErrorAddToCart(null);
     createLineItem();
   };
 
@@ -100,45 +114,48 @@ const AddToCart = ({ sku, quantity }) => {
   }
 
   return (
-    <Box sx={{ width: "100%", height: "100%" }}>
-      <Button
-        disabled={!isAvailable() || addingToCart}
-        onClick={() => addToCart()}
-        sx={{
-          minWidth: "200px",
-          opacity: isAvailable() ? 1 : 0.7,
-          width: "100%",
-          height: "100%",
-          textAlign: "center",
-          fontSize: [3],
-          fontWeight: "600",
-          borderRadius: "unset",
-          p: [3],
-        }}
-      >
-        {isAvailable() && !addingToCart ? (
-          <Flex
-            sx={{
-              width: "100%",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+    <>
+      <Box sx={{ width: "100%", height: "100%" }}>
+        <Button
+          disabled={!isAvailable() || addingToCart}
+          onClick={() => addToCart()}
+          sx={{
+            minWidth: "200px",
+            opacity: isAvailable() ? 1 : 0.7,
+            width: "100%",
+            height: "100%",
+            textAlign: "center",
+            maxHeight: "60px",
+            fontSize: [3],
+            fontWeight: "600",
+            borderRadius: "unset",
+            p: [3],
+          }}
+        >
+          {isAvailable() && !addingToCart ? (
+            <Flex
+              sx={{
+                width: "100%",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Box>
+                <Text>Aggiungi al carrello</Text>
+              </Box>
+            </Flex>
+          ) : (
             <Box>
-              <Text>Aggiungi al carrello</Text>
+              {!isAvailable() && !addingToCart ? (
+                <Text>Non disponibile</Text>
+              ) : (
+                <BouncingDotsLoader />
+              )}
             </Box>
-          </Flex>
-        ) : (
-          <Box>
-            {!isAvailable() && !addingToCart ? (
-              <Text>Non disponibile</Text>
-            ) : (
-              <BouncingDotsLoader />
-            )}
-          </Box>
-        )}
-      </Button>
-    </Box>
+          )}
+        </Button>
+      </Box>
+    </>
   );
 };
 
@@ -178,8 +195,8 @@ const ToastThumb = ({ status, label, item }) => {
         }}
       >
         <ClosedCirle />
-        <Text sx={{ color: "primary", ml: [1], fontWeight: "600" }}>
-          Qualcosa è andato storto
+        <Text sx={{ color: "primary", ml: [1], fontWeight: "400" }}>
+          Non è stato possibile aggiungere l'articolo al carrello
         </Text>
       </Flex>
     )
