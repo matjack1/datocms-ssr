@@ -246,6 +246,14 @@ const InfiniteHits = ({
     });
 
     if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    else
+    chunkPrices = allChunks[i].map((x) => {
+      console.log("x", x);
+      return {
+        itemcode: x,
+        error: "no_price",
+      };
+    });
 
     let res = [];
     res = await Promise.all(
@@ -256,11 +264,7 @@ const InfiniteHits = ({
         if (chunkPrices[index]) {
           return {
             ...obj,
-            prices: {
-              discount: chunkPrices[index].discount,
-              discountedPrice: chunkPrices[index].discountedPrice,
-              price: chunkPrices[index].price,
-            },
+            prices: chunkPrices[index]
           };
         }
 
