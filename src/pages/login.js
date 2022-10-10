@@ -23,6 +23,7 @@ import EmailIcon from "../assets/img/icons/email.inline.svg";
 import PasswordIcon from "../assets/img/icons/password.inline.svg";
 import { useForm } from "react-hook-form";
 import OutsideNav from "../components/outsideNav";
+import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
@@ -67,6 +68,9 @@ const LoginPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Login | SOCAF</title>
+      </Helmet>
       <OutsideNav />
       <Container
         sx={{

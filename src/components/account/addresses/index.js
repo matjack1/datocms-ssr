@@ -19,6 +19,7 @@ import CustomerContext from "../../../hooks/customerContext";
 import getAddresses from "../../../hooks/getAddresses";
 import { useClSdk } from "../../../hooks/useClSdk";
 import CustomerAddress from "../../../components/customerAddress";
+import  { Helmet } from "react-helmet"
 
 const Addresses = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -43,6 +44,11 @@ const Addresses = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>
+          Indirizzi | SOCAF
+        </title>
+      </Helmet>
       <Container>
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           I tuoi indirizzi

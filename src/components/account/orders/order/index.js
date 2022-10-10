@@ -19,6 +19,7 @@ import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import CartSkeleton from "../../../skeleton/cart";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import { Helmet } from "react-helmet"
 
 const CustomerOrder = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -71,6 +72,9 @@ const CustomerOrder = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Ordine #{order.number} | SOCAF</title>
+      </Helmet>
       <Container>
         {!showSkeleton && order ? (
           <>

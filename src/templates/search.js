@@ -20,6 +20,7 @@ import CustomBreadcrumbs from "../components/customBreadcrumbs";
 import ProductCounter from "../components/productCounter";
 import ProductThumb from "../components/productThumb";
 import SearchSkeleton from "../components/skeleton/search";
+import { Helmet } from "react-helmet";
 import {
   InstantSearch,
   SortBy,
@@ -474,8 +475,7 @@ const SearchPage = ({
   }, [location]);
 
   return (
-    <Box>
-      {console.log(searchClient, searchState, pageContext.locale)}
+    <>
       <InstantSearch
         searchClient={searchClient}
         indexName={`dev_SKUS`}
@@ -485,12 +485,15 @@ const SearchPage = ({
         resultsState={undefined}
       >
         <Layout title={"search"}>
+          <Helmet>
+            <title>Ricerca | SOCAF</title>
+          </Helmet>
           <Results>
             <CustomInfiniteHits locale={pageContext.locale} />
           </Results>
         </Layout>
       </InstantSearch>
-    </Box>
+    </>
   );
 };
 

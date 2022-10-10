@@ -7,6 +7,7 @@ import { navigate } from "gatsby";
 import { InboundLink } from "../../components/link";
 import CustomerContext from "../../hooks/customerContext";
 import CustomBreadcrumbs from "../customBreadcrumbs";
+import { Helmet } from "react-helmet"
 
 const BillingInfo = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -18,6 +19,9 @@ const BillingInfo = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Dati aziendali | SOCAF</title>
+      </Helmet>
       <Container>
         <CustomBreadcrumbs
           data={{

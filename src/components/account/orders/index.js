@@ -26,6 +26,7 @@ import OrdersSkeleton from "../../skeleton/orders";
 import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
 import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
 import FilterSidebar from "../../filterSidebar";
+import { Helmet } from "react-helmet"
 
 const CustomerOrders = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -103,6 +104,11 @@ const CustomerOrders = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>
+          Ordini | SOCAF
+        </title>
+      </Helmet>
       <Container>
         {filteredOrders && filteredOrders.length > 0 ? (
           <>

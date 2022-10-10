@@ -10,6 +10,7 @@ import FavouriteProduct from "../../favouriteProduct";
 import getPrices from "../../../hooks/getPrices";
 import FavouritesSkeleton from "../../skeleton/favourites";
 import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
+import { Helmet } from "react-helmet";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -145,7 +146,7 @@ const CustomerFavourites = () => {
           let prices = skusPrices[index].prices;
           return {
             ...obj,
-            prices: prices
+            prices: prices,
           };
         }
         return obj;
@@ -175,6 +176,9 @@ const CustomerFavourites = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Preferiti | SOCAF</title>
+      </Helmet>
       <Container>
         {pricedSkusData && pricedSkusData.length > 0 ? (
           <>
