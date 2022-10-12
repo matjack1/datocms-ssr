@@ -22,6 +22,7 @@ import CustomerContext from "../../hooks/customerContext";
 import axios from "axios";
 import BouncingDotsLoader from "../../components/bouncingDotsLoader";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 const Support = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +41,6 @@ const Support = () => {
   } = useForm();
 
   const handleSupportMail = async (event) => {
-
     const data = formData;
 
     axios
@@ -62,7 +62,7 @@ const Support = () => {
   };
 
   const onUpdateField = (e) => {
-    console.log("onUpdateField",e.target.name,e.target.value)
+    console.log("onUpdateField", e.target.name, e.target.value);
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,
@@ -82,6 +82,9 @@ const Support = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Assistenza | Socaf</title>
+      </Helmet>
       <Container>
         <CustomBreadcrumbs
           data={{
@@ -99,7 +102,7 @@ const Support = () => {
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           Ciao, come posso aiutarti?
         </Heading>
-        <Grid columns={["1fr",".7fr .3fr"]} gap={[0,12]}>
+        <Grid columns={["1fr", ".7fr .3fr"]} gap={[0, 12]}>
           {success === null ? (
             <>
               <Box as="form" onSubmit={handleSubmit(handleSupportMail)}>

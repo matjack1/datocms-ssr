@@ -22,6 +22,7 @@ import { getProvinces } from "../../../utils/provinces";
 import CustomInput from "../../customInput";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 const AddAddress = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -60,7 +61,6 @@ const AddAddress = () => {
   };
 
   const handleCreateAddress = async (e) => {
-
     setLoading(true);
 
     if (customer) {
@@ -128,6 +128,9 @@ const AddAddress = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Aggiungi indirizzo | Socaf</title>
+      </Helmet>
       <Container>
         <Heading as="h1" variant="h2" sx={{ fontWeight: "400", my: [5] }}>
           Aggiungi un nuovo indirizzo di spedizione

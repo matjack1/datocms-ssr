@@ -27,6 +27,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -141,6 +142,9 @@ const CustomerOrderReturn = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>{order && order.number ? `Reso ordine #${order.number}` : `Ordine`} | Socaf</title>
+      </Helmet>
       <Container>
         {order && !showSkeleton ? (
           <>

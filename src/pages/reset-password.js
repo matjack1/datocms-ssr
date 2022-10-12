@@ -11,6 +11,7 @@ import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import PasswordIcon from "../assets/img/icons/password.inline.svg";
 import { useForm } from "react-hook-form";
 import OutsideNav from "../components/outsideNav";
+import { Helmet } from "react-helmet";
 
 const ResetPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -55,7 +56,7 @@ const ResetPassword = () => {
 
     setLoading(true);
 
-    console.log(params)
+    console.log(params);
 
     if (
       result &&
@@ -95,6 +96,9 @@ const ResetPassword = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Reset password | Socaf</title>
+      </Helmet>
       <OutsideNav />
       <Container
         sx={{

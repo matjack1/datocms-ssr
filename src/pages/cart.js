@@ -14,6 +14,7 @@ import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import BagIcon from "../assets/img/icons/carrello.inline.svg";
 import CartSkeleton from "../components/skeleton/cart";
+import { Helmet } from "react-helmet";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -88,6 +89,11 @@ const CartPage = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Carrello | Socaf
+        </title>
+      </Helmet>
       <Container>
         {!showSkeleton && cart && cartItems.length > 0 ? (
           <>

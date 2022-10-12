@@ -2,6 +2,7 @@ import React from "react";
 import { graphql } from "gatsby";
 import ProductCollection from "../components/productCollection";
 import Layout from "../components/layout";
+import { Helmet } from "react-helmet";
 
 const CategoryPage = ({
   data: { category, childCategories, siblingCategories, skus },
@@ -11,10 +12,11 @@ const CategoryPage = ({
       ? childCategories.nodes
       : siblingCategories.nodes;
 
-  console.log(skus);
-
   return (
     <Layout>
+      <Helmet>
+        <title>{category && category.name} | Socaf</title>
+      </Helmet>
       <ProductCollection
         category={category}
         categories={categories}

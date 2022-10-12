@@ -19,11 +19,10 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { OutboundLink } from "../components/link";
-
+import { Helmet } from "react-helmet";
 import PdfIcon from "../assets/img/icons/documenti-tecnici.inline.svg";
 import Package from "../assets/img/icons/confezionamento.inline.svg";
 import DeliveryIcon from "../assets/img/icons/corriere-sede.inline.svg";
-
 import RelatedProducts from "../components/relatedProducts";
 import { navigate } from "gatsby";
 import getPrices from "../hooks/getPrices";
@@ -34,6 +33,7 @@ import ThumbProductDetails from "../components/thumbProductDetails";
 import SkuPageSkeleton from "../components/skeleton/skuPage";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import FilterMetaTagDescription from "../utils/filterMetaTagDescription";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -196,6 +196,9 @@ const SkuPage = ({ data: { sku, skus } }) => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>{sku && sku.name ? sku.name : "Prodotto"} | Socaf</title>
+      </Helmet>
       <Container>
         {!showSkeleton ? (
           <>
@@ -575,6 +578,9 @@ export const query = graphql`
   query SkuPageQuery($id: String!, $categoryId: [String]) {
     sku: datoCmsSku(id: { eq: $id }) {
       ...SkuDetails
+      seoMetaTags {
+        ...GatsbyDatoCmsSeoMetaTags
+      }
     }
     skus: allDatoCmsSku(
       limit: 20
