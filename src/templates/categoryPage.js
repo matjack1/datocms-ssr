@@ -15,7 +15,7 @@ const CategoryPage = ({
   return (
     <Layout>
       <Helmet>
-        <title>{category && category.name}</title>
+        <title>{category && category.name} | Socaf</title>
       </Helmet>
       <ProductCollection
         category={category}
