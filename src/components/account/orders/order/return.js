@@ -143,7 +143,7 @@ const CustomerOrderReturn = () => {
   return (
     <Box>
       <Helmet>
-        <title>Reso ordine #{order.number} | SOCAF</title>
+        <title>{order && order.number ? `Reso ordine #${order.number}` : `Ordine`} | Socaf</title>
       </Helmet>
       <Container>
         {order && !showSkeleton ? (

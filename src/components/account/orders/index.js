@@ -106,7 +106,7 @@ const CustomerOrders = () => {
     <Box>
       <Helmet>
         <title>
-          Ordini | SOCAF
+          Ordini | Socaf
         </title>
       </Helmet>
       <Container>

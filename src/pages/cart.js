@@ -91,7 +91,7 @@ const CartPage = () => {
     <Layout>
       <Helmet>
         <title>
-          Carrello | SOCAF
+          Carrello | Socaf
         </title>
       </Helmet>
       <Container>

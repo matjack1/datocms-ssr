@@ -197,7 +197,7 @@ const CustomerOrderReturn = () => {
   return (
     <Box>
       <Helmet>
-        <title>Ordina di nuovo | SOCAF</title>
+        <title>Ordina di nuovo | Socaf</title>
       </Helmet>
       <Box>
         <Container>

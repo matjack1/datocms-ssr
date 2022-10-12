@@ -69,7 +69,7 @@ const Payments = () => {
   return (
     <Box>
       <Helmet>
-        <title>Metodi di pagamento | SOCAF</title>
+        <title>Metodi di pagamento | Socaf</title>
       </Helmet>
       <Container>
         <CustomBreadcrumbs

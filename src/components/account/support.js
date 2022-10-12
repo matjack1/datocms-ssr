@@ -83,7 +83,7 @@ const Support = () => {
   return (
     <Box>
       <Helmet>
-        <title>Assistenza | SOCAF</title>
+        <title>Assistenza | Socaf</title>
       </Helmet>
       <Container>
         <CustomBreadcrumbs

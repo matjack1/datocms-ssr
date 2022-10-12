@@ -97,7 +97,7 @@ const ResetPassword = () => {
   return (
     <>
       <Helmet>
-        <title>Reset password | SOCAF</title>
+        <title>Reset password | Socaf</title>
       </Helmet>
       <OutsideNav />
       <Container

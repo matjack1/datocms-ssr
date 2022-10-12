@@ -197,7 +197,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
   return (
     <Layout>
       <Helmet>
-        <title>{sku.name} | SOCAF</title>
+        <title>{sku && sku.name ? sku.name : "Prodotto"} | Socaf</title>
       </Helmet>
       <Container>
         {!showSkeleton ? (

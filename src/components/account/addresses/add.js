@@ -129,7 +129,7 @@ const AddAddress = () => {
   return (
     <Box>
       <Helmet>
-        <title>Aggiungi indirizzo | SOCAF</title>
+        <title>Aggiungi indirizzo | Socaf</title>
       </Helmet>
       <Container>
         <Heading as="h1" variant="h2" sx={{ fontWeight: "400", my: [5] }}>

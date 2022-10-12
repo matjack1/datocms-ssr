@@ -486,7 +486,7 @@ const SearchPage = ({
       >
         <Layout title={"search"}>
           <Helmet>
-            <title>Ricerca | SOCAF</title>
+            <title>Ricerca | Socaf</title>
           </Helmet>
           <Results>
             <CustomInfiniteHits locale={pageContext.locale} />

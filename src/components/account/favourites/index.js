@@ -177,7 +177,7 @@ const CustomerFavourites = () => {
   return (
     <Box>
       <Helmet>
-        <title>Preferiti | SOCAF</title>
+        <title>Preferiti | Socaf</title>
       </Helmet>
       <Container>
         {pricedSkusData && pricedSkusData.length > 0 ? (

@@ -16,7 +16,7 @@ const IndexPage = ({ data: { page, categories } }) => {
   return (
     <Layout>
       <Helmet>
-        <title>Home | SOCAF</title>
+        <title>Home | Socaf</title>
       </Helmet>
       <LatestOrders />
       <RecentlyViewedSkus />

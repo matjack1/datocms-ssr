@@ -7,7 +7,7 @@ const CustomerAccount = () => {
   return (
     <Box>
       <Helmet>
-        <title>Account | SOCAF</title>
+        <title>Account | Socaf</title>
       </Helmet>
       <Box>
         <InboundLink to={"/account/orders"}>Tutti gli ordini</InboundLink>

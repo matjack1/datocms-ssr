@@ -20,7 +20,7 @@ const BillingInfo = () => {
   return (
     <Box>
       <Helmet>
-        <title>Dati aziendali | SOCAF</title>
+        <title>Dati aziendali | Socaf</title>
       </Helmet>
       <Container>
         <CustomBreadcrumbs

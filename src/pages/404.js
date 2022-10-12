@@ -28,7 +28,7 @@ const codeStyles = {
 const NotFoundPage = () => {
   return (
     <main style={pageStyles}>
-      <title>Pagina non trovata | SOCAF</title>
+      <title>Pagina non trovata | Socaf</title>
       <h1 style={headingStyles}>Pagina non trovata</h1>
       <p style={paragraphStyles}>
         <Link to="/">Torna alla home</Link>.

@@ -71,7 +71,7 @@ const ForgotPassword = () => {
   return (
     <>
       <Helmet>
-        <title>Password dimenticata | SOCAF</title>
+        <title>Password dimenticata | Socaf</title>
       </Helmet>
       <OutsideNav />
       <Container

@@ -46,7 +46,7 @@ const Addresses = () => {
     <Box>
       <Helmet>
         <title>
-          Indirizzi | SOCAF
+          Indirizzi | Socaf
         </title>
       </Helmet>
       <Container>

@@ -69,7 +69,7 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title>Login | SOCAF</title>
+        <title>Login | Socaf</title>
       </Helmet>
       <OutsideNav />
       <Container
