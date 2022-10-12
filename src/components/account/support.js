@@ -26,6 +26,7 @@ import { useForm } from "react-hook-form";
 const Support = () => {
   const [formData, setFormData] = useState({
     customer: "",
+    customerId: "",
     message: "",
   });
   const [loading, setLoading] = useState(false);
@@ -40,7 +41,6 @@ const Support = () => {
   } = useForm();
 
   const handleSupportMail = async (event) => {
-
     const data = formData;
 
     axios
@@ -62,7 +62,7 @@ const Support = () => {
   };
 
   const onUpdateField = (e) => {
-    console.log("onUpdateField",e.target.name,e.target.value)
+    console.log("onUpdateField", e.target.name, e.target.value);
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,
@@ -75,6 +75,7 @@ const Support = () => {
       const nextFormState = {
         ...formData,
         customer: customer.email,
+        customerId: customer.metadata.full_name + " " + customer.metadata.reference,
       };
       setFormData(nextFormState);
     }
@@ -99,7 +100,7 @@ const Support = () => {
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           Ciao, come posso aiutarti?
         </Heading>
-        <Grid columns={["1fr",".7fr .3fr"]} gap={[0,12]}>
+        <Grid columns={["1fr", ".7fr .3fr"]} gap={[0, 12]}>
           {success === null ? (
             <>
               <Box as="form" onSubmit={handleSubmit(handleSupportMail)}>
