@@ -165,7 +165,7 @@ const Support = () => {
                   >
                     <Text>Supporto telefonico</Text>
                     <br />
-                    <a href="tel:80048110">800 480110</a>
+                    <a href="tel:+390354876054">+39 035 4876054</a>
                   </Box>
                   <Box
                     sx={{
@@ -174,7 +174,7 @@ const Support = () => {
                   >
                     Numero verde gratuito attivo:
                     <br />
-                    lunedi - venerdi dalle 10:00 alle 17:00
+                    lunedi - venerdi dalle 8.00-12.30/13.30-18.30
                   </Box>
                 </Box>
               </Box>

@@ -473,7 +473,7 @@ const SideSku = ({
                       color: "lightBorder",
                     }}
                   >
-                    Prezzo per unità / Tasse escluse
+                    Prezzo per unità / IVA esclusa
                   </Text>
                 </>
               ) : clSkuDetails.prices && clSkuDetails.prices.error ? (

@@ -174,7 +174,7 @@ const CartPage = () => {
                     }}
                   >
                     <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
-                      Tasse
+                      IVA
                     </Text>
                     <Box
                       sx={{
@@ -218,7 +218,7 @@ const CartPage = () => {
                         fontWeight: "600",
                       }}
                     >
-                      Prezzo tasse escluse, spese di spedizioni calcolate al
+                      Prezzo IVA esclusa, spese di spedizioni calcolate al
                       checkout
                     </Box>
                   </Flex>
