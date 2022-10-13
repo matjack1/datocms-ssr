@@ -83,12 +83,26 @@ const ProductCollection = ({ category, skus, categories }) => {
     delete filters.pallet;
 
     for (let [key, val] of Object.entries(filters)) {
-      filters[key].sort(function (a, b) {
-        return a.localeCompare(b, undefined, {
-          numeric: true,
-          sensitivity: "base",
+      console.log("key", key);
+      if (key != "size")
+        filters[key].sort(function (a, b) {
+          return a.localeCompare(b, undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
         });
-      });
+      else {
+        const sizes = {
+          "UNICA" : 100,
+          "XS" : 200,
+          "S" : 300,
+          "M" : 400,
+          "L" : 500,
+          "XL" : 600,
+          "XXL" : 700,
+        };
+        filters[key].sort((a, b) => sizes[a] - sizes[b]);
+      }
     }
 
     // const filters =
