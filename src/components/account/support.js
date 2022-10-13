@@ -172,7 +172,7 @@ const Support = () => {
                       fontSize: [2],
                     }}
                   >
-                    Numero attivo:
+                    Orari:
                     <br />
                     lunedi - venerdi dalle 8.00-12.30/13.30-18.30
                   </Box>
