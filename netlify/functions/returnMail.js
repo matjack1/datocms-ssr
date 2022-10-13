@@ -15,10 +15,11 @@ exports.handler = async function (event, context) {
 
   var msg = {
     from: "no-reply@socaf.it",
-    to: "a.asofii@multi-consult.it",
+    to: "info@socaf.it",
     // bcc: 'n.lazzaroni@multi-consult.it',
     subject: `Richiesta di reso da Socaf.it E-commerce`,
     html: `<p>
+    <b>Cliente: </b>${data.customerId}<br>
     <b>Email: </b>${data.customer}<br>
     <b>Ordine #: </b>${data.order}<br>
     <b>Prodotti: </b><br>

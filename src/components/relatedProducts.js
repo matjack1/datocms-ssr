@@ -16,6 +16,12 @@ const RelatedProducts = ({ sku, skus, customer }) => {
     const chunkSize = 4;
     const reducedData = data.map((x) => x.code);
 
+    console.log(
+      data.filter(
+        ({ value: id1 }) => !skus.some(({ value: id2 }) => id2 === id1)
+      )
+    );
+
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
       allChunks.push(chunk);
@@ -52,14 +58,6 @@ const RelatedProducts = ({ sku, skus, customer }) => {
       })
     );
 
-    res = res.sort(function (a, b) {
-      return (
-        (a.ranking === null) - (b.ranking === null) ||
-        +(a.ranking > b.ranking) ||
-        -(a.ranking < b.ranking)
-      );
-    });
-    console.log("res",res)
     setSkusData(res);
 
     if (pricesPage < allChunks.length - 1) {
@@ -96,7 +94,13 @@ const RelatedProducts = ({ sku, skus, customer }) => {
       {/* to do hide on first one */}
       <CustomCarousel
         small={false}
-        data={skusData}
+        data={skusData.sort(function (a, b) {
+          return (
+            (a.ranking === null) - (b.ranking === null) ||
+            +(a.ranking > b.ranking) ||
+            -(a.ranking < b.ranking)
+          );
+        })}
         type="skus"
         productThumbnail={true}
       />

@@ -27,6 +27,7 @@ import { Helmet } from "react-helmet";
 const Support = () => {
   const [formData, setFormData] = useState({
     customer: "",
+    customerId: "",
     message: "",
   });
   const [loading, setLoading] = useState(false);
@@ -75,6 +76,7 @@ const Support = () => {
       const nextFormState = {
         ...formData,
         customer: customer.email,
+        customerId: customer.metadata.full_name + " " + customer.metadata.reference,
       };
       setFormData(nextFormState);
     }

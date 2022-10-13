@@ -39,6 +39,7 @@ const CustomerOrderReturn = () => {
   const [success, setSuccess] = useState(null);
   const [formData, setFormData] = useState({
     customer: "",
+    customerId: "",
     message: "",
     order: "",
     products: [],
@@ -70,6 +71,7 @@ const CustomerOrderReturn = () => {
 
   const handleReturnMail = async (event) => {
     const data = formData;
+    console.log("customer",formData)
 
     axios
       .post("/.netlify/functions/returnMail", data)
@@ -95,6 +97,7 @@ const CustomerOrderReturn = () => {
       const nextFormState = {
         ...formData,
         customer: customer.email,
+        customerId : customer.metadata.full_name+" "+customer.metadata.reference
       };
       setFormData(nextFormState);
     }
