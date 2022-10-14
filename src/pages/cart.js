@@ -14,6 +14,7 @@ import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import BagIcon from "../assets/img/icons/carrello.inline.svg";
 import CartSkeleton from "../components/skeleton/cart";
+import { Helmet } from "react-helmet";
 
 const CartPage = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -60,7 +61,12 @@ const CartPage = () => {
   useEffect(() => {
     if (cart && cart.line_items.length > 0) {
       let tmp = 0;
-      cart.line_items.map((item, a) => (tmp += item.quantity), 0);
+      cart.line_items.map((item, a) => {
+        if (item.item_type === "skus") tmp += item.quantity;
+
+        return item;
+      }, 0);
+
       setItemQuantity(tmp);
     }
     // setCartItems([]);
@@ -83,6 +89,11 @@ const CartPage = () => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>
+          Carrello | Socaf
+        </title>
+      </Helmet>
       <Container>
         {!showSkeleton && cart && cartItems.length > 0 ? (
           <>
@@ -163,7 +174,7 @@ const CartPage = () => {
                     }}
                   >
                     <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
-                      Tasse
+                      IVA
                     </Text>
                     <Box
                       sx={{
@@ -207,7 +218,7 @@ const CartPage = () => {
                         fontWeight: "600",
                       }}
                     >
-                      Prezzo tasse escluse, spese di spedizioni calcolate al
+                      Prezzo IVA esclusa, spese di spedizioni calcolate al
                       checkout
                     </Box>
                   </Flex>

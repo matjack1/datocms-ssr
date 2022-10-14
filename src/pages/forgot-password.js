@@ -21,6 +21,7 @@ import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import EmailIcon from "../assets/img/icons/email.inline.svg";
 import { useForm } from "react-hook-form";
 import OutsideNav from "../components/outsideNav";
+import { Helmet } from "react-helmet";
 
 const ForgotPassword = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -36,7 +37,6 @@ const ForgotPassword = () => {
   } = useForm();
 
   const sendMail = async (event) => {
-
     const result = await executeRecaptcha("dynamicAction");
 
     setLoading(true);
@@ -70,6 +70,9 @@ const ForgotPassword = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Password dimenticata | Socaf</title>
+      </Helmet>
       <OutsideNav />
       <Container
         sx={{
@@ -142,16 +145,16 @@ const ForgotPassword = () => {
                   <Box sx={{ pb: [5] }}>
                     <Button
                       sx={{
-                        minHeight:"55px",
+                        minHeight: "55px",
                         width: ["100%"],
                         textAlign: "center",
                         fontSize: [3],
                         fontWeight: "600",
                         borderRadius: "unset",
                         p: [3],
-                        display:"flex",
-                        alignItems:"center",
-                        justifyContent:"center"
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                       variant="buttons.primary"
                       type="submit"
@@ -173,7 +176,7 @@ const ForgotPassword = () => {
               </Box>
             </Box>
           ) : success === true ? (
-            <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
+            <Flex sx={{ maxWidth: "600px", flexDirection: "column" }}>
               <Heading sx={{ my: [4], color: "dark" }} as="h5">
                 Richiesta inviata! Riceverai un'email con un link per resettare
                 la tua password!
@@ -184,7 +187,7 @@ const ForgotPassword = () => {
             </Flex>
           ) : (
             success === false && (
-              <Flex sx={{ maxWidth: "600px", flexDirection:"column" }}>
+              <Flex sx={{ maxWidth: "600px", flexDirection: "column" }}>
                 <Heading sx={{ my: [4], color: "dark" }} as="h5">
                   Qualcosa è andato storto
                 </Heading>

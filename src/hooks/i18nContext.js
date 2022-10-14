@@ -7,7 +7,7 @@ export const languages = {
     gloveType: "Guanto",
     pallet :"Pallet",
     pack: "Confezione",
-    brand : "Marchio",
+    brand : "Brand",
     material :"Materiale",
     ecolabel:"Ecolabel",
     biodegradable:"BIOdegradabile",

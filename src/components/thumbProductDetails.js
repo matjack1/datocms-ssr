@@ -26,7 +26,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.brand && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Marchio</Box>
+              <Box>Brand</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.brand}</Box>

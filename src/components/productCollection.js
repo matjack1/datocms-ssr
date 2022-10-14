@@ -17,12 +17,13 @@ const ProductCollection = ({ category, skus, categories }) => {
   const cl = useClSdk();
   const [skusData, setSkusData] = useState();
   const [filteredSkus, setFilteredSkus] = useState(null);
-  const [orderBy, setOrderBy] = useState("code-asc");
+  const [orderBy, setOrderBy] = useState("ranking");
   const [filters, setFilters] = useState({});
   const [checkedFilters, setCheckedFilters] = useState({});
   const { customer, setCustomer } = useContext(CustomerContext);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const mediaIndex = useBreakpointIndex();
+  const [pricesPage, setPricesPage] = useState(0);
 
   const handleOrderChange = (e) => {
     setOrderBy(e.target.value);
@@ -78,17 +79,31 @@ const ProductCollection = ({ category, skus, categories }) => {
     delete filters.prices;
     delete filters.stock_items;
     delete filters.images;
+    delete filters.pack;
+    delete filters.pallet;
 
     for (let [key, val] of Object.entries(filters)) {
-      filters[key].sort(function (a, b) {
-        return a.localeCompare(b, undefined, {
-          numeric: true,
-          sensitivity: "base",
+      console.log("key", key);
+      if (key != "size")
+        filters[key].sort(function (a, b) {
+          return a.localeCompare(b, undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
         });
-      });
+      else {
+        const sizes = {
+          "UNICA" : 100,
+          "XS" : 200,
+          "S" : 300,
+          "M" : 400,
+          "L" : 500,
+          "XL" : 600,
+          "XXL" : 700,
+        };
+        filters[key].sort((a, b) => sizes[a] - sizes[b]);
+      }
     }
-
-    console.log(filters);
 
     // const filters =
     //   skusData &&
@@ -188,6 +203,16 @@ const ProductCollection = ({ category, skus, categories }) => {
             })
             .reverse()
         );
+      case "ranking":
+        return setFilteredSkus(
+          tmpFilteredSkus.concat().sort(function (a, b) {
+            return (
+              (a.ranking === null) - (b.ranking === null) ||
+              +(a.ranking > b.ranking) ||
+              -(a.ranking < b.ranking)
+            );
+          })
+        );
       case "code-asc":
         return setFilteredSkus(
           tmpFilteredSkus.concat().sort((a, b) => a.code.localeCompare(b.code))
@@ -216,57 +241,70 @@ const ProductCollection = ({ category, skus, categories }) => {
     }
   }
 
-  const getSkusPrices = async () => {
+  const getSkusPrices = async (pricesPage) => {
+    let i = pricesPage;
     let chunkPrices = [];
     let allChunks = [];
+
+    const data = pricesPage != 0 ? JSON.parse(JSON.stringify(skusData)) : skus;
     const chunkSize = 4;
-    const reducedData = skus.map((x) => x.code);
+    const reducedData = data.map((x) => x.code);
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
       allChunks.push(chunk);
     }
 
-    for (let i = 0; i < allChunks.length; i++) {
-      console.log("--chunk--", i);
-      const prices = await getPrices({
-        iduser: customer.reference,
-        items: allChunks[i],
+    const prices = await getPrices({
+      iduser: customer.reference,
+      items: allChunks[i],
+    });
+
+    if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    else
+      chunkPrices = allChunks[i].map((x) => {
+        return {
+          itemcode: x,
+          error: "no_price",
+        };
       });
 
-      if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    let res = [];
+    res = await Promise.all(
+      data.map((obj) => {
+        const index = chunkPrices.findIndex(
+          (el) => el["itemcode"] == obj["code"]
+        );
+        if (chunkPrices[index]) {
+          return {
+            ...obj,
+            prices: chunkPrices[index],
+          };
+        }
 
-      let res = [];
-      res = await Promise.all(
-        skus.map((obj) => {
-          const index = chunkPrices.findIndex(
-            (el) => el["itemcode"] == obj["code"]
-          );
-          if (chunkPrices[index]) {
-            return {
-              ...obj,
-              prices: {
-                discount: chunkPrices[index].discount,
-                discountedPrice: chunkPrices[index].discountedPrice,
-                price: chunkPrices[index].price,
-              },
-            };
-          }
+        return obj;
+      })
+    );
 
-          return obj;
-        })
-      );
+    setSkusData(res);
 
-      setSkusData(res);
+    if (pricesPage < allChunks.length - 1) {
+      setPricesPage(pricesPage + 1);
     }
   };
 
   useEffect(() => {
     if (skus.length > 0 && cl && customer) {
       setSkusData(skus);
-      getSkusPrices();
+      if (pricesPage === 0) getSkusPrices(pricesPage);
     }
   }, [skus, customer]);
+
+  useEffect(() => {
+    if (skus.length > 0 && cl && customer) {
+      getSkusPrices(pricesPage);
+    }
+  }, [pricesPage]);
 
   useEffect(() => {
     if (skusData && skusData.length > 0) {

@@ -22,10 +22,12 @@ import CustomerContext from "../../hooks/customerContext";
 import axios from "axios";
 import BouncingDotsLoader from "../../components/bouncingDotsLoader";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 const Support = () => {
   const [formData, setFormData] = useState({
     customer: "",
+    customerId: "",
     message: "",
   });
   const [loading, setLoading] = useState(false);
@@ -40,7 +42,6 @@ const Support = () => {
   } = useForm();
 
   const handleSupportMail = async (event) => {
-
     const data = formData;
 
     axios
@@ -62,7 +63,7 @@ const Support = () => {
   };
 
   const onUpdateField = (e) => {
-    console.log("onUpdateField",e.target.name,e.target.value)
+    console.log("onUpdateField", e.target.name, e.target.value);
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,
@@ -75,6 +76,7 @@ const Support = () => {
       const nextFormState = {
         ...formData,
         customer: customer.email,
+        customerId: customer.metadata.full_name + " " + customer.metadata.reference,
       };
       setFormData(nextFormState);
     }
@@ -82,6 +84,9 @@ const Support = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Assistenza | Socaf</title>
+      </Helmet>
       <Container>
         <CustomBreadcrumbs
           data={{
@@ -99,7 +104,7 @@ const Support = () => {
         <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
           Ciao, come posso aiutarti?
         </Heading>
-        <Grid columns={["1fr",".7fr .3fr"]} gap={[0,12]}>
+        <Grid columns={["1fr", ".7fr .3fr"]} gap={[0, 12]}>
           {success === null ? (
             <>
               <Box as="form" onSubmit={handleSubmit(handleSupportMail)}>
@@ -162,16 +167,16 @@ const Support = () => {
                   >
                     <Text>Supporto telefonico</Text>
                     <br />
-                    <a href="tel:80048110">800 480110</a>
+                    <a href="tel:+390354876054">+39 035 4876054</a>
                   </Box>
                   <Box
                     sx={{
                       fontSize: [2],
                     }}
                   >
-                    Numero verde gratuito attivo:
+                    Numero attivo:
                     <br />
-                    lunedi - venerdi dalle 10:00 alle 17:00
+                    lunedi - venerdi dalle 8.00-12.30/13.30-18.30
                   </Box>
                 </Box>
               </Box>

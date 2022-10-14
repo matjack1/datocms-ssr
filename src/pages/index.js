@@ -7,6 +7,7 @@ import Layout from "../components/layout";
 import LatestOrders from "../components/latestOrders";
 import FeaturedProduct from "../components/featuredProduct";
 import CustomerContext from "../hooks/customerContext";
+import { Helmet } from "react-helmet";
 
 const IndexPage = ({ data: { page, categories } }) => {
   console.log(categories);
@@ -14,6 +15,9 @@ const IndexPage = ({ data: { page, categories } }) => {
   // console.log(user);
   return (
     <Layout>
+      <Helmet>
+        <title>Home | Socaf</title>
+      </Helmet>
       <LatestOrders />
       <RecentlyViewedSkus />
       {/* {page.content.map((block) => (

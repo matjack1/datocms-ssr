@@ -5,56 +5,82 @@ import getPrices from "../hooks/getPrices";
 
 const RelatedProducts = ({ sku, skus, customer }) => {
   const [skusData, setSkusData] = useState(skus);
+  const [pricesPage, setPricesPage] = useState(0);
 
-  const getSkusPrices = async () => {
+  const getSkusPrices = async (pricesPage) => {
+    let i = pricesPage;
     let chunkPrices = [];
     let allChunks = [];
+
+    const data = pricesPage != 0 ? JSON.parse(JSON.stringify(skusData)) : skus;
     const chunkSize = 4;
-    const reducedData = skus.map((x) => x.code);
+    const reducedData = data.map((x) => x.code);
+
+    console.log(
+      data.filter(
+        ({ value: id1 }) => !skus.some(({ value: id2 }) => id2 === id1)
+      )
+    );
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
       allChunks.push(chunk);
     }
 
-    for (let i = 0; i < allChunks.length; i++) {
-      const prices = await getPrices({
-        iduser: customer.reference,
-        items: allChunks[i],
+    const prices = await getPrices({
+      iduser: customer.reference,
+      items: allChunks[i],
+    });
+
+    if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    else
+      chunkPrices = allChunks[i].map((x) => {
+        return {
+          itemcode: x,
+          error: "no_price",
+        };
       });
 
-      if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+    let res = [];
+    res = await Promise.all(
+      data.map((obj) => {
+        const index = chunkPrices.findIndex(
+          (el) => el["itemcode"] == obj["code"]
+        );
+        if (chunkPrices[index]) {
+          return {
+            ...obj,
+            prices: chunkPrices[index],
+          };
+        }
 
-      let res = [];
-      res = await Promise.all(
-        skus.map((obj) => {
-          const index = chunkPrices.findIndex(
-            (el) => el["itemcode"] == obj["code"]
-          );
-          if (chunkPrices[index]) {
-            return {
-              ...obj,
-              prices: {
-                discount: chunkPrices[index].discount,
-                discountedPrice: chunkPrices[index].discountedPrice,
-                price: chunkPrices[index].price,
-              },
-            };
-          }
+        return obj;
+      })
+    );
 
-          return obj;
-        })
+    setSkusData(res);
+
+    if (pricesPage < allChunks.length - 1) {
+      console.log(
+        "pricesPage < allChunks.length - 1",
+        pricesPage,
+        allChunks.length - 1
       );
-
-      setSkusData(res);
+      setPricesPage(pricesPage + 1);
     }
   };
 
   useEffect(() => {
     if (skus.length > 0 && customer) {
-      getSkusPrices();
+      if (pricesPage === 0) getSkusPrices(pricesPage);
     }
   }, []);
+
+  useEffect(() => {
+    if (skus.length > 0 && customer) {
+      getSkusPrices(pricesPage);
+    }
+  }, [pricesPage]);
 
   return skusData ? (
     <Box sx={{ position: "relative" }}>
@@ -68,7 +94,13 @@ const RelatedProducts = ({ sku, skus, customer }) => {
       {/* to do hide on first one */}
       <CustomCarousel
         small={false}
-        data={skusData}
+        data={skusData.sort(function (a, b) {
+          return (
+            (a.ranking === null) - (b.ranking === null) ||
+            +(a.ranking > b.ranking) ||
+            -(a.ranking < b.ranking)
+          );
+        })}
         type="skus"
         productThumbnail={true}
       />

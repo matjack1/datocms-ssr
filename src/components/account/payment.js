@@ -17,6 +17,7 @@ import { InboundLink } from "../link";
 import { useClSdk } from "../../hooks/useClSdk";
 import CustomerContext from "../../hooks/customerContext";
 import CustomBreadcrumbs from "../customBreadcrumbs";
+import { Helmet } from "react-helmet";
 
 const Payments = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -67,6 +68,9 @@ const Payments = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Metodi di pagamento | Socaf</title>
+      </Helmet>
       <Container>
         <CustomBreadcrumbs
           data={{

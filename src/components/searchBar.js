@@ -1,10 +1,10 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Box } from "theme-ui";
+import { Box, Button} from "theme-ui";
 import { getColor } from "@theme-ui/color";
 import themeUiTheme from "../gatsby-plugin-theme-ui";
 import Search from "../assets/img/icons/nessun-risultato.inline.svg";
 import { i18nContext } from "../hooks/i18nContext";
-
+import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import { connectSearchBox } from "react-instantsearch-dom";
 import { navigate } from "@reach/router";
 
@@ -15,11 +15,13 @@ const CustomSearchBox = ({
   submit,
 }) => {
   const [currentDefaultQuery, setCurrentDefaultQuery] = useState(null);
-  console.log("currentRefinement", currentRefinement);
   const inputReference = useRef();
 
   useEffect(() => {
     inputReference.current.focus();
+    if (currentRefinement) {
+      setCurrentDefaultQuery(currentRefinement);
+    }
   }, []);
   const dark = getColor(themeUiTheme, `dark`);
 
@@ -31,12 +33,6 @@ const CustomSearchBox = ({
     }, 100);
   };
 
-  useEffect(() => {
-    if (currentRefinement) {
-      setCurrentDefaultQuery(currentRefinement);
-    }
-  }, [currentRefinement]);
-
   return (
     <Box
       as="form"
@@ -47,7 +43,9 @@ const CustomSearchBox = ({
       sx={{ position: "relative", height: "100%", width: "100%" }}
       onSubmit={handleFormSubmit}
     >
-      <Box
+      <Button
+        type="submit"
+        variant="buttons.primaryTransparent"
         sx={{
           position: "absolute",
           px: [3],
@@ -59,13 +57,20 @@ const CustomSearchBox = ({
           justifyContent: "center",
           alignContent: "center",
           alignItems: "center",
+          backgroundColor:"transparent",
+          color:"dark",
           svg: {
             height: "24px!important",
           },
         }}
+        disabled={isSearchStalled}
       >
-        {isSearchStalled ? "LOADING SPINNER" : <Search color={dark} />}
-      </Box>
+        {isSearchStalled ? (
+          <BouncingDotsLoader color={"primary"} />
+        ) : (
+          <Search color={dark} />
+        )}
+      </Button>
       <i18nContext.Consumer>
         {(t) => (
           <Box

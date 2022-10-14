@@ -48,7 +48,7 @@ exports.handler = async function (event, context) {
           const resetData = response.data.data;
           const id = resetData.id;
           const token = resetData.attributes.reset_password_token;
-          const link = `https://socaf-b2b.netlify.app/reset-password?id=${id}&token=${token}`;
+          const link = `https://shop.socaf.it/reset-password?id=${id}&token=${token}`;
 
           var msg = {
             from: "no-reply@socaf.it",

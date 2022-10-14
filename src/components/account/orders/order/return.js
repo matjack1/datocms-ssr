@@ -27,6 +27,7 @@ import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { Helmet } from "react-helmet";
 
 const CustomerOrderReturn = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -38,6 +39,7 @@ const CustomerOrderReturn = () => {
   const [success, setSuccess] = useState(null);
   const [formData, setFormData] = useState({
     customer: "",
+    customerId: "",
     message: "",
     order: "",
     products: [],
@@ -69,6 +71,7 @@ const CustomerOrderReturn = () => {
 
   const handleReturnMail = async (event) => {
     const data = formData;
+    console.log("customer",formData)
 
     axios
       .post("/.netlify/functions/returnMail", data)
@@ -94,6 +97,7 @@ const CustomerOrderReturn = () => {
       const nextFormState = {
         ...formData,
         customer: customer.email,
+        customerId : customer.metadata.full_name+" "+customer.metadata.reference
       };
       setFormData(nextFormState);
     }
@@ -141,6 +145,9 @@ const CustomerOrderReturn = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>{order && order.number ? `Reso ordine #${order.number}` : `Ordine`} | Socaf</title>
+      </Helmet>
       <Container>
         {order && !showSkeleton ? (
           <>

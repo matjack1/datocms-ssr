@@ -19,11 +19,10 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 import Layout from "../components/layout";
 import { GatsbyImage } from "gatsby-plugin-image";
 import { OutboundLink } from "../components/link";
-
+import { Helmet } from "react-helmet";
 import PdfIcon from "../assets/img/icons/documenti-tecnici.inline.svg";
 import Package from "../assets/img/icons/confezionamento.inline.svg";
 import DeliveryIcon from "../assets/img/icons/corriere-sede.inline.svg";
-
 import RelatedProducts from "../components/relatedProducts";
 import { navigate } from "gatsby";
 import getPrices from "../hooks/getPrices";
@@ -34,6 +33,7 @@ import ThumbProductDetails from "../components/thumbProductDetails";
 import SkuPageSkeleton from "../components/skeleton/skuPage";
 import BouncingDotsLoader from "../components/bouncingDotsLoader";
 import { useBreakpointIndex } from "@theme-ui/match-media";
+import FilterMetaTagDescription from "../utils/filterMetaTagDescription";
 
 const SkuPage = ({ data: { sku, skus } }) => {
   const [clSkuDetails, setClSkuDetails] = useState(null);
@@ -143,18 +143,22 @@ const SkuPage = ({ data: { sku, skus } }) => {
     });
 
     const foundPrices =
-      prices && prices.items && prices.items.length > 0 && prices.items[0];
+      prices && prices.items && prices.items.length > 0
+        ? prices.items[0]
+        : { error: "no_price" };
 
-    if (clSku && clSku[0] && foundPrices)
+    if (clSku && clSku[0])
       setClSkuDetails({
         ...sku,
         ...clSku[0],
-        prices: {
-          discount: foundPrices.discount,
-          discountedPrice: foundPrices.discountedPrice,
-          price: foundPrices.price,
-        },
+        prices: foundPrices,
       });
+
+    console.log("22", {
+      ...sku,
+      ...clSku[0],
+      prices: foundPrices,
+    });
   };
 
   const updateQuantity = (quantity) => {
@@ -170,10 +174,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, [customer]);
 
   useEffect(() => {
-    console.log(
-      'localStorage.getItem("favourites")',
-      localStorage.getItem("favourites")
-    );
     if (isFavourie === null && localStorage.getItem("favourites")) {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
@@ -184,7 +184,6 @@ const SkuPage = ({ data: { sku, skus } }) => {
   }, []);
 
   useEffect(() => {
-    console.log("clSkuDetails", clSkuDetails);
     if (clSkuDetails && !relatedSkus)
       setRelatedSkus(skus.nodes.filter((e) => e.code != sku.code));
   }, [clSkuDetails]);
@@ -197,6 +196,9 @@ const SkuPage = ({ data: { sku, skus } }) => {
 
   return (
     <Layout>
+      <Helmet>
+        <title>{sku && sku.name ? sku.name : "Prodotto"} | Socaf</title>
+      </Helmet>
       <Container>
         {!showSkeleton ? (
           <>
@@ -448,7 +450,9 @@ const SideSku = ({
             }}
           >
             <Text as="span" sx={{ fontWeight: "600", fontSize: [5, 6] }}>
-              {clSkuDetails && clSkuDetails.prices ? (
+              {clSkuDetails &&
+              clSkuDetails.prices &&
+              !clSkuDetails.prices.error ? (
                 <>
                   {clSkuDetails.prices.discountedPrice
                     ? "€" +
@@ -469,9 +473,11 @@ const SideSku = ({
                       color: "lightBorder",
                     }}
                   >
-                    Prezzo per unità / Tasse escluse
+                    Prezzo per unità / IVA esclusa
                   </Text>
                 </>
+              ) : clSkuDetails.prices && clSkuDetails.prices.error ? (
+                <Box>Prezzo non disponibile</Box>
               ) : (
                 <Box
                   sx={{
@@ -504,7 +510,6 @@ const SideSku = ({
         }}
       >
         <Box sx={{ width: "100%", height: "100%" }}>
-          {console.log("add to cart", clSkuDetails)}
           <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
         </Box>
         <Box sx={{ height: "100%" }}>
@@ -573,6 +578,9 @@ export const query = graphql`
   query SkuPageQuery($id: String!, $categoryId: [String]) {
     sku: datoCmsSku(id: { eq: $id }) {
       ...SkuDetails
+      seoMetaTags {
+        ...GatsbyDatoCmsSeoMetaTags
+      }
     }
     skus: allDatoCmsSku(
       limit: 20
@@ -602,6 +610,7 @@ export const query = graphql`
     sanitizer
     detergentType
     detergentUsage
+    ranking
     pack
     brand
     material
@@ -616,10 +625,7 @@ export const query = graphql`
         height: 670
         placeholder: BLURRED
         forceBlurhash: false
-        imgixParams: {
-          ar: "1:1"
-          fit: "crop"
-        }
+        imgixParams: { ar: "1:1", fit: "crop" }
       )
     }
     model {

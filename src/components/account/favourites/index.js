@@ -10,6 +10,7 @@ import FavouriteProduct from "../../favouriteProduct";
 import getPrices from "../../../hooks/getPrices";
 import FavouritesSkeleton from "../../skeleton/favourites";
 import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
+import { Helmet } from "react-helmet";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -76,7 +77,7 @@ const CustomerFavourites = () => {
     if (updatedCustomer) {
       const retrievedCustomer = await cl.customers
         .retrieve(customerToken.owner_id, {
-          include: ["orders", "orders.shipping_address","orders.line_items"],
+          include: ["orders", "orders.shipping_address", "orders.line_items"],
         })
         .catch(handleError);
 
@@ -106,22 +107,24 @@ const CustomerFavourites = () => {
         });
 
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
+        else
+          chunkPrices = allChunks[i].map((x) => {
+            console.log("x", x);
+            return {
+              itemcode: x,
+              error: "no_price",
+            };
+          });
 
         res = await Promise.all(
           skusTmp.map((obj) => {
             const index = chunkPrices.findIndex(
               (el) => el["itemcode"] == obj["code"]
             );
-
-            console.log("chunkPrices", chunkPrices);
             if (chunkPrices[index]) {
               return {
                 code: obj["code"],
-                prices: {
-                  discount: chunkPrices[index].discount,
-                  discountedPrice: chunkPrices[index].discountedPrice,
-                  price: chunkPrices[index].price,
-                },
+                prices: chunkPrices[index],
               };
             }
 
@@ -143,11 +146,7 @@ const CustomerFavourites = () => {
           let prices = skusPrices[index].prices;
           return {
             ...obj,
-            prices: {
-              discount: prices.discount,
-              discountedPrice: prices.discountedPrice,
-              price: prices.price,
-            },
+            prices: prices,
           };
         }
         return obj;
@@ -177,6 +176,9 @@ const CustomerFavourites = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Preferiti | Socaf</title>
+      </Helmet>
       <Container>
         {pricedSkusData && pricedSkusData.length > 0 ? (
           <>

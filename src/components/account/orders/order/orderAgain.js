@@ -32,6 +32,7 @@ import ThumbPrice from "../../../thumbPrice";
 import ThumbProductDetails from "../../../thumbProductDetails";
 import FavouritesSkeleton from "../../../skeleton/favourites";
 import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { Helmet } from "react-helmet"
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -195,6 +196,9 @@ const CustomerOrderReturn = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>Ordina di nuovo | Socaf</title>
+      </Helmet>
       <Box>
         <Container>
           {!showSkeleton && skusData && skusData.length > 0 ? (
