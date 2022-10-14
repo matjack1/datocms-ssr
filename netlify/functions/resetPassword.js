@@ -7,7 +7,7 @@ sgMail.setApiKey(
 
 exports.handler = async function (event, context) {
   const data = await JSON.parse(event.body);
-  console.log("data",data)
+  // console.log("data",data)
   var access_token_config = {
     method: "post",
     url: "https://socaf-s-p-a.commercelayer.io/oauth/token?grant_type=client_credentials&client_id=UrrIiXW1_p3FB5Ia9-HYk_bOhxGR5UuO2P0G_cUyWiQ&client_secret=fW3p4zvdJ1FH4uKntJULH7GJSuPTvfSSOQx98kHiAAI",
@@ -29,7 +29,7 @@ exports.handler = async function (event, context) {
         },
       });
       
-      console.log("customer_reset_password_call_data",customer_reset_password_call_data)
+      // console.log("customer_reset_password_call_data",customer_reset_password_call_data)
 
       var customer_reset_password_call_config = {
         method: "patch",
