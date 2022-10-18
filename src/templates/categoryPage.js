@@ -71,7 +71,6 @@ export const query = graphql`
         ranking
         pack
         brand
-        material
         images {
           url(imgixParams: { ar: "1:1", fit: "crop", w: "600", h: "600" })
           gatsbyImageData(

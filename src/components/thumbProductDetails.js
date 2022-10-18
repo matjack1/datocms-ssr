@@ -59,7 +59,7 @@ const ThumbProductDetails = ({ item, children }) => {
         {item.glove_type && (
           <Box as="tr">
             <Box as="td" sx={{ textAlign: "left" }}>
-              <Box>Guanto</Box>
+              <Box>Materiale</Box>
             </Box>
             <Box as="td">
               <Box sx={{ ml: [4] }}>{item.glove_type}</Box>

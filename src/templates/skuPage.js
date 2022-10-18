@@ -613,7 +613,6 @@ export const query = graphql`
     ranking
     pack
     brand
-    material
     documents {
       url
       title
