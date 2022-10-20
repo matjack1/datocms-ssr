@@ -60,7 +60,8 @@ export const query = graphql`
         slug
         locale
         size
-        gloveType
+        material
+        color
         pallet
         ecolabel
         biodegradable

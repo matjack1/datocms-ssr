@@ -602,7 +602,8 @@ export const query = graphql`
     minimum
     multiple
     size
-    gloveType
+    material
+    color
     pallet
     ecolabel
     biodegradable

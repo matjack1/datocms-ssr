@@ -60,19 +60,16 @@ const ThumbProductDetails = ({ item, children }) => {
                 </Box>
               )}
 
-              {(item.glove_type ||
-                item.gloveType) && (
-                  <Box as="tr">
-                    <Box as="td" sx={{ textAlign: "left" }}>
-                      <Box>{t.gloveType}</Box>
-                    </Box>
-                    <Box as="td">
-                      <Box sx={{ ml: [4] }}>
-                        {item.glove_type || item.gloveType}
-                      </Box>
-                    </Box>
+              {(item.material || item.material) && (
+                <Box as="tr">
+                  <Box as="td" sx={{ textAlign: "left" }}>
+                    <Box>{t.material}</Box>
                   </Box>
-                )}
+                  <Box as="td">
+                    <Box sx={{ ml: [4] }}>{item.material || item.material}</Box>
+                  </Box>
+                </Box>
+              )}
 
               {item.pack && (
                 <Box as="tr">
@@ -150,6 +147,19 @@ const ThumbProductDetails = ({ item, children }) => {
                   <Box as="td">
                     <Box sx={{ ml: [4] }}>
                       {item.detergent_usage || item.detergentUsage}
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+
+              {item.color && (
+                <Box as="tr">
+                  <Box as="td" sx={{ textAlign: "left" }}>
+                    <Box>{t.color}</Box>
+                  </Box>
+                  <Box as="td">
+                    <Box sx={{ ml: [4] }}>
+                      {item.color}
                     </Box>
                   </Box>
                 </Box>

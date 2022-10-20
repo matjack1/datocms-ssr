@@ -11,7 +11,8 @@ export default async function getSkuData(skus) {
       minimum
       multiple
       size
-      gloveType
+      material
+      color
       pallet
       ecolabel
       biodegradable

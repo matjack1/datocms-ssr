@@ -4,7 +4,7 @@ export const languages = {
   it: {
     search:"Cerca",
     size: "Taglia",
-    gloveType: "Materiale",
+    material: "Materiale",
     pallet :"Pallet",
     pack: "Confezione",
     brand : "Brand",
