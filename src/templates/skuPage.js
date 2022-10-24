@@ -368,7 +368,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
                     </Heading>
                     <Box sx={{ pb: [3] }}>
                       <Text color="lightBorder">
-                        Consegna rapida gratuita per ordini superiori a 250€{" "}
+                        Consegna rapida gratuita per ordini superiori a 200€{" "}
                         <br />
                       </Text>
                     </Box>

@@ -52,7 +52,7 @@ const Header = ({ color, title }) => {
             </Box>
             <Box sx={{ textAlign: "center" }}>
               <Text sx={{ color: "white", fontWeight: "600", fontSize: [1] }}>
-                Spedizione gratuita per ordini superiori a €250
+                Spedizione gratuita per ordini superiori a €200
               </Text>
             </Box>
             <Box sx={{ textAlign: "right" }}>
