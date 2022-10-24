@@ -213,8 +213,8 @@ const LoginPage = () => {
                 fontSize: [1, 2],
               }}
             >
-              Non riesci ad accedere al servizio? <br /> Contattaci al 800
-              480110
+              Non riesci ad accedere al servizio? <br /> Contattaci allo
+              0354876054
             </Box>
           </Box>
         </Box>
