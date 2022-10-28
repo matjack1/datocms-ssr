@@ -32,7 +32,7 @@ import ThumbPrice from "../../../thumbPrice";
 import ThumbProductDetails from "../../../thumbProductDetails";
 import FavouritesSkeleton from "../../../skeleton/favourites";
 import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
-import { Helmet } from "react-helmet"
+import { Helmet } from "react-helmet";
 
 const CustomerOrderReturn = () => {
   const client = buildClient({ apiToken: "7f672cb51a4f9c2dce0c59b466b8c6" });
@@ -91,7 +91,9 @@ const CustomerOrderReturn = () => {
       setRecordCount(clSku.meta.recordCount);
 
       var tmpclSku = [...clSku];
+
       if (skusData) tmpclSku = [...clSku, ...skusData];
+      console.log("clSku, skusData", clSku, skusData);
 
       const line_items = await Promise.all(
         order.line_items
@@ -104,16 +106,19 @@ const CustomerOrderReturn = () => {
       let mergedSku = await Promise.all(
         tmpclSku.map((obj) => {
           const index = line_items.findIndex((el) => el["code"] == obj["code"]);
-          obj.images = []
+
+          delete records[index].images
+          delete obj.image_url;
+
           return {
             ...records[index],
-            ...obj,
             ...line_items[index],
+            ...obj,
           };
         })
       );
 
-      console.log("mergedSku",mergedSku)
+      console.log("mergedSku", mergedSku);
       setSkusData(mergedSku);
     }
   };
@@ -126,7 +131,7 @@ const CustomerOrderReturn = () => {
     const order = await cl.orders
       .retrieve(id, { include: ["line_items"] })
       .catch(handleError);
-    console.log("order",order)
+    console.log("order", order);
 
     if (order) {
       setLineItems(order.line_items);
@@ -229,11 +234,11 @@ const CustomerOrderReturn = () => {
                   Ordina di nuovo
                 </Heading>
               </Box>
-              <Grid columns={["1fr","1fr", ".7fr .3fr"]} gap={[0,0, 12]}>
+              <Grid columns={["1fr", "1fr", ".7fr .3fr"]} gap={[0, 0, 12]}>
                 <Box>
                   <Box>
                     <Box>
-                      <Grid sx={{ gridTemplateRows: "auto" }} gap={[6,8]}>
+                      <Grid sx={{ gridTemplateRows: "auto" }} gap={[6, 8]}>
                         {console.log(skusData)}
                         {skusData.map((sku) => (
                           <Box key={sku.code}>
@@ -278,15 +283,13 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
       : false;
   }
 
-  
-
   return (
     <Box>
       {clSkuDetails && (
         <>
           <Grid
             sx={{
-              gridTemplateColumns: ["83px 1fr","83px 1fr","168px 1fr"],
+              gridTemplateColumns: ["83px 1fr", "83px 1fr", "168px 1fr"],
             }}
             gap={[3, 10]}
           >
@@ -294,12 +297,12 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
               <Box
                 sx={{
                   border: "1px solid",
-                  height: ["81px","81px","168px"],
+                  height: ["81px", "81px", "168px"],
                   borderColor: "dark",
                   width: "100%",
                 }}
               >
-                {console.log("clSkuDetails",clSkuDetails)}
+                {console.log("clSkuDetails", clSkuDetails)}
                 {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
                   <GatsbyImage
                     image={clSkuDetails.images[0].gatsbyImageData}
@@ -318,7 +321,11 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                     }}
                   >
                     <Image
-                      src={clSkuDetails.image_url ? clSkuDetails.image_url : PlaceholderImage}
+                      src={
+                        clSkuDetails.image_url.includes("http")
+                          ? clSkuDetails.image_url
+                          : PlaceholderImage
+                      }
                     />
                   </Box>
                 )}
@@ -351,7 +358,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                         color: "dark",
                         fontWeight: "400",
                         my: [0],
-                        fontSize: [1,5, 5],
+                        fontSize: [1, 5, 5],
                       }}
                     >
                       {clSkuDetails.name}
@@ -364,7 +371,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
               </Box>
               <ThumbProductDetails item={clSkuDetails} />
               <ThumbPrice item={clSkuDetails} />
-              <Flex sx={{ pb: [9], display:["none","none","flex"] }}>
+              <Flex sx={{ pb: [9], display: ["none", "none", "flex"] }}>
                 <SkuQuantity
                   sku={clSkuDetails}
                   quantity={currentQuantity}
@@ -378,7 +385,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                       width: "100%",
                       height: "100%",
                       textAlign: "center",
-                      fontSize: [1,3],
+                      fontSize: [1, 3],
                       fontWeight: "600",
                       borderRadius: "unset",
                       p: [0],
@@ -387,6 +394,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                     },
                   }}
                 >
+                  {console.log("clSkuDetails", clSkuDetails)}
                   <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
                 </Box>
               </Flex>
@@ -394,7 +402,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
           </Grid>
 
           {mediaIndex < 2 && (
-            <Flex sx={{ pb: [9], flexDirection:"column" }}>
+            <Flex sx={{ pb: [9], flexDirection: "column" }}>
               <SkuQuantity
                 sku={clSkuDetails}
                 quantity={currentQuantity}
@@ -404,20 +412,21 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
               <Box
                 sx={{
                   button: {
-                    mt:[3,3],
+                    mt: [3, 3],
                     minHeight: "37px",
                     width: "100%",
                     height: "100%",
                     textAlign: "center",
-                    fontSize: [1,3],
+                    fontSize: [1, 3],
                     fontWeight: "600",
                     borderRadius: "unset",
                     p: [0],
                     px: [2],
-                    ml: [0,0],
+                    ml: [0, 0],
                   },
                 }}
               >
+                {console.log("clSkuDetails", clSkuDetails)}
                 <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
               </Box>
             </Flex>
