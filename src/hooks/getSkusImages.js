@@ -11,7 +11,8 @@ export default async function getSkusImage(skus) {
           minimum
           multiple
           size
-          gloveType
+          material
+          color
           pallet
           ecolabel
           biodegradable

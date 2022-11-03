@@ -48,6 +48,7 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
+    console.log("sku",sku)
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
@@ -56,6 +57,8 @@ const AddToCart = ({ sku, quantity }) => {
       _update_quantity: true,
       _external_price: true,
     };
+
+    console.log("sku",attributes)
 
     const handleError = (e) => {
       console.log("error", e);

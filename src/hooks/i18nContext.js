@@ -4,7 +4,7 @@ export const languages = {
   it: {
     search:"Cerca",
     size: "Taglia",
-    gloveType: "Materiale",
+    material: "Materiale",
     pallet :"Pallet",
     pack: "Confezione",
     brand : "Brand",
@@ -15,6 +15,7 @@ export const languages = {
     haccp : "HACCP",
     detergentType:"Tipo di detergente",
     detergentUsage: "Utilizzo",
+    color: "Colore",
     locale: "it",
     discoverMore: "Scopri di più",
     all: "Tutti",
