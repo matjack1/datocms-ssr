@@ -17,7 +17,7 @@ const ALGOLIA_LANGUAGE = "it";
 // https://www.algolia.com/doc/api-client/getting-started/instantiate-client-index/
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_API_KEY);
 
-const token = "484b21ec92d70e11950acf0a2a890c";
+const token = "03d92ad339eeddd0f5202eab2871a1";
 const endpoint = "https://graphql.datocms.com/";
 
 // Init GraphQL client
@@ -48,41 +48,43 @@ const handler = async (event, context) => {
   const QUERY = `
     {
         allSkus(filter: {id: { eq: ${id} }}) {
-          objectID: id
-          code
-          category {
+            objectID: id
+            code
+            category {
+              name
+              id
+              slug
+              parent {
+                  id
+                  name
+                  slug
+              }
+            }
+            detergentType
+            detergentUsage
+            ecolabel
+            material
+            color
+            haccp
+            images {
+              id
+              responsiveImage(imgixParams: {fit: crop, ar: "1:1"}) {
+                alt
+                title
+                src
+              }
+            }
+            minimum
+            multiple
             name
-            id
+            description
+            packaging
+            pallet
+            sanitizer
+            ranking
+            size
             slug
-            parent {
-                id
-                name
-                slug
-            }
-          }
-          detergentType
-          detergentUsage
-          ecolabel
-          gloveType
-          haccp
-          images {
-            id
-            responsiveImage(imgixParams: {fit: crop, ar: "1:1"}) {
-              alt
-              title
-              src
-            }
-          }
-          minimum
-          multiple
-          name
-          description
-          packaging
-          pallet
-          sanitizer
-          ranking
-          size
-          slug
+            _status
         }
     }
     `;
@@ -92,75 +94,81 @@ const handler = async (event, context) => {
     console.error("Failed to fetch CMS data.", "\n", err.stack);
   });
 
-  console.log("datoRecord",datoRecord)
+  console.log("datoRecord", data);
 
-  if (data.entity.id === "2222222") {
-    if (foundsku && data.event_type === "publish") {
-      console.log("-update found-");
-      try {
-        await algoliaIndex
-          .saveObjects([tmpObj])
-          // Wait for the indexing task to complete
-          // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
-          .wait()
-          .then((response) => {
-            console.log(response);
-            // Search the index for "Fo"
-            // https://www.algolia.com/doc/api-reference/api-methods/search/
-            // algoliaIndex
-            //   .search("Fo")
-            //   .then((objects) => console.log(objects))
-            //   .catch();
-          });
-        return true;
-      } catch (err) {
-        console.log("err", err);
-        return false;
-      }
-    } else if (foundsku && data.event_type === "delete") {
-      console.log("delete found");
-      try {
-        await algoliaIndex
-          .deleteObject(data.entity.id)
-          // Wait for the indexing task to complete
-          // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
-          .wait()
-          .then((response) => {
-            console.log(response);
-            // Search the index for "Fo"
-            // https://www.algolia.com/doc/api-reference/api-methods/search/
-            // algoliaIndex
-            //   .search("Fo")
-            //   .then((objects) => console.log(objects))
-            //   .catch();
-          });
-        return true;
-      } catch (err) {
-        console.log("err", err);
-        return false;
-      }
-    } else if (!foundsku) {
-      try {
-        await algoliaIndex
-          .deleteObject(data.entity.id)
-          // Wait for the indexing task to complete
-          // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
-          .wait()
-          .then((response) => {
-            console.log(response);
-            // Search the index for "Fo"
-            // https://www.algolia.com/doc/api-reference/api-methods/search/
-            // algoliaIndex
-            //   .search("Fo")
-            //   .then((objects) => console.log(objects))
-            //   .catch();
-          });
-        return true;
-      } catch (err) {
-        console.log("err", err);
-        return false;
-      }
+  if (
+    datoRecord &&
+    datoRecord.allSkus[0] &&
+    datoRecord.allSkus[0]._status &&
+    datoRecord.allSkus[0]._status === "published"
+  ) {
+    console.log("-update found-");
+    try {
+      await algoliaIndex
+        .saveObjects([datoRecord.allSkus[0]])
+        // Wait for the indexing task to complete
+        // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
+        .wait()
+        .then((response) => {
+          console.log(response);
+          // Search the index for "Fo"
+          // https://www.algolia.com/doc/api-reference/api-methods/search/
+          // algoliaIndex
+          //   .search("Fo")
+          //   .then((objects) => console.log(objects))
+          //   .catch();
+        });
+      return true;
+    } catch (err) {
+      console.log("err", err);
+      return false;
     }
+  } else if (
+    data.event_type === "unpublish" ||
+    data.event_type === "delete"
+  ) {
+    try {
+      await algoliaIndex
+        .deleteObject(data.entity.id)
+        // Wait for the indexing task to complete
+        // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
+        .wait()
+        .then((response) => {
+          console.log(response);
+          // Search the index for "Fo"
+          // https://www.algolia.com/doc/api-reference/api-methods/search/
+          // algoliaIndex
+          //   .search("Fo")
+          //   .then((objects) => console.log(objects))
+          //   .catch();
+        });
+      return true;
+    } catch (err) {
+      console.log("err", err);
+      return false;
+    }
+  } else if (!foundsku) {
+    console.log("sku not found");
+    //   try {
+    //     await algoliaIndex
+    //       .deleteObject(data.entity.id)
+    //       // Wait for the indexing task to complete
+    //       // https://www.algolia.com/doc/api-reference/api-methods/wait-task/
+    //       .wait()
+    //       .then((response) => {
+    //         console.log(response);
+    //         // Search the index for "Fo"
+    //         // https://www.algolia.com/doc/api-reference/api-methods/search/
+    //         // algoliaIndex
+    //         //   .search("Fo")
+    //         //   .then((objects) => console.log(objects))
+    //         //   .catch();
+    //       });
+    //     return true;
+    //   } catch (err) {
+    //     console.log("err", err);
+    //     return false;
+    //   }
   }
 
   // allrecords.map(async (sku, index) => {
