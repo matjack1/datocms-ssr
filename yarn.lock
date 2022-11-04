@@ -1187,23 +1187,16 @@
     "@datocms/cma-client" "^1.1.1"
     "@datocms/rest-client-utils" "^1.1.1"
 
-"@datocms/cma-client-node@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@datocms/cma-client-node/-/cma-client-node-1.0.1.tgz#b0463ff1348d67865d70512fb5a0a612113c8c7a"
-  integrity sha512-VH/snIoJhZABrFUTvDxfruvELdI5ApHJd+a+uwSQT12YM3mweL/8utCwjD9HqfAcTYwGyq2hiZA8X5NMS4hcXA==
+"@datocms/cma-client-node@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@datocms/cma-client-node/-/cma-client-node-1.1.5.tgz#cd26776b3cde26381f4c4b5257e4ded2ead55251"
+  integrity sha512-OxdSEmA1MnkyviwiE9gWkORs813ti4hrYsMrlwukrXWmS6TW8zniat6p7ohQ3+cLmLePm+KrL5hSSYuWf2DpLA==
   dependencies:
-    "@datocms/cma-client" "^1.0.1"
-    "@datocms/rest-client-utils" "^1.0.0"
+    "@datocms/cma-client" "^1.1.5"
+    "@datocms/rest-client-utils" "^1.1.4"
     got "^11.8.5"
     mime-types "^2.1.35"
     tmp-promise "^3.0.3"
-
-"@datocms/cma-client@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@datocms/cma-client/-/cma-client-1.0.1.tgz#c97a53427434e8412c5b2f820a3b60e163b55eb6"
-  integrity sha512-0O2MA1GVm/RSH5aKxtqmgEr14VGxSKTlE1ZSYXHOFu/eYxlernA2Y+qCQD30NAFjXBqyFDF1kpHYbn07/cyB2g==
-  dependencies:
-    "@datocms/rest-client-utils" "^1.0.0"
 
 "@datocms/cma-client@^1.1.1":
   version "1.1.1"
@@ -1212,19 +1205,26 @@
   dependencies:
     "@datocms/rest-client-utils" "^1.1.1"
 
-"@datocms/rest-client-utils@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@datocms/rest-client-utils/-/rest-client-utils-1.0.0.tgz#e2e9088c243d4b45b310bd3e667e643f2d3426bf"
-  integrity sha512-4gTuSWXvNWOtWmbSE7qHdoO0XGWZwlbOV56ew/v5rJaSWOA08DGC+MM2WeG1+dAJYVv3BEN4Ka3DG2rh1RIsqA==
+"@datocms/cma-client@^1.1.5":
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/@datocms/cma-client/-/cma-client-1.1.5.tgz#08bbfbc5c42aa5a386a3577d6642dbf70ea7fd7d"
+  integrity sha512-D7tICc9QRGUnP4ZA6i8A+lnSKh5habTvkvfoBgPpR1+6y1Z6EI+9dTIPQyuQkdidZCaQZjEssJzikSwT3EWT8Q==
   dependencies:
-    async-scheduler "^1.4.4"
-    cross-fetch "^3.1.5"
-    qs "^6.10.3"
+    "@datocms/rest-client-utils" "^1.1.4"
 
 "@datocms/rest-client-utils@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@datocms/rest-client-utils/-/rest-client-utils-1.1.1.tgz#74855b887048d14b2c40714db7f738fb1cb5c78d"
   integrity sha512-ewTUetRUOh8ArgKWm0Knzq9+gN0UYYu3JtDhITd4Xf0Zqcq1ffKmD2BNP5LPq+6ibkGc0Od4nnWHuWxAnAcBCA==
+  dependencies:
+    async-scheduler "^1.4.4"
+    cross-fetch "^3.1.5"
+    qs "^6.10.3"
+
+"@datocms/rest-client-utils@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@datocms/rest-client-utils/-/rest-client-utils-1.1.4.tgz#84a87e419dc9c1a31b73c3c4aa02a41429aaf0cd"
+  integrity sha512-Efiw/4oomKYmSwTDRNnSmNLx3lTeeqGSMcXHuXfBxFLfx4gqkmPPkykXrEOc9RnZvcGmjREyAyLOkbLg9g1gDw==
   dependencies:
     async-scheduler "^1.4.4"
     cross-fetch "^3.1.5"
@@ -1694,6 +1694,11 @@
     "@graphql-tools/utils" "^7.8.1"
     tslib "~2.2.0"
     value-or-promise "1.0.6"
+
+"@graphql-typed-document-node/core@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/@graphql-typed-document-node/core/-/core-3.1.1.tgz#076d78ce99822258cf813ecc1e7fa460fa74d052"
+  integrity sha512-NQ17ii0rK1b34VZonlmT2QMJFI70m0TRwbknO/ihlbatXyaktDhN/98vBiUU6kNBPljqGqyIrl2T4nY2RpFANg==
 
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
@@ -6256,7 +6261,7 @@ external-editor@^3.0.3:
     iconv-lite "^0.4.24"
     tmp "^0.0.33"
 
-extract-files@9.0.0:
+extract-files@9.0.0, extract-files@^9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/extract-files/-/extract-files-9.0.0.tgz#8a7744f2437f81f5ed3250ed9f1550de902fe54a"
   integrity sha512-CvdFfHkC95B4bBBk36hcEmvdR2awOdhhVUYH6S/zrVj3477zven/fJMYg7121h4T1xHZC+tetUpubpAhxwI7hQ==
@@ -7470,6 +7475,16 @@ graphql-playground-middleware-express@^1.7.22:
   integrity sha512-M/zbTyC1rkgiQjFSgmzAv6umMHOphYLNWZp6Ye5QrD77WfGOOoSqDsVmGUczc2pDkEPEzzGB/bvBO5rdzaTRgw==
   dependencies:
     graphql-playground-html "^1.6.30"
+
+graphql-request@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/graphql-request/-/graphql-request-5.0.0.tgz#7504a807d0e11be11a3c448e900f0cc316aa18ef"
+  integrity sha512-SpVEnIo2J5k2+Zf76cUkdvIRaq5FMZvGQYnA4lUWYbc99m+fHh4CZYRRO/Ff4tCLQ613fzCm3SiDT64ubW5Gyw==
+  dependencies:
+    "@graphql-typed-document-node/core" "^3.1.1"
+    cross-fetch "^3.1.5"
+    extract-files "^9.0.0"
+    form-data "^3.0.0"
 
 graphql-tag@^2.11.0:
   version "2.12.6"
