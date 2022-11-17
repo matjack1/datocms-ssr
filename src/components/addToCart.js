@@ -48,7 +48,7 @@ const AddToCart = ({ sku, quantity }) => {
   };
 
   const createLineItem = async () => {
-    console.log("sku",sku)
+    
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
