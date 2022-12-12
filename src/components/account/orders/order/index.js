@@ -303,12 +303,12 @@ const CustomerOrder = () => {
                         }
                       </>
                     ) : (
+                      customerMetadata &&
                       <>
                         <Box>
-                          {console.log(customer)}
-                          {customer.metadata.payment_method}
+                          {customerMetadata.payment_method}
                         </Box>
-                        <Box>{customer.metadata.payment_term}</Box>
+                        <Box>{customerMetadata.payment_term}</Box>
                       </>
                     )}
                   </Flex>
