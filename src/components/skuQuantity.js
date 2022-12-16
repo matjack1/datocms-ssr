@@ -3,6 +3,7 @@ import { Box, Button, Flex, Text } from "theme-ui";
 
 const SkuQuantity = ({ sku, quantity, updateQuantity, showMinMult = true }) => {
   const [currentQuantity, setCurrentQuantity] = useState(quantity);
+  console.log(sku.multiple)
 
   function addQuantity() {
     setCurrentQuantity(currentQuantity + sku.multiple);
