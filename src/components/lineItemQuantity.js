@@ -8,6 +8,8 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
   const [inputValue, setInputValue] = useState(quantity);
   const client = useDatoCmsSdk();
 
+  console.log("LineItemQuantity");
+
   async function run() {
     const records = await client.items.list({
       filter: {
@@ -46,12 +48,12 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
   }, []);
 
   useEffect(() => {
-    if(quantity != currentQuantity)
-    updateQuantity(currentQuantity, lineItem.id);
+    if (quantity != currentQuantity)
+      updateQuantity(currentQuantity, lineItem.id);
   }, [currentQuantity]);
 
   return (
-    <Box sx={{ pb: [4,5,9] }}>
+    <Box sx={{ pb: [4, 5, 9] }}>
       <Flex
         sx={{
           alignItems: "center",
@@ -61,7 +63,16 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
           Quantità:
         </Text>
         <Flex>
-          <Button
+          <Box
+            sx={{
+              fontFamily: "body",
+              color: "dark",
+              borderColor: "dark",
+            }}
+          >
+            {currentQuantity}
+          </Box>
+          {/* <Button
             sx={{mr:["-1px"]}}
             variant="buttons.darkEmpty"
             disabled={currentQuantity < 2}
@@ -102,7 +113,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
             onClick={() => addQuantity()}
           >
             +
-          </Button>
+          </Button> */}
         </Flex>
       </Flex>
     </Box>
