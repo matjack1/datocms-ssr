@@ -1,40 +1,106 @@
-import * as React from "react"
-import { Link } from "gatsby"
+import React, { useEffect, useState, useContext } from "react";
+import { Link } from "gatsby";
+import { Heading, Container, Text, Box } from "theme-ui";
+import CustomerTokenContext from "../hooks/customerTokenContext";
+import { Helmet } from "react-helmet";
+import Layout from "../components/layout";
+import { OutboundLink } from "../components/link";
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-}
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-}
-
-const paragraphStyles = {
-  marginBottom: 48,
-}
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-}
-
-// markup
 const NotFoundPage = () => {
-  return (
-    <main style={pageStyles}>
-      <title>Pagina non trovata | Socaf</title>
-      <h1 style={headingStyles}>Pagina non trovata</h1>
-      <p style={paragraphStyles}>
-        <Link to="/">Torna alla home</Link>.
-      </p>
-    </main>
-  )
-}
+  const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
+  const [hasHeaderFooter, setHasHeaderFooter] = useState(null);
 
-export default NotFoundPage
+  useEffect(() => {
+    if (
+      !customerToken &&
+      typeof window != "undefined" &&
+      (window.location.pathname !== `/login` ||
+        window.location.pathname !== `/forgot-password` ||
+        window.location.pathname !== `/reset-password`)
+    ) {
+      setHasHeaderFooter(false);
+    } else setHasHeaderFooter(true);
+  }, []);
+
+  return hasHeaderFooter != null && hasHeaderFooter ? (
+    <Layout>
+      <Helmet>
+        <title>404 | Socaf</title>
+      </Helmet>
+      <Content />
+    </Layout>
+  ) : hasHeaderFooter != null  &&(
+    <>
+      <Helmet>
+        <title>404 | Socaf</title>
+      </Helmet>
+      <Box sx={{
+        height:"100vh"
+      }}>
+      <Content />
+      </Box>
+    </>
+  );
+};
+
+const Content = () => {
+  return (
+    <Container
+      sx={{
+        textAlign: "center",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height:"100%",
+        py:[10,14]
+      }}
+    >
+      <Heading
+        as="h1"
+        variant="h1"
+        sx={{
+          fontSize: ["80px", "100px"],
+          pb: [4],
+          color:"primary",
+          fontWeight:"400"
+        }}
+      >
+        404
+      </Heading>
+      <Heading
+        variant="h3"
+        as="h2"
+        sx={{
+          pb: [10],
+        }}
+      >
+        Non abbiamo trovato quello che stavi cercando.
+      </Heading>
+
+      <Box sx={{width:"100%"}}>
+        <OutboundLink
+          href={`/`}
+          target="_self"
+          variant="buttons.primary"
+          sx={{
+            width:"100%",
+            maxWidth:"370px",
+            display: "inline-block",
+            width: "100%",
+            height: "100%",
+            textAlign: "center",
+            fontSize: [3],
+            fontWeight: "600",
+            borderRadius: "unset",
+            p: [3],
+          }}
+        >
+          Torna alla home
+        </OutboundLink>
+      </Box>
+    </Container>
+  );
+};
+
+export default NotFoundPage;
