@@ -10,7 +10,7 @@ exports.handler = async function (event, context) {
   // console.log("data",data)
   var access_token_config = {
     method: "post",
-    url: "https://socaf-s-p-a.commercelayer.io/oauth/token?grant_type=client_credentials&client_id=UrrIiXW1_p3FB5Ia9-HYk_bOhxGR5UuO2P0G_cUyWiQ&client_secret=fW3p4zvdJ1FH4uKntJULH7GJSuPTvfSSOQx98kHiAAI",
+    url: "https://socaf-s-p-a.commercelayer.io/oauth/token?grant_type=client_credentials&client_id=UKgjC82fqYQT2E7nfoEVPmrjcmqd34mMtmqtV671nRo&client_secret=vOhfJBGqZwrhQSpG8etIfjKFrvhPEGYfoTpCC5q4ihA",
     headers: {},
   };
 
