@@ -14518,6 +14518,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"querystring-es3@npm:^0.2.1":
+  version: 0.2.1
+  resolution: "querystring-es3@npm:0.2.1"
+  checksum: 691e8d6b8b157e7cd49ae8e83fcf86de39ab3ba948c25abaa94fba84c0986c641aa2f597770848c64abce290ed17a39c9df6df737dfa7e87c3b63acc7d225d61
+  languageName: node
+  linkType: hard
+
 "querystring@npm:^0.2.0":
   version: 0.2.1
   resolution: "querystring@npm:0.2.1"
@@ -15762,6 +15769,7 @@ __metadata:
     graphql-request: ^5.0.0
     node-fetch: ^3.2.10
     nodemailer: ^6.7.8
+    querystring-es3: ^0.2.1
     react: ^18.1.0
     react-accessible-accordion: ^5.0.0
     react-datocms: ^3.1.0
