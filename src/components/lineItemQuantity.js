@@ -8,7 +8,7 @@ const LineItemQuantity = ({ lineItem, quantity, updateQuantity }) => {
   const [inputValue, setInputValue] = useState(quantity);
   const client = useDatoCmsSdk();
 
-  console.log("LineItemQuantity");
+  
 
   async function run() {
     const records = await client.items.list({

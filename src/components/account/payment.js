@@ -26,7 +26,7 @@ const Payments = () => {
 
   const getPaymentMethods = async (id) => {
     const handleError = (e) => {
-      console.log("e", e);
+      
       if (e && e.errors && e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
         // console.log("invalid token", e);
@@ -56,7 +56,7 @@ const Payments = () => {
       });
     }
 
-    console.log("tmpPaymentMethods", tmpPaymentMethods);
+    
 
     setPaymentMethods(tmpPaymentMethods);
     // }

@@ -19,9 +19,7 @@ export const CustomerTokenProvider = ({ children }) => {
       localStorage.removeItem("customerToken");
     }
 
-    if (!localStorageCustomerToken && !customerToken) {
-      console.log("customerToken", customerToken);
-    }
+    
   }, [customerToken]);
 
   return (

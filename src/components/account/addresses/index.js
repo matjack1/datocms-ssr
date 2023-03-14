@@ -35,7 +35,7 @@ const Addresses = () => {
     getAddresses(cl)
       .then((value) => {
         setAddresses(value);
-        console.log("getAddresses then", value);
+        
       })
       .catch((err) => {
         console.log("getAddresses err", err);
@@ -110,7 +110,7 @@ const Addresses = () => {
               </Flex>
             </InboundLink>
           </Box>
-          {console.log("addresses", addresses)}
+          
           {addresses &&
             addresses.meta.recordCount > 0 &&
             addresses.map((customer_address, index) => (

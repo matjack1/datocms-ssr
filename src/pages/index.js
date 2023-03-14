@@ -10,7 +10,7 @@ import CustomerContext from "../hooks/customerContext";
 import { Helmet } from "react-helmet";
 
 const IndexPage = ({ data: { page, categories } }) => {
-  console.log(categories);
+  
   const customer = useContext(CustomerContext);
   // console.log(user);
   return (

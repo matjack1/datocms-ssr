@@ -22,7 +22,7 @@ const CustomerFavourites = () => {
 
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-  console.log("enters");
+  
 
   const handleGetSkus = async () => {
     let records = [];
@@ -51,7 +51,7 @@ const CustomerFavourites = () => {
   };
 
   const handleDeleteFavourite = async (sku) => {
-    console.log("called");
+    
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
@@ -109,7 +109,7 @@ const CustomerFavourites = () => {
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
         else
           chunkPrices = allChunks[i].map((x) => {
-            console.log("x", x);
+            
             return {
               itemcode: x,
               error: "no_price",
@@ -152,7 +152,7 @@ const CustomerFavourites = () => {
         return obj;
       })
     );
-    console.log("res", res);
+    
     setTimeout(() => {
       setPricedSkusData(res);
     }, 300);
@@ -206,7 +206,7 @@ const CustomerFavourites = () => {
                 <Box>
                   <Box>
                     <Grid sx={{ gridTemplateRows: "auto" }} gap={[6, 8]}>
-                      {console.log(pricedSkusData[0].prices)}
+                      
                       {pricedSkusData.map((sku) => (
                         <Box>
                           <FavouriteProduct

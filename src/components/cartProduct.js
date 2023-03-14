@@ -27,7 +27,7 @@ const CartProduct = memo(({ sku, handleSkuLoaded, updateQuantity }) => {
     if (!clSkuDetails) handleLoadSkusDatoData();
   }, [sku]);
 
-  console.log("sku",sku)
+  
   return (
     <Box>
       {clSkuDetails && (

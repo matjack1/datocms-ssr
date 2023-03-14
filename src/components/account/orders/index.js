@@ -82,7 +82,7 @@ const CustomerOrders = () => {
 
       orders.forEach((order) => {
         if (order.status !== "draft" && order.status !== "pending") {
-          console.log(order.shipping_address.reference);
+          
           shippingAddressesTMP.push(order.shipping_address);
         }
       });
@@ -99,7 +99,7 @@ const CustomerOrders = () => {
   useEffect(() => {
     if (orders.length > 0) handleOrder();
 
-    console.log(filters);
+    
   }, [filters]);
 
   return (

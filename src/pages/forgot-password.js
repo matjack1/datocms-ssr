@@ -45,7 +45,7 @@ const ForgotPassword = () => {
       axios
         .post("/.netlify/functions/forgotPassword", { email: email })
         .then(function (response) {
-          console.log(response);
+          
           setSuccess(true);
           setLoading(false);
           if (typeof window !== "undefined" && window.dataLayer !== undefined) {

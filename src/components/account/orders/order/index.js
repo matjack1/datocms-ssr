@@ -50,7 +50,7 @@ const CustomerOrder = () => {
       .catch(handleError);
 
     if (order) {
-      console.log("order", order);
+      
       let tmp = 0;
       order.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
@@ -59,7 +59,7 @@ const CustomerOrder = () => {
   };
 
   useEffect(() => {
-    console.log("customer", customer);
+    
     if (customer && customer.metadata) setCustomerMetadata(customer.metadata);
   }, [customer]);
 
@@ -474,8 +474,8 @@ const CustomerOrder = () => {
                     >
                       {order.formatted_total_taxable_amount}
                       <br />
-                      {`(${itemQuantity} articol${
-                        itemQuantity > 0 ? "i" : "o"
+                      {`(${itemQuantity - 2} articol${
+                        itemQuantity -2  > 0 ? "i" : "o"
                       })`}
                     </Box>
                   </Flex>

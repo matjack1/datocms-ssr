@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { getCustomerToken } from "@commercelayer/js-auth";
+import CommerceLayer from "@commercelayer/sdk/lib/cjs/commercelayer";
 import {
   Box,
   Container,
@@ -27,7 +28,7 @@ import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
   const [data, setData] = useState({ username: "", password: "" });
-  const [loginError, setLoginError] = useState("");
+  const [loginError, setLoginError] = useState(null);
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
   const {
@@ -48,19 +49,42 @@ const LoginPage = () => {
     ).catch(handleError);
 
     if (clToken) {
-      console.log("logging");
-      setCustomerToken(clToken.data);
-      navigate("/");
-      setLoginError("");
+      const cl = CommerceLayer({
+        organization: "socaf-s-p-a",
+        accessToken: clToken.data.access_token,
+      });
+      const getCostumer = async () => {
+        console.log("enters");
+        const handleError = (e) => {
+          if (e.errors[0].code === "INVALID_TOKEN") {
+            setCustomerToken(null);
+            navigate("/login");
+            // console.log("invalid token", e);
+          }
+        };
+
+        const customer = await cl.customers
+          .retrieve(clToken.data.owner_id)
+          .catch(handleError);
+
+        if (!customer.metadata.disasbled) {
+          setCustomerToken(clToken.data);
+          navigate("/");
+          setLoginError("");
+        } else {
+          setLoginError("user");
+        }
+      };
+
+      getCostumer();
     }
   };
 
   const handleError = (e) => {
-    setLoginError(e);
+    setLoginError("error");
   };
 
   const handleChange = (e) => {
-    console.log("changing");
     const name = e.target.name === "email" ? "username" : e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
@@ -179,8 +203,12 @@ const LoginPage = () => {
               </CustomInput>
             </Box>
             {loginError && (
-              <Box>
-                <Text sx={{ color: "primary" }}>Errore di autenticazione</Text>
+              <Box sx={{ pb: 4 }}>
+                <Text sx={{ color: "primary" }}>
+                  {loginError === "error"
+                    ? "L'email o la password che hai inserito non sono corretti"
+                    : "Questo account non è autorizzato ad accedere al portale, contattare l'assistenza allo 0354876054"}
+                </Text>
               </Box>
             )}
 

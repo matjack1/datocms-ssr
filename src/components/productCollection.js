@@ -83,7 +83,7 @@ const ProductCollection = ({ category, skus, categories }) => {
     delete filters.pallet;
 
     for (let [key, val] of Object.entries(filters)) {
-      console.log("key", key);
+      
       if (key != "size")
         filters[key].sort(function (a, b) {
           return a.localeCompare(b, undefined, {

@@ -56,7 +56,7 @@ export default async function getSkuData(skus) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log("DATA", skus, res.data);
+      
       return res.data.allSkus;
     })
     .catch((error) => {

@@ -12,7 +12,7 @@ const RecentlyViewedSkus = () => {
 
   const handleGetSkus = async () => {
     const skus = customer.metadata.recentlyViewed;
-    console.log("await getSkusImage(skus)", await getSkusImage(skus));
+    
     setSkus(await getSkusImage(skus));
   };
 

@@ -40,10 +40,6 @@ const CustomInput = (props) => {
     }
   }, [value, id]);
 
-  useEffect(() => {
-    console.log("focused", focused);
-  }, [focused]);
-
   const fieldProps = {
     id,
     name,
@@ -136,13 +132,7 @@ const CustomInput = (props) => {
             </>
           ) : type === "text" || type === "password" || type === "email" ? (
             <>
-              {console.log(
-                type === "password" && passwordShown
-                  ? "text"
-                  : type === "password"
-                  ? "password"
-                  : type
-              )}
+              
               <Input
                 {...fieldProps}
                 {...register(name, validationSchema)}

@@ -260,7 +260,7 @@ const InfiniteHits = ({
     if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
     else
       chunkPrices = allChunks[i].map((x) => {
-        console.log("x", x);
+        
         return {
           itemcode: x,
           error: "no_price",
@@ -287,11 +287,7 @@ const InfiniteHits = ({
     setSkusData(res);
 
     if (pricesPage < allChunks.length - 1) {
-      console.log(
-        "pricesPage < allChunks.length - 1",
-        pricesPage,
-        allChunks.length - 1
-      );
+      
       setPricesPage(pricesPage + 1);
     }
   };
