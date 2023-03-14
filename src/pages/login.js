@@ -67,7 +67,7 @@ const LoginPage = () => {
           .retrieve(clToken.data.owner_id)
           .catch(handleError);
 
-        if (!customer.metadata.disasbled) {
+        if (!customer.metadata.disabled) {
           setCustomerToken(clToken.data);
           navigate("/");
           setLoginError("");
