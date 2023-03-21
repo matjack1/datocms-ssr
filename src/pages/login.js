@@ -203,9 +203,9 @@ const LoginPage = () => {
               Accedi
             </Button>
             <Box sx={{ textAlign: "center", py: [6] }}>
-              Non sei ancora registrato?
+              Nuovo cliente? 
               <OutboundLink sx={{ fontSize: [1, 2], ml:[1] }} href={"https://us20.list-manage.com/survey?u=5fd38aee20b7fcb3f04dfcdea&id=dccc7ed200&attribution=false"}>
-                Registrati
+                Registrati ora.
               </OutboundLink>
             </Box>
             <Box
