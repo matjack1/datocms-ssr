@@ -204,7 +204,7 @@ const LoginPage = () => {
             </Button>
             <Box sx={{ textAlign: "center", py: [6] }}>
               Nuovo cliente? 
-              <OutboundLink sx={{ fontSize: [1, 2], ml:[1] }} href={"https://us20.list-manage.com/survey?u=5fd38aee20b7fcb3f04dfcdea&id=dccc7ed200&attribution=false"}>
+              <OutboundLink sx={{ fontSize: [1, 2], ml:[1] }} href={"https://us20.list-manage.com/survey?u=5fd38aee20b7fcb3f04dfcdea&id=280458ac7d&attribution=false"}>
                 Registrati ora.
               </OutboundLink>
             </Box>
