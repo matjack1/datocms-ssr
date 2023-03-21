@@ -2,12 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { Box, Flex, Input, Label, Select, Textarea } from "theme-ui";
 import { IoEyeOutline, IoEyeOffOutline } from "react-icons/io5";
 import ErrorIcon from "../assets/img/icons/closed-circle.inline.svg";
+import { InboundLink } from "./link";
 
 const CustomInput = (props) => {
   const [passwordShown, setPasswordShown] = useState(false);
   const [focused, setFocused] = useState(false);
   const {
     id,
+    forgotPassword = false,
     onChange,
     validateField,
     name,
@@ -76,37 +78,52 @@ const CustomInput = (props) => {
           flexDirection: "column",
         }}
       >
-        <Label
+        <Flex
           sx={{
-            width: "fit-content",
-            px: [2],
-            py: [1],
-            fontSize: [1],
-            border: "1px solid",
-            borderColor:
-              errors && Object.keys(errors).length > 0 ? "primary" : "dark",
-            mb: ["-1px"],
-            color:
-              errors && Object.keys(errors).length > 0
-                ? "light"
-                : focused
-                ? "light"
-                : "dark",
-            backgroundColor:
-              errors && Object.keys(errors).length > 0
-                ? "primary"
-                : focused
-                ? "dark"
-                : "light",
-            "-webkit-transition":
-              "background-color .2s linear,color .2s linear",
-            "-ms-transition": "background-color .2s linear,color .2s linear",
-            transition: "background-color .2s linear,color .2s linear",
+            justifyContent: "space-between",
+            alignItems: "center",
           }}
-          for={fieldProps.id}
         >
-          {label}
-        </Label>
+          <Label
+            sx={{
+              width: "fit-content",
+              px: [2],
+              py: [1],
+              fontSize: [1],
+              border: "1px solid",
+              borderColor:
+                errors && Object.keys(errors).length > 0 ? "primary" : "dark",
+              mb: ["-1px"],
+              color:
+                errors && Object.keys(errors).length > 0
+                  ? "light"
+                  : focused
+                  ? "light"
+                  : "dark",
+              backgroundColor:
+                errors && Object.keys(errors).length > 0
+                  ? "primary"
+                  : focused
+                  ? "dark"
+                  : "light",
+              "-webkit-transition":
+                "background-color .2s linear,color .2s linear",
+              "-ms-transition": "background-color .2s linear,color .2s linear",
+              transition: "background-color .2s linear,color .2s linear",
+            }}
+            for={fieldProps.id}
+          >
+            {label}
+          </Label>
+          {forgotPassword && (
+            <Box sx={{ textAlign: "center" }}>
+              <InboundLink sx={{ fontSize: [1, 1] }} to={"/forgot-password"}>
+                Password dimenticata?
+              </InboundLink>
+            </Box>
+          )}
+        </Flex>
+
         <Flex
           sx={{
             width: "100%",
