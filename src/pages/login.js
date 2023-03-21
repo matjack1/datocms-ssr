@@ -15,7 +15,7 @@ import {
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Nav from "../components/nav";
 import { navigate } from "gatsby";
-import { InboundLink } from "../components/link";
+import { InboundLink, OutboundLink } from "../components/link";
 import Logo from "../assets/img/logo.svg";
 import Layout from "../components/layout";
 import CustomInput from "../components/customInput";
@@ -152,6 +152,7 @@ const LoginPage = () => {
                 autocomplete="password"
                 variant="inputs.dark"
                 icon={true}
+                forgotPassword={true}
                 register={register}
                 errors={errors}
                 validationSchema={{
@@ -202,9 +203,10 @@ const LoginPage = () => {
               Accedi
             </Button>
             <Box sx={{ textAlign: "center", py: [6] }}>
-              <InboundLink sx={{ fontSize: [1, 2] }} to={"/forgot-password"}>
-                Password dimenticata?
-              </InboundLink>
+              Non sei ancora registrato?
+              <OutboundLink sx={{ fontSize: [1, 2], ml:[1] }} href={"https://us20.list-manage.com/survey?u=5fd38aee20b7fcb3f04dfcdea&id=dccc7ed200&attribution=false"}>
+                Registrati
+              </OutboundLink>
             </Box>
             <Box
               sx={{
