@@ -67,12 +67,12 @@ const LoginPage = () => {
           .retrieve(clToken.data.owner_id)
           .catch(handleError);
 
-        if (!customer.metadata.disabled) {
+        if (customer.metadata.enabled === false || customer.metadata.enabled === "false" ) {
+          setLoginError("user");
+        } else {
           setCustomerToken(clToken.data);
           navigate("/");
           setLoginError("");
-        } else {
-          setLoginError("user");
         }
       };
 
