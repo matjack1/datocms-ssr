@@ -52,7 +52,7 @@ const AddAddress = () => {
   });
 
   const onUpdateField = (e) => {
-    console.log("onUpdateField", e);
+    
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,
@@ -80,7 +80,7 @@ const AddAddress = () => {
           console.log(error);
         });
 
-      console.log(createdAddress);
+      
 
       if (createdAddress) {
         let createdCustomerAddress = await cl.customer_addresses

@@ -13,13 +13,7 @@ const Layout = ({ title, children }) => {
   const menu = useMenu();
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-  console.log(
-    !customerToken &&
-      typeof window != "undefined" &&
-      (window.location.pathname !== `/login` ||
-        window.location.pathname !== `/forgot-password` ||
-        window.location.pathname !== `/reset-password`)
-  );
+  
 
   useEffect(() => {
     if (
@@ -29,7 +23,7 @@ const Layout = ({ title, children }) => {
         window.location.pathname !== `/forgot-password` ||
         window.location.pathname !== `/reset-password`)
     ) {
-      console.log("not logged")
+      
       navigate(`/login`);
     }
   }, [customerToken]);

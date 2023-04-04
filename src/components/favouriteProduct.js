@@ -26,7 +26,7 @@ const FavouriteProduct = memo(
     const cl = useClSdk();
 
     const updateQuantity = (quantity) => {
-      console.log(quantity);
+      
       setCurrentQuantity(quantity);
     };
 

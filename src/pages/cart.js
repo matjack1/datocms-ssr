@@ -98,7 +98,7 @@ const CartPage = () => {
         {!showSkeleton && cart && cartItems.length > 0 ? (
           <>
             <Grid columns={[1, 1, ".7fr .3fr"]} gap={[0, 5]}>
-              {console.log("cart", cart)}
+              
               <Box>
                 <Box>
                   <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
@@ -123,7 +123,7 @@ const CartPage = () => {
                   )}
                 </Box>
                 <Grid sx={{ gridTemplateRows: "auto" }} gap={[4, 5, 8]}>
-                  {console.log("cart.line_items", cartItems)}
+                  
                   {cartItems.map((lineItem, index) => (
                     <Box key={lineItem.id}>
                       <CartProduct

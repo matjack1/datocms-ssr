@@ -154,15 +154,11 @@ const SkuPage = ({ data: { sku, skus } }) => {
         prices: foundPrices,
       });
 
-    console.log("22", {
-      ...sku,
-      ...clSku[0],
-      prices: foundPrices,
-    });
+   
   };
 
   const updateQuantity = (quantity) => {
-    console.log(quantity);
+    
     setCurrentQuantity(quantity);
   };
 
@@ -178,7 +174,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       let findSku = JSON.parse(localStorage.getItem("favourites")).filter(
         (e) => e === sku.code
       );
-      console.log("findSku", findSku);
+      
       setIsFavourite(findSku[0] && true);
     }
   }, []);

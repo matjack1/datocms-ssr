@@ -75,7 +75,7 @@ const CustomCarousel = ({
 
   useEffect(() => {
     if (scrollParentRef.current) {
-      console.log("enters");
+      
       scrollParentRef.current.addEventListener("scroll", handleScroll);
     }
   }, [scrollParentRef.current]);
@@ -302,26 +302,7 @@ const CustomCarousel = ({
           >
             <ChevronLeftIcon />
           </Button>
-          {console.log(
-            Math.floor(
-              scrollParentRef.current &&
-                scrollParentRef.current.offsetWidth /
-                  itemRef.current.offsetWidth
-            ),
-            data.length
-            // scrollParentRef.current && itemRef.current
-            //   ? Math.floor(
-            //       scrollParentRef.current.offsetWidth /
-            //         itemRef.current.offsetWidth
-            //     ) == data.length ||
-            //     (scrollParentRef.current &&
-            //       offsetWidth === scrollParentRef.current.offsetWidth + 18)
-            //     ? 0
-            //     : showArrows
-            //     ? 1
-            //     : 0
-            //   : 0
-          )}
+          
           <Button
             sx={{
               opacity:

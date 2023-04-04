@@ -93,7 +93,7 @@ const CustomerOrderReturn = () => {
       var tmpclSku = [...clSku];
 
       if (skusData) tmpclSku = [...clSku, ...skusData];
-      console.log("clSku, skusData", clSku, skusData);
+      
 
       const line_items = await Promise.all(
         order.line_items
@@ -118,7 +118,7 @@ const CustomerOrderReturn = () => {
         })
       );
 
-      console.log("mergedSku", mergedSku);
+      
       setSkusData(mergedSku);
     }
   };
@@ -131,7 +131,7 @@ const CustomerOrderReturn = () => {
     const order = await cl.orders
       .retrieve(id, { include: ["line_items"] })
       .catch(handleError);
-    console.log("order", order);
+    
 
     if (order) {
       setLineItems(order.line_items);
@@ -155,18 +155,18 @@ const CustomerOrderReturn = () => {
 
   useEffect(() => {
     if (currentPage != 1 && currentPage <= pageCount && cl && order) getClSku();
-    console.log(22);
+    
   }, [currentPage]);
 
   useEffect(() => {
     if (lineItems && lineItems.length > 0 && cl) {
       getClSku();
     }
-    console.log(11);
+    
   }, [lineItems]);
 
   useEffect(() => {
-    console.log("useParams()", orderId);
+    
     getOrder(orderId);
   }, [orderId]);
 
@@ -239,7 +239,7 @@ const CustomerOrderReturn = () => {
                   <Box>
                     <Box>
                       <Grid sx={{ gridTemplateRows: "auto" }} gap={[6, 8]}>
-                        {console.log(skusData)}
+                        
                         {skusData.map((sku) => (
                           <Box key={sku.code}>
                             <SkuComponent
@@ -302,7 +302,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                   width: "100%",
                 }}
               >
-                {console.log("clSkuDetails", clSkuDetails)}
+                
                 {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
                   <GatsbyImage
                     image={clSkuDetails.images[0].gatsbyImageData}
@@ -394,7 +394,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                     },
                   }}
                 >
-                  {console.log("clSkuDetails", clSkuDetails)}
+                  
                   <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
                 </Box>
               </Flex>
@@ -426,7 +426,7 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
                   },
                 }}
               >
-                {console.log("clSkuDetails", clSkuDetails)}
+                
                 <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
               </Box>
             </Flex>

@@ -16,11 +16,7 @@ const RelatedProducts = ({ sku, skus, customer }) => {
     const chunkSize = 4;
     const reducedData = data.map((x) => x.code);
 
-    console.log(
-      data.filter(
-        ({ value: id1 }) => !skus.some(({ value: id2 }) => id2 === id1)
-      )
-    );
+    
 
     for (let i = 0; i < reducedData.length; i += chunkSize) {
       const chunk = reducedData.slice(i, i + chunkSize);
@@ -61,11 +57,7 @@ const RelatedProducts = ({ sku, skus, customer }) => {
     setSkusData(res);
 
     if (pricesPage < allChunks.length - 1) {
-      console.log(
-        "pricesPage < allChunks.length - 1",
-        pricesPage,
-        allChunks.length - 1
-      );
+      
       setPricesPage(pricesPage + 1);
     }
   };

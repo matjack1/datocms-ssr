@@ -6,7 +6,7 @@ import CustomerTokenContext from "../hooks/customerTokenContext";
 const PrivateRoute = ({ component: Component, location, ...rest }) => {
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
 
-  console.log("location.pathname", location.pathname);
+  
   useEffect(() => {
     if (
       !customerToken &&

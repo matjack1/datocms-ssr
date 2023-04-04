@@ -68,7 +68,7 @@ const Sidebar = ({ open, closed, sideBarData }) => {
           </InboundLink>
         </Box>
         <Flex sx={{ flexDirection: "column", pt: [12] }}>
-          {console.log(sideBarData)}
+          
           {sideBarData &&
             sideBarData.map((menuItem, index) =>
               index === 0 ? (

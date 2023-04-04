@@ -31,7 +31,7 @@ const RemoveFromCart = ({ sku }) => {
     getOrder(cl, cart.id)
       .then((value) => {
         setCart(value);
-        console.log(value);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -39,7 +39,7 @@ const RemoveFromCart = ({ sku }) => {
   };
 
   const removeFromCart = () => {
-    console.log("RemoveFromCart");
+    
     deleteLineItem();
   };
 

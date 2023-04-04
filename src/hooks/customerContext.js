@@ -20,9 +20,7 @@ export const CustomerProvider = ({ children }) => {
       localStorage.removeItem("customer")
     }
 
-    if (!localStorageCustomer && !customer){
-      console.log("customer",customer)
-    }
+    
 
   }, [customer]);
 

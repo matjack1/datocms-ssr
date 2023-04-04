@@ -31,7 +31,7 @@ const UserIcon = () => {
       })
       .catch(handleError);
 
-    console.log("customer", customer);
+    
 
     if (customer) {
       setCustomer(customer);

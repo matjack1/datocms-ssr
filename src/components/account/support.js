@@ -63,7 +63,7 @@ const Support = () => {
   };
 
   const onUpdateField = (e) => {
-    console.log("onUpdateField", e.target.name, e.target.value);
+    
     const nextFormState = {
       ...formData,
       [e.target.name]: e.target.value,

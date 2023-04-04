@@ -29,7 +29,7 @@ const CustomerFavourite = ({ sku, handleDeleteFavourite }) => {
   };
 
   const updateQuantity = (quantity) => {
-    console.log(quantity);
+    
     setCurrentQuantity(quantity);
   };
 

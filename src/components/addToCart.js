@@ -58,7 +58,7 @@ const AddToCart = ({ sku, quantity }) => {
       _external_price: true,
     };
 
-    console.log("sku",attributes)
+    
 
     const handleError = (e) => {
       console.log("error", e);

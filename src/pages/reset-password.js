@@ -56,7 +56,7 @@ const ResetPassword = () => {
 
     setLoading(true);
 
-    console.log(params);
+    
 
     if (
       result &&

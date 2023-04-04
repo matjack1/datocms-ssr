@@ -41,7 +41,7 @@ const CartIcon = () => {
 
   const getOrder = async (id) => {
     const handleError = (e) => {
-      console.log("error", e);
+      
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
         // console.log("invalid token", e);
@@ -63,7 +63,7 @@ const CartIcon = () => {
       language_code: "it"
     };
     const handleError = (e) => {
-      console.log("error", e);
+      
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
         // console.log("invalid token", e);

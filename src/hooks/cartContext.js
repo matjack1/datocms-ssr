@@ -6,9 +6,7 @@ export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState();
   const value = { cart, setCart };
 
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
+  
 
   return (
     <CartContext.Provider value={value}>

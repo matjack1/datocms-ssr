@@ -67,7 +67,6 @@ const CustomerAddress = ({ address, updateAddresses }) => {
   
   const handleDeleteAddress = async (id) => {
     const handleError = (e) => {
-      console.log("error", e);
       if (e.errors[0].code === "INVALID_TOKEN") {
         navigate("/login");
         // console.log("invalid token", e);
@@ -88,7 +87,7 @@ const CustomerAddress = ({ address, updateAddresses }) => {
       deletedCustomerAddress
     );
 
-    console.log("toast.success");
+    
     toast.success("Indirizzo cancellato", {
       position: "top-right",
       autoClose: 5000,

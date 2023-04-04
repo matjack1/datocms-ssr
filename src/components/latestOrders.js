@@ -70,7 +70,7 @@ const LatestOrders = () => {
 
   useEffect(() => {
     if (orders.length > 0) handleOrder();
-    console.log(filters);
+    
   }, [filters]);
 
   return filteredOrders.length > 0 ? (

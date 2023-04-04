@@ -7,7 +7,7 @@ import { getProductPath } from "../utils/path";
 import PlaceholderImage from "../assets/img/placeholder-image.png";
 
 const FeaturedProduct = ({ data }) => {
-  console.log(data);
+  
   return (
     <Box sx={{ backgroundColor: "secondary" }}>
       <Container sx={{ pt: [4, 9], pb: [0, 0, 0] }}>
@@ -90,7 +90,7 @@ const FeaturedProduct = ({ data }) => {
                 objectFit: "contain!important",
               },
             }}>
-              {console.log("featured product",data)}
+              
               {data.product.images && data.product.images.length > 0 ? (
                 <GatsbyImage
                   image={data.product.images[0].gatsbyImageData}

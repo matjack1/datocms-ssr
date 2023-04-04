@@ -64,14 +64,14 @@ const CustomerOrderReturn = () => {
       .catch(handleError);
 
     if (order) {
-      console.log("order", order);
+      
       setOrder(order);
     }
   };
 
   const handleReturnMail = async (event) => {
     const data = formData;
-    console.log("customer",formData)
+    
 
     axios
       .post("/.netlify/functions/returnMail", data)
