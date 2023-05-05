@@ -87,6 +87,23 @@ exports.createPages = async function ({ page, actions, graphql }) {
     return lang + path;
   }
 
+  function getPagePath(page) {
+    let lang =
+      page.locale === data.site.locale ? "" : `${page.locale.toLowerCase()}/`
+
+    let path = page.slug
+    if (page.root) {
+      return lang + `${path}/`
+    }
+    path = `${page.treeParent.slug}/${path}/`
+    if (page.treeParent.root) {
+      return lang + path
+    }
+    path = `${page.treeParent.treeParent.slug}/${path}`
+
+    return lang + path
+  }
+
   data.categories.nodes.map((page) => {
     let ids = [];
     ids.push(page.id);
@@ -129,6 +146,7 @@ exports.createPages = async function ({ page, actions, graphql }) {
   });
 
   data.page.nodes.map((page) => {
+    console.log("page", page);
     if (page.root) {
       actions.createPage({
         path:
@@ -143,6 +161,17 @@ exports.createPages = async function ({ page, actions, graphql }) {
         },
       });
     }
+  });
+
+  data.page.nodes.map((page) => {
+    actions.createPage({
+      path: getPagePath(page),
+      component: require.resolve(`./src/templates/page.js`),
+      context: {
+        id: page.id,
+        locale: page.locale,
+      },
+    });
   });
 };
 

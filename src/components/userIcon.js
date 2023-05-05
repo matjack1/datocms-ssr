@@ -27,11 +27,21 @@ const UserIcon = () => {
 
     const customer = await cl.customers
       .retrieve(customerToken.owner_id, {
-        include: ["orders", "orders.shipping_address" ,"orders.line_items"],
+        include: ["orders", "orders.shipping_address", "orders.line_items"],
       })
       .catch(handleError);
 
-    
+    const draftOrder = customer.orders.find((x) => x.status === "draft");
+
+    if (draftOrder && customer.email !== draftOrder.customer_email) {
+      
+      const order = await cl.orders
+        .update({
+          id: draftOrder.id,
+          customer_email: customer.email,
+        })
+        .catch(handleError);
+    }
 
     if (customer) {
       setCustomer(customer);

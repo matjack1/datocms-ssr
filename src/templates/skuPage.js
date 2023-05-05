@@ -13,7 +13,7 @@ import {
 import { useClSdk } from "../hooks/useClSdk";
 import AddToCart from "../components/addToCart";
 import SkuQuantity from "../components/skuQuantity";
-import Breadcumbs from "../components/breadcrumbs";
+import Breadcrumbs from "../components/breadcrumbs";
 import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
 import Layout from "../components/layout";
@@ -199,7 +199,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
         {!showSkeleton ? (
           <>
             <Box sx={{ pb: [4] }}>
-              <Breadcumbs page={sku} />
+              <Breadcrumbs page={sku} />
             </Box>
             <Grid
               columns={["1fr", "1fr", "minmax(auto,672px) minmax(auto, 469px)"]}
