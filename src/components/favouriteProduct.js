@@ -56,7 +56,7 @@ const FavouriteProduct = memo(
       if (clSku && clSku[0]) {
         const datoSkusData = await handleLoadSkusDatoData();
 
-        setClSkuDetails({ ...sku, ...datoSkusData, ...clSku[0], name : datoSkusData.name });
+        setClSkuDetails({ ...sku, ...datoSkusData, ...clSku[0] });
       }
     };
 

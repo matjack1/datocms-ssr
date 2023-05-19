@@ -135,7 +135,7 @@ const SkuPage = ({ data: { sku, skus } }) => {
       })
       .catch(handleError);
 
-    setClSkuDetails({...sku, ...clSku[0], name : sku.name });
+    setClSkuDetails({ ...sku, ...clSku[0] });
 
     const prices = await getPrices({
       iduser: customer.reference,
@@ -148,15 +148,11 @@ const SkuPage = ({ data: { sku, skus } }) => {
         : { error: "no_price" };
 
     if (clSku && clSku[0])
-    {
       setClSkuDetails({
         ...sku,
         ...clSku[0],
         prices: foundPrices,
-        name : sku.name
       });
-    }
-      
 
    
   };

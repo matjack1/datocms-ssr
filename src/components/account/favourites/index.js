@@ -11,7 +11,6 @@ import getPrices from "../../../hooks/getPrices";
 import FavouritesSkeleton from "../../skeleton/favourites";
 import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
 import { Helmet } from "react-helmet";
-import getSkuData from "../../../hooks/getSkuData";
 
 const CustomerFavourites = () => {
   const cl = useClSdk();
@@ -20,9 +19,10 @@ const CustomerFavourites = () => {
   const [skus, setSkus] = useState([]);
   const [skusPrices, setSkusPrices] = useState(null);
   const [pricedSkusData, setPricedSkusData] = useState(null);
-  const [datoSkusData, setDatoSkusData] = useState();
 
   const { customerToken, setCustomerToken } = useContext(CustomerTokenContext);
+
+  
 
   const handleGetSkus = async () => {
     let records = [];
@@ -47,20 +47,11 @@ const CustomerFavourites = () => {
       });
     }
 
-    const skuData = await getSkuData(records.map((x) => x.code));
-
-    const resultRecords = records.map((t1) => ({
-      ...t1,
-      ...skuData.find(
-        (t2) => t2.sku_code === t1.code && { ...t1, name: t2.name }
-      ),
-    }));
-
-    console.log("resultRecords", resultRecords);
-    setSkus(resultRecords);
+    setSkus(records);
   };
 
   const handleDeleteFavourite = async (sku) => {
+    
     const handleError = (e) => {
       if (e.errors[0].code === "INVALID_TOKEN") {
         setCustomerToken(null);
@@ -118,6 +109,7 @@ const CustomerFavourites = () => {
         if (prices.items) chunkPrices = [...chunkPrices, ...prices.items];
         else
           chunkPrices = allChunks[i].map((x) => {
+            
             return {
               itemcode: x,
               error: "no_price",
@@ -160,7 +152,7 @@ const CustomerFavourites = () => {
         return obj;
       })
     );
-
+    
     setTimeout(() => {
       setPricedSkusData(res);
     }, 300);
@@ -169,7 +161,6 @@ const CustomerFavourites = () => {
   useEffect(() => {
     getSkusPrices();
     setTimeout(() => {
-      console.log("2");
       setPricedSkusData(skus);
     }, 300);
   }, [skus]);
@@ -215,9 +206,9 @@ const CustomerFavourites = () => {
                 <Box>
                   <Box>
                     <Grid sx={{ gridTemplateRows: "auto" }} gap={[6, 8]}>
+                      
                       {pricedSkusData.map((sku) => (
                         <Box>
-                          {console.log("sku",sku)}
                           <FavouriteProduct
                             sku={sku}
                             handleDeleteFavourite={() =>

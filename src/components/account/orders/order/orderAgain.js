@@ -83,8 +83,6 @@ const CustomerOrderReturn = () => {
       },
     });
 
-    console.log("records", records);
-
     if (clSku && records) {
       if (currentPage < clSku.meta.pageCount)
         setCurrentPage(clSku.meta.currentPage + 1);
@@ -95,6 +93,7 @@ const CustomerOrderReturn = () => {
       var tmpclSku = [...clSku];
 
       if (skusData) tmpclSku = [...clSku, ...skusData];
+      
 
       const line_items = await Promise.all(
         order.line_items
@@ -104,36 +103,22 @@ const CustomerOrderReturn = () => {
           .filter((e) => e.sku_code != null)
       );
 
-      let temp = [...records, ...line_items, ...tmpclSku];
+      let mergedSku = await Promise.all(
+        tmpclSku.map((obj) => {
+          const index = line_items.findIndex((el) => el["code"] == obj["code"]);
 
-      let object = {};
-      temp.forEach((item) => {
-        console.log(item.image_url);
-        if (item.images && item.images.length > 0) delete item.images;
+          delete records[index].images
+          delete obj.image_url;
 
-        if (item.image_url && !item.image_url.includes("http")) {
-          delete item.image_url;
-        }
+          return {
+            ...records[index],
+            ...line_items[index],
+            ...obj,
+          };
+        })
+      );
 
-        object[item.code] = { ...object[item.code], ...item };
-      });
-
-      let mergedSku = Object.values(object);
-
-      console.log(mergedSku);
-
-      // let mergedSku = await Promise.all(
-      //   tmpclSku.map((obj) => {
-      //     const index = line_items.findIndex((el) => el["code"] == obj["code"]);
-
-      //     return {
-      //       ...records[index],
-      //       ...line_items[index],
-      //       ...obj,
-      //     };
-      //   })
-      // );
-
+      
       setSkusData(mergedSku);
     }
   };
@@ -146,6 +131,7 @@ const CustomerOrderReturn = () => {
     const order = await cl.orders
       .retrieve(id, { include: ["line_items"] })
       .catch(handleError);
+    
 
     if (order) {
       setLineItems(order.line_items);
@@ -169,15 +155,18 @@ const CustomerOrderReturn = () => {
 
   useEffect(() => {
     if (currentPage != 1 && currentPage <= pageCount && cl && order) getClSku();
+    
   }, [currentPage]);
 
   useEffect(() => {
     if (lineItems && lineItems.length > 0 && cl) {
       getClSku();
     }
+    
   }, [lineItems]);
 
   useEffect(() => {
+    
     getOrder(orderId);
   }, [orderId]);
 
@@ -192,6 +181,10 @@ const CustomerOrderReturn = () => {
       navigate("/cart");
     }
   }, [cart, currentOrder, success]);
+
+  const removeItem = (code) => {
+    setSkusData(skusData.filter((o, i) => code !== o.code));
+  };
 
   const updateQuantity = (e, code) => {
     setSkusData(
@@ -228,7 +221,7 @@ const CustomerOrderReturn = () => {
                     },
                     {
                       slug: "/account/orders/" + orderId,
-                      title: `Ordine #${order.number}`,
+                      title: `Ordine #${orderId}`,
                     },
                   ],
                   current: {
@@ -246,7 +239,8 @@ const CustomerOrderReturn = () => {
                   <Box>
                     <Box>
                       <Grid sx={{ gridTemplateRows: "auto" }} gap={[6, 8]}>
-                        {skusData.map((sku, index) => (
+                        
+                        {skusData.map((sku) => (
                           <Box key={sku.code}>
                             <SkuComponent
                               handleUpdateQuantity={(e) =>
@@ -291,146 +285,153 @@ const SkuComponent = ({ clSkuDetails, handleUpdateQuantity }) => {
 
   return (
     <Box>
-      <Grid
-        sx={{
-          gridTemplateColumns: ["83px 1fr", "83px 1fr", "168px 1fr"],
-        }}
-        gap={[3, 10]}
-      >
-        <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
-          <Box
+      {clSkuDetails && (
+        <>
+          <Grid
             sx={{
-              border: "1px solid",
-              height: ["81px", "81px", "168px"],
-              borderColor: "dark",
-              width: "100%",
+              gridTemplateColumns: ["83px 1fr", "83px 1fr", "168px 1fr"],
             }}
+            gap={[3, 10]}
           >
-            {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
-              <GatsbyImage
-                image={clSkuDetails.images[0].gatsbyImageData}
-                alt={clSkuDetails.images[0].gatsbyImageData}
-              />
-            ) : (
+            <Flex sx={{ justifyItems: "baseline", width: "100%" }}>
               <Box
                 sx={{
-                  height: "100%",
-                  img: {
-                    height: "100%",
-                    width: "100%",
-                    objectFit: "cover",
-                  },
-                  backgroundColor: "light",
-                }}
-              >
-                <Image
-                  src={
-                    clSkuDetails.image_url.includes("http")
-                      ? clSkuDetails.image_url
-                      : PlaceholderImage
-                  }
-                />
-              </Box>
-            )}
-          </Box>
-        </Flex>
-        <Flex
-          sx={{
-            flexDirection: "column",
-            justifyContent: "space-between",
-          }}
-        >
-          <Flex
-            sx={{
-              pb: [4],
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <InboundLink
-                to={getProductPath(clSkuDetails)}
-                sx={{
-                  textDecoration: "none",
-                  color: "dark",
-                }}
-              >
-                <Heading
-                  as={"he"}
-                  variant="h2"
-                  sx={{
-                    color: "dark",
-                    fontWeight: "400",
-                    my: [0],
-                    fontSize: [1, 5, 5],
-                  }}
-                >
-                  {clSkuDetails.name}
-                </Heading>
-              </InboundLink>
-            </Box>
-          </Flex>
-          <Box sx={{ pb: [2], color: "lightBorder" }}>
-            {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
-          </Box>
-          <ThumbProductDetails item={clSkuDetails} />
-          <ThumbPrice item={clSkuDetails} />
-          <Flex sx={{ pb: [9], display: ["none", "none", "flex"] }}>
-            <SkuQuantity
-              sku={clSkuDetails}
-              quantity={currentQuantity}
-              updateQuantity={updateQuantity}
-              showMinMult={false}
-            />
-            <Box
-              sx={{
-                button: {
-                  minHeight: "37px",
+                  border: "1px solid",
+                  height: ["81px", "81px", "168px"],
+                  borderColor: "dark",
                   width: "100%",
-                  height: "100%",
-                  textAlign: "center",
-                  fontSize: [1, 3],
-                  fontWeight: "600",
-                  borderRadius: "unset",
-                  p: [0],
-                  px: [2],
-                  ml: [2],
-                },
+                }}
+              >
+                
+                {clSkuDetails.images && clSkuDetails.images.length > 0 ? (
+                  <GatsbyImage
+                    image={clSkuDetails.images[0].gatsbyImageData}
+                    alt={clSkuDetails.images[0].gatsbyImageData}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      height: "100%",
+                      img: {
+                        height: "100%",
+                        width: "100%",
+                        objectFit: "cover",
+                      },
+                      backgroundColor: "light",
+                    }}
+                  >
+                    <Image
+                      src={
+                        clSkuDetails.image_url.includes("http")
+                          ? clSkuDetails.image_url
+                          : PlaceholderImage
+                      }
+                    />
+                  </Box>
+                )}
+              </Box>
+            </Flex>
+            <Flex
+              sx={{
+                flexDirection: "column",
+                justifyContent: "space-between",
               }}
             >
-              <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
-            </Box>
-          </Flex>
-        </Flex>
-      </Grid>
+              <Flex
+                sx={{
+                  pb: [4],
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box>
+                  <InboundLink
+                    to={getProductPath(clSkuDetails)}
+                    sx={{
+                      textDecoration: "none",
+                      color: "dark",
+                    }}
+                  >
+                    <Heading
+                      as={"he"}
+                      variant="h2"
+                      sx={{
+                        color: "dark",
+                        fontWeight: "400",
+                        my: [0],
+                        fontSize: [1, 5, 5],
+                      }}
+                    >
+                      {clSkuDetails.name}
+                    </Heading>
+                  </InboundLink>
+                </Box>
+              </Flex>
+              <Box sx={{ pb: [2], color: "lightBorder" }}>
+                {clSkuDetails.code ? clSkuDetails.code : clSkuDetails.sku_code}
+              </Box>
+              <ThumbProductDetails item={clSkuDetails} />
+              <ThumbPrice item={clSkuDetails} />
+              <Flex sx={{ pb: [9], display: ["none", "none", "flex"] }}>
+                <SkuQuantity
+                  sku={clSkuDetails}
+                  quantity={currentQuantity}
+                  updateQuantity={updateQuantity}
+                  showMinMult={false}
+                />
+                <Box
+                  sx={{
+                    button: {
+                      minHeight: "37px",
+                      width: "100%",
+                      height: "100%",
+                      textAlign: "center",
+                      fontSize: [1, 3],
+                      fontWeight: "600",
+                      borderRadius: "unset",
+                      p: [0],
+                      px: [2],
+                      ml: [2],
+                    },
+                  }}
+                >
+                  
+                  <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+                </Box>
+              </Flex>
+            </Flex>
+          </Grid>
 
-      {mediaIndex < 2 && (
-        <Flex sx={{ pb: [9], flexDirection: "column" }}>
-          <SkuQuantity
-            sku={clSkuDetails}
-            quantity={currentQuantity}
-            updateQuantity={updateQuantity}
-            showMinMult={false}
-          />
-          <Box
-            sx={{
-              button: {
-                mt: [3, 3],
-                minHeight: "37px",
-                width: "100%",
-                height: "100%",
-                textAlign: "center",
-                fontSize: [1, 3],
-                fontWeight: "600",
-                borderRadius: "unset",
-                p: [0],
-                px: [2],
-                ml: [0, 0],
-              },
-            }}
-          >
-            <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
-          </Box>
-        </Flex>
+          {mediaIndex < 2 && (
+            <Flex sx={{ pb: [9], flexDirection: "column" }}>
+              <SkuQuantity
+                sku={clSkuDetails}
+                quantity={currentQuantity}
+                updateQuantity={updateQuantity}
+                showMinMult={false}
+              />
+              <Box
+                sx={{
+                  button: {
+                    mt: [3, 3],
+                    minHeight: "37px",
+                    width: "100%",
+                    height: "100%",
+                    textAlign: "center",
+                    fontSize: [1, 3],
+                    fontWeight: "600",
+                    borderRadius: "unset",
+                    p: [0],
+                    px: [2],
+                    ml: [0, 0],
+                  },
+                }}
+              >
+                
+                <AddToCart sku={clSkuDetails} quantity={currentQuantity} />
+              </Box>
+            </Flex>
+          )}
+        </>
       )}
     </Box>
   );

@@ -11,7 +11,6 @@ import { InboundLink } from "./link";
 import CheckedIcon from "../assets/img/icons/flag.inline.svg";
 import ClosedCirle from "../assets/img/icons/closed-circle.inline.svg";
 import ErrorIcon from "../assets/img/icons/closed-circle.inline.svg";
-import getSkuData from "../hooks/getSkuData";
 
 const AddToCart = ({ sku, quantity }) => {
   const [order, setOrder] = useState();
@@ -50,17 +49,16 @@ const AddToCart = ({ sku, quantity }) => {
 
   const createLineItem = async () => {
     
-    const skuData = await getSkuData([sku.code])
-
     const attributes = {
       quantity: quantity,
       order: cl.orders.relationship(cart.id),
       item: cl.skus.relationship(sku.id),
-      name: skuData[0].name,
       image_url: sku.images && sku.images.length > 0 ? sku.images[0].url : "",
       _update_quantity: true,
       _external_price: true,
     };
+
+    
 
     const handleError = (e) => {
       console.log("error", e);
