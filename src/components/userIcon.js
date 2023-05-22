@@ -105,6 +105,7 @@ const UserIcon = () => {
                     },
                     "svg *": {
                       stroke: "dark",
+                      fill:"transparent"
                     },
                   }}
                 >
