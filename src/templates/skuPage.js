@@ -533,7 +533,7 @@ const SideSku = ({
               },
               svg: {
                 "*": {
-                  stroke: isFavourie ? "light" : "primary",
+                  color: isFavourie ? "light" : "primary",
                 },
                 width: "20px",
                 height: "20px",

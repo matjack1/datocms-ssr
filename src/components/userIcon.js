@@ -98,13 +98,14 @@ const UserIcon = () => {
                 </Box>
                 <Box
                   sx={{
-                    ml: [1],
+                    ml: [2],
                     svg: {
                       height: "20px",
                       width: "auto",
                     },
                     "svg *": {
                       stroke: "dark",
+                      fill:"transparent"
                     },
                   }}
                 >
