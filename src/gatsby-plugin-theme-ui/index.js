@@ -15,6 +15,7 @@ const theme = {
     lightPrimary: lighten("#EA0029", 0.4),
     lightBorder: lighten("#151515", 0.6),
     lightGrey: "#F8F8F9",
+    green: "#c9facf",
     status: {
       approved: "#2FCC40",
     },
@@ -73,7 +74,7 @@ const theme = {
       mb: 3,
     },
     h2: {
-      fontSize: [5,8, 9],
+      fontSize: [5, 8, 9],
       fontFamily: "heading",
       lineHeight: "heading",
       fontWeight: "heading",
@@ -91,14 +92,14 @@ const theme = {
       mt: 4,
     },
     h4: {
-      fontSize: [1,6,6, 7],
+      fontSize: [1, 6, 6, 7],
       fontWeight: 400,
       color: "text",
       mb: 2,
       mt: 4,
     },
     h5: {
-      fontSize: [1,5],
+      fontSize: [1, 5],
       color: "dark",
       fontWeight: "body",
       lineHeight: "heading",
@@ -619,7 +620,7 @@ const theme = {
       "[data-core-scroller-platter]>div": {
         display: "inline-block",
         scrollSnapAlign: "start",
-        scrollSnapStop: "always"
+        scrollSnapStop: "always",
       },
       ".rf-cards-scroller-platter>div:first-child .rf-cards-scroller-itemview":
         {
@@ -631,8 +632,11 @@ const theme = {
       },
       ".rf-cards-scroller-itemview": {
         display: "flex",
-        marginRight: [2,4],
-        transform: ["translateX(calc(max(1280px, 100vw)/2 - 624px))","translateX(calc(max(1280px, 100vw)/2 - 608px))"],
+        marginRight: [2, 4],
+        transform: [
+          "translateX(calc(max(1280px, 100vw)/2 - 624px))",
+          "translateX(calc(max(1280px, 100vw)/2 - 608px))",
+        ],
       },
       "html.js .as-util-relatedlink": { cursor: "pointer" },
       ".rf-productnav-card": { verticalAlign: "top" },

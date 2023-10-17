@@ -1,9 +1,6 @@
 const axios = require("axios");
 
-const API_ENDPOINT = "https://cat-fact.herokuapp.com/facts";
-
 exports.handler = async (event, context) => {
-    
   const data = await JSON.parse(event.body);
   var axios = require("axios");
   var axiosData = JSON.stringify({
