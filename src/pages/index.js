@@ -1,7 +1,5 @@
 import React from "react";
-import Skeleton from "react-loading-skeleton";
-import { getCustomerToken } from "@commercelayer/js-auth";
-import fetch from "node-fetch";
+import { buildClient } from "@datocms/cma-client-browser";
 
 const IndexPage = () => {
   return (
