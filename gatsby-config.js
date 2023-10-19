@@ -4,12 +4,10 @@ module.exports = {
     siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [
-    {
-      resolve: "gatsby-plugin-theme-ui",
-    },
     "gatsby-plugin-image",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    "gatsby-plugin-theme-ui",
     "gatsby-plugin-netlify",
     {
       resolve: "gatsby-source-filesystem",
@@ -20,12 +18,12 @@ module.exports = {
       __key: "images",
     },
     {
-      resolve: 'gatsby-plugin-react-svg',
+      resolve: "gatsby-plugin-react-svg",
       options: {
         rule: {
-          include: /\.inline\.svg$/
-        }
-      }
+          include: /\.inline\.svg$/,
+        },
+      },
     },
     {
       resolve: `gatsby-source-datocms`,

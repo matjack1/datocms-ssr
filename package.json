@@ -33,15 +33,15 @@
     "cross-fetch": "^3.1.5",
     "gatsby": "^4.15.2",
     "gatsby-plugin-image": "^2.15.1",
+    "gatsby-plugin-netlify": "^v4.4.0",
     "gatsby-plugin-react-svg": "^3.1.0",
     "gatsby-plugin-sharp": "^4.15.1",
     "gatsby-plugin-theme-ui": "^0.14.5",
     "gatsby-source-datocms": "^4.0.4",
     "gatsby-source-filesystem": "^4.15.0",
     "gatsby-transformer-sharp": "^4.15.1",
-    "gatsby-plugin-netlify": "^v4.4.0",
     "graphql-request": "^5.0.0",
-    "node-fetch": "^3.2.10",
+    "node-fetch": "^2.7.0",
     "nodemailer": "^6.7.8",
     "querystring": "^0.2.1",
     "querystring-es3": "^0.2.1",
@@ -54,11 +54,12 @@
     "react-hook-form": "^7.34.2",
     "react-icons": "^4.4.0",
     "react-instantsearch-dom": "^6.32.1",
-    "react-loading-skeleton": "^3.1.0",
+    "react-loading-skeleton": "^3.3.0",
     "react-modal": "^3.15.1",
     "react-toastify": "^9.0.8",
     "swiper": "^8.3.2",
     "theme-ui": "^0.14.5",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "webpack-node-externals": "^3.0.0"
   }
 }
