@@ -19,7 +19,7 @@ import CustomerContext from "../../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../../customBreadcrumbs";
 import CartSkeleton from "../../../skeleton/cart";
 import { useBreakpointIndex } from "@theme-ui/match-media";
-import { Helmet } from "react-helmet"
+import { Helmet } from "react-helmet";
 
 const CustomerOrder = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -29,6 +29,7 @@ const CustomerOrder = () => {
   const [itemQuantity, setItemQuantity] = useState(null);
   const [showSkeleton, setShowSkeleton] = useState();
   const cl = useClSdk();
+  console.log(order);
 
   const mediaIndex = useBreakpointIndex();
 
@@ -50,7 +51,6 @@ const CustomerOrder = () => {
       .catch(handleError);
 
     if (order) {
-      
       let tmp = 0;
       order.line_items.map((item, a) => (tmp += item.quantity), 0);
       setItemQuantity(tmp);
@@ -59,7 +59,6 @@ const CustomerOrder = () => {
   };
 
   useEffect(() => {
-    
     if (customer && customer.metadata) setCustomerMetadata(customer.metadata);
   }, [customer]);
 
@@ -73,7 +72,9 @@ const CustomerOrder = () => {
   return (
     <Box>
       <Helmet>
-        <title>{order && order.number ? `Ordine #${order.number}` : `Ordine`} | Socaf</title>
+        <title>
+          {order && order.number ? `Ordine #${order.number}` : `Ordine`} | Socaf
+        </title>
       </Helmet>
       <Container>
         {!showSkeleton && order ? (
@@ -154,7 +155,7 @@ const CustomerOrder = () => {
                           fontWeight: "600",
                         }}
                       >
-                        {order.formatted_total_taxable_amount}
+                        {order.formatted_total_amount_with_taxes}
                         <br />
                         {`(${itemQuantity} articolarticol${
                           itemQuantity > 0 ? "i" : "o"
@@ -303,13 +304,12 @@ const CustomerOrder = () => {
                         }
                       </>
                     ) : (
-                      customerMetadata &&
-                      <>
-                        <Box>
-                          {customerMetadata.payment_method}
-                        </Box>
-                        <Box>{customerMetadata.payment_term}</Box>
-                      </>
+                      customerMetadata && (
+                        <>
+                          <Box>{customerMetadata.payment_method}</Box>
+                          <Box>{customerMetadata.payment_term}</Box>
+                        </>
+                      )
                     )}
                   </Flex>
                   <Heading
@@ -439,7 +439,7 @@ const CustomerOrder = () => {
                     }}
                   >
                     <Box>
-                      <Text sx={{ fontSize: [1, 5] }}>Articoli</Text>
+                      <Text sx={{ fontSize: [1, 5] }}>Subtotale</Text>
                     </Box>
                     <Box sx={{ fontSize: [1, 5], fontWeight: "600" }}>
                       {order.formatted_subtotal_taxable_amount}
@@ -472,10 +472,10 @@ const CustomerOrder = () => {
                         fontWeight: "600",
                       }}
                     >
-                      {order.formatted_total_taxable_amount}
+                      {order.formatted_total_amount_with_taxes}
                       <br />
                       {`(${itemQuantity - 2} articol${
-                        itemQuantity -2  > 0 ? "i" : "o"
+                        itemQuantity - 2 > 0 ? "i" : "o"
                       })`}
                     </Box>
                   </Flex>
