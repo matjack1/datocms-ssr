@@ -1,32 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import { getCustomerToken } from "@commercelayer/js-auth";
 import {
   Box,
   Container,
   Heading,
   Label,
-  Input,
   Text,
   Flex,
   Radio,
   Grid,
-  Button,
   Checkbox,
 } from "theme-ui";
-import CustomerTokenContext from "../../../hooks/customerTokenContext";
-import Nav from "../../nav";
-import { navigate } from "gatsby";
-import { InboundLink } from "../../link";
 import CustomerContext from "../../../hooks/customerContext";
 import CustomBreadcrumbs from "../../customBreadcrumbs";
-import { TruncateEllipsis } from "../../../utils/truncateEllipsis";
+
 import OrderThumb from "../../orderThumb";
 import OrderCounter from "../../orderCounter";
 import OrdersSkeleton from "../../skeleton/orders";
 import NoPref from "../../../assets/img/icons/no-ordini.inline.svg";
-import { useResponsiveValue, useBreakpointIndex } from "@theme-ui/match-media";
+import { useBreakpointIndex } from "@theme-ui/match-media";
 import FilterSidebar from "../../filterSidebar";
-import { Helmet } from "react-helmet"
+import { Helmet } from "react-helmet";
 
 const CustomerOrders = () => {
   const { customer, setCustomer } = useContext(CustomerContext);
@@ -82,7 +75,6 @@ const CustomerOrders = () => {
 
       orders.forEach((order) => {
         if (order.status !== "draft" && order.status !== "pending") {
-          
           shippingAddressesTMP.push(order.shipping_address);
         }
       });
@@ -98,16 +90,14 @@ const CustomerOrders = () => {
 
   useEffect(() => {
     if (orders.length > 0) handleOrder();
-
-    
   }, [filters]);
+
+  console.log(filteredOrders);
 
   return (
     <Box>
       <Helmet>
-        <title>
-          Ordini | Socaf
-        </title>
+        <title>Ordini | Socaf</title>
       </Helmet>
       <Container>
         {filteredOrders && filteredOrders.length > 0 ? (
@@ -495,8 +485,8 @@ const CustomerOrders = () => {
                           sx={{
                             borderBottom: "1px solid",
                             borderColor: "lightBorder",
-                            pt: [4,5,6],
-                            mb: [4,5,6],
+                            pt: [4, 5, 6],
+                            mb: [4, 5, 6],
                           }}
                         />
                       </Box>

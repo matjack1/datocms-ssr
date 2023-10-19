@@ -39,6 +39,7 @@
     "gatsby-source-datocms": "^4.0.4",
     "gatsby-source-filesystem": "^4.15.0",
     "gatsby-transformer-sharp": "^4.15.1",
+    "gatsby-plugin-netlify": "^v4.4.0",
     "graphql-request": "^5.0.0",
     "node-fetch": "^3.2.10",
     "nodemailer": "^6.7.8",

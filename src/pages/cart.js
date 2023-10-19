@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Box, Container, Grid, Heading, Text, Flex } from "theme-ui";
-import Nav from "../components/nav";
 import CartContext from "../hooks/cartContext";
 import CustomerContext from "../hooks/customerContext";
 import CustomerTokenContext from "../hooks/customerTokenContext";
@@ -9,7 +8,6 @@ import { useClSdk } from "../hooks/useClSdk";
 import Layout from "../components/layout";
 import CartProduct from "../components/cartProduct";
 import { InboundLink, OutboundLink } from "../components/link";
-import getPrices from "../hooks/getPrices";
 import { getColor } from "@theme-ui/color";
 import theme from "../gatsby-plugin-theme-ui";
 import BagIcon from "../assets/img/icons/carrello.inline.svg";
@@ -24,6 +22,7 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [showSkeleton, setShowSkeleton] = useState(true);
   const cl = useClSdk();
+  const freeShipping = 200;
 
   const lightBorder = getColor(theme, "lightBorder");
 
@@ -77,6 +76,8 @@ const CartPage = () => {
     );
   }, [cart]);
 
+  console.log(cart);
+
   const updateQuantity = (quantity, id) => {
     updateLineItem(quantity, id);
   };
@@ -90,21 +91,17 @@ const CartPage = () => {
   return (
     <Layout>
       <Helmet>
-        <title>
-          Carrello | Socaf
-        </title>
+        <title>Carrello | Socaf</title>
       </Helmet>
       <Container>
         {!showSkeleton && cart && cartItems.length > 0 ? (
           <>
             <Grid columns={[1, 1, ".7fr .3fr"]} gap={[0, 5]}>
-              
               <Box>
                 <Box>
                   <Heading as="h1" variant="h2" sx={{ color: "primary" }}>
                     Carrello
                   </Heading>
-
                   {itemQuantity && (
                     <Box
                       sx={{
@@ -123,7 +120,6 @@ const CartPage = () => {
                   )}
                 </Box>
                 <Grid sx={{ gridTemplateRows: "auto" }} gap={[4, 5, 8]}>
-                  
                   {cartItems.map((lineItem, index) => (
                     <Box key={lineItem.id}>
                       <CartProduct
@@ -148,12 +144,12 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [4, 5, 6],
+                      mb: [3],
                     }}
                   >
                     <Box>
                       <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
-                        Costi di spedizione
+                        Costo di spedizione
                       </Text>
                     </Box>
                     <Box
@@ -163,14 +159,18 @@ const CartPage = () => {
                         fontWeight: "600",
                       }}
                     >
-                      da calcolare
+                      {cart.total_amount_float < freeShipping ? (
+                        <Text>da calcolare</Text>
+                      ) : (
+                        <Text>gratuito</Text>
+                      )}
                     </Box>
                   </Flex>
                   <Flex
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "center",
-                      pb: [4, 5, 6],
+                      mb: [3],
                     }}
                   >
                     <Text sx={{ fontSize: [1, 5], color: "lightBorder" }}>
@@ -190,7 +190,7 @@ const CartPage = () => {
                     sx={{
                       justifyContent: "space-between",
                       alignItems: "start",
-                      pb: [4, 5, 6],
+                      mb: [4, 5, 6],
                     }}
                   >
                     <Text sx={{ fontSize: [1, 5] }}>Subtotale</Text>
@@ -204,6 +204,22 @@ const CartPage = () => {
                       {cart.formatted_subtotal_amount}
                     </Box>
                   </Flex>
+                  {cart.total_amount_float < freeShipping && (
+                    <Box
+                      sx={{
+                        px: [4],
+                        py: [2],
+                        mb: [4],
+                        backgroundColor: "green",
+                      }}
+                    >
+                      <Text sx={{ fontSize: [1] }}>
+                        Ti mancano{" "}
+                        <b>€{freeShipping - cart.total_amount_float}</b> per
+                        avere la spedizione gratuita!
+                      </Text>
+                    </Box>
+                  )}
                   <Flex
                     sx={{
                       justifyContent: "space-between",
@@ -213,13 +229,17 @@ const CartPage = () => {
                   >
                     <Box
                       sx={{
-                        fontSize: [1, 3],
+                        fontSize: [1, 2, 2],
                         color: "lightBorder",
-                        fontWeight: "600",
+                        fontWeight: "400",
                       }}
                     >
-                      Prezzo IVA esclusa, spese di spedizioni calcolate al
-                      checkout
+                      Prezzo IVA esclusa
+                      {cart.total_amount_float < freeShipping && (
+                        <Text>
+                          , spese di spedizione calcolate al checkout.
+                        </Text>
+                      )}
                     </Box>
                   </Flex>
                   {customerToken && customerToken.access_token && (
