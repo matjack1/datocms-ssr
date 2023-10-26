@@ -16,14 +16,6 @@
   },
   "dependencies": {
     "@datocms/cma-client-browser": "^2.2.6",
-    "@datocms/cma-client-node": "^1.1.5",
-    "gatsby": "^4.15.2",
-    "gatsby-plugin-image": "^2.15.1",
-    "gatsby-plugin-react-svg": "^3.1.0",
-    "gatsby-plugin-sharp": "^4.15.1",
-    "gatsby-plugin-theme-ui": "^0.16.1",
-    "gatsby-source-datocms": "^4.0.6",
-    "gatsby-transformer-sharp": "^4.15.1",
-    "react-datocms": "^3.1.0"
+    "gatsby": "^5.12.8"
   }
 }

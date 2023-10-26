@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { buildClient } from "@datocms/cma-client-browser";
 
 const IndexPage = () => {
